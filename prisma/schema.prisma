@@ -1,0 +1,191 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model migration_internal_statements {
+  statement_order BigInt @id
+  statement_id    String @unique @db.Uuid
+  data            Json?
+
+  @@map("_migration_internal_statements")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model architects {
+  id                         Int                          @id
+  name                       String                       @db.VarChar
+  event_type                 String?                      @db.VarChar
+  created_at                 DateTime                     @db.Timestamp(6)
+  updated_at                 DateTime                     @db.Timestamp(6)
+  settlement_type_architects settlement_type_architects[]
+  settlements_architects     settlements_architects[]
+}
+
+model detail_types {
+  id          Int       @id
+  name        String    @db.VarChar
+  description String?
+  created_at  DateTime  @db.Timestamp(6)
+  updated_at  DateTime  @db.Timestamp(6)
+  details     details[]
+}
+
+model details {
+  id                                               Int               @id
+  name                                             String            @db.VarChar
+  description                                      String?
+  detail_type                                      Int
+  created_at                                       DateTime          @db.Timestamp(6)
+  updated_at                                       DateTime          @db.Timestamp(6)
+  detail_types                                     detail_types      @relation(fields: [detail_type], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  settlement_type_settlement_type_detailsTodetails settlement_type[] @relation("settlement_type_detailsTodetails")
+  settlements_settlements_detailsTodetails         settlements[]     @relation("settlements_detailsTodetails")
+}
+
+model event_types {
+  id         Int      @id
+  name       String   @unique @db.VarChar
+  created_at DateTime @db.Timestamp(6)
+  updated_at DateTime @db.Timestamp(6)
+  events     events[]
+}
+
+model events {
+  id                                     Int           @id
+  name                                   String        @db.VarChar
+  description                            String?
+  event_type                             Int
+  event_date                             DateTime?     @db.Timestamp(6)
+  created_at                             DateTime      @db.Timestamp(6)
+  updated_at                             DateTime      @db.Timestamp(6)
+  event_types                            event_types   @relation(fields: [event_type], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  settlements_settlements_eventsToevents settlements[] @relation("settlements_eventsToevents")
+}
+
+model locations {
+  id          Int           @id
+  name        String        @db.VarChar
+  lat         Float
+  lng         Float
+  created_at  DateTime      @db.Timestamp(6)
+  updated_at  DateTime      @db.Timestamp(6)
+  settlements settlements[]
+}
+
+model resource_types {
+  id          Int         @id
+  name        String      @unique @db.VarChar
+  description String?
+  created_at  DateTime    @db.Timestamp(6)
+  updated_at  DateTime    @db.Timestamp(6)
+  resources   resources[]
+}
+
+model resources {
+  id                                                   Int               @id
+  name                                                 String            @db.VarChar
+  description                                          String?
+  resource_type                                        Int
+  url                                                  DateTime?         @db.Timestamp(6)
+  created_at                                           DateTime          @db.Timestamp(6)
+  updated_at                                           DateTime          @db.Timestamp(6)
+  resource_types                                       resource_types    @relation(fields: [resource_type], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  settlement_type_settlement_type_resourcesToresources settlement_type[] @relation("settlement_type_resourcesToresources")
+  settlements_settlements_resourcesToresources         settlements[]     @relation("settlements_resourcesToresources")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model settlement_type {
+  id                                             Int                           @id
+  name                                           String                        @unique @db.VarChar
+  description                                    String?
+  resources                                      Int?
+  details                                        Int?
+  created_at                                     DateTime                      @db.Timestamp(6)
+  updated_at                                     DateTime                      @db.Timestamp(6)
+  details_settlement_type_detailsTodetails       details?                      @relation("settlement_type_detailsTodetails", fields: [details], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  resources_settlement_type_resourcesToresources resources?                    @relation("settlement_type_resourcesToresources", fields: [resources], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  settlement_type_architects                     settlement_type_architects[]
+  settlement_type_tags                           settlement_type_tags[]
+  settlements_settlement_type                    settlements_settlement_type[]
+}
+
+model settlement_type_architects {
+  settlement_type_id Int
+  architects_id      Int
+  architects         architects      @relation(fields: [architects_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  settlement_type    settlement_type @relation(fields: [settlement_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([settlement_type_id, architects_id])
+}
+
+model settlement_type_tags {
+  settlement_type_id Int
+  tags_id            Int
+  settlement_type    settlement_type @relation(fields: [settlement_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  tags               tags            @relation(fields: [tags_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([settlement_type_id, tags_id])
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model settlements {
+  id                                         Int                           @id
+  title                                      String?                       @db.VarChar
+  description                                String?
+  events                                     Int?
+  location                                   Int?
+  resources                                  Int?
+  details                                    Int?
+  created_at                                 DateTime                      @db.Timestamp(6)
+  updated_at                                 DateTime                      @db.Timestamp(6)
+  details_settlements_detailsTodetails       details?                      @relation("settlements_detailsTodetails", fields: [details], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  events_settlements_eventsToevents          events?                       @relation("settlements_eventsToevents", fields: [events], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  locations                                  locations?                    @relation(fields: [location], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  resources_settlements_resourcesToresources resources?                    @relation("settlements_resourcesToresources", fields: [resources], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  settlements_architects                     settlements_architects[]
+  settlements_settlement_type                settlements_settlement_type[]
+  settlements_tags                           settlements_tags[]
+}
+
+model settlements_architects {
+  settlements_id Int
+  architects_id  Int
+  architects     architects  @relation(fields: [architects_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  settlements    settlements @relation(fields: [settlements_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([settlements_id, architects_id])
+}
+
+model settlements_settlement_type {
+  settlements_id     Int
+  settlement_type_id Int
+  settlement_type    settlement_type @relation(fields: [settlement_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  settlements        settlements     @relation(fields: [settlements_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([settlements_id, settlement_type_id])
+}
+
+model settlements_tags {
+  settlements_id Int
+  tags_id        Int
+  settlements    settlements @relation(fields: [settlements_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  tags           tags        @relation(fields: [tags_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([settlements_id, tags_id])
+}
+
+model tags {
+  id                   Int                    @id
+  name                 String                 @unique @db.VarChar
+  description          String?
+  created_at           DateTime               @db.Timestamp(6)
+  updated_at           DateTime               @db.Timestamp(6)
+  settlement_type_tags settlement_type_tags[]
+  settlements_tags     settlements_tags[]
+}
