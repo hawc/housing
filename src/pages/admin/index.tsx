@@ -6,6 +6,7 @@ export default function Admin() {
   return (
     <Layout>
       {' '}
+      <h1>Add new settlement</h1>
       <Button>Button</Button>
     </Layout>
   );
