@@ -25,6 +25,9 @@ jobs:
 
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
+        with:
+          node-version: 18
+          useLockFile: false
 
       - name: 🔬 Lint
         run: yarn lint:strict
@@ -43,6 +46,9 @@ jobs:
 
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
+        with:
+          node-version: 18
+          useLockFile: false
 
       - name: 🔎 Type check
         run: yarn typecheck
@@ -61,6 +67,9 @@ jobs:
 
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
+        with:
+          node-version: 18
+          useLockFile: false
 
       - name: 💅 Prettier check
         run: yarn format:check
@@ -79,6 +88,9 @@ jobs:
 
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
+        with:
+          node-version: 18
+          useLockFile: false
 
       - name: 🃏 Run jest
         run: yarn test
