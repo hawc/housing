@@ -11,7 +11,7 @@ interface Payload {
 interface Architect {
   id: string;
   name: string;
-};
+}
 
 
 const callAPI = async (payload: Payload) => {
@@ -34,7 +34,7 @@ export default function Admin() {
   const addArchitect = (architectName: string) => {
     if (!architectName) {
       return console.error('No name provided');
-    };
+    }
     return callAPI({ type: 'addArchitect', payload: { name: architectName } })
   };
   const deleteArchitect = (id: string) => callAPI({ type: 'deleteArchitect', payload: { id } });
