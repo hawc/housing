@@ -5,7 +5,7 @@ import Layout from '@/components/layout/Layout';
 
 interface Payload {
   type: string;
-  payload?: any;
+  payload?: AddArchitectPayload | DeleteArchitectPayload;
 }
 
 interface Architect {
@@ -13,6 +13,12 @@ interface Architect {
   name: string;
 }
 
+interface AddArchitectPayload {
+  name: string;
+}
+interface DeleteArchitectPayload {
+  id: string;
+}
 
 const callAPI = async (payload: Payload) => {
   try {
