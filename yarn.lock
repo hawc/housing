@@ -1737,6 +1737,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@heroicons/react@npm:^2.0.13":
+  version: 2.0.18
+  resolution: "@heroicons/react@npm:2.0.18"
+  peerDependencies:
+    react: ">= 16"
+  checksum: 215653937a0ac3a1c6e9f558ebc8cca3d445aa472699748eefb5cf9cf9bca3412b3a4de863ba9b4cb55ef912e039ae134f1f0a178064c94dd949317e14e11a56
+  languageName: node
+  linkType: hard
+
 "@humanwhocodes/config-array@npm:^0.11.8":
   version: 0.11.8
   resolution: "@humanwhocodes/config-array@npm:0.11.8"
@@ -2081,11 +2090,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@material-tailwind/react@npm:^1.4.2":
-  version: 1.4.2
-  resolution: "@material-tailwind/react@npm:1.4.2"
+"@material-tailwind/react@npm:^2.0.4":
+  version: 2.0.4
+  resolution: "@material-tailwind/react@npm:2.0.4"
   dependencies:
     "@floating-ui/react": "npm:^0.19.0"
+    "@heroicons/react": "npm:^2.0.13"
     classnames: "npm:^2.3.2"
     deepmerge: "npm:^4.2.2"
     framer-motion: "npm:^6.5.1"
@@ -2097,7 +2107,7 @@ __metadata:
   peerDependencies:
     react: ^16 || ^17 || ^18
     react-dom: ^16 || ^17 || ^18
-  checksum: ea6ebbfd3ff66cf680feb67d2476700b5d35a28f9f455254667fee38db4311b991bc5726d324ba40a47b43516fb5fa494fe45b7f4952b7a906ad504412feb83e
+  checksum: 7859dc5db11bdb81198d60fadb7bbbefed03864e1fc5a458a74fa6c04b0433e4b35a77bac5e701e5786d1536873ce09b4667be396f72b2596b152cb835bc0023
   languageName: node
   linkType: hard
 
@@ -5619,7 +5629,7 @@ __metadata:
   dependencies:
     "@commitlint/cli": "npm:^16.3.0"
     "@commitlint/config-conventional": "npm:^16.2.4"
-    "@material-tailwind/react": "npm:^1.4.2"
+    "@material-tailwind/react": "npm:^2.0.4"
     "@prisma/client": "npm:^4.13.0"
     "@svgr/webpack": "npm:^6.5.1"
     "@tailwindcss/forms": "npm:^0.5.3"
