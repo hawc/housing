@@ -8,7 +8,6 @@ This repository is packed with:
 - Tailwind CSS 3
 - Jest
 - ESLint
-- Prettier
 - Husky & Lint Staged
 - Conventional Commit Lint
 - Release Please

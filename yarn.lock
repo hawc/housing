@@ -4675,17 +4675,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-prettier@npm:^8.8.0":
-  version: 8.8.0
-  resolution: "eslint-config-prettier@npm:8.8.0"
-  peerDependencies:
-    eslint: ">=7.0.0"
-  bin:
-    eslint-config-prettier: bin/cli.js
-  checksum: 942d0b9d162729967a1816a23107066ae176e5f3f3ebaa3be9fd05cc3dbc1d10e389f127a298fbd564f9cc3e419c9635623a974de9327042289d96469dd91528
-  languageName: node
-  linkType: hard
-
 "eslint-import-resolver-node@npm:^0.3.6, eslint-import-resolver-node@npm:^0.3.7":
   version: 0.3.7
   resolution: "eslint-import-resolver-node@npm:0.3.7"
@@ -5642,7 +5631,6 @@ __metadata:
     clsx: "npm:^1.2.1"
     eslint: "npm:^8.38.0"
     eslint-config-next: "npm:^13.3.0"
-    eslint-config-prettier: "npm:^8.8.0"
     eslint-plugin-simple-import-sort: "npm:^7.0.0"
     eslint-plugin-unused-imports: "npm:^2.0.0"
     husky: "npm:^7.0.4"
@@ -5652,8 +5640,6 @@ __metadata:
     next-router-mock: "npm:^0.7.5"
     next-sitemap: "npm:^2.5.28"
     postcss: "npm:^8.4.21"
-    prettier: "npm:^2.8.7"
-    prettier-plugin-tailwindcss: "npm:^0.1.13"
     prisma: "npm:^4.13.0"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
@@ -8138,24 +8124,6 @@ __metadata:
   version: 1.1.2
   resolution: "prelude-ls@npm:1.1.2"
   checksum: e18c52ae66a3327dc4c51defe91f05505d8df7a4f75ae7cc99d6689a2b84817b57828f09bb3da073ef34af28275dbbaacedc1028e3564e681a67f5f6a0351468
-  languageName: node
-  linkType: hard
-
-"prettier-plugin-tailwindcss@npm:^0.1.13":
-  version: 0.1.13
-  resolution: "prettier-plugin-tailwindcss@npm:0.1.13"
-  peerDependencies:
-    prettier: ">=2.2.0"
-  checksum: 386dc07bb6f51491a7714e9020babbf89679faa0aee1d23b6c95e2430c792d4014f72f4172401f53de0824e4aeebdccd395e1e0de3a022395c141190ea77712c
-  languageName: node
-  linkType: hard
-
-"prettier@npm:^2.8.7":
-  version: 2.8.8
-  resolution: "prettier@npm:2.8.8"
-  bin:
-    prettier: bin-prettier.js
-  checksum: 38b0a43ea17e83f54b904f8808f7d0fd1d9705ef9627bb40017ee276cbd6f5e7d15bcf816c4467b64cfe14ef109369a981ce61fad9c6022749d041f74a672188
   languageName: node
   linkType: hard
 

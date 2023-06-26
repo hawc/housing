@@ -12,8 +12,6 @@
     "typecheck": "tsc --noEmit --incremental false",
     "test:watch": "jest --watch",
     "test": "jest",
-    "format": "prettier -w .",
-    "format:check": "prettier -c .",
     "postbuild": "next-sitemap --config next-sitemap.config.js",
     "prepare": "husky install"
   },
@@ -40,7 +38,6 @@
     "autoprefixer": "^10.4.14",
     "eslint": "^8.38.0",
     "eslint-config-next": "^13.3.0",
-    "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "eslint-plugin-unused-imports": "^2.0.0",
     "husky": "^7.0.4",
@@ -49,19 +46,13 @@
     "next-router-mock": "^0.7.5",
     "next-sitemap": "^2.5.28",
     "postcss": "^8.4.21",
-    "prettier": "^2.8.7",
-    "prettier-plugin-tailwindcss": "^0.1.13",
     "prisma": "^4.13.0",
     "tailwindcss": "^3.3.1",
     "typescript": "^4.9.5"
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
-      "eslint --max-warnings=0",
-      "prettier -w"
-    ],
-    "**/*.{json,css,scss,md,webmanifest}": [
-      "prettier -w"
+      "eslint --max-warnings=0"
     ]
   }
 }

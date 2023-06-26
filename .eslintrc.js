@@ -10,7 +10,6 @@ module.exports = {
     'next',
     'next/core-web-vitals',
     'plugin:@typescript-eslint/recommended',
-    'prettier',
   ],
   rules: {
     'no-unused-vars': 'off',
