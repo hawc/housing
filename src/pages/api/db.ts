@@ -1,11 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-(BigInt.prototype as any).toJSON = function () {
-  return this.toString();
-};
-
-import { architects, events, settlements } from '@prisma/client';
+import { Architects, Events, Settlements } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { createArchitect, createSettlement, deleteArchitect, deleteSettlement, findArchitects, findDetails, findEvents, findResources, findSettlements, findTags } from '@/lib/db';
@@ -59,28 +54,27 @@ interface GetTagsPayload {
 }
 
 const transformers = {
-  architect: (architect: architects): Architect => {
+  architect: (architect: Architects): Architect => {
     return {
-      id: String(architect.id),
+      id: architect.id,
       name: architect.name,
     };
   },
-  event: (event: events): Event => {
+  event: (event: Events): Event => {
     return {
-      id: String(event.id),
+      id: event.id,
       name: event.name,
       description: event.description ?? '',
-      typeId: String(event.event_type),
+      typeId: event.eventTypeId,
     };
   },
-  settlement: (settlement: settlements): Settlement => {
+  settlement: (settlement: Settlements): Settlement => {
     return {
-      id: String(settlement.id),
+      id: settlement.id,
       title: settlement.title ?? '',
       description: settlement.description ?? '',
       events: [],
       location: settlement.location ?? '',
-      description: settlement.description ?? '',
       description: settlement.description ?? '',
     };
   },
@@ -94,20 +88,20 @@ const resolvers = {
     return createSettlement(payload);
   },
   deleteArchitect: async (payload: DeleteArchitectsPayload): Promise<Architect> => {
-    return deleteArchitect({ id: BigInt(payload.id) });
+    return deleteArchitect({ id: payload.id });
   },
   deleteSettlement: async (payload: DeleteSettlementsPayload): Promise<Settlement> => {
-    return deleteSettlement({ id: BigInt(payload.id) });
+    return deleteSettlement({ id: payload.id });
   },
   getArchitects: async (payload: GetArchitectsPayload): Promise<Architect[]> => {
-    const architects: architects[] = await (payload ? findArchitects({
-      id: BigInt(payload.id),
+    const architects: Architects[] = await (payload ? findArchitects({
+      id: payload.id,
       name: payload.name,
     }) : findArchitects());
 
     return architects.map(transformers.architect);
   },
-  getSettlements: (payload: GetSettlementsPayload): Promise<settlements[]> => {
+  getSettlements: (payload: GetSettlementsPayload): Promise<Settlements[]> => {
     const settlements = findSettlements(payload);
     const events = resolvers.getEvents({ id: '0' });
     const resources = resolvers.getResources({ id: '0' });
@@ -119,7 +113,7 @@ const resolvers = {
 
   },
   getEvents: async (payload: GetEventsPayload): Promise<Event[]> => {
-    const events = await findEvents({ id: BigInt(payload.id) });
+    const events = await findEvents({ id: payload.id });
     return events.map(event => ({
       id: event.id,
       name: event.name,
@@ -128,16 +122,16 @@ const resolvers = {
     }));
   },
   getResources: async (payload: GetResourcesPayload): Promise<Resource[]> => {
-    return findResources({ id: BigInt(payload.id) });
+    return findResources({ id: payload.id });
   },
   getDetails: async (payload: GetDetailsPayload): Promise<Detail[]> => {
-    return findDetails({ id: BigInt(payload.id) });
+    return findDetails({ id: payload.id });
   },
   getTags: async (payload: GetTagsPayload): Promise<Tag[]> => {
-    return findTags({ id: BigInt(payload.id) });
+    return findTags({ id: payload.id });
   },
   getEventTypes: async (payload: GetEventTypesPayload): Promise<Tag[]> => {
-    return findEventTypes({ id: BigInt(payload.id) });
+    return findEventTypes({ id: payload.id });
   }
 }
 

@@ -3,7 +3,7 @@ import { Prisma } from '@prisma/client';
 import prisma from '@/lib/prisma';
 
 export async function createArchitect(
-  data: Prisma.architectsUncheckedCreateInput
+  data: Prisma.ArchitectsCreateInput
 ) {
   return await prisma.architects.create({
     data: data,
@@ -11,7 +11,7 @@ export async function createArchitect(
 }
 
 export async function deleteArchitect(
-  data: Prisma.architectsWhereUniqueInput
+  data: Prisma.ArchitectsWhereUniqueInput
 ) {
   return await prisma.architects.delete({
     where: {
@@ -21,7 +21,7 @@ export async function deleteArchitect(
 }
 
 export async function findArchitects(
-  data?: Prisma.architectsWhereInput
+  data?: Prisma.ArchitectsWhereInput
 ) {
   if (data) {
     return await prisma.architects.findMany({
@@ -36,7 +36,7 @@ export async function findArchitects(
 }
 
 export async function createSettlement(
-  data: Prisma.settlementsUncheckedCreateInput
+  data: Prisma.SettlementsCreateInput
 ) {
   return await prisma.settlements.create({
     data: data,
@@ -44,7 +44,7 @@ export async function createSettlement(
 }
 
 export async function deleteSettlement(
-  data: Prisma.settlementsWhereUniqueInput
+  data: Prisma.SettlementsWhereUniqueInput
 ) {
   return await prisma.settlements.delete({
     where: {
@@ -54,7 +54,7 @@ export async function deleteSettlement(
 }
 
 export async function findSettlements(
-  data: Prisma.settlementsWhereInput
+  data: Prisma.SettlementsWhereInput
 ) {
   if (data) {
     return await prisma.settlements.findMany({
@@ -69,7 +69,7 @@ export async function findSettlements(
 
 
 export async function findEvents(
-  data: Prisma.eventsWhereInput
+  data: Prisma.EventsWhereInput
 ) {
   if (data) {
     return await prisma.events.findMany({
@@ -84,7 +84,7 @@ export async function findEvents(
 
 
 export async function findResources(
-  data: Prisma.resourcesWhereInput
+  data: Prisma.ResourcesWhereInput
 ) {
   if (data) {
     return await prisma.resources.findMany({
@@ -99,7 +99,7 @@ export async function findResources(
 
 
 export async function findDetails(
-  data: Prisma.detailsWhereInput
+  data: Prisma.DetailsWhereInput
 ) {
   if (data) {
     return await prisma.details.findMany({
@@ -114,7 +114,7 @@ export async function findDetails(
 
 
 export async function findTags(
-  data: Prisma.tagsWhereInput
+  data: Prisma.TagsWhereInput
 ) {
   if (data) {
     return await prisma.tags.findMany({
