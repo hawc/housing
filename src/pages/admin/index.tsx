@@ -1,81 +1,92 @@
-import { Button, Input, List, ListItem } from '@material-tailwind/react';
-import { useState } from 'react';
+
+import { List, ListItem } from '@material-tailwind/react';
+import Link from 'next/link';
 
 import Layout from '@/components/layout/Layout';
 
-interface Payload {
-  type: string;
-  payload?: AddArchitectPayload | DeleteArchitectPayload;
-}
-
-interface Architect {
+export interface EventType {
   id: string;
   name: string;
 }
-
-interface AddArchitectPayload {
+export interface Event {
+  id: string;
+  name: string;
+  description: string;
+  type: EventType;
+}
+export interface Location {
+  id: string;
+  name: string;
+  lat: number;
+  lng: number;
+}
+export interface DetailType {
+  id: string;
+  name: string;
+  description: string;
+}
+export interface Detail {
+  id: string;
+  name: string;
+  description: string;
+  type: DetailType;
+}
+export interface ResourceType {
+  id: string;
+  name: string;
+  description: string;
+}
+export interface Resource {
+  id: string;
+  name: string;
+  description: string;
+  url: string;
+  type: ResourceType;
+}
+export interface Tag {
+  id: string;
+  name: string;
+  description: string;
+}
+export interface Architect {
+  id: string;
   name: string;
 }
-interface DeleteArchitectPayload {
+export interface SettlementType {
   id: string;
+  name: string;
+  description: string;
+  resources: Resource[];
+  details: Detail[];
 }
-
-const callAPI = async (payload: Payload) => {
-  try {
-    const res = await fetch(`/api/db`, {
-      method: "POST",
-      body: JSON.stringify(payload)
-    });
-    const data = await res.json();
-    return data;
-  } catch (err) {
-    console.error(err);
-  }
-};
+export interface Settlement {
+  id: string;
+  title: string;
+  description: string;
+  events: Event[];
+  location: Location;
+  resources: Resource[];
+  details: Detail[];
+  types: SettlementType[];
+  architects: Architect[];
+  tags: Tag[];
+}
 
 export default function Admin() {
-  const [architect, setArchitect] = useState<Architect | null>(null);
-  const [architects, setArchitects] = useState([]);
-
-  const addArchitect = (architectName: string) => {
-    if (!architectName) {
-      return console.error('No name provided');
-    }
-    return callAPI({ type: 'addArchitect', payload: { name: architectName } })
-  };
-  const deleteArchitect = (id: string) => callAPI({ type: 'deleteArchitect', payload: { id } });
-  const getArchitects = async () => {
-    const architects = await callAPI({ type: 'getArchitects' });
-    setArchitects(architects);
-  };
   return (
     <Layout>
-      <h1>Add new architect</h1>
-
-      <div className="relative flex w-full max-w-[24rem]">
-        <Input
-          label='New Architect Name'
-          className="pr-20"
-          containerProps={{
-            className: "min-w-0",
-          }}
-          value={architect?.name ?? ''}
-          onChange={({ target }) => setArchitect({ id: '', name: target.value })} />
-        <Button
-          className="ml-2 right-1 top-1 rounded"
-          onClick={() => architect && addArchitect(architect.name)}>Add</Button>
-      </div>
-      <h1>Show architects</h1>
-      <Button onClick={() => getArchitects()}>Button</Button>
       <div className="relative flex w-full max-w-[24rem]">
         <List>
-          {architects.map(({ name, id }) => (
-            <ListItem key={id}>{id}: {name}
-              <Button
-                size='sm'
-                className="ml-2 right-1 top-1 rounded"
-                onClick={() => deleteArchitect(id)}>Delete</Button></ListItem>
-          ))}
+          <ListItem>
+            <Link href="/admin/architects">
+              Manage Architects
+            </Link>
+          </ListItem>
+          <ListItem>
+            <Link href="/admin/settlements">
+              Manage Settlements
+            </Link>
+          </ListItem>
         </List>
       </div>
     </Layout>

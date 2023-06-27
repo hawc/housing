@@ -12,6 +12,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
   ],
   rules: {
+    quotes: ['error', 'single'],
     'no-unused-vars': 'off',
     'no-console': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
