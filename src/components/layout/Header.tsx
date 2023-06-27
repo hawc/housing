@@ -3,16 +3,16 @@ import {
   MobileNav,
   Navbar,
   Typography,
-} from "@material-tailwind/react";
-import Link from "next/link";
-import React from "react";
+} from '@material-tailwind/react';
+import Link from 'next/link';
+import React from 'react';
 
 export default function Header() {
   const [openNav, setOpenNav] = React.useState(false);
 
   React.useEffect(() => {
     window.addEventListener(
-      "resize",
+      'resize',
       () => window.innerWidth >= 960 && setOpenNav(false)
     );
   }, []);
