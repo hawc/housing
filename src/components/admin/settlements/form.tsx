@@ -64,9 +64,9 @@ export function ListSettlements() {
       <div className="relative flex w-full max-w-[24rem]">
         {loading && settlements ? (
           <List>
-            {settlements.map(({ name, id }) => (
+            {settlements.map(({ title, id, description }) => (
               <ListItem key={id} className={skeletonClass} style={skeletonStyle}>
-                <Skeleton nested>{id}: {name}
+                <Skeleton nested>{id}: {title} {description}
                   <Button
                     disabled
                     size='sm'
@@ -82,8 +82,8 @@ export function ListSettlements() {
           </List>
         ) : settlements ? (
           <List>
-            {settlements.map(({ name, id }) => (
-              <ListItem key={id}>{id}: {name}
+            {settlements.map(({ title, id, description }) => (
+              <ListItem key={id}>{id}: {title} {description}
                 <Button
                   size='sm'
                   className="ml-2 right-1 top-1 rounded"

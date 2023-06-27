@@ -1,11 +1,11 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { Architects, Details, Events, Prisma, Resources, Settlements, Tags } from '@prisma/client';
+import { Architects, Details, Events, Prisma, Resources, ResourceTypes, Settlements, Tags } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { createArchitect, createSettlement, createTag, deleteArchitect, deleteSettlement, deleteTag, findArchitects, findDetails, findEvents, findEventTypes, findResources, findSettlements, findTags } from '@/lib/db';
+import { createArchitect, createSettlement, createTag, deleteArchitect, deleteSettlement, deleteTag, findArchitects, findDetails, findEvents, findEventTypes, findResources, findResourceTypes, findSettlements, findTags } from '@/lib/db';
 
-import { Architect, Detail, Event, EventType, Resource, Settlement, Tag } from '@/pages/admin';
+import { Architect, Detail, Event, EventType, Resource, ResourceType, Settlement, Tag } from '@/pages/admin';
 
 const transformers = {
   architect: (architect: Architects): Architect => {
@@ -36,6 +36,13 @@ const transformers = {
       url: resource.url,
       type: resource.type,
       description: resource.description ?? '',
+    };
+  },
+  resourceType: (resourceType: ResourceTypes): ResourceType => {
+    return {
+      id: resourceType.id,
+      name: resourceType.name,
+      description: resourceType.description ?? '',
     };
   },
   detail: (detail: Details): Detail => {
@@ -99,9 +106,13 @@ const resolvers = {
     const events = await findEvents({ id: payload.id });
     return events.map(transformers.event);
   },
-  getResources: async (payload: Prisma.ResourcesWhereInput): Promise<Resource[]> => {
-    const resources = await findResources({ id: payload.id });
+  getResources: async (payload?: Prisma.ResourcesWhereInput): Promise<Resource[]> => {
+    const resources = await (payload ? findResources({ id: payload.id }) : findResources());
     return resources.map(transformers.resource);
+  },
+  getResourceTypes: async (payload?: Prisma.ResourceTypesWhereInput): Promise<ResourceType[]> => {
+    const resourceTypes = await (payload ? findResourceTypes({ id: payload.id }) : findResourceTypes());
+    return resourceTypes.map(transformers.resourceType);
   },
   getDetails: async (payload: Prisma.DetailsWhereInput): Promise<Detail[]> => {
     const details = await findDetails({ id: payload.id });

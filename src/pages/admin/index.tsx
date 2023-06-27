@@ -76,19 +76,32 @@ export interface Settlement {
 export default function Admin() {
   return (
     <Layout>
-      <div className="relative flex w-full max-w-[24rem]">
-        <List>
-          <ListItem>
-            <Link href="/admin/architects">
-              Manage Architects
-            </Link>
-          </ListItem>
-          <ListItem>
-            <Link href="/admin/settlements">
-              Manage Settlements
-            </Link>
-          </ListItem>
-        </List>
+      <div className="py-4">
+        <h1>Manage Data</h1>
+        <div className="relative flex w-full max-w-[24rem]">
+          <List>
+            <ListItem>
+              <Link href="/admin/architects">
+                Architects
+              </Link>
+            </ListItem>
+            <ListItem>
+              <Link href="/admin/settlements">
+                Settlements
+              </Link>
+            </ListItem>
+            <ListItem>
+              <Link href="/admin/tags">
+                Tags
+              </Link>
+            </ListItem>
+            <ListItem>
+              <Link href="/admin/resources">
+                Resources
+              </Link>
+            </ListItem>
+          </List>
+        </div>
       </div>
     </Layout>
   );

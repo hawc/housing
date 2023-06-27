@@ -111,7 +111,7 @@ export async function findEventTypes(
 
 
 export async function findResources(
-  data: Prisma.ResourcesWhereInput
+  data?: Prisma.ResourcesWhereInput
 ) {
   if (data) {
     return await prisma.resources.findMany({
@@ -122,6 +122,21 @@ export async function findResources(
 
   }
   return await prisma.resources.findMany();
+}
+
+
+export async function findResourceTypes(
+  data?: Prisma.ResourceTypesWhereInput
+) {
+  if (data) {
+    return await prisma.resourceTypes.findMany({
+      where: {
+        id: data.id,
+      }
+    });
+
+  }
+  return await prisma.resourceTypes.findMany();
 }
 
 
