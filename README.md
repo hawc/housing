@@ -40,3 +40,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ### 5. Commit Message Convention
 
 This starter is using [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/), it is mandatory to use it to commit changes.
+
+## Legal
+
+Logo Copyright by https://thenounproject.com/hellomille/

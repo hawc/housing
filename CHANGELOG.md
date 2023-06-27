@@ -34,7 +34,7 @@ This changelog is manually generated and not accurate with the package.json, onl
     You can directly import SVG like
 
     ```tsx
-    import Vercel from '~/svg/Vercel.svg';
+    import Vercel from '~/svg/logo.svg';
 
     <Vercel className='text-5xl' />
     ```
