@@ -27,10 +27,9 @@ export async function findArchitects(
     return await prisma.architects.findMany({
       where: {
         id: data.id,
-        name: data.name
+        name: data.name,
       }
     });
-
   }
   return await prisma.architects.findMany();
 }
@@ -67,6 +66,23 @@ export async function findSettlements(
   return await prisma.settlements.findMany();
 }
 
+export async function createTag(
+  data: Prisma.TagsCreateInput
+) {
+  return await prisma.tags.create({
+    data: data,
+  });
+}
+
+export async function deleteTag(
+  data: Prisma.TagsWhereUniqueInput
+) {
+  return await prisma.tags.delete({
+    where: {
+      id: data.id
+    }
+  });
+}
 
 export async function findEvents(
   data: Prisma.EventsWhereInput
@@ -80,6 +96,17 @@ export async function findEvents(
 
   }
   return await prisma.events.findMany();
+}
+
+
+export async function findEventTypes(
+  data: Prisma.EventsWhereInput
+) {
+  return await prisma.eventTypes.findMany({
+    where: {
+      id: data.id,
+    }
+  });
 }
 
 
@@ -114,7 +141,7 @@ export async function findDetails(
 
 
 export async function findTags(
-  data: Prisma.TagsWhereInput
+  data?: Prisma.TagsWhereInput
 ) {
   if (data) {
     return await prisma.tags.findMany({

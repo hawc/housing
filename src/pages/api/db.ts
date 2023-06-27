@@ -1,57 +1,11 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { Architects, Events, Settlements } from '@prisma/client';
+import { Architects, Details, Events, Prisma, Resources, Settlements, Tags } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { createArchitect, createSettlement, deleteArchitect, deleteSettlement, findArchitects, findDetails, findEvents, findResources, findSettlements, findTags } from '@/lib/db';
+import { createArchitect, createSettlement, createTag, deleteArchitect, deleteSettlement, deleteTag, findArchitects, findDetails, findEvents, findEventTypes, findResources, findSettlements, findTags } from '@/lib/db';
 
-import { Architect, Detail, Event, Resource, Settlement, Tag } from '@/pages/admin';
-
-interface AddArchitectPayload {
-  name: string;
-}
-
-interface GetArchitectsPayload {
-  id: string;
-  name: string;
-}
-
-interface DeleteArchitectsPayload {
-  id: string;
-}
-
-interface AddSettlementPayload {
-  description: string;
-  title: string;
-}
-
-interface GetSettlementsPayload {
-  title: string;
-}
-
-interface DeleteSettlementsPayload {
-  id: string;
-}
-
-interface GetEventTypesPayload {
-  id: string;
-}
-
-interface GetEventsPayload {
-  id: string;
-}
-
-interface GetResourcesPayload {
-  id: string;
-}
-
-interface GetDetailsPayload {
-  id: string;
-}
-
-interface GetTagsPayload {
-  id: string;
-}
+import { Architect, Detail, Event, EventType, Resource, Settlement, Tag } from '@/pages/admin';
 
 const transformers = {
   architect: (architect: Architects): Architect => {
@@ -68,32 +22,61 @@ const transformers = {
       typeId: event.eventTypeId,
     };
   },
+  tag: (tag: Tags): Tag => {
+    return {
+      id: tag.id,
+      name: tag.name,
+      description: tag.description ?? '',
+    };
+  },
+  resource: (resource: Resources): Resource => {
+    return {
+      id: resource.id,
+      name: resource.name,
+      url: resource.url,
+      type: resource.type,
+      description: resource.description ?? '',
+    };
+  },
+  detail: (detail: Details): Detail => {
+    return {
+      id: detail.id,
+      name: detail.name,
+      type: resource.type,
+      description: detail.description ?? '',
+    };
+  },
   settlement: (settlement: Settlements): Settlement => {
     return {
       id: settlement.id,
       title: settlement.title ?? '',
       description: settlement.description ?? '',
       events: [],
-      location: settlement.location ?? '',
-      description: settlement.description ?? '',
+      location: settlement.location,
     };
   },
 }
 
 const resolvers = {
-  addArchitect: async (payload: AddArchitectPayload): Promise<Architect> => {
+  addArchitect: async (payload: Prisma.ArchitectsCreateInput): Promise<Architect> => {
     return transformers.architect(await createArchitect(payload));
   },
-  addSettlement: async (payload: AddSettlementPayload): Promise<Settlement> => {
-    return createSettlement(payload);
+  addSettlement: async (payload: Prisma.SettlementsCreateInput): Promise<Settlement> => {
+    return transformers.settlement(await createSettlement(payload));
   },
-  deleteArchitect: async (payload: DeleteArchitectsPayload): Promise<Architect> => {
-    return deleteArchitect({ id: payload.id });
+  addTag: async (payload: Prisma.TagsCreateInput): Promise<Tag> => {
+    return transformers.tag(await createTag(payload));
   },
-  deleteSettlement: async (payload: DeleteSettlementsPayload): Promise<Settlement> => {
-    return deleteSettlement({ id: payload.id });
+  deleteArchitect: async (payload: Prisma.ArchitectsWhereUniqueInput): Promise<Architect> => {
+    return transformers.architect(await deleteArchitect({ id: payload.id }));
   },
-  getArchitects: async (payload: GetArchitectsPayload): Promise<Architect[]> => {
+  deleteTag: async (payload: Prisma.TagsWhereUniqueInput): Promise<Tag> => {
+    return transformers.tag(await deleteTag({ id: payload.id }));
+  },
+  deleteSettlement: async (payload: Prisma.SettlementsWhereUniqueInput): Promise<Settlement> => {
+    return transformers.settlement(await deleteSettlement({ id: payload.id }));
+  },
+  getArchitects: async (payload?: Prisma.ArchitectsWhereInput): Promise<Architect[]> => {
     const architects: Architects[] = await (payload ? findArchitects({
       id: payload.id,
       name: payload.name,
@@ -101,7 +84,7 @@ const resolvers = {
 
     return architects.map(transformers.architect);
   },
-  getSettlements: (payload: GetSettlementsPayload): Promise<Settlements[]> => {
+  getSettlements: (payload: Prisma.SettlementsWhereInput): Promise<Settlements[]> => {
     const settlements = findSettlements(payload);
     const events = resolvers.getEvents({ id: '0' });
     const resources = resolvers.getResources({ id: '0' });
@@ -112,25 +95,23 @@ const resolvers = {
     return settlements;
 
   },
-  getEvents: async (payload: GetEventsPayload): Promise<Event[]> => {
+  getEvents: async (payload: Prisma.EventsWhereInput): Promise<Event[]> => {
     const events = await findEvents({ id: payload.id });
-    return events.map(event => ({
-      id: event.id,
-      name: event.name,
-      description: event.description,
-      type: resolvers.getEventTypes(),
-    }));
+    return events.map(transformers.event);
   },
-  getResources: async (payload: GetResourcesPayload): Promise<Resource[]> => {
-    return findResources({ id: payload.id });
+  getResources: async (payload: Prisma.ResourcesWhereInput): Promise<Resource[]> => {
+    const resources = await findResources({ id: payload.id });
+    return resources.map(transformers.resource);
   },
-  getDetails: async (payload: GetDetailsPayload): Promise<Detail[]> => {
-    return findDetails({ id: payload.id });
+  getDetails: async (payload: Prisma.DetailsWhereInput): Promise<Detail[]> => {
+    const details = await findDetails({ id: payload.id });
+    return details.map(transformers.detail);
   },
-  getTags: async (payload: GetTagsPayload): Promise<Tag[]> => {
-    return findTags({ id: payload.id });
+  getTags: async (payload?: Prisma.TagsWhereInput): Promise<Tag[]> => {
+    const tags = await (payload ? findTags({ id: payload.id }) : findTags());
+    return tags.map(transformers.tag);
   },
-  getEventTypes: async (payload: GetEventTypesPayload): Promise<Tag[]> => {
+  getEventTypes: async (payload: Prisma.EventTypesWhereInput): Promise<EventType[]> => {
     return findEventTypes({ id: payload.id });
   }
 }
