@@ -12,7 +12,8 @@ export interface Event {
   id: string;
   name: string;
   description: string;
-  type: EventType;
+  typeId: string;
+  // type: EventType;
 }
 export interface Location {
   id: string;

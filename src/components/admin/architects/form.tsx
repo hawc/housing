@@ -20,20 +20,19 @@ function AddArchitect({ getArchitects }: { getArchitects: () => Promise<void> | 
 
   return (
     <>
-      <div>
-        <Input
-          label='New Architect Name'
-          className="pr-20"
-          containerProps={{
-            className: 'min-w-0',
-          }}
-          value={architect?.name ?? ''}
-          onChange={({ target }) => setArchitect({ id: '', name: target.value })} />
-        <Button
-          size="sm"
-          className="ml-2 right-1 top-1 rounded"
-          onClick={() => architect && addArchitect(architect.name)}>Add</Button>
-      </div></>
+      <Input
+        label='New Architect Name'
+        className="pr-20"
+        containerProps={{
+          className: 'min-w-0',
+        }}
+        value={architect?.name ?? ''}
+        onChange={({ target }) => setArchitect({ id: '', name: target.value })} />
+      <Button
+        size="sm"
+        className="ml-2 right-1 top-1 rounded"
+        onClick={() => architect && addArchitect(architect.name)}>Add</Button>
+    </>
   );
 }
 
@@ -64,7 +63,7 @@ export function ListArchitects() {
       <h1>Show architects</h1>
       <Button onClick={() => getArchitects()}>Button</Button>
       <div className="relative flex w-full max-w-[24rem]">
-        {loading && architects ? (
+        {(loading && architects) ? (
           <List>
             {architects.map(({ name, id }) => (
               <ListItem key={id} className={skeletonClass} style={skeletonStyle}>
@@ -76,11 +75,11 @@ export function ListArchitects() {
                   >Delete</Button></Skeleton>
               </ListItem>
             ))}
-            <ListItem className={skeletonClass} style={skeletonStyle}>
-              <Skeleton nested>
+            <Skeleton nested>
+              <ListItem className={skeletonClass} style={skeletonStyle}>
                 <AddArchitect getArchitects={() => { return }} />
-              </Skeleton>
-            </ListItem>
+              </ListItem>
+            </Skeleton>
           </List>
         ) : architects ? (
           <List>

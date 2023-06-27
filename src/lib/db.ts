@@ -21,7 +21,7 @@ export async function deleteArchitect(
 }
 
 export async function findArchitects(
-  data: Prisma.architectsWhereInput
+  data?: Prisma.architectsWhereInput
 ) {
   if (data) {
     return await prisma.architects.findMany({

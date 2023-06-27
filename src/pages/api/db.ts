@@ -5,12 +5,12 @@
   return this.toString();
 };
 
-import { architects, settlements } from '@prisma/client';
+import { architects, events, settlements } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { createArchitect, createSettlement, deleteArchitect, deleteSettlement, findArchitects, findDetails, findEvents, findResources, findSettlements, findTags } from '@/lib/db';
 
-import { Architect, Detail, Event, Resource, Tag } from '@/pages/admin';
+import { Architect, Detail, Event, Resource, Settlement, Tag } from '@/pages/admin';
 
 interface AddArchitectPayload {
   name: string;
@@ -38,6 +38,10 @@ interface DeleteSettlementsPayload {
   id: string;
 }
 
+interface GetEventTypesPayload {
+  id: string;
+}
+
 interface GetEventsPayload {
   id: string;
 }
@@ -54,26 +58,54 @@ interface GetTagsPayload {
   id: string;
 }
 
-const resolvers = {
-  addArchitect: (payload: AddArchitectPayload): Promise<architects> => {
-    return createArchitect(payload);
-  },
-  getArchitects: async (payload: GetArchitectsPayload): Promise<Architect[]> => {
-    const architects: architects[] = await findArchitects({
-      id: BigInt(payload.id),
-      name: payload.name,
-    });
-
-    return architects.map((architect) => ({
+const transformers = {
+  architect: (architect: architects): Architect => {
+    return {
       id: String(architect.id),
       name: architect.name,
-    }))
+    };
   },
-  deleteArchitect: (payload: DeleteArchitectsPayload): Promise<architects> => {
+  event: (event: events): Event => {
+    return {
+      id: String(event.id),
+      name: event.name,
+      description: event.description ?? '',
+      typeId: String(event.event_type),
+    };
+  },
+  settlement: (settlement: settlements): Settlement => {
+    return {
+      id: String(settlement.id),
+      title: settlement.title ?? '',
+      description: settlement.description ?? '',
+      events: [],
+      location: settlement.location ?? '',
+      description: settlement.description ?? '',
+      description: settlement.description ?? '',
+    };
+  },
+}
+
+const resolvers = {
+  addArchitect: async (payload: AddArchitectPayload): Promise<Architect> => {
+    return transformers.architect(await createArchitect(payload));
+  },
+  addSettlement: async (payload: AddSettlementPayload): Promise<Settlement> => {
+    return createSettlement(payload);
+  },
+  deleteArchitect: async (payload: DeleteArchitectsPayload): Promise<Architect> => {
     return deleteArchitect({ id: BigInt(payload.id) });
   },
-  addSettlement: (payload: AddSettlementPayload): Promise<settlements> => {
-    return createSettlement(payload);
+  deleteSettlement: async (payload: DeleteSettlementsPayload): Promise<Settlement> => {
+    return deleteSettlement({ id: BigInt(payload.id) });
+  },
+  getArchitects: async (payload: GetArchitectsPayload): Promise<Architect[]> => {
+    const architects: architects[] = await (payload ? findArchitects({
+      id: BigInt(payload.id),
+      name: payload.name,
+    }) : findArchitects());
+
+    return architects.map(transformers.architect);
   },
   getSettlements: (payload: GetSettlementsPayload): Promise<settlements[]> => {
     const settlements = findSettlements(payload);
@@ -85,9 +117,6 @@ const resolvers = {
 
     return settlements;
 
-  },
-  deleteSettlement: (payload: DeleteSettlementsPayload): Promise<settlements> => {
-    return deleteSettlement({ id: BigInt(payload.id) });
   },
   getEvents: async (payload: GetEventsPayload): Promise<Event[]> => {
     const events = await findEvents({ id: BigInt(payload.id) });
