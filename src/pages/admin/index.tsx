@@ -7,13 +7,14 @@ import Layout from '@/components/layout/Layout';
 export interface EventType {
   id: string;
   name: string;
+  description: string;
 }
 export interface Event {
   id: string;
   name: string;
   description: string;
-  typeId: string;
-  // type: EventType;
+  type: EventType;
+  eventDate: Date | null;
 }
 export interface Location {
   id: string;
@@ -30,7 +31,7 @@ export interface Detail {
   id: string;
   name: string;
   description: string;
-  type: DetailType;
+  detailType: DetailType;
 }
 export interface ResourceType {
   id: string;
@@ -65,10 +66,10 @@ export interface Settlement {
   title: string;
   description: string;
   events: Event[];
-  location: Location;
+  location: Location | null;
   resources: Resource[];
   details: Detail[];
-  type: SettlementType[];
+  types: SettlementType[];
   architects: Architect[];
   tags: Tag[];
 }

@@ -52,26 +52,141 @@ export async function deleteSettlement(
   });
 }
 
+const settlementsInclude = Prisma.validator<Prisma.SettlementsInclude>()({
+  architects: {
+    select: {
+      architect: {
+        select: {
+          id: true,
+          name: true
+        }
+      }
+    }
+  },
+  details: {
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      detailType: {
+        select: {
+          id: true,
+          name: true,
+          description: true
+        }
+      }
+    }
+  },
+  resources: {
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      url: true,
+      resourceType: {
+        select: {
+          id: true,
+          name: true,
+          description: true
+        }
+      },
+    }
+  },
+  tags: {
+    select: {
+      tag: {
+        select: {
+          id: true,
+          name: true,
+          description: true,
+        }
+      }
+    }
+  },
+  settlementTypes: {
+    select: {
+      settlementType: {
+        select: {
+          id: true,
+          name: true,
+          description: true,
+          resources: {
+            select: {
+              id: true,
+              name: true,
+              description: true,
+              url: true,
+              resourceType: {
+                select: {
+                  id: true,
+                  name: true,
+                  description: true
+                }
+              },
+            }
+          },
+          details: {
+            select: {
+              id: true,
+              name: true,
+              description: true,
+              detailType: {
+                select: {
+                  id: true,
+                  name: true,
+                  description: true
+                }
+              }
+            }
+          },
+        }
+      }
+    }
+  },
+  events: {
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      eventDate: true,
+      eventType: {
+        select: {
+          id: true,
+          name: true,
+          description: true
+        }
+      }
+    }
+  },
+  location: {
+    select: {
+      id: true,
+      name: true,
+      lat: true,
+      lng: true,
+    }
+  },
+});
+
+export type SettlementsFull = Prisma.SettlementsGetPayload<{
+  include: typeof settlementsInclude;
+}>;
+
 export async function findSettlements(
-  data: Prisma.SettlementsWhereInput
+  data?: Prisma.SettlementsWhereInput
 ) {
   if (data) {
     return await prisma.settlements.findMany({
       where: {
         title: data.title
       },
-      include: {
-        architects: true,
-        details: true,
-        resources: true,
-        tags: true,
-        events: true,
-        location: true,
-      }
+      include: settlementsInclude
     });
 
   }
-  return await prisma.settlements.findMany();
+  return await prisma.settlements.findMany({
+    include: settlementsInclude
+  });
 }
 
 export async function createTag(
