@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { Architects, Details, Events, Prisma, Resources, ResourceTypes, Settlements, Tags } from '@prisma/client';
+import { Architects, Details, Events, EventTypes, Prisma, Resources, ResourceTypes, Settlements, Tags } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { createArchitect, createSettlement, createTag, deleteArchitect, deleteSettlement, deleteTag, findArchitects, findDetails, findEvents, findEventTypes, findResources, findResourceTypes, findSettlements, findTags } from '@/lib/db';
@@ -8,6 +8,20 @@ import { createArchitect, createSettlement, createTag, deleteArchitect, deleteSe
 import { Architect, Detail, Event, EventType, Resource, ResourceType, Settlement, Tag } from '@/pages/admin';
 
 const transformers = {
+  settlement: (settlement: Settlements): Settlement => {
+    return {
+      id: settlement.id,
+      title: settlement.title ?? '',
+      description: settlement.description ?? '',
+      details: settlement.details ?? '',
+      type: settlement.type ?? '',
+      architects: settlement.architects ?? '',
+      resources: settlement.resources ?? '',
+      tags: settlement.tags ?? '',
+      events: settlement.events ?? '',
+      location: settlement.location,
+    };
+  },
   architect: (architect: Architects): Architect => {
     return {
       id: architect.id,
@@ -20,6 +34,12 @@ const transformers = {
       name: event.name,
       description: event.description ?? '',
       typeId: event.eventTypeId,
+    };
+  },
+  eventType: (eventType: EventTypes): EventType => {
+    return {
+      id: eventType.id,
+      name: eventType.name,
     };
   },
   tag: (tag: Tags): Tag => {
@@ -49,17 +69,8 @@ const transformers = {
     return {
       id: detail.id,
       name: detail.name,
-      type: resource.type,
+      type: detail.type,
       description: detail.description ?? '',
-    };
-  },
-  settlement: (settlement: Settlements): Settlement => {
-    return {
-      id: settlement.id,
-      title: settlement.title ?? '',
-      description: settlement.description ?? '',
-      events: [],
-      location: settlement.location,
     };
   },
 }
@@ -106,6 +117,10 @@ const resolvers = {
     const events = await findEvents({ id: payload.id });
     return events.map(transformers.event);
   },
+  getEventTypes: async (payload?: Prisma.EventTypesWhereInput): Promise<EventType[]> => {
+    const eventTypes = await (payload ? findEventTypes({ id: payload.id }) : findEventTypes());
+    return eventTypes.map(transformers.eventType);
+  },
   getResources: async (payload?: Prisma.ResourcesWhereInput): Promise<Resource[]> => {
     const resources = await (payload ? findResources({ id: payload.id }) : findResources());
     return resources.map(transformers.resource);
@@ -121,9 +136,6 @@ const resolvers = {
   getTags: async (payload?: Prisma.TagsWhereInput): Promise<Tag[]> => {
     const tags = await (payload ? findTags({ id: payload.id }) : findTags());
     return tags.map(transformers.tag);
-  },
-  getEventTypes: async (payload: Prisma.EventTypesWhereInput): Promise<EventType[]> => {
-    return findEventTypes({ id: payload.id });
   }
 }
 

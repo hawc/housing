@@ -58,7 +58,15 @@ export async function findSettlements(
   if (data) {
     return await prisma.settlements.findMany({
       where: {
-        title: data.title,
+        title: data.title
+      },
+      include: {
+        architects: true,
+        details: true,
+        resources: true,
+        tags: true,
+        events: true,
+        location: true,
       }
     });
 
@@ -100,13 +108,16 @@ export async function findEvents(
 
 
 export async function findEventTypes(
-  data: Prisma.EventsWhereInput
+  data?: Prisma.EventsWhereInput
 ) {
-  return await prisma.eventTypes.findMany({
-    where: {
-      id: data.id,
-    }
-  });
+  if (data) {
+    return await prisma.eventTypes.findMany({
+      where: {
+        id: data.id,
+      }
+    });
+  }
+  return await prisma.eventTypes.findMany();
 }
 
 

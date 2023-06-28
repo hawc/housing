@@ -68,7 +68,7 @@ export interface Settlement {
   location: Location;
   resources: Resource[];
   details: Detail[];
-  types: SettlementType[];
+  type: SettlementType[];
   architects: Architect[];
   tags: Tag[];
 }
