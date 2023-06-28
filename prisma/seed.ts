@@ -58,7 +58,7 @@ async function main() {
         create: {
           name: 'Planung',
           description: 'Die Siedlung wurde seit 1960 von der Neuen Heimat und mehreren Genossenschaften geplant.',
-          event_date: new Date('01.01.1960'),
+          eventDate: new Date('01.01.1960'),
           eventType: {
             connect: { id: eventTypeOne.id }
           }
@@ -70,14 +70,14 @@ async function main() {
             name: 'Wikipedia-Artikel',
             description: 'Details bei Wikipedia.',
             url: 'https://de.wikipedia.org/wiki/Osdorfer_Born',
-            resourceTypes: {
+            resourceType: {
               connect: { id: resourceTypeOne.id }
             }
           }, {
             name: 'Foto',
             description: 'Abbildung "Osdorfer Born"',
             url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Osdorfer_Born.JPG/1920px-Osdorfer_Born.JPG',
-            resourceTypes: {
+            resourceType: {
               connect: { id: resourceTypeTwo.id }
             }
           },
@@ -121,7 +121,7 @@ async function main() {
             name: 'Wikipedia-Artikel',
             description: 'Wikipedia-Artikel zur Lenzsiedlung',
             url: 'https://de.wikipedia.org/wiki/Lenzsiedlung',
-            resourceTypes: {
+            resourceType: {
               connect: { id: resourceTypeOne.id }
             }
           },
@@ -129,7 +129,7 @@ async function main() {
             name: 'Luftaufnahme',
             description: 'Luftaufnahme Lenzsiedlung',
             url: 'https://upload.wikimedia.org/wikipedia/commons/9/91/LuftLenzsiedlung.jpg',
-            resourceTypes: {
+            resourceType: {
               connect: { id: resourceTypeTwo.id }
             }
           },
@@ -137,7 +137,7 @@ async function main() {
             name: 'Ansicht 1984',
             description: 'Ansicht aus 1984 von der Lenzsiedlung',
             url: 'https://upload.wikimedia.org/wikipedia/commons/e/e9/Lenzsiedlung_1984.jpg',
-            resourceTypes: {
+            resourceType: {
               connect: { id: resourceTypeTwo.id }
             }
           },
@@ -191,12 +191,12 @@ async function main() {
   });
   await prisma.settlementsOnTags.create({
     data: {
-      settlements: {
+      settlement: {
         connect: {
           id: settlementOne.id
         }
       },
-      tags: {
+      tag: {
         connect: {
           id: tagOne.id
         }
@@ -205,12 +205,12 @@ async function main() {
   });
   await prisma.settlementsOnTags.create({
     data: {
-      settlements: {
+      settlement: {
         connect: {
           id: settlementTwo.id
         }
       },
-      tags: {
+      tag: {
         connect: {
           id: tagOne.id
         }
@@ -219,12 +219,12 @@ async function main() {
   });
   await prisma.settlementsOnTags.create({
     data: {
-      settlements: {
+      settlement: {
         connect: {
           id: settlementTwo.id
         }
       },
-      tags: {
+      tag: {
         connect: {
           id: tagTwo.id
         }
@@ -233,12 +233,12 @@ async function main() {
   });
   await prisma.settlementsOnArchitects.create({
     data: {
-      settlements: {
+      settlement: {
         connect: {
           id: settlementOne.id
         }
       },
-      architects: {
+      architect: {
         connect: {
           id: architectOne.id
         }
@@ -247,12 +247,12 @@ async function main() {
   });
   await prisma.settlementsOnArchitects.create({
     data: {
-      settlements: {
+      settlement: {
         connect: {
           id: settlementOne.id
         }
       },
-      architects: {
+      architect: {
         connect: {
           id: architectTwo.id
         }
@@ -261,63 +261,63 @@ async function main() {
   });
   await prisma.settlementsOnArchitects.create({
     data: {
-      settlements: {
+      settlement: {
         connect: {
           id: settlementTwo.id
         }
       },
-      architects: {
+      architect: {
         connect: {
           id: architectThree.id
         }
       },
     }
   });
-  await prisma.settlementTypeOnArchitects.create({
+  await prisma.settlementTypesOnArchitects.create({
     data: {
       settlementType: {
         connect: {
           id: settlementTypeTwo.id
         }
       },
-      architects: {
+      architect: {
         connect: {
           id: architectOne.id
         }
       },
     }
   });
-  await prisma.settlementTypeOnArchitects.create({
+  await prisma.settlementTypesOnArchitects.create({
     data: {
       settlementType: {
         connect: {
           id: settlementTypeOne.id
         }
       },
-      architects: {
+      architect: {
         connect: {
           id: architectOne.id
         }
       },
     }
   });
-  await prisma.settlementTypeOnArchitects.create({
+  await prisma.settlementTypesOnArchitects.create({
     data: {
       settlementType: {
         connect: {
           id: settlementTypeTwo.id
         }
       },
-      architects: {
+      architect: {
         connect: {
           id: architectTwo.id
         }
       },
     }
   });
-  await prisma.settlementsOnSettlementType.create({
+  await prisma.settlementsOnSettlementTypes.create({
     data: {
-      settlements: {
+      settlement: {
         connect: {
           id: settlementOne.id
         }
@@ -329,9 +329,9 @@ async function main() {
       },
     }
   });
-  await prisma.settlementsOnSettlementType.create({
+  await prisma.settlementsOnSettlementTypes.create({
     data: {
-      settlements: {
+      settlement: {
         connect: {
           id: settlementTwo.id
         }
@@ -373,7 +373,7 @@ async function main() {
       settlementType: {
         connect: { id: settlementTypeOne.id },
       },
-      resourceTypes: {
+      resourceType: {
         connect: { id: resourceTypeOne.id }
       }
     },
@@ -386,7 +386,7 @@ async function main() {
       settlementType: {
         connect: { id: settlementTypeOne.id },
       },
-      resourceTypes: {
+      resourceType: {
         connect: { id: resourceTypeTwo.id }
       }
     },

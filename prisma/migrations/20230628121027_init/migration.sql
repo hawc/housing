@@ -37,9 +37,9 @@ CREATE TABLE "Details" (
     "description" STRING,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "detailTypesId" UUID NOT NULL,
-    "settlementsId" UUID,
-    "settlementTypesId" UUID,
+    "detailTypeId" UUID NOT NULL,
+    "settlementId" UUID,
+    "settlementTypeId" UUID,
 
     CONSTRAINT "Details_pkey" PRIMARY KEY ("id")
 );
@@ -49,7 +49,7 @@ CREATE TABLE "Events" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "name" STRING NOT NULL,
     "description" STRING,
-    "event_date" TIMESTAMP(6),
+    "eventDate" TIMESTAMP(6),
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "eventTypeId" UUID NOT NULL,
@@ -77,8 +77,8 @@ CREATE TABLE "Resources" (
 CREATE TABLE "Locations" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "name" STRING NOT NULL,
-    "lat" FLOAT8 NOT NULL DEFAULT 0,
-    "lng" FLOAT8 NOT NULL DEFAULT 0,
+    "lat" FLOAT8 NOT NULL DEFAULT 0.0,
+    "lng" FLOAT8 NOT NULL DEFAULT 0.0,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "settlementId" UUID NOT NULL,
@@ -131,43 +131,43 @@ CREATE TABLE "ResourceTypes" (
 );
 
 -- CreateTable
-CREATE TABLE "SettlementTypeOnArchitects" (
+CREATE TABLE "SettlementTypesOnArchitects" (
     "settlementTypeId" UUID NOT NULL,
-    "architectsId" UUID NOT NULL,
+    "architectId" UUID NOT NULL,
 
-    CONSTRAINT "SettlementTypeOnArchitects_pkey" PRIMARY KEY ("settlementTypeId","architectsId")
+    CONSTRAINT "SettlementTypesOnArchitects_pkey" PRIMARY KEY ("settlementTypeId","architectId")
 );
 
 -- CreateTable
-CREATE TABLE "SettlementTypeOnTags" (
+CREATE TABLE "SettlementTypesOnTags" (
     "settlementTypeId" UUID NOT NULL,
-    "tagsId" UUID NOT NULL,
+    "tagId" UUID NOT NULL,
 
-    CONSTRAINT "SettlementTypeOnTags_pkey" PRIMARY KEY ("settlementTypeId","tagsId")
+    CONSTRAINT "SettlementTypesOnTags_pkey" PRIMARY KEY ("settlementTypeId","tagId")
 );
 
 -- CreateTable
 CREATE TABLE "SettlementsOnArchitects" (
-    "settlementsId" UUID NOT NULL,
-    "architectsId" UUID NOT NULL,
+    "settlementId" UUID NOT NULL,
+    "architectId" UUID NOT NULL,
 
-    CONSTRAINT "SettlementsOnArchitects_pkey" PRIMARY KEY ("settlementsId","architectsId")
+    CONSTRAINT "SettlementsOnArchitects_pkey" PRIMARY KEY ("settlementId","architectId")
 );
 
 -- CreateTable
-CREATE TABLE "SettlementsOnSettlementType" (
-    "settlementsId" UUID NOT NULL,
+CREATE TABLE "SettlementsOnSettlementTypes" (
+    "settlementId" UUID NOT NULL,
     "settlementTypeId" UUID NOT NULL,
 
-    CONSTRAINT "SettlementsOnSettlementType_pkey" PRIMARY KEY ("settlementsId","settlementTypeId")
+    CONSTRAINT "SettlementsOnSettlementTypes_pkey" PRIMARY KEY ("settlementId","settlementTypeId")
 );
 
 -- CreateTable
 CREATE TABLE "SettlementsOnTags" (
-    "settlementsId" UUID NOT NULL,
-    "tagsId" UUID NOT NULL,
+    "settlementId" UUID NOT NULL,
+    "tagId" UUID NOT NULL,
 
-    CONSTRAINT "SettlementsOnTags_pkey" PRIMARY KEY ("settlementsId","tagsId")
+    CONSTRAINT "SettlementsOnTags_pkey" PRIMARY KEY ("settlementId","tagId")
 );
 
 -- CreateIndex
@@ -186,13 +186,13 @@ CREATE UNIQUE INDEX "EventTypes_name_key" ON "EventTypes"("name");
 CREATE UNIQUE INDEX "ResourceTypes_name_key" ON "ResourceTypes"("name");
 
 -- AddForeignKey
-ALTER TABLE "Details" ADD CONSTRAINT "Details_detailTypesId_fkey" FOREIGN KEY ("detailTypesId") REFERENCES "DetailTypes"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Details" ADD CONSTRAINT "Details_detailTypeId_fkey" FOREIGN KEY ("detailTypeId") REFERENCES "DetailTypes"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Details" ADD CONSTRAINT "Details_settlementsId_fkey" FOREIGN KEY ("settlementsId") REFERENCES "Settlements"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Details" ADD CONSTRAINT "Details_settlementId_fkey" FOREIGN KEY ("settlementId") REFERENCES "Settlements"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Details" ADD CONSTRAINT "Details_settlementTypesId_fkey" FOREIGN KEY ("settlementTypesId") REFERENCES "SettlementTypes"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Details" ADD CONSTRAINT "Details_settlementTypeId_fkey" FOREIGN KEY ("settlementTypeId") REFERENCES "SettlementTypes"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Events" ADD CONSTRAINT "Events_eventTypeId_fkey" FOREIGN KEY ("eventTypeId") REFERENCES "EventTypes"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -213,31 +213,31 @@ ALTER TABLE "Resources" ADD CONSTRAINT "Resources_settlementTypeId_fkey" FOREIGN
 ALTER TABLE "Locations" ADD CONSTRAINT "Locations_settlementId_fkey" FOREIGN KEY ("settlementId") REFERENCES "Settlements"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "SettlementTypeOnArchitects" ADD CONSTRAINT "SettlementTypeOnArchitects_architectsId_fkey" FOREIGN KEY ("architectsId") REFERENCES "Architects"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "SettlementTypesOnArchitects" ADD CONSTRAINT "SettlementTypesOnArchitects_architectId_fkey" FOREIGN KEY ("architectId") REFERENCES "Architects"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "SettlementTypeOnArchitects" ADD CONSTRAINT "SettlementTypeOnArchitects_settlementTypeId_fkey" FOREIGN KEY ("settlementTypeId") REFERENCES "SettlementTypes"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "SettlementTypesOnArchitects" ADD CONSTRAINT "SettlementTypesOnArchitects_settlementTypeId_fkey" FOREIGN KEY ("settlementTypeId") REFERENCES "SettlementTypes"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "SettlementTypeOnTags" ADD CONSTRAINT "SettlementTypeOnTags_settlementTypeId_fkey" FOREIGN KEY ("settlementTypeId") REFERENCES "SettlementTypes"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "SettlementTypesOnTags" ADD CONSTRAINT "SettlementTypesOnTags_settlementTypeId_fkey" FOREIGN KEY ("settlementTypeId") REFERENCES "SettlementTypes"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "SettlementTypeOnTags" ADD CONSTRAINT "SettlementTypeOnTags_tagsId_fkey" FOREIGN KEY ("tagsId") REFERENCES "Tags"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "SettlementTypesOnTags" ADD CONSTRAINT "SettlementTypesOnTags_tagId_fkey" FOREIGN KEY ("tagId") REFERENCES "Tags"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "SettlementsOnArchitects" ADD CONSTRAINT "SettlementsOnArchitects_architectsId_fkey" FOREIGN KEY ("architectsId") REFERENCES "Architects"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "SettlementsOnArchitects" ADD CONSTRAINT "SettlementsOnArchitects_architectId_fkey" FOREIGN KEY ("architectId") REFERENCES "Architects"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "SettlementsOnArchitects" ADD CONSTRAINT "SettlementsOnArchitects_settlementsId_fkey" FOREIGN KEY ("settlementsId") REFERENCES "Settlements"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "SettlementsOnArchitects" ADD CONSTRAINT "SettlementsOnArchitects_settlementId_fkey" FOREIGN KEY ("settlementId") REFERENCES "Settlements"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "SettlementsOnSettlementType" ADD CONSTRAINT "SettlementsOnSettlementType_settlementTypeId_fkey" FOREIGN KEY ("settlementTypeId") REFERENCES "SettlementTypes"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "SettlementsOnSettlementTypes" ADD CONSTRAINT "SettlementsOnSettlementTypes_settlementId_fkey" FOREIGN KEY ("settlementId") REFERENCES "Settlements"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "SettlementsOnSettlementType" ADD CONSTRAINT "SettlementsOnSettlementType_settlementsId_fkey" FOREIGN KEY ("settlementsId") REFERENCES "Settlements"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "SettlementsOnSettlementTypes" ADD CONSTRAINT "SettlementsOnSettlementTypes_settlementTypeId_fkey" FOREIGN KEY ("settlementTypeId") REFERENCES "SettlementTypes"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "SettlementsOnTags" ADD CONSTRAINT "SettlementsOnTags_settlementsId_fkey" FOREIGN KEY ("settlementsId") REFERENCES "Settlements"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "SettlementsOnTags" ADD CONSTRAINT "SettlementsOnTags_settlementId_fkey" FOREIGN KEY ("settlementId") REFERENCES "Settlements"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE "SettlementsOnTags" ADD CONSTRAINT "SettlementsOnTags_tagsId_fkey" FOREIGN KEY ("tagsId") REFERENCES "Tags"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE "SettlementsOnTags" ADD CONSTRAINT "SettlementsOnTags_tagId_fkey" FOREIGN KEY ("tagId") REFERENCES "Tags"("id") ON DELETE NO ACTION ON UPDATE NO ACTION;

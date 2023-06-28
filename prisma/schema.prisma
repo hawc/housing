@@ -8,108 +8,108 @@ datasource db {
 }
 
 model Settlements {
-  id             String                        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  title          String?                       @db.String
-  description    String?
-  events         Events[]
-  location       Locations?
-  resources      Resources[]
-  details        Details[]
-  architects     SettlementsOnArchitects[]
-  tags           SettlementsOnTags[]
-  settlementType SettlementsOnSettlementType[]
-  createdAt      DateTime                      @default(now())
-  updatedAt      DateTime                      @updatedAt
+  id              String                         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title           String?
+  description     String?
+  createdAt       DateTime                       @default(now())
+  updatedAt       DateTime                       @updatedAt
+  details         Details[]
+  events          Events[]
+  location        Locations?
+  resources       Resources[]
+  architects      SettlementsOnArchitects[]
+  settlementTypes SettlementsOnSettlementTypes[]
+  tags            SettlementsOnTags[]
 }
 
 model SettlementTypes {
-  id          String                        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name        String                        @unique @db.String
+  id          String                         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String                         @unique
   description String?
-  resources   Resources[]
+  createdAt   DateTime                       @default(now())
+  updatedAt   DateTime                       @updatedAt
   details     Details[]
-  createdAt   DateTime                      @default(now())
-  updatedAt   DateTime                      @updatedAt
-  architects  SettlementTypeOnArchitects[]
-  tags        SettlementTypeOnTags[]
-  settlements SettlementsOnSettlementType[]
+  resources   Resources[]
+  architects  SettlementTypesOnArchitects[]
+  tags        SettlementTypesOnTags[]
+  settlements SettlementsOnSettlementTypes[]
 }
 
 model Architects {
-  id             String                       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name           String                       @db.String
-  createdAt      DateTime                     @default(now())
-  updatedAt      DateTime                     @updatedAt
-  settlementType SettlementTypeOnArchitects[]
-  settlements    SettlementsOnArchitects[]
+  id              String                        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name            String
+  createdAt       DateTime                      @default(now())
+  updatedAt       DateTime                      @updatedAt
+  settlementTypes SettlementTypesOnArchitects[]
+  settlements     SettlementsOnArchitects[]
 }
 
 model Details {
-  id                String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name              String           @db.String
-  description       String?
-  createdAt         DateTime         @default(now())
-  updatedAt         DateTime         @updatedAt
-  detailType        DetailTypes      @relation(fields: [detailTypesId], references: [id])
-  detailTypesId     String           @db.Uuid
-  settlements       Settlements?     @relation(fields: [settlementsId], references: [id])
-  settlementsId     String?          @db.Uuid
-  settlementTypes   SettlementTypes? @relation(fields: [settlementTypesId], references: [id])
-  settlementTypesId String?          @db.Uuid
+  id               String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name             String
+  description      String?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  detailTypeId     String           @db.Uuid
+  settlementId     String?          @db.Uuid
+  settlementTypeId String?          @db.Uuid
+  detailType       DetailTypes      @relation(fields: [detailTypeId], references: [id])
+  settlement       Settlements?     @relation(fields: [settlementId], references: [id])
+  settlementType   SettlementTypes? @relation(fields: [settlementTypeId], references: [id])
 }
 
 model Events {
   id           String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name         String      @db.String
+  name         String
   description  String?
-  event_date   DateTime?   @db.Timestamp(6)
+  eventDate    DateTime?   @db.Timestamp(6)
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
-  eventType    EventTypes  @relation(fields: [eventTypeId], references: [id])
   eventTypeId  String      @db.Uuid
-  settlement   Settlements @relation(fields: [settlementId], references: [id])
   settlementId String      @db.Uuid
+  eventType    EventTypes  @relation(fields: [eventTypeId], references: [id])
+  settlement   Settlements @relation(fields: [settlementId], references: [id])
 }
 
 model Resources {
   id               String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name             String           @db.String
+  name             String
   description      String?
   url              String
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @updatedAt
-  resourceTypes    ResourceTypes    @relation(fields: [resourceTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   resourceTypeId   String           @db.Uuid
-  settlement       Settlements?     @relation(fields: [settlementId], references: [id])
   settlementId     String?          @db.Uuid
-  settlementType   SettlementTypes? @relation(fields: [settlementTypeId], references: [id])
   settlementTypeId String?          @db.Uuid
+  resourceType     ResourceTypes    @relation(fields: [resourceTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  settlement       Settlements?     @relation(fields: [settlementId], references: [id])
+  settlementType   SettlementTypes? @relation(fields: [settlementTypeId], references: [id])
 }
 
 model Locations {
   id           String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name         String      @db.String
-  lat          Float       @default(0)
-  lng          Float       @default(0)
+  name         String
+  lat          Float       @default(0.0)
+  lng          Float       @default(0.0)
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
-  settlement   Settlements @relation(fields: [settlementId], references: [id])
   settlementId String      @unique @db.Uuid
+  settlement   Settlements @relation(fields: [settlementId], references: [id])
 }
 
 model Tags {
-  id             String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name           String                 @unique @db.String
-  description    String?
-  createdAt      DateTime               @default(now())
-  updatedAt      DateTime               @updatedAt
-  settlementType SettlementTypeOnTags[]
-  settlements    SettlementsOnTags[]
+  id              String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name            String                  @unique
+  description     String?
+  createdAt       DateTime                @default(now())
+  updatedAt       DateTime                @updatedAt
+  settlementTypes SettlementTypesOnTags[]
+  settlements     SettlementsOnTags[]
 }
 
 model DetailTypes {
   id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name        String    @db.String
+  name        String
   description String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
@@ -118,7 +118,7 @@ model DetailTypes {
 
 model EventTypes {
   id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name        String   @unique @db.String
+  name        String   @unique
   description String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -127,54 +127,54 @@ model EventTypes {
 
 model ResourceTypes {
   id          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name        String      @unique @db.String
+  name        String      @unique
   description String?
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   resources   Resources[]
 }
 
-model SettlementTypeOnArchitects {
+model SettlementTypesOnArchitects {
   settlementTypeId String          @db.Uuid
-  architectsId     String          @db.Uuid
-  architects       Architects      @relation(fields: [architectsId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  architectId      String          @db.Uuid
+  architect        Architects      @relation(fields: [architectId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   settlementType   SettlementTypes @relation(fields: [settlementTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@id([settlementTypeId, architectsId])
+  @@id([settlementTypeId, architectId])
 }
 
-model SettlementTypeOnTags {
+model SettlementTypesOnTags {
   settlementTypeId String          @db.Uuid
-  tagsId           String          @db.Uuid
+  tagId            String          @db.Uuid
   settlementType   SettlementTypes @relation(fields: [settlementTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  tags             Tags            @relation(fields: [tagsId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  tag              Tags            @relation(fields: [tagId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@id([settlementTypeId, tagsId])
+  @@id([settlementTypeId, tagId])
 }
 
 model SettlementsOnArchitects {
-  settlementsId String      @db.Uuid
-  architectsId  String      @db.Uuid
-  architects    Architects  @relation(fields: [architectsId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  settlements   Settlements @relation(fields: [settlementsId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  settlementId String      @db.Uuid
+  architectId  String      @db.Uuid
+  architect    Architects  @relation(fields: [architectId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  settlement   Settlements @relation(fields: [settlementId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@id([settlementsId, architectsId])
+  @@id([settlementId, architectId])
 }
 
-model SettlementsOnSettlementType {
-  settlementsId    String          @db.Uuid
+model SettlementsOnSettlementTypes {
+  settlementId     String          @db.Uuid
   settlementTypeId String          @db.Uuid
+  settlement       Settlements     @relation(fields: [settlementId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   settlementType   SettlementTypes @relation(fields: [settlementTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  settlements      Settlements     @relation(fields: [settlementsId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@id([settlementsId, settlementTypeId])
+  @@id([settlementId, settlementTypeId])
 }
 
 model SettlementsOnTags {
-  settlementsId String      @db.Uuid
-  tagsId        String      @db.Uuid
-  settlements   Settlements @relation(fields: [settlementsId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  tags          Tags        @relation(fields: [tagsId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  settlementId String      @db.Uuid
+  tagId        String      @db.Uuid
+  settlement   Settlements @relation(fields: [settlementId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  tag          Tags        @relation(fields: [tagId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@id([settlementsId, tagsId])
+  @@id([settlementId, tagId])
 }
