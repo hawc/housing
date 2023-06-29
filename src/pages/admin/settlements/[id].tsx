@@ -4,13 +4,14 @@ import Link from 'next/link';
 
 import { callAPI } from '@/lib/api';
 
+import { Settlement } from '@/components/admin/settlements/view';
 import Layout from '@/components/layout/Layout';
 
-import { Settlement } from '@/pages/admin';
+import type { Settlement as SettlementType } from '@/pages/admin';
 
 
 export async function getStaticPaths() {
-  const settlements: Settlement[] = await callAPI({ type: 'getSettlements' });
+  const settlements: SettlementType[] = await callAPI({ type: 'getSettlements' });
   return {
     paths: settlements.map(settlement => (
       {
@@ -21,8 +22,8 @@ export async function getStaticPaths() {
   }
 }
 
-export async function getStaticProps({ params }: { params: { id: string } }): Promise<{ props: { settlement: Settlement } }> {
-  const settlement: Settlement = await callAPI({ type: 'getSettlement', payload: { id: params.id } });
+export async function getStaticProps({ params }: { params: { id: string } }): Promise<{ props: { settlement: SettlementType } }> {
+  const settlement: SettlementType = await callAPI({ type: 'getSettlement', payload: { id: params.id } });
 
   return {
     props: {
@@ -31,13 +32,11 @@ export async function getStaticProps({ params }: { params: { id: string } }): Pr
   };
 }
 
-export default function Settlement({ settlement }: InferGetStaticPropsType<typeof getStaticProps>) {
+export default function SettlementPage({ settlement }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <Layout>
-      <Link href='/admin/settlements'>back to overview</Link>
-      <div>
-        {settlement.title}
-      </div>
+      <Link className='inline-block py-4' href='/admin/settlements'>back to overview</Link>
+      <Settlement settlement={settlement} />
     </Layout>
   );
 }

@@ -1,90 +1,55 @@
-import { Detail, Event, Settlement } from '@/pages/admin';
+import type { Architect, Detail, Event, Settlement } from '@/pages/admin';
 
-export function Settlement(settlement: Settlement) {
+export function Settlement({ settlement }: { settlement: Settlement }) {
   return (
     <>
       <div>
         <div>
-          <div>ID</div>
-          <div>{settlement.id}</div>
+          <h1>{settlement.title}</h1>
+          <p>{settlement.description}</p>
         </div>
         <div>
-          <div>Title</div>
-          <div>{settlement.title}</div>
-        </div>
-        <div>
-          <div>Description</div>
-          <div>{settlement.description}</div>
-        </div>
-        <div>
-          <div>Events</div>
+          <h2>Events</h2>
           <div>
-            {settlement.events.map((event: Event) => (
-              <>
+            {settlement.events?.map((event: Event) => (
+              <div key={event.id}>
+                <h3>
+                  {event.name}
+                </h3>
+                <p>
+                  {event.description}
+                </p>
                 <div>
-                  <div>
-                    Event Name
-                  </div>
-                  <div>
-                    {event.name}
-                  </div>
+                  {event.type.name}
                 </div>
-                <div>
-                  <div>
-                    Event Description
-                  </div>
-                  <div>
-                    {event.description}
-                  </div>
-                </div>
-                <div>
-                  <div>
-                    Event Type
-                  </div>
-                  <div>
-                    {event.type.name}
-                  </div>
-                </div>
-              </>
+              </div>
             ))}
           </div>
         </div>
         <div>
-          <div>Details</div>
+          <h2>Details</h2>
           <div>
-            {settlement.details.map((detail: Detail) => (
-              <>
+            {settlement.details?.map((detail: Detail) => (
+              <div key={detail.id}>
+                <h3>
+                  {detail.name}
+                </h3>
                 <div>
-                  <div>
-                    Detail Name
-                  </div>
-                  <div>
-                    {detail.name}
-                  </div>
+                  {detail.detailType.name}: {detail.description}
                 </div>
-                <div>
-                  <div>
-                    Detail Description
-                  </div>
-                  <div>
-                    {detail.description}
-                  </div>
-                </div>
-                <div>
-                  <div>
-                    Detail Type
-                  </div>
-                  <div>
-                    {detail.type.name}
-                  </div>
-                </div>
-              </>
+              </div>
             ))}
           </div>
         </div>
         <div>
-          <div>ID</div>
-          <div>{settlement.id}</div>
+          <h2>Architects</h2>
+          <div>
+            {settlement.architects?.map((architect: Architect) => (
+              <div key={architect.id}>
+                {architect.name}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </>
