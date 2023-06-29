@@ -2379,7 +2379,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@prisma/client@npm:^4.13.0":
+"@prisma/client@npm:^4.10.1, @prisma/client@npm:^4.13.0":
   version: 4.16.1
   resolution: "@prisma/client@npm:4.16.1"
   dependencies:
@@ -3716,6 +3716,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cached-prisma@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "cached-prisma@npm:1.2.1"
+  dependencies:
+    "@prisma/client": "npm:^4.10.1"
+    collections: "npm:^5.1.12"
+    memcached: "npm:^2.2.2"
+    prisma: "npm:^4.10.1"
+  checksum: cf4fc3dd82a3d5048c45609fb7ad82159e133d706ddd960ea62557ffa110732c728e9b596079435019796684ac2aa4fee42db055936b778688c67bed9fe0dffd
+  languageName: node
+  linkType: hard
+
 "call-bind@npm:^1.0.0, call-bind@npm:^1.0.2":
   version: 1.0.2
   resolution: "call-bind@npm:1.0.2"
@@ -3943,6 +3955,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"collections@npm:^5.1.12":
+  version: 5.1.13
+  resolution: "collections@npm:5.1.13"
+  dependencies:
+    weak-map: "npm:~1.0.x"
+  checksum: afd77d919fbe1051a3e498c009101a6ae5213bb1e56f5ad3a4d02f19216c338253271d8fc52f8afbbbc3e47b162c57f2fea2d1f46158f414ff6368b9365746b2
+  languageName: node
+  linkType: hard
+
 "color-convert@npm:^1.9.0":
   version: 1.9.3
   resolution: "color-convert@npm:1.9.3"
@@ -4035,6 +4056,13 @@ __metadata:
   version: 0.0.1
   resolution: "concat-map@npm:0.0.1"
   checksum: 88222f18b3a68b71fe4473a146c8ed3315ec0488703104319c53543ad4668af3e79418ab79e2fa8032ee04c3eb45cc478815b89877a048cc5ba34e201bc15c35
+  languageName: node
+  linkType: hard
+
+"connection-parse@npm:0.0.x":
+  version: 0.0.7
+  resolution: "connection-parse@npm:0.0.7"
+  checksum: a54fcf263bc90856cff28e2a02154e58367a91493cd8141c971641ab00574432f7bb08cf003f7697d322e0eecfb088152dd2656700470bf95973544b2f228205
   languageName: node
   linkType: hard
 
@@ -5756,6 +5784,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"hashring@npm:3.2.x":
+  version: 3.2.0
+  resolution: "hashring@npm:3.2.0"
+  dependencies:
+    connection-parse: "npm:0.0.x"
+    simple-lru-cache: "npm:0.0.x"
+  checksum: 0eb9e9d9af93ab8bcaca19b6694d88936e90c0dca32af770c2bbbbf1e82ed2052a29da8f096cd21e7393a795ac7f82df5c18a984a557e96b69b86cd2852f8fd7
+  languageName: node
+  linkType: hard
+
 "hey-listen@npm:^1.0.8":
   version: 1.0.8
   resolution: "hey-listen@npm:1.0.8"
@@ -5796,6 +5834,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:^5.58.0"
     "@typescript-eslint/parser": "npm:^5.58.0"
     autoprefixer: "npm:^10.4.14"
+    cached-prisma: "npm:^1.2.1"
     clsx: "npm:^1.2.1"
     eslint: "npm:^8.38.0"
     eslint-config-next: "npm:^13.3.0"
@@ -6407,6 +6446,15 @@ __metadata:
     html-escaper: "npm:^2.0.0"
     istanbul-lib-report: "npm:^3.0.0"
   checksum: 1dbb467f79cdc6498b27b4579a00f0faeea03678af0f92f4705e8877095043b258e8022e036cae8ee524dbf1eb5615281c92da1fb5b88706642ab865eea71b8a
+  languageName: node
+  linkType: hard
+
+"jackpot@npm:>=0.0.6":
+  version: 0.0.6
+  resolution: "jackpot@npm:0.0.6"
+  dependencies:
+    retry: "npm:0.6.0"
+  checksum: 7669fce11b8938b6c02328e534194aeec6f3364250dcf44a772b347b04b86970912deffdd3ba64f98d57299c4fe6fb1434b07512498ee22f1d65eddfd35aff5c
   languageName: node
   linkType: hard
 
@@ -7444,6 +7492,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"memcached@npm:^2.2.2":
+  version: 2.2.2
+  resolution: "memcached@npm:2.2.2"
+  dependencies:
+    hashring: "npm:3.2.x"
+    jackpot: "npm:>=0.0.6"
+  checksum: 105824dc6e92e32a6437fd543832deee0684f020c5dd91ae31e15df323482bca135054ad701e18f036a509011d7c30336960d8f0137fc1da3fc09d05090ec99f
+  languageName: node
+  linkType: hard
+
 "meow@npm:^8.0.0":
   version: 8.1.2
   resolution: "meow@npm:8.1.2"
@@ -8408,7 +8466,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prisma@npm:^4.13.0":
+"prisma@npm:^4.10.1, prisma@npm:^4.13.0":
   version: 4.16.1
   resolution: "prisma@npm:4.16.1"
   dependencies:
@@ -8796,6 +8854,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"retry@npm:0.6.0":
+  version: 0.6.0
+  resolution: "retry@npm:0.6.0"
+  checksum: aa710808d5c47fda85c5183ba9bf0edba6a6ecc0abce117158aa7d22d82e88f531890dac50372c8a2e37c909a62bef804305ec34a437778d4805bd12034a0597
+  languageName: node
+  linkType: hard
+
 "retry@npm:^0.12.0":
   version: 0.12.0
   resolution: "retry@npm:0.12.0"
@@ -8983,6 +9048,13 @@ __metadata:
   version: 4.0.2
   resolution: "signal-exit@npm:4.0.2"
   checksum: 8d05e3167eb2b9798d10e005c8c8d011d06189089ebf5cace0400cfe20b4f7cad1a5ccc8b613c92425d25da843b08cf76e4c59827f6c6003b186a7c0c336d46c
+  languageName: node
+  linkType: hard
+
+"simple-lru-cache@npm:0.0.x":
+  version: 0.0.2
+  resolution: "simple-lru-cache@npm:0.0.2"
+  checksum: 41ca98b9d39c605fd8bcdfd8d04394cea1388f291f513b57ee1a8b39dd25b8933222ecd888346324022af4bf3db05ab2c7528e8f7fcf8cc1af307893e10da99c
   languageName: node
   linkType: hard
 
@@ -10060,6 +10132,13 @@ __metadata:
     glob-to-regexp: "npm:^0.4.1"
     graceful-fs: "npm:^4.1.2"
   checksum: f5fd095d2b5b201e2f70c74d3ea187e3b679aaf0a871b8df5390bc9c7eff61c0d80b34a058293bdc4e2ac1b8689fa7d2df1c42aae4001aecd416c6d1d2271705
+  languageName: node
+  linkType: hard
+
+"weak-map@npm:~1.0.x":
+  version: 1.0.8
+  resolution: "weak-map@npm:1.0.8"
+  checksum: 5f2f32b1873e3226922402d79e3364e5e83dccaffc471e3ae25da7fe152b0b35833b25402a05c62a12f8f2ac1f5290a5dda51fd9ea0cce7d4b4dff1b64bcac3b
   languageName: node
   linkType: hard
 

@@ -18,6 +18,7 @@
   "dependencies": {
     "@material-tailwind/react": "^2.0.4",
     "@prisma/client": "^4.13.0",
+    "cached-prisma": "^1.2.1",
     "clsx": "^1.2.1",
     "next": "^13.3.0",
     "react": "^18.2.0",
