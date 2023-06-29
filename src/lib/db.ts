@@ -172,13 +172,24 @@ export type SettlementsFull = Prisma.SettlementsGetPayload<{
   include: typeof settlementsInclude;
 }>;
 
+export async function findSettlement(
+  data: Prisma.SettlementsWhereUniqueInput
+) {
+  return await prisma.settlements.findUnique({
+    where: {
+      id: data.id
+    },
+    include: settlementsInclude
+  });
+}
+
 export async function findSettlements(
   data?: Prisma.SettlementsWhereInput
 ) {
   if (data) {
     return await prisma.settlements.findMany({
       where: {
-        title: data.title
+        id: data.id
       },
       include: settlementsInclude
     });

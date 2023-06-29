@@ -1,4 +1,5 @@
 import { Button, Input, List, ListItem } from '@material-tailwind/react';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 import { callAPI } from '@/lib/api';
@@ -64,9 +65,10 @@ export function ListSettlements() {
       <div className="relative flex w-full max-w-[24rem]">
         {loading && settlements ? (
           <List>
-            {settlements.map(({ title, id, description }) => (
+            {settlements.map(({ title, id }) => (
               <ListItem key={id} className={skeletonClass} style={skeletonStyle}>
-                <Skeleton nested>{id}: {title} {description}
+                <Skeleton nested>
+                  <Link href={`/admin/settlements/${id}`}>{title}</Link>
                   <Button
                     disabled
                     size='sm'
@@ -82,8 +84,9 @@ export function ListSettlements() {
           </List>
         ) : settlements ? (
           <List>
-            {settlements.map(({ title, id, description }) => (
-              <ListItem key={id}>{id}: {title} {description}
+            {settlements.map(({ title, id }) => (
+              <ListItem key={id}>
+                <Link href={`/admin/settlements/${id}`}>{title}</Link>
                 <Button
                   size='sm'
                   className="ml-2 right-1 top-1 rounded"

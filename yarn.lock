@@ -5812,6 +5812,7 @@ __metadata:
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
     react-icons: "npm:^4.8.0"
+    slugify: "npm:^1.6.6"
     tailwind-merge: "npm:^1.12.0"
     tailwindcss: "npm:^3.3.1"
     ts-node: "npm:^10.9.1"
@@ -9035,6 +9036,13 @@ __metadata:
     ansi-styles: "npm:^6.0.0"
     is-fullwidth-code-point: "npm:^4.0.0"
   checksum: 6d94805ff2cc473bd610de967b60d915e6df967fad8d47b8ebcd8a02d915400f808e49c1982bcfbdc47fde230c0274f36e016ed2284ec9254e737c728ab3b59d
+  languageName: node
+  linkType: hard
+
+"slugify@npm:^1.6.6":
+  version: 1.6.6
+  resolution: "slugify@npm:1.6.6"
+  checksum: 75edf982b93b8f14e8ac9af79a38d4b32ec1038e96bc403c50b290bbc7302f97be98b694b1153eb1dd40db39053fe54a89cc74795dc5b63f7592caf35c84126e
   languageName: node
   linkType: hard
 

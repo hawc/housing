@@ -3,7 +3,7 @@
 import { Architects, Prisma } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { createArchitect, createSettlement, createTag, deleteArchitect, deleteSettlement, deleteTag, findArchitects, findDetails, findEvents, findEventTypes, findResources, findResourceTypes, findSettlements, findTags, SettlementsFull } from '@/lib/db';
+import { createArchitect, createSettlement, createTag, deleteArchitect, deleteSettlement, deleteTag, findArchitects, findDetails, findEvents, findEventTypes, findResources, findResourceTypes, findSettlement, findSettlements, findTags, SettlementsFull } from '@/lib/db';
 
 import { Architect, Detail, DetailType, Event, EventType, Location, Resource, ResourceType, Settlement, SettlementType, Tag } from '@/pages/admin';
 
@@ -144,6 +144,11 @@ const resolvers = {
   getSettlements: async (payload?: Prisma.SettlementsWhereInput): Promise<Settlement[]> => {
     const settlements = await (payload ? findSettlements({ id: payload.id }) : findSettlements());
     return settlements.map(transformers.settlement);
+  },
+  getSettlement: async (payload: Prisma.SettlementsWhereUniqueInput): Promise<Settlement> => {
+    const settlement = await findSettlement({ id: payload.id });
+    if (!settlement) throw new Error('settlement not found');
+    return transformers.settlement(settlement);
   },
   getEvents: async (payload: Prisma.EventsWhereInput): Promise<Event[]> => {
     const events = await findEvents({ id: payload.id });

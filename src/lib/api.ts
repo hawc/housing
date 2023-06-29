@@ -13,7 +13,8 @@ interface DeleteArchitectPayload {
 
 export async function callAPI(payload: Payload) {
   try {
-    const res = await fetch('/api/db', {
+    const path = typeof window === 'undefined' ? 'http://localhost:3000/api/db' : '/api/db';
+    const res = await fetch(path, {
       method: 'POST',
       body: JSON.stringify(payload)
     });
