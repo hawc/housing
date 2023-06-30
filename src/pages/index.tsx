@@ -1,18 +1,10 @@
 // import { GetStaticProps } from 'next/types';
+import { List, ListItem } from '@material-tailwind/react';
+import Link from 'next/link';
 import * as React from 'react';
 
 import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
-
-// import prisma from '../lib/prisma';
-
-// export const getStaticProps: GetStaticProps = async () => {
-//   const feed = await prisma.settlements.findMany();
-//   return {
-//     props: { feed },
-//     // revalidate: 10,
-//   };
-// };
 
 export default function HomePage() {
   return (
@@ -22,14 +14,25 @@ export default function HomePage() {
 
       <main>
         <section className='bg-white'>
-          <div className='layout relative flex min-h-screen flex-col items-center justify-center py-12 text-center'>
-            <h1 className='mt-4'>
-              Next.js + Tailwind CSS + TypeScript Starter
-            </h1>
-            <p className='mt-2 text-sm text-gray-800'>
-              A starter for Next.js, Tailwind CSS, and TypeScript with Absolute
-              Import, Seo, Link component, pre-configured with Husky{' '}
-            </p>
+          <h1 className='mt-4'>Siedlungen</h1>
+          <div className="relative flex w-full max-w-[24rem]">
+            <List>
+              <ListItem>
+                <Link href="/architects">
+                  Architekten
+                </Link>
+              </ListItem>
+              <ListItem>
+                <Link href="/settlements">
+                  Siedlungen
+                </Link>
+              </ListItem>
+              <ListItem>
+                <Link href="/tags">
+                  Tags
+                </Link>
+              </ListItem>
+            </List>
           </div>
         </section>
       </main>

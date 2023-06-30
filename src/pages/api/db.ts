@@ -3,7 +3,7 @@
 import { Architects, Prisma } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { createArchitect, createSettlement, createTag, deleteArchitect, deleteSettlement, deleteTag, findArchitects, findDetails, findEvents, findEventTypes, findResources, findResourceTypes, findSettlement, findSettlements, findTags, SettlementsFull } from '@/lib/db';
+import { createArchitect, createSettlement, createTag, deleteArchitect, deleteSettlement, deleteTag, findArchitects, findDetails, findEvents, findEventTypes, findResources, findResourceTypes, findSettlement, findSettlements, findTags, flushCache, SettlementsFull } from '@/lib/db';
 
 import { Architect, Detail, DetailType, Event, EventType, Location, Resource, ResourceType, Settlement, SettlementType, Tag } from '@/pages/admin';
 
@@ -115,6 +115,9 @@ const transformers = {
 }
 
 const resolvers = {
+  clearCache: async (): Promise<void> => {
+    await flushCache();
+  },
   addArchitect: async (payload: Prisma.ArchitectsCreateInput): Promise<Architect> => {
     return transformers.architect(await createArchitect(payload));
   },

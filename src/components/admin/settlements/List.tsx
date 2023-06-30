@@ -43,6 +43,7 @@ export function ListSettlements() {
 
   const getSettlements = async () => {
     setLoading(true);
+    await callAPI({ type: 'clearCache' });
     const settlements = await callAPI({ type: 'getSettlements' });
     setSettlements(settlements);
     setLoading(false);
@@ -62,8 +63,8 @@ export function ListSettlements() {
   return (
     <>
       <div className='mt-4'>
-        <h1 className='inline-block'>Siedlungen in Deutschland</h1>
-        <Button size='sm' className='ml-3' onClick={() => getSettlements()}><RotateCwIcon className='align-text-bottom' size={18} /></Button>
+        <h1 className='inline-block'>Siedlungen: Übersicht</h1>
+        <Button size='sm' className='align-top mt-1 ml-3' onClick={() => getSettlements()}><RotateCwIcon className={`align-text-bottom ${loading && 'animate-spin'}`} size={16} /></Button>
       </div>
       <div className="relative flex w-full max-w-[24rem]">
         {loading && settlements ? (

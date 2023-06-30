@@ -334,3 +334,18 @@ export async function findTags(
   }
   return await prisma.tags.findMany();
 }
+
+export async function flushCache() {
+  return await prisma.tags.upsert({
+    where: {
+      name: 'flush',
+    },
+    update: {
+      published: false
+    },
+    create: {
+      name: 'flush',
+      published: false
+    }
+  })
+}

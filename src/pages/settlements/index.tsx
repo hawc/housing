@@ -1,6 +1,6 @@
 
-import { ListSettlements } from '@/components/admin/settlements/List';
 import Layout from '@/components/layout/Layout';
+import { ListSettlements } from '@/components/settlements/List';
 
 export default function Admin() {
   return (
