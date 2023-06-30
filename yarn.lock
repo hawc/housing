@@ -5843,6 +5843,7 @@ __metadata:
     husky: "npm:^7.0.4"
     jest: "npm:^27.5.1"
     lint-staged: "npm:^12.5.0"
+    lucide-react: "npm:^0.257.0"
     next: "npm:^13.3.0"
     next-router-mock: "npm:^0.7.5"
     next-sitemap: "npm:^2.5.28"
@@ -7404,6 +7405,15 @@ __metadata:
   version: 10.0.0
   resolution: "lru-cache@npm:10.0.0"
   checksum: 35cdab5c08459499777587eb70a3cc918fcd9b86cda3cd17ae88e97d507738f332e057ee9fe64985940a642ff4efacb3254fc536028a22e19f4768b63465a471
+  languageName: node
+  linkType: hard
+
+"lucide-react@npm:^0.257.0":
+  version: 0.257.0
+  resolution: "lucide-react@npm:0.257.0"
+  peerDependencies:
+    react: ^16.5.1 || ^17.0.0 || ^18.0.0
+  checksum: 03adf9d811b14cabb672534ad54965d83e234ee5880cd29f583baa1ea00072dc2bb96f511bf76b2bdaeb36bc3fcb22062e5bea54be908c45ddac2642af210703
   languageName: node
   linkType: hard
 
