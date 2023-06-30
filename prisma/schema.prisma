@@ -11,6 +11,7 @@ model Settlements {
   id              String                         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   title           String?
   description     String?
+  published       Boolean                        @default(true)
   createdAt       DateTime                       @default(now())
   updatedAt       DateTime                       @updatedAt
   details         Details[]
@@ -26,6 +27,7 @@ model SettlementTypes {
   id          String                         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name        String                         @unique
   description String?
+  published   Boolean                        @default(true)
   createdAt   DateTime                       @default(now())
   updatedAt   DateTime                       @updatedAt
   details     Details[]
@@ -38,6 +40,7 @@ model SettlementTypes {
 model Architects {
   id              String                        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name            String
+  published       Boolean                       @default(true)
   createdAt       DateTime                      @default(now())
   updatedAt       DateTime                      @updatedAt
   settlementTypes SettlementTypesOnArchitects[]
@@ -48,6 +51,7 @@ model Details {
   id               String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name             String
   description      String?
+  published        Boolean          @default(true)
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @updatedAt
   detailTypeId     String           @db.Uuid
@@ -62,6 +66,7 @@ model Events {
   id           String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name         String
   description  String?
+  published    Boolean     @default(true)
   eventDate    DateTime?   @db.Timestamp(6)
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
@@ -76,6 +81,7 @@ model Resources {
   name             String
   description      String?
   url              String
+  published        Boolean          @default(true)
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @updatedAt
   resourceTypeId   String           @db.Uuid
@@ -91,6 +97,7 @@ model Locations {
   name         String
   lat          Float       @default(0.0)
   lng          Float       @default(0.0)
+  published    Boolean     @default(true)
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
   settlementId String      @unique @db.Uuid
@@ -101,6 +108,7 @@ model Tags {
   id              String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name            String                  @unique
   description     String?
+  published       Boolean                 @default(true)
   createdAt       DateTime                @default(now())
   updatedAt       DateTime                @updatedAt
   settlementTypes SettlementTypesOnTags[]
@@ -111,6 +119,7 @@ model DetailTypes {
   id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name        String
   description String?
+  published   Boolean   @default(true)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   details     Details[]
@@ -120,6 +129,7 @@ model EventTypes {
   id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name        String   @unique
   description String?
+  published   Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   events      Events[]
@@ -129,6 +139,7 @@ model ResourceTypes {
   id          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name        String      @unique
   description String?
+  published   Boolean     @default(true)
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   resources   Resources[]

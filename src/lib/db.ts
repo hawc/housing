@@ -2,56 +2,6 @@ import { Prisma } from '@prisma/client';
 
 import prisma from '@/lib/prisma';
 
-export async function createArchitect(
-  data: Prisma.ArchitectsCreateInput
-) {
-  return await prisma.architects.create({
-    data: data,
-  });
-}
-
-export async function deleteArchitect(
-  data: Prisma.ArchitectsWhereUniqueInput
-) {
-  return await prisma.architects.delete({
-    where: {
-      id: data.id
-    }
-  });
-}
-
-export async function findArchitects(
-  data?: Prisma.ArchitectsWhereInput
-) {
-  if (data) {
-    return await prisma.architects.findMany({
-      where: {
-        id: data.id,
-        name: data.name,
-      }
-    });
-  }
-  return await prisma.architects.findMany();
-}
-
-export async function createSettlement(
-  data: Prisma.SettlementsCreateInput
-) {
-  return await prisma.settlements.create({
-    data: data,
-  });
-}
-
-export async function deleteSettlement(
-  data: Prisma.SettlementsWhereUniqueInput
-) {
-  return await prisma.settlements.delete({
-    where: {
-      id: data.id
-    }
-  });
-}
-
 const settlementsInclude = Prisma.validator<Prisma.SettlementsInclude>()({
   architects: {
     select: {
@@ -75,6 +25,9 @@ const settlementsInclude = Prisma.validator<Prisma.SettlementsInclude>()({
           description: true
         }
       }
+    },
+    where: {
+      published: true,
     }
   },
   resources: {
@@ -90,6 +43,9 @@ const settlementsInclude = Prisma.validator<Prisma.SettlementsInclude>()({
           description: true
         }
       },
+    },
+    where: {
+      published: true,
     }
   },
   tags: {
@@ -123,6 +79,9 @@ const settlementsInclude = Prisma.validator<Prisma.SettlementsInclude>()({
                   description: true
                 }
               },
+            },
+            where: {
+              published: true,
             }
           },
           details: {
@@ -137,6 +96,9 @@ const settlementsInclude = Prisma.validator<Prisma.SettlementsInclude>()({
                   description: true
                 }
               }
+            },
+            where: {
+              published: true,
             }
           },
         }
@@ -156,6 +118,9 @@ const settlementsInclude = Prisma.validator<Prisma.SettlementsInclude>()({
           description: true
         }
       }
+    },
+    where: {
+      published: true,
     }
   },
   location: {
@@ -167,6 +132,63 @@ const settlementsInclude = Prisma.validator<Prisma.SettlementsInclude>()({
     }
   },
 });
+
+export async function createArchitect(
+  data: Prisma.ArchitectsCreateInput
+) {
+  return await prisma.architects.create({
+    data: data,
+  });
+}
+
+export async function deleteArchitect(
+  data: Prisma.ArchitectsWhereUniqueInput
+) {
+  return await prisma.architects.update({
+    where: {
+      id: data.id,
+    },
+    data: {
+      published: false
+    }
+  });
+}
+
+export async function findArchitects(
+  data?: Prisma.ArchitectsWhereInput
+) {
+  if (data) {
+    return await prisma.architects.findMany({
+      where: {
+        id: data.id,
+        name: data.name,
+        published: true,
+      },
+    });
+  }
+  return await prisma.architects.findMany();
+}
+
+export async function createSettlement(
+  data: Prisma.SettlementsCreateInput
+) {
+  return await prisma.settlements.create({
+    data: data,
+  });
+}
+
+export async function deleteSettlement(
+  data: Prisma.SettlementsWhereUniqueInput
+) {
+  return await prisma.settlements.update({
+    where: {
+      id: data.id
+    },
+    data: {
+      published: false
+    }
+  });
+}
 
 export type SettlementsFull = Prisma.SettlementsGetPayload<{
   include: typeof settlementsInclude;
@@ -189,7 +211,8 @@ export async function findSettlements(
   if (data) {
     return await prisma.settlements.findMany({
       where: {
-        id: data.id
+        id: data.id,
+        published: true,
       },
       include: settlementsInclude
     });
@@ -225,6 +248,7 @@ export async function findEvents(
     return await prisma.events.findMany({
       where: {
         id: data.id,
+        published: true,
       }
     });
 
@@ -240,6 +264,7 @@ export async function findEventTypes(
     return await prisma.eventTypes.findMany({
       where: {
         id: data.id,
+        published: true,
       }
     });
   }
@@ -254,6 +279,7 @@ export async function findResources(
     return await prisma.resources.findMany({
       where: {
         id: data.id,
+        published: true,
       }
     });
 
@@ -269,6 +295,7 @@ export async function findResourceTypes(
     return await prisma.resourceTypes.findMany({
       where: {
         id: data.id,
+        published: true,
       }
     });
 
@@ -284,6 +311,7 @@ export async function findDetails(
     return await prisma.details.findMany({
       where: {
         id: data.id,
+        published: true,
       }
     });
 
@@ -299,6 +327,7 @@ export async function findTags(
     return await prisma.tags.findMany({
       where: {
         id: data.id,
+        published: true,
       }
     });
 
