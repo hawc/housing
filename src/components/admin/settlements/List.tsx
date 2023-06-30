@@ -1,4 +1,5 @@
 import { Button, Input, List, ListItem } from '@material-tailwind/react';
+import { RotateCwIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
@@ -60,8 +61,10 @@ export function ListSettlements() {
 
   return (
     <>
-      <h1>Show settlements</h1>
-      <Button onClick={() => getSettlements()}>Button</Button>
+      <div className='mt-4'>
+        <h1 className='inline-block'>Siedlungen in Deutschland</h1>
+        <Button size='sm' className='ml-3' onClick={() => getSettlements()}><RotateCwIcon className='align-text-bottom' size={18} /></Button>
+      </div>
       <div className="relative flex w-full max-w-[24rem]">
         {loading && settlements ? (
           <List>
@@ -73,7 +76,7 @@ export function ListSettlements() {
                     disabled
                     size='sm'
                     className="ml-2 right-1 top-1 rounded"
-                  >Delete</Button></Skeleton>
+                  >Bearbeiten</Button></Skeleton>
               </ListItem>
             ))}
             <ListItem className={skeletonClass} style={skeletonStyle}>
@@ -90,7 +93,8 @@ export function ListSettlements() {
                 <Button
                   size='sm'
                   className="ml-2 right-1 top-1 rounded"
-                  onClick={() => deleteSettlement(id)}>Delete</Button></ListItem>
+                  onClick={() => deleteSettlement(id)}>Löschen</Button>
+              </ListItem>
             ))}
             <ListItem>
               <AddSettlement getSettlements={() => getSettlements()} />

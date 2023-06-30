@@ -1,6 +1,6 @@
 import { Chip } from '@material-tailwind/react';
 
-import { Headline } from '@/components/headline';
+import { Headline } from '@/components/Headline';
 import Timeline from '@/components/Timeline';
 
 import type { Architect, Detail, Settlement, Tag } from '@/pages/admin';

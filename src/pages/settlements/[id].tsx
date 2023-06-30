@@ -4,8 +4,8 @@ import Link from 'next/link';
 
 import { callAPI } from '@/lib/api';
 
-import { Settlement } from '@/components/admin/settlements/Edit';
 import Layout from '@/components/layout/Layout';
+import { Settlement } from '@/components/settlements/View';
 
 import type { Settlement as SettlementType } from '@/pages/admin';
 
