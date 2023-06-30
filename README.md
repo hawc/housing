@@ -1,21 +1,15 @@
 # Housing
 
-This repository is packed with:
+This is going to be a database for large panel system-buildings (Plattenbauten) in Germany, currently work-in-progress (or rather under construction).
+
+It is based on the following technologies:
 
 - Next.js 13
 - React 18
 - TypeScript
 - Tailwind CSS 3
-- Jest
-- ESLint
-- Husky & Lint Staged
-- Conventional Commit Lint
-- Release Please
 - Github Actions
-- Automatic Branch and Issue Autolink
-- Snippets
-- Default Open Graph
-- Site Map
+- Prisma & PostgreSQL
 
 ## Getting Started
 
@@ -36,10 +30,6 @@ yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result. You can start editing the page by modifying `src/pages/index.tsx`.
-
-### 5. Commit Message Convention
-
-This starter is using [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/), it is mandatory to use it to commit changes.
 
 ## Legal
 
