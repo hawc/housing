@@ -1,0 +1,48 @@
+.link {
+  display: inline-block;
+  position: relative;
+  color: currentColor;
+}
+
+.link::before,
+.link::after {
+  @apply bg-black;
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.link::before {
+  background-color: var(--highlight);
+  transition: 0.25s transform 0.25s ease-out;
+}
+
+.link + svg {
+  transition: transform 0.5s ease-out;
+}
+
+.link:hover + svg {
+  transform: translateX(3px);
+}
+
+.link:hover::before,
+.link:hover::after,
+.link:active::before,
+.link:active::after,
+.link:focus::before,
+.link:focus::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+  transition: 0.25s transform 0.25s ease-out;
+}
+.link:hover::before,
+.link:active::before,
+.link:focus::before {
+  transition: transform 0.25s ease-out;
+}

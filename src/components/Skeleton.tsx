@@ -3,7 +3,7 @@ import * as React from 'react';
 
 type SkeletonProps = React.HTMLAttributes<HTMLOrSVGElement> & { nested?: boolean; tagName?: keyof JSX.IntrinsicElements };
 
-export const skeletonStyle = {
+export const skeletonStyle: React.CSSProperties = {
   backgroundImage:
     'linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%)',
   backgroundSize: '700px 100%',

@@ -1,8 +1,11 @@
 // import { GetStaticProps } from 'next/types';
 import { List, ListItem } from '@material-tailwind/react';
+import Image from 'next/image';
 import Link from 'next/link';
 import * as React from 'react';
 
+import { Box, Container } from '@/components/blocks/Box';
+import { Link as StyledLink } from '@/components/blocks/Link';
 import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
 
@@ -11,11 +14,16 @@ export default function HomePage() {
     <Layout>
       {/* <Seo templateTitle='Home' /> */}
       <Seo />
-
-      <main>
-        <section className='bg-white'>
-          <h1 className='mt-4'>Siedlungen</h1>
-          <div className="relative flex w-full max-w-[24rem]">
+      <section>
+        <Container>
+          <Image src='/images/header-01.png' alt='header' width={1280} height={400} />
+          <Box>
+            Ein Katalog von Großwohnsiedlungen in Deutschland. Der Fokus liegt dabei auf Tafel- bzw. Plattenbauten, soll aber andere Bauweisen nicht ausschließen. Auch Baudenkmäler des Brutalismus werden als solche gekennzeichnet.
+          </Box>
+          <Box>
+            <StyledLink href='/settlements' arrow>Zum Archiv</StyledLink>
+          </Box>
+          <Box>
             <List>
               <ListItem>
                 <Link href="/architects">
@@ -33,9 +41,9 @@ export default function HomePage() {
                 </Link>
               </ListItem>
             </List>
-          </div>
-        </section>
-      </main>
+          </Box>
+        </Container>
+      </section>
     </Layout>
   );
 }

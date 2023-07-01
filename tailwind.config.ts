@@ -25,6 +25,8 @@ export default withMT({
           950: 'rgb(var(--tw-color-primary-950) / <alpha-value>)',
         },
         dark: '#222222',
+        content: 'var(--content)',
+        highlight: 'var(--highlight)',
       },
       keyframes: {
         flicker: {
@@ -50,6 +52,16 @@ export default withMT({
       animation: {
         flicker: 'flicker 3s linear infinite',
         shimmer: 'shimmer 1.3s linear infinite',
+      },
+      fontSize: {
+        '2xl': '1.25rem',
+        '3xl': '2rem',
+        '5xl': '3rem',
+        '6xl': '5rem',
+        'text-base': '1.5rem',
+      },
+      gridTemplateColumns: {
+        '1-3': '33% auto',
       },
     },
   },
