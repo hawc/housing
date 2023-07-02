@@ -1,10 +1,11 @@
 
 import { InferGetStaticPropsType } from 'next';
-import Link from 'next/link';
 
 import { callAPI } from '@/lib/api';
 
 import { Settlement } from '@/components/admin/settlements/Edit';
+import { Box, Container } from '@/components/blocks/Box';
+import { Link } from '@/components/blocks/Link';
 import Layout from '@/components/layout/Layout';
 
 import type { Settlement as SettlementType } from '@/pages/admin';
@@ -35,8 +36,14 @@ export async function getStaticProps({ params }: { params: { id: string } }): Pr
 export default function SettlementPage({ settlement }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <Layout>
-      <Link className='inline-block py-4' href='/admin/settlements'>back to overview</Link>
-      <Settlement settlement={settlement} />
+      <section>
+        <Container>
+          <Box>
+            <Link href='/admin/settlements' arrow back>zurück zur Übersicht</Link>
+          </Box>
+          <Settlement settlement={settlement} />
+        </Container>
+      </section>
     </Layout>
   );
 }

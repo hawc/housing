@@ -1,14 +1,9 @@
 
-import {
-  Timeline as TailwindTimeline,
-  TimelineBody,
-  TimelineConnector,
-  TimelineHeader,
-  TimelineIcon,
-  TimelineItem,
-  Typography,
-} from '@material-tailwind/react';
+
+
 import { BuildingIcon, CircleDotDashedIcon, HomeIcon } from 'lucide-react';
+
+import { Headline } from '@/components/Headline';
 
 import { Event } from '@/pages/admin';
 
@@ -20,48 +15,91 @@ const IconComponent = ({ type, className }: { type: string, className: string })
   }
 }
 
+function TimelineItem({ children }) {
+  return (
+    <li className="flex relative flex-col pb-3 last:pb-0">
+      {children}
+    </li>)
+}
+
+function TimelineIcon({ children }) {
+  return (
+    <span className="w-max relative z-[2] flex-shrink-0 rounded-full overflow-hidden bg-black text-white p-2">
+      {children}
+    </span>)
+}
+
+function TimelineHeader({ children }) {
+  return (
+    <div className="flex items-center gap-4">
+      {children}
+    </div>)
+}
+
+function TimelineBody({ children }) {
+  return (
+    <div className="flex gap-4">
+      <span className="pointer-events-none invisible h-full flex-shrink-0" style={{ width: '40px' }}></span>
+      <div>
+        {children}
+      </div>
+    </div>)
+}
+
+function TimelineWrapper({ children }) {
+  return (
+    <ul className="w-full flex flex-col">
+      {children}
+    </ul>
+  )
+}
+
+function TimelineConnector() {
+  return (
+    <span className="absolute left-0 grid justify-center bg-transparent transition-opacity duration-200" style={{ top: '40px', width: '40px', opacity: 1, height: 'calc(100% - 40px)' }}>
+      <span className="w-0.5 h-full bg-highlight"></span>
+    </span>
+  )
+}
+
 export default function Timeline({ events }: { events: Event[] }) {
   return (
     <div className="w-[32rem]">
-      <TailwindTimeline>
+      <TimelineWrapper>
         {events.filter((event: Event) => event.eventDate !== null).sort((eventA: Event, eventB: Event) => new Date(eventB.eventDate ?? 0).getTime() - new Date(eventA.eventDate ?? 0).getTime()).map((event: Event, index: number) => (
           <TimelineItem key={index}>
             {index < events.length - 1 && (
               <TimelineConnector />
             )}
             <TimelineHeader>
-              <TimelineIcon className="p-2">
+              <TimelineIcon>
                 <IconComponent className="h-4 w-4" type={event.type.name} />
               </TimelineIcon>
-              <Typography variant="h5" color="blue-gray">
-                {new Date(event.eventDate ?? 0).getFullYear()}: {event.name}
-              </Typography>
+              <Headline type='h5'>
+                <>{new Date(event.eventDate ?? 0).getFullYear()}: {event.name}</>
+              </Headline>
             </TimelineHeader>
-            <TimelineBody className="pb-8">
-              <Typography color="gary" className="font-normal text-gray-600">
-                {event.description}
-              </Typography>
+            <TimelineBody>
+              {event.description}
             </TimelineBody>
           </TimelineItem>
         ))}
         {events.filter((event: Event) => event.eventDate === null).map((event: Event, index: number) => (
           <TimelineItem key={index}>
             <TimelineHeader>
-              <TimelineIcon className="p-2">
+              <TimelineIcon>
                 <IconComponent className="h-4 w-4" type={event.type.name} />
               </TimelineIcon>
-              <Typography variant="h5" color="blue-gray">
+              <Headline type='h5'>
                 {event.name}
-              </Typography>
+              </Headline>
             </TimelineHeader>
-            <TimelineBody className="pb-8">
-              <Typography color="gary" className="font-normal text-gray-600">
-                {event.description}
-              </Typography>
+            <TimelineBody>
+              {event.description}
             </TimelineBody>
           </TimelineItem>
         ))}
-      </TailwindTimeline>
+      </TimelineWrapper>
     </div >
   );
 }
