@@ -5,7 +5,7 @@ export function Header({ children }: { children?: React.ReactElement[] | React.R
   return (
     <header>
       <Container>
-        <div className="text-5xl text-white leading-normal">
+        <div className="text-3xl md:text-5xl text-white leading-normal">
           <Link href="/"><>Großwohnsiedlungen<span className='text-highlight'>.</span></></Link>
         </div>
       </Container>

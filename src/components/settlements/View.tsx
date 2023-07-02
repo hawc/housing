@@ -1,5 +1,5 @@
-import { Chip } from '@material-tailwind/react';
 
+import { TagList } from '@/components/blocks/Tags';
 import { Headline } from '@/components/Headline';
 import Timeline from '@/components/Timeline';
 
@@ -11,10 +11,10 @@ export function Settlement({ settlement }: { settlement: Settlement }) {
       <div>
         <div>
           <div className='align-middle'>
-            <h1 className='mb-3 inline-block'>{settlement.title}</h1>
-            {settlement.tags.map((tag: Tag, index: number) => (
-              <Chip key={index} variant="outlined" size='sm' value={tag.name} className='ml-2 inline-block align-top rounded-full' />
-            ))}
+            <Headline type="h1" className='mb-3 inline-block'>{settlement.title}</Headline>
+            {settlement.tags.length > 0 && (
+              <TagList className='ml-2 inline-block align-top' tagNames={settlement.tags.map((tag: Tag) => tag.name)} />
+            )}
           </div>
           <p>{settlement.description}</p>
         </div>

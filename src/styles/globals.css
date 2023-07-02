@@ -46,7 +46,7 @@
   }
 
   /* #region  /**=========== Typography =========== */
-  .h0 {
+  /* .h0 {
     @apply font-primary text-3xl font-bold md:text-5xl;
   }
 
@@ -73,7 +73,7 @@
   body,
   .p {
     @apply font-primary text-sm md:text-base;
-  }
+  } */
   /* #endregion  /**======== Typography =========== */
 
   .layout {

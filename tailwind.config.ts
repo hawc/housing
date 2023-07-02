@@ -56,8 +56,9 @@ export default withMT({
       fontSize: {
         '2xl': '1.25rem',
         '3xl': '2rem',
-        '5xl': '3rem',
-        '6xl': '5rem',
+        '4xl': '2.4rem',
+        '5xl': '2.8rem',
+        '6xl': '4rem',
         'text-base': '1.5rem',
       },
       gridTemplateColumns: {

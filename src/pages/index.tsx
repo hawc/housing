@@ -1,11 +1,9 @@
-// import { GetStaticProps } from 'next/types';
-import { List, ListItem } from '@material-tailwind/react';
 import Image from 'next/image';
-import Link from 'next/link';
 import * as React from 'react';
 
 import { Box, Container } from '@/components/blocks/Box';
-import { Link as StyledLink } from '@/components/blocks/Link';
+import { Link, Link as StyledLink } from '@/components/blocks/Link';
+import { List, ListItem } from '@/components/blocks/List';
 import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
 

@@ -1,5 +1,4 @@
 .link {
-  display: inline-block;
   position: relative;
   color: currentColor;
 }
@@ -27,8 +26,16 @@
   transition: transform 0.5s ease-out;
 }
 
-.link:hover + svg {
+.linkArrow:hover + svg {
   transform: translateX(3px);
+}
+
+.linkArrowBack + svg {
+  transform: rotate(180deg);
+}
+
+.linkArrowBack:hover + svg {
+  transform: rotate(180deg) translateX(3px);
 }
 
 .link:hover::before,
