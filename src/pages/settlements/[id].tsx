@@ -40,7 +40,9 @@ export default function SettlementPage({ settlement }: InferGetStaticPropsType<t
         <Box ghost className='mb-2'>
           <Link href='/settlements' arrow back>zurück zur Übersicht</Link>
         </Box>
-        <Settlement settlement={settlement} />
+        {settlement && (
+          <Settlement settlement={settlement} />
+        )}
       </section>
     </Layout>
   );
