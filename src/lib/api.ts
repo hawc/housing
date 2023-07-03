@@ -18,7 +18,7 @@ export async function callAPI(payload: Payload) {
       method: 'POST',
       body: JSON.stringify(payload)
     });
-    const data = await res.json();
+    const data = await res?.json();
     return data;
   } catch (err) {
     console.error(err);

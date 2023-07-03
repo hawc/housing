@@ -14,11 +14,11 @@ import type { Settlement as SettlementType } from '@/pages/admin';
 export async function getStaticPaths() {
   const settlements: SettlementType[] = await callAPI({ type: 'getSettlements' });
   return {
-    paths: settlements.map(settlement => (
+    paths: settlements ? settlements.map(settlement => (
       {
         params: { id: settlement.id }
       }
-    )),
+    )) : [],
     fallback: false,
   }
 }
