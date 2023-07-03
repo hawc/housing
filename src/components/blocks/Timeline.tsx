@@ -24,7 +24,7 @@ function TimelineItem({ children }) {
 
 function TimelineIcon({ children }) {
   return (
-    <span className="w-max relative z-[2] flex-shrink-0 rounded-full overflow-hidden bg-black text-white p-2">
+    <span className="w-max relative z-[2] flex-shrink-0 rounded-full overflow-hidden bg-bg text-grey-light p-2">
       {children}
     </span>)
 }

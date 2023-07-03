@@ -1,5 +1,3 @@
-
-
 import { Box, Container } from '@/components/blocks/Box';
 import Layout from '@/components/layout/Layout';
 import { ListSettlements } from '@/components/settlements/List';

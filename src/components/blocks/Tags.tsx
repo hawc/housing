@@ -1,7 +1,7 @@
 
 function Tag({ children }: { children: string }) {
   return (
-    <li className="inline-block mr-1 mb-1 py-0.5 px-2 italic text-xs font-semibold border-2 border-black rounded-full">
+    <li className="inline-block mr-1 mb-1 py-0.5 px-2 italic text-xs font-semibold border-2 border-text rounded-full">
       {children}
     </li>
   );

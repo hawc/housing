@@ -3,7 +3,7 @@ import { InferGetStaticPropsType } from 'next';
 
 import { callAPI } from '@/lib/api';
 
-import { Box, Container } from '@/components/blocks/Box';
+import { Box } from '@/components/blocks/Box';
 import { Link } from '@/components/blocks/Link';
 import Layout from '@/components/layout/Layout';
 import { Settlement } from '@/components/settlements/View';
@@ -37,12 +37,10 @@ export default function SettlementPage({ settlement }: InferGetStaticPropsType<t
   return (
     <Layout>
       <section>
-        <Container>
-          <Box>
-            <Link href='/settlements' arrow back>zurück zur Übersicht</Link>
-          </Box>
-          <Settlement settlement={settlement} />
-        </Container>
+        <Box ghost className='mb-2'>
+          <Link href='/settlements' arrow back>zurück zur Übersicht</Link>
+        </Box>
+        <Settlement settlement={settlement} />
       </section>
     </Layout>
   );

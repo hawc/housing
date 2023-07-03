@@ -1,4 +1,3 @@
-
 import { ListSettlements } from '@/components/admin/settlements/List';
 import { Box, Container } from '@/components/blocks/Box';
 import Layout from '@/components/layout/Layout';

@@ -2,8 +2,8 @@
 import { Map } from '@/components/admin/settlements/Map';
 import { Box, Container } from '@/components/blocks/Box';
 import { TagList } from '@/components/blocks/Tags';
+import Timeline from '@/components/blocks/Timeline';
 import { Headline } from '@/components/Headline';
-import Timeline from '@/components/Timeline';
 
 import type { Architect, Detail, Settlement, Tag } from '@/pages/admin';
 
