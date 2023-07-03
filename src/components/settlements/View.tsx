@@ -1,5 +1,5 @@
 
-import { Map } from '@/components/admin/settlements/Map';
+import { Map } from '@/components/admin/settlements/Maps';
 import { Box, Container } from '@/components/blocks/Box';
 import { TagList } from '@/components/blocks/Tags';
 import Timeline from '@/components/blocks/Timeline';
