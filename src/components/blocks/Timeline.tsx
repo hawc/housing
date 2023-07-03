@@ -15,28 +15,28 @@ const IconComponent = ({ type, className }: { type: string, className: string })
   }
 }
 
-function TimelineItem({ children }) {
+function TimelineItem({ children }: React.HTMLAttributes<HTMLElement>) {
   return (
     <li className="flex relative flex-col pb-3 last:pb-0">
       {children}
     </li>)
 }
 
-function TimelineIcon({ children }) {
+function TimelineIcon({ children }: React.HTMLAttributes<HTMLElement>) {
   return (
     <span className="w-max relative z-[2] flex-shrink-0 rounded-full overflow-hidden bg-bg text-grey-light p-2">
       {children}
     </span>)
 }
 
-function TimelineHeader({ children }) {
+function TimelineHeader({ children }: React.HTMLAttributes<HTMLElement>) {
   return (
     <div className="flex items-center gap-4">
       {children}
     </div>)
 }
 
-function TimelineBody({ children }) {
+function TimelineBody({ children }: React.HTMLAttributes<HTMLElement>) {
   return (
     <div className="flex gap-4">
       <span className="pointer-events-none invisible h-full flex-shrink-0" style={{ width: '40px' }}></span>
@@ -46,7 +46,7 @@ function TimelineBody({ children }) {
     </div>)
 }
 
-function TimelineWrapper({ children }) {
+function TimelineWrapper({ children }: React.HTMLAttributes<HTMLElement>) {
   return (
     <ul className="w-full flex flex-col">
       {children}

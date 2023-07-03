@@ -7,7 +7,7 @@ import { Headline } from '@/components/Headline';
 import type { Architect, Detail, Settlement, Tag } from '@/pages/admin';
 
 export function Settlement({ settlement }: { settlement: Settlement }) {
-  const [title, setTitle] = useState(settlement.title);
+  const [_title, setTitle] = useState(settlement.title);
 
   return (
     <>
