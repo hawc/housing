@@ -72,7 +72,7 @@ export function ListSettlements() {
             {settlements.map(({ title, id }) => (
               <ListItem key={id} className={skeletonClass} style={skeletonStyle}>
                 <Skeleton nested>
-                  <Link href={`/admin/settlements/${id}`}>{title}</Link>
+                  <Link href={`/admin/siedlungen/${id}`}>{title}</Link>
                   <Button
                     disabled
                     size='sm'
@@ -90,7 +90,7 @@ export function ListSettlements() {
           <List>
             {settlements.map(({ title, id }) => (
               <ListItem key={id}>
-                <Link href={`/admin/settlements/${id}`}>{title}</Link>
+                <Link href={`/admin/siedlungen/${id}`}>{title}</Link>
                 <Button
                   size='sm'
                   className="ml-2 right-1 top-1 rounded"

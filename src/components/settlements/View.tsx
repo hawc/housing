@@ -1,9 +1,10 @@
 
+
 import { Map } from '@/components/admin/settlements/Maps';
 import { Box, Container } from '@/components/blocks/Box';
 import { DetailsList } from '@/components/blocks/DetailsList';
 import { TagList } from '@/components/blocks/Tags';
-import Timeline from '@/components/blocks/Timeline';
+import { Timeline } from '@/components/blocks/Timeline';
 import { Headline } from '@/components/Headline';
 
 import type { Architect, Settlement, Tag } from '@/pages/admin';
@@ -43,29 +44,48 @@ export function Settlement({ settlement }: { settlement: Settlement }) {
             )}
           </>
         </Container>
-        <>
-          {settlement.architects.length > 0 && (
-            <Box>
-              <>
-                <Headline className='inline-block' tag='h2' type='h3'>
-                  {settlement.architects.length > 1 ? 'Architekten' : 'Architekt'}
-                </Headline>
-                {settlement.architects.map((architect: Architect) => (
-                  <div key={architect.id}>
-                    {architect.name}
-                  </div>
-                ))}
-              </>
-            </Box>
-          )}
-        </>
         <Container>
           <>
-            {settlement.location && (
-              <Map lat={settlement.location.lat} lng={settlement.location.lng} />
+            {settlement.architects.length > 0 && (
+              <Box>
+                <>
+                  <Headline className='inline-block' tag='h2' type='h3'>
+                    {settlement.architects.length > 1 ? 'Architekten' : 'Architekt'}
+                  </Headline>
+                  {settlement.architects.map((architect: Architect) => (
+                    <div key={architect.id}>
+                      {architect.name}
+                    </div>
+                  ))}
+                </>
+              </Box>
             )}
           </>
         </Container>
+        <div className='columns-2 gap-5'>
+          <>
+            {settlement.resources.length > 0 && (
+              <>
+                {settlement.resources.filter(resource => resource.type.name === 'Foto').map((resource, index) => (
+                  <Box key={resource.id} className={index < settlement.resources.filter(resource => resource.type.name === 'Foto').length - 2 ? 'mb-5 p-0 block' : 'p-0 block'}>
+                    <img className='block' src={resource.url} alt={resource.description} loading='lazy' />
+                    <div className='px-5 py-4'>
+                      {resource.description}
+                    </div>
+                  </Box>
+                ))}
+
+              </>
+            )}
+          </>
+        </div>
+        <>
+          {settlement.location && (
+            <Container>
+              <Map lat={settlement.location.lat} lng={settlement.location.lng} />
+            </Container>
+          )}
+        </>
       </Container>
     </>
   );

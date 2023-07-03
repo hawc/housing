@@ -17,7 +17,7 @@ export function Link({ children, href, arrow = false, back = false, ...rest }: L
       {...rest}
       target={isExternal ? '_blank' : '_self'}
       rel={isExternal ? 'noopener' : undefined}
-      className={twMerge(`font-bold flex self-start ${(arrow && back) ? 'flex-row-reverse' : ''} ${rest.className}`)}
+      className={twMerge(`font-bold flex place-content-start ${(arrow && back) ? 'flex-row-reverse' : ''} ${rest.className}`)}
       href={href}>
       <><span className={`${styles.link} ${arrow && back ? 'ml-1' : arrow ? 'mr-1' : ''} ${back ? styles.linkArrowBack : styles.linkArrow}`}>{children}</span>{arrow && arrowIcon}</>
     </NextLink>

@@ -8,7 +8,7 @@ export function Footer() {
         <Box highlighted>
           <div className="flex justify-between text-white leading-normal">
             <Link href="https://github.com/hawc/housing">Github</Link>
-            <Link href="/">Impressum</Link>
+            <Link href="/impressum">Impressum</Link>
           </div>
         </Box>
       </Container>

@@ -35,9 +35,9 @@ export function ListSettlements() {
         {loading && settlements ? (
           <List>
             {settlements.map(({ title, id }) => (
-              <ListItem key={id} className={skeletonClass} style={skeletonStyle}>
+              <ListItem key={id} plain className={skeletonClass} style={skeletonStyle}>
                 <Skeleton nested>
-                  <Link href={`/settlements/${id}`}>{title}</Link>
+                  <Link href={`/siedlungen/${id}`}>{title}</Link>
                 </Skeleton>
               </ListItem>
             ))}
@@ -45,8 +45,8 @@ export function ListSettlements() {
         ) : settlements ? (
           <List>
             {settlements.map(({ title, id }) => (
-              <ListItem key={id}>
-                <Link href={`/settlements/${id}`}>{title}</Link>
+              <ListItem plain key={id}>
+                <Link href={`/siedlungen/${id}`}>{title}</Link>
               </ListItem>
             ))}
           </List>

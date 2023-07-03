@@ -62,7 +62,7 @@ function TimelineConnector() {
   )
 }
 
-export default function Timeline({ events }: { events: Event[] }) {
+export function Timeline({ events }: { events: Event[] }) {
   return (
     <TimelineWrapper>
       {events.filter((event: Event) => event.eventDate !== null).sort((eventA: Event, eventB: Event) => new Date(eventB.eventDate ?? 0).getTime() - new Date(eventA.eventDate ?? 0).getTime()).map((event: Event, index: number) => (

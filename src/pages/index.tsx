@@ -19,7 +19,7 @@ export default function HomePage() {
             Ein Katalog von Großwohnsiedlungen in Deutschland. Der Fokus liegt dabei auf Tafel- bzw. Plattenbauten, soll aber andere Bauweisen nicht ausschließen. Auch Baudenkmäler des Brutalismus werden als solche gekennzeichnet.
           </Box>
           <Box>
-            <StyledLink href='/settlements' arrow>Zum Archiv</StyledLink>
+            <StyledLink href='/siedlungen' arrow>Zum Archiv</StyledLink>
           </Box>
           <Box>
             <List>
@@ -29,7 +29,7 @@ export default function HomePage() {
                 </Link>
               </ListItem>
               <ListItem>
-                <Link href="/settlements">
+                <Link href="/siedlungen">
                   Siedlungen
                 </Link>
               </ListItem>
