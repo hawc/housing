@@ -32,7 +32,7 @@ export function Settlement({ settlement }: { settlement: Settlement }) {
           <>
             {settlement.events.length > 0 && (
               <Box>
-                <Headline className='inline-block' tag='h2' type='h3'>Events</Headline>
+                <Headline className='inline-block' tag='h2' type='h3'>Historie</Headline>
                 <Timeline events={settlement.events} />
               </Box>
             )}
