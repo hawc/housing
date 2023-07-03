@@ -40,6 +40,8 @@ model SettlementTypes {
 model Architects {
   id              String                        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name            String
+  description     String?
+  url             String?
   published       Boolean                       @default(true)
   createdAt       DateTime                      @default(now())
   updatedAt       DateTime                      @updatedAt
@@ -81,6 +83,7 @@ model Resources {
   name             String
   description      String?
   url              String
+  copyright        String?
   published        Boolean          @default(true)
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @updatedAt
