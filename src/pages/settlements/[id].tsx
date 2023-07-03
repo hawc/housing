@@ -19,7 +19,7 @@ export async function getStaticPaths() {
         params: { id: settlement.id }
       }
     )) : [],
-    fallback: true,
+    fallback: 'blocking',
   }
 }
 
