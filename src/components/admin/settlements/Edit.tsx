@@ -1,7 +1,7 @@
 import { Chip, Input } from '@material-tailwind/react';
 import { useState } from 'react';
 
-import Timeline from '@/components/blocks/Timeline';
+import { Timeline } from '@/components/blocks/Timeline';
 import { Headline } from '@/components/Headline';
 
 import type { Architect, Detail, Settlement, Tag } from '@/pages/admin';

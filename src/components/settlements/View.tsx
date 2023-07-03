@@ -74,7 +74,6 @@ export function Settlement({ settlement }: { settlement: Settlement }) {
                     </div>
                   </Box>
                 ))}
-
               </>
             )}
           </>
