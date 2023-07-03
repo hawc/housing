@@ -3,7 +3,7 @@ export function Headline({ children, type, tag = type, className = '' }: { child
   const headlineStyles: { [key: string]: string } = {
     'h1': 'font-bold text-2xl md:text-3xl leading-tighter',
     'h2': 'text-2xl',
-    'h3': 'font-bold text-xl',
+    'h3': 'font-bold text-xl mb-1',
     'h4': 'text-xl',
     'h5': 'text-base font-bold',
     'h6': 'text-base font-bold',

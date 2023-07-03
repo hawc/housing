@@ -1,17 +1,18 @@
 
 import { Map } from '@/components/admin/settlements/Maps';
 import { Box, Container } from '@/components/blocks/Box';
+import { DetailsList } from '@/components/blocks/DetailsList';
 import { TagList } from '@/components/blocks/Tags';
 import Timeline from '@/components/blocks/Timeline';
 import { Headline } from '@/components/Headline';
 
-import type { Architect, Detail, Settlement, Tag } from '@/pages/admin';
+import type { Architect, Settlement, Tag } from '@/pages/admin';
 
 export function Settlement({ settlement }: { settlement: Settlement }) {
   return (
     <>
       <Container>
-        <>
+        <Container>
           <Box>
             <>
               <div className='align-middle'>
@@ -25,6 +26,24 @@ export function Settlement({ settlement }: { settlement: Settlement }) {
               )}
             </>
           </Box>
+        </Container>
+        <Container cols="grid-cols-1 md:grid-cols-2">
+          <>
+            {settlement.events.length > 0 && (
+              <Box>
+                <Headline className='inline-block' tag='h2' type='h3'>Events</Headline>
+                <Timeline events={settlement.events} />
+              </Box>
+            )}
+            {settlement.details.length > 0 && (
+              <Box>
+                <Headline className='inline-block' tag='h2' type='h3'>Details</Headline>
+                <DetailsList details={settlement.details} />
+              </Box>
+            )}
+          </>
+        </Container>
+        <>
           {settlement.architects.length > 0 && (
             <Box>
               <>
@@ -39,33 +58,14 @@ export function Settlement({ settlement }: { settlement: Settlement }) {
               </>
             </Box>
           )}
-          {settlement.events.length > 0 && (
-            <Box>
-              <Headline className='inline-block mb-3' tag='h2' type='h3'>Events</Headline>
-              <Timeline events={settlement.events} />
-            </Box>
-          )}
-          {settlement.location && (
-            <Map lat={settlement.location.lat} lng={settlement.location.lng} />
-          )}
-          {settlement.details.length > 0 && (
-            <Box>
-              <Headline className='inline-block' tag='h2' type='h3'>Details</Headline>
-              <div>
-                {settlement.details.map((detail: Detail) => (
-                  <div key={detail.id}>
-                    <h3>
-                      {detail.name}
-                    </h3>
-                    <div>
-                      {detail.detailType.name}: {detail.description}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </Box>
-          )}
         </>
+        <Container>
+          <>
+            {settlement.location && (
+              <Map lat={settlement.location.lat} lng={settlement.location.lng} />
+            )}
+          </>
+        </Container>
       </Container>
     </>
   );
