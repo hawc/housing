@@ -11,19 +11,6 @@ import { Architect, Detail, DetailType, Event, EventType, Location, Resource, Re
 
 const transformers = {
   settlement: (settlement: SettlementsFull): Settlement => {
-    console.log(JSON.stringify({
-      id: settlement.id,
-      name: settlement.name,
-      slug: settlement.slug,
-      description: settlement.description ?? '',
-      details: settlement.details.map(transformers.detail),
-      types: settlement.settlementTypes.map(settlementTypesRelation => transformers.settlementType(settlementTypesRelation.settlementType)),
-      architects: settlement.architects.map(archictectRelation => transformers.architect(archictectRelation.architect)),
-      resources: settlement.resources.map(transformers.resource),
-      tags: settlement.tags.map(tagRelation => transformers.tag(tagRelation.tag)),
-      events: settlement.events.map(transformers.event),
-      location: transformers.location(settlement.location),
-    }))
     return {
       id: settlement.id,
       name: settlement.name,

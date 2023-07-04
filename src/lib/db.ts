@@ -248,7 +248,6 @@ export async function findSettlements(
       },
       include: settlementsInclude
     });
-
   }
   return await prisma.settlements.findMany({
     where: {
