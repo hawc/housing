@@ -1,58 +1,89 @@
-import { Chip, Input } from '@material-tailwind/react';
-import { useState } from 'react';
-
+import { Map } from '@/components/admin/settlements/Map';
+import { Box, Container } from '@/components/blocks/Box';
+import { DetailsList } from '@/components/blocks/DetailsList';
+import { TagList } from '@/components/blocks/Tags';
 import { Timeline } from '@/components/blocks/Timeline';
 import { Headline } from '@/components/Headline';
 
-import type { Architect, Detail, Settlement, Tag } from '@/pages/admin';
+import type { Architect, Settlement, Tag } from '@/pages/admin';
 
 export function Settlement({ settlement }: { settlement: Settlement }) {
-  const [_title, setTitle] = useState(settlement.title);
-
   return (
     <>
-      <div>
-        <div>
-          <div className='align-middle'>
-            <h1 className='mb-3 inline-block'><Input value={settlement.title} onChange={(e) => setTitle(e.target.value)} /></h1>
-            {settlement.tags.map((tag: Tag, index: number) => (
-              <Chip key={index} variant="outlined" size='sm' value={tag.name} className='ml-2 inline-block align-top rounded-full' />
-            ))}
-          </div>
-          <p>{settlement.description}</p>
-        </div>
-        {settlement.architects.length > 0 && (
-          <div>
-            <Headline className='inline-block' tag='h2' type='h6'><>Architekt{settlement.architects.length > 1 && (<>en</>)}:&nbsp;</></Headline>
-            {settlement.architects.map((architect: Architect, index: number) => (
-              <span className='inline-block' key={architect.id}>
-                {architect.name}{index < settlement.architects.length - 1 && (<>,&nbsp;</>)}
-              </span>
-            ))}
-          </div>
-        )}
-        {settlement.events.length > 0 && (
-          <div className='mt-4'>
-            <h2 className='mb-3'>Events</h2>
-            <Timeline events={settlement.events} />
-          </div>
-        )}
-        <div>
-          <h2>Details</h2>
-          <div>
-            {settlement.details?.map((detail: Detail) => (
-              <div key={detail.id}>
-                <h3>
-                  {detail.name}
-                </h3>
-                <div>
-                  {detail.detailType.name}: {detail.description}
-                </div>
+      <Container>
+        <Container>
+          <Box>
+            <>
+              <div className='align-middle'>
+                <Headline type="h1" className='inline-block'><input value={settlement.title} /></Headline>
+                {settlement.tags.length > 0 && (
+                  <TagList className='ml-2 inline-block align-top' tagNames={settlement.tags.map((tag: Tag) => tag.name)} />
+                )}
               </div>
-            ))}
-          </div>
+              {settlement.description && (
+                <p>{settlement.description}</p>
+              )}
+            </>
+          </Box>
+        </Container>
+        <Container cols="grid-cols-1 md:grid-cols-2">
+          <>
+            {settlement.events.length > 0 && (
+              <Box>
+                <Headline className='inline-block' tag='h2' type='h3'>Historie</Headline>
+                <Timeline events={settlement.events} />
+              </Box>
+            )}
+            {settlement.details.length > 0 && (
+              <Box>
+                <Headline className='inline-block' tag='h2' type='h3'>Details</Headline>
+                <DetailsList details={settlement.details} />
+              </Box>
+            )}
+          </>
+        </Container>
+        <Container>
+          <>
+            {settlement.architects.length > 0 && (
+              <Box>
+                <>
+                  <Headline className='inline-block' tag='h2' type='h3'>
+                    {settlement.architects.length > 1 ? 'Architekten' : 'Architekt'}
+                  </Headline>
+                  {settlement.architects.map((architect: Architect) => (
+                    <div key={architect.id}>
+                      {architect.name}
+                    </div>
+                  ))}
+                </>
+              </Box>
+            )}
+          </>
+        </Container>
+        <div className='columns-2 gap-5'>
+          <>
+            {settlement.resources.length > 0 && (
+              <>
+                {settlement.resources.filter(resource => resource.type.name === 'Foto').map((resource, index) => (
+                  <Box key={resource.id} className={index < settlement.resources.filter(resource => resource.type.name === 'Foto').length - 2 ? 'mb-5 p-0 block' : 'p-0 block'}>
+                    <img className='block' src={resource.url} alt={resource.description} loading='lazy' />
+                    <div className='px-5 py-4'>
+                      {resource.description}
+                    </div>
+                  </Box>
+                ))}
+              </>
+            )}
+          </>
         </div>
-      </div>
+        <>
+          {settlement.location && settlement.location.lat > 0 && settlement.location.lng > 0 && (
+            <Container>
+              <Map lat={settlement.location.lat} lng={settlement.location.lng} />
+            </Container>
+          )}
+        </>
+      </Container>
     </>
   );
 }

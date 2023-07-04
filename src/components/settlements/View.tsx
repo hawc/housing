@@ -1,5 +1,3 @@
-
-
 import { Map } from '@/components/admin/settlements/Map';
 import { Box, Container } from '@/components/blocks/Box';
 import { DetailsList } from '@/components/blocks/DetailsList';
