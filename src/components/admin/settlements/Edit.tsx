@@ -1,3 +1,7 @@
+import { useState } from 'react';
+
+import { callAPI } from '@/lib/api';
+
 import { Map } from '@/components/admin/settlements/Map';
 import { Box, Container } from '@/components/blocks/Box';
 import { DetailsList } from '@/components/blocks/DetailsList';
@@ -7,15 +11,35 @@ import { Headline } from '@/components/Headline';
 
 import type { Architect, Settlement, Tag } from '@/pages/admin';
 
-export function Settlement({ settlement }: { settlement: Settlement }) {
+type Partial<T> = { [P in keyof T]?: T[P] };
+
+export function SettlementEdit({ settlementInput }: { settlementInput: Settlement }) {
+  const [settlement, setSettlement] = useState<Settlement>(settlementInput);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const updateSettlement = (input: Partial<Settlement>) => {
+    setSettlement({
+      ...settlement,
+      ...input,
+    } as Settlement)
+  }
+
+  const submitData = async () => {
+    setLoading(true);
+    await callAPI({ type: 'updateSettlement', payload: { data: { name: settlement.name }, where: { id: settlement.id } } });
+    setSettlement(await callAPI({ type: 'getSettlement', payload: { where: { id: settlement.id } } }));
+    setLoading(false);
+  }
+
   return (
     <>
       <Container>
         <Container>
           <Box>
+            <>{loading && 'loading'}</>
             <>
               <div className='align-middle'>
-                <Headline type="h1" className='inline-block'><input value={settlement.title} /></Headline>
+                <Headline type="h1" className='inline-block'><input onChange={(event) => updateSettlement({ name: event.target.value })} value={settlement.name} /></Headline>
                 {settlement.tags.length > 0 && (
                   <TagList className='ml-2 inline-block align-top' tagNames={settlement.tags.map((tag: Tag) => tag.name)} />
                 )}
@@ -83,6 +107,9 @@ export function Settlement({ settlement }: { settlement: Settlement }) {
             </Container>
           )}
         </>
+      </Container>
+      <Container>
+        <button onClick={submitData}>Änderungen speichern</button>
       </Container>
     </>
   );

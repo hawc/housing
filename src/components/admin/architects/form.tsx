@@ -14,7 +14,7 @@ function AddArchitect({ getArchitects }: { getArchitects: () => Promise<void> | 
     if (!architectName) {
       return console.error('No name provided');
     }
-    await callAPI({ type: 'addArchitect', payload: { name: architectName } });
+    await callAPI({ type: 'addArchitect', payload: { data: { name: architectName } } });
     await getArchitects();
   };
 
@@ -49,7 +49,7 @@ export function ListArchitects() {
 
   const deleteArchitect = async (id: string) => {
     setLoading(true);
-    await callAPI({ type: 'deleteArchitect', payload: { id } });
+    await callAPI({ type: 'deleteArchitect', payload: { where: { id } } });
     getArchitects();
     setLoading(false);
   };

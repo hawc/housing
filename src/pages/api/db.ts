@@ -5,7 +5,7 @@
 import { Architects, Prisma } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { createArchitect, createSettlement, createTag, deleteArchitect, deleteSettlement, deleteTag, findArchitects, findDetails, findEvents, findEventTypes, findResources, findResourceTypes, findSettlement, findSettlements, findTags, flushCache, SettlementsFull } from '@/lib/db';
+import { createArchitect, createSettlement, createTag, deleteArchitect, deleteSettlement, deleteTag, findArchitects, findDetails, findEvents, findEventTypes, findResources, findResourceTypes, findSettlement, findSettlements, findTags, flushCache, SettlementsFull, updateSettlement } from '@/lib/db';
 
 import { Architect, Detail, DetailType, Event, EventType, Location, Resource, ResourceType, Settlement, SettlementType, Tag } from '@/pages/admin';
 
@@ -13,7 +13,8 @@ const transformers = {
   settlement: (settlement: SettlementsFull): Settlement => {
     console.log(JSON.stringify({
       id: settlement.id,
-      title: settlement.title ?? '',
+      name: settlement.name,
+      slug: settlement.slug ?? '',
       description: settlement.description ?? '',
       details: settlement.details.map(transformers.detail),
       types: settlement.settlementTypes.map(settlementTypesRelation => transformers.settlementType(settlementTypesRelation.settlementType)),
@@ -25,7 +26,8 @@ const transformers = {
     }))
     return {
       id: settlement.id,
-      title: settlement.title ?? '',
+      name: settlement.name,
+      slug: settlement.slug ?? '',
       description: settlement.description ?? '',
       details: settlement.details.map(transformers.detail),
       types: settlement.settlementTypes.map(settlementTypesRelation => transformers.settlementType(settlementTypesRelation.settlementType)),
@@ -126,6 +128,9 @@ const resolvers = {
   addSettlement: async (payload: Prisma.SettlementsCreateInput): Promise<Settlement> => {
     return transformers.settlement(await createSettlement(payload));
   },
+  updateSettlement: async (payload: Prisma.SettlementsUpdateArgs): Promise<Settlement> => {
+    return transformers.settlement(await updateSettlement(payload));
+  },
   addTag: async (payload: Prisma.TagsCreateInput): Promise<Tag> => {
     return transformers.tag(await createTag(payload));
   },
@@ -146,12 +151,12 @@ const resolvers = {
 
     return architects.map(transformers.architect);
   },
-  getSettlements: async (payload?: Prisma.SettlementsWhereInput): Promise<Settlement[]> => {
-    const settlements = await (payload ? findSettlements({ id: payload.id }) : findSettlements());
+  getSettlements: async (payload?: Prisma.SettlementsFindManyArgs): Promise<Settlement[]> => {
+    const settlements = await (payload ? findSettlements(payload) : findSettlements());
     return settlements.map(transformers.settlement);
   },
-  getSettlement: async (payload: Prisma.SettlementsWhereUniqueInput): Promise<Settlement> => {
-    const settlement = await findSettlement({ id: payload.id });
+  getSettlement: async (payload: Prisma.SettlementsFindUniqueArgs): Promise<Settlement> => {
+    const settlement = await findSettlement(payload);
     if (!settlement) throw new Error('settlement not found');
     return transformers.settlement(settlement);
   },

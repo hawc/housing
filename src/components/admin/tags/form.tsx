@@ -12,7 +12,7 @@ function AddTag({ getTags }: { getTags: () => Promise<void> | void }) {
     if (!tagName) {
       return console.error('No name provided');
     }
-    await callAPI({ type: 'addTag', payload: { name: tagName } });
+    await callAPI({ type: 'addTag', payload: { data: { name: tagName } } });
     await getTags();
   };
 
@@ -48,7 +48,7 @@ export function ListTags() {
 
   const deleteTag = async (id: string) => {
     setLoading(true);
-    await callAPI({ type: 'deleteTag', payload: { id } });
+    await callAPI({ type: 'deleteTag', payload: { where: { id } } });
     getTags();
     setLoading(false);
   };

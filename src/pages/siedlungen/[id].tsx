@@ -24,7 +24,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }: { params: { id: string } }): Promise<{ props: { settlement: SettlementType } }> {
-  const settlement: SettlementType = await callAPI({ type: 'getSettlement', payload: { id: params.id } });
+  const settlement: SettlementType = await callAPI({ type: 'getSettlement', payload: { where: { id: params.id } } });
 
   return {
     props: {

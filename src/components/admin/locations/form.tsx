@@ -12,7 +12,7 @@ function AddLocation({ getLocations }: { getLocations: () => Promise<void> | voi
     if (!locationName) {
       return console.error('No name provided');
     }
-    await callAPI({ type: 'addLocation', payload: { name: locationName } });
+    await callAPI({ type: 'addLocation', payload: { data: { name: locationName } } });
     await getLocations();
   };
 
@@ -48,7 +48,7 @@ export function ListLocations() {
 
   const deleteLocation = async (id: string) => {
     setLoading(true);
-    await callAPI({ type: 'deleteLocation', payload: { id } });
+    await callAPI({ type: 'deleteLocation', payload: { where: { id } } });
     getLocations();
     setLoading(false);
   };

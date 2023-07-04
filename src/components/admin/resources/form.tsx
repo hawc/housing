@@ -12,7 +12,7 @@ function AddResource({ getResources }: { getResources: () => Promise<void> | voi
     if (!resourceName) {
       return console.error('No name provided');
     }
-    await callAPI({ type: 'addResource', payload: { name: resourceName } });
+    await callAPI({ type: 'addResource', payload: { data: { name: resourceName } } });
     await getResources();
   };
 
@@ -41,7 +41,7 @@ function AddResourceType({ getResourceTypes }: { getResourceTypes: () => Promise
     if (!resourceTypeName) {
       return console.error('No name provided');
     }
-    await callAPI({ type: 'addResourceType', payload: { name: resourceTypeName } });
+    await callAPI({ type: 'addResourceType', payload: { data: { name: resourceTypeName } } });
     await getResourceTypes();
   };
 
@@ -83,7 +83,7 @@ export function ListResources() {
 
   const deleteResource = async (id: string) => {
     setLoading(true);
-    await callAPI({ type: 'deleteResource', payload: { id } });
+    await callAPI({ type: 'deleteResource', payload: { where: { id } } });
     getResources();
     setLoading(false);
   };

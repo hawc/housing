@@ -14,7 +14,7 @@ function AddSettlement({ getSettlements }: { getSettlements: () => Promise<void>
     if (!settlementName) {
       return console.error('No name provided');
     }
-    await callAPI({ type: 'addSettlement', payload: { name: settlementName } });
+    await callAPI({ type: 'addSettlement', payload: { data: { name: settlementName } } });
     await getSettlements();
   };
 
@@ -51,7 +51,7 @@ export function ListSettlements() {
 
   const deleteSettlement = async (id: string) => {
     setLoading(true);
-    await callAPI({ type: 'deleteSettlement', payload: { id } });
+    await callAPI({ type: 'deleteSettlement', payload: { where: { id } } });
     getSettlements();
     setLoading(false);
   };

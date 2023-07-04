@@ -1,14 +1,11 @@
 
 interface Payload {
   type: string;
-  payload?: AddArchitectPayload | DeleteArchitectPayload;
-}
-
-interface AddArchitectPayload {
-  name: string;
-}
-interface DeleteArchitectPayload {
-  id: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  payload?: {
+    data?: any;
+    where?: any;
+  };
 }
 
 export async function callAPI(payload: Payload) {

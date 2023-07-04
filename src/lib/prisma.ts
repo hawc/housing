@@ -1,4 +1,6 @@
+import { Prisma as OriginalPrisma } from '@prisma/client';
 import { Prisma as CachedPrisma } from 'cached-prisma';
+import slugify from 'slugify';
 
 let prisma: CachedPrisma['client'];
 
@@ -14,4 +16,64 @@ if (process.env.NODE_ENV === 'production') {
   prisma = globalWithPrisma.prisma;
 }
 
-export default prisma;
+const getValue = (input: string | OriginalPrisma.StringFieldUpdateOperationsInput = '') => {
+  return typeof input === 'string' ? input : (input.set ?? '');
+}
+
+const publicPrisma = prisma.$extends({
+  query: {
+    settlements: {
+      create({ args, query }) {
+        return query({
+          ...args,
+          data: {
+            ...args.data,
+            slug: slugify(args.data.name, { lower: true, locale: 'de' })
+          }
+        });
+      },
+      update({ args, query }) {
+        console.log(args)
+        console.log('-----------------')
+        console.log({
+          ...args,
+          data: {
+            ...args.data,
+            slug: slugify(getValue(args.data.name), { lower: true, locale: 'de' })
+          }
+        })
+        return query({
+          ...args,
+          data: {
+            ...args.data,
+            slug: slugify(getValue(args.data.name), { lower: true, locale: 'de' })
+          }
+        });
+      },
+      upsert({ args, query }) {
+        return query({
+          ...args,
+          update: {
+            ...args.update,
+            slug: slugify(getValue(args.update.name), { lower: true, locale: 'de' })
+          },
+          create: {
+            ...args.create,
+            slug: slugify(args.create.name, { lower: true, locale: 'de' })
+          }
+        });
+      },
+      updateMany({ args, query }) {
+        return query({
+          ...args,
+          data: {
+            ...args.data,
+            slug: slugify(getValue(args.data.name), { lower: true, locale: 'de' })
+          }
+        });
+      },
+    },
+  },
+});
+
+export default publicPrisma;

@@ -15,7 +15,7 @@ export function Settlement({ settlement }: { settlement: Settlement }) {
           <Box>
             <>
               <div className='align-middle'>
-                <Headline type="h1" className='inline-block'>{settlement.title}</Headline>
+                <Headline type="h1" className='inline-block'>{settlement.name}</Headline>
                 {settlement.tags.length > 0 && (
                   <TagList className='ml-2 inline-block align-top' tagNames={settlement.tags.map((tag: Tag) => tag.name)} />
                 )}

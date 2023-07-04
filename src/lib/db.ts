@@ -190,28 +190,43 @@ export async function deleteSettlement(
   });
 }
 
+export async function updateSettlement(
+  data: Prisma.SettlementsUpdateArgs
+) {
+  const updateData = data.data;
+  return await prisma.settlements.update({
+    where: {
+      id: data.where.id
+    },
+    data: {
+      ...updateData
+    },
+    include: settlementsInclude
+  });
+}
+
 export type SettlementsFull = Prisma.SettlementsGetPayload<{
   include: typeof settlementsInclude;
 }>;
 
 export async function findSettlement(
-  data: Prisma.SettlementsWhereUniqueInput
+  data: Prisma.SettlementsFindUniqueArgs
 ) {
   return await prisma.settlements.findUnique({
     where: {
-      id: data.id
+      id: data.where.id
     },
     include: settlementsInclude
   });
 }
 
 export async function findSettlements(
-  data?: Prisma.SettlementsWhereInput
+  data: Prisma.SettlementsFindManyArgs
 ) {
-  if (data) {
+  if (data && data.where) {
     return await prisma.settlements.findMany({
       where: {
-        id: data.id,
+        id: data.where.id,
         published: true,
       },
       include: settlementsInclude

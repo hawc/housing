@@ -57,14 +57,16 @@ export interface Architect {
 export interface SettlementType {
   id: string;
   name: string;
+  slug: string;
   description: string;
   resources: Resource[];
   details: Detail[];
 }
 export interface Settlement {
   id: string;
-  title: string;
+  name: string;
   description: string;
+  slug: string;
   events: Event[];
   location: Location | null;
   resources: Resource[];
