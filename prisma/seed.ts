@@ -5,12 +5,14 @@ async function main() {
   const settlementTypeOne = await prisma.settlementTypes.create({
     data: {
       name: 'Großwohnsiedlung',
+      slug: 'grosswohnsiedlung',
       description: 'Description for SettlementType 1',
     }
   });
   const settlementTypeTwo = await prisma.settlementTypes.create({
     data: {
       name: 'Geschäftsgebäude',
+      slug: 'geschaeftsgebaeude',
       description: 'Description for SettlementType 2',
     }
   });
@@ -52,7 +54,8 @@ async function main() {
   });
   const settlementOne = await prisma.settlements.create({
     data: {
-      title: 'Osdorfer Born',
+      name: 'Osdorfer Born',
+      slug: 'osdorfer-born',
       description: 'Der Osdorfer Born ist eine Plattenbau-Großsiedlung in Hamburg. Sie liegt in den Stadtteilen Osdorf und Lurup, nahe der westlichen Stadtgrenze.',
       events: {
         create: {
@@ -104,7 +107,8 @@ async function main() {
   });
   const settlementTwo = await prisma.settlements.create({
     data: {
-      title: 'Lenzsiedlung',
+      name: 'Lenzsiedlung',
+      slug: 'lenzsiedlung',
       description: 'Die Lenzsiedlung ist eine in den 1970er und 1980er Jahren gebaute Siedlung in der Stadt Hamburg.',
       events: {
         create: {
