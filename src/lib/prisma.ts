@@ -33,15 +33,6 @@ const publicPrisma = prisma.$extends({
         });
       },
       update({ args, query }) {
-        console.log(args)
-        console.log('-----------------')
-        console.log({
-          ...args,
-          data: {
-            ...args.data,
-            slug: slugify(getValue(args.data.name), { lower: true, locale: 'de' })
-          }
-        })
         return query({
           ...args,
           data: {

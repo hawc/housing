@@ -134,19 +134,19 @@ const settlementsInclude = Prisma.validator<Prisma.SettlementsInclude>()({
 });
 
 export async function createArchitect(
-  data: Prisma.ArchitectsCreateInput
+  data: Prisma.ArchitectsCreateArgs
 ) {
   return await prisma.architects.create({
-    data: data,
+    data: data.data,
   });
 }
 
 export async function deleteArchitect(
-  data: Prisma.ArchitectsWhereUniqueInput
+  data: Prisma.ArchitectsUpdateArgs
 ) {
   return await prisma.architects.update({
     where: {
-      id: data.id,
+      id: data.where.id,
     },
     data: {
       published: false
@@ -155,13 +155,13 @@ export async function deleteArchitect(
 }
 
 export async function findArchitects(
-  data?: Prisma.ArchitectsWhereInput
+  data?: Prisma.ArchitectsFindManyArgs
 ) {
-  if (data) {
+  if (data?.where) {
     return await prisma.architects.findMany({
       where: {
-        id: data.id,
-        name: data.name,
+        id: data.where.id,
+        name: data.where.name,
         published: true,
       },
     });
@@ -170,19 +170,19 @@ export async function findArchitects(
 }
 
 export async function createSettlement(
-  data: Prisma.SettlementsCreateInput
+  data: Prisma.SettlementsCreateArgs
 ) {
   return await prisma.settlements.create({
-    data: data,
+    data: data.data,
   });
 }
 
 export async function deleteSettlement(
-  data: Prisma.SettlementsWhereUniqueInput
+  data: Prisma.SettlementsUpdateArgs
 ) {
   return await prisma.settlements.update({
     where: {
-      id: data.id
+      id: data.where.id
     },
     data: {
       published: false
@@ -258,30 +258,30 @@ export async function findSettlements(
 }
 
 export async function createTag(
-  data: Prisma.TagsCreateInput
+  data: Prisma.TagsCreateArgs
 ) {
   return await prisma.tags.create({
-    data: data,
+    data: data.data,
   });
 }
 
 export async function deleteTag(
-  data: Prisma.TagsWhereUniqueInput
+  data: Prisma.TagsDeleteArgs
 ) {
   return await prisma.tags.delete({
     where: {
-      id: data.id
+      id: data.where.id
     }
   });
 }
 
 export async function findEvents(
-  data: Prisma.EventsWhereInput
+  data: Prisma.EventsFindManyArgs
 ) {
-  if (data) {
+  if (data?.where) {
     return await prisma.events.findMany({
       where: {
-        id: data.id,
+        id: data.where.id,
         published: true,
       }
     });
@@ -292,12 +292,12 @@ export async function findEvents(
 
 
 export async function findEventTypes(
-  data?: Prisma.EventsWhereInput
+  data?: Prisma.EventTypesFindManyArgs
 ) {
-  if (data) {
+  if (data?.where) {
     return await prisma.eventTypes.findMany({
       where: {
-        id: data.id,
+        id: data.where.id,
         published: true,
       }
     });
@@ -307,12 +307,12 @@ export async function findEventTypes(
 
 
 export async function findResources(
-  data?: Prisma.ResourcesWhereInput
+  data?: Prisma.ResourcesFindManyArgs
 ) {
-  if (data) {
+  if (data?.where) {
     return await prisma.resources.findMany({
       where: {
-        id: data.id,
+        id: data.where.id,
         published: true,
       }
     });
@@ -323,12 +323,12 @@ export async function findResources(
 
 
 export async function findResourceTypes(
-  data?: Prisma.ResourceTypesWhereInput
+  data?: Prisma.ResourceTypesFindManyArgs
 ) {
-  if (data) {
+  if (data?.where) {
     return await prisma.resourceTypes.findMany({
       where: {
-        id: data.id,
+        id: data.where.id,
         published: true,
       }
     });
@@ -339,12 +339,12 @@ export async function findResourceTypes(
 
 
 export async function findDetails(
-  data: Prisma.DetailsWhereInput
+  data: Prisma.DetailsFindManyArgs
 ) {
-  if (data) {
+  if (data?.where) {
     return await prisma.details.findMany({
       where: {
-        id: data.id,
+        id: data.where.id,
         published: true,
       }
     });
@@ -355,12 +355,12 @@ export async function findDetails(
 
 
 export async function findTags(
-  data?: Prisma.TagsWhereInput
+  data?: Prisma.TagsFindManyArgs
 ) {
-  if (data) {
+  if (data?.where) {
     return await prisma.tags.findMany({
       where: {
-        id: data.id,
+        id: data.where.id,
         published: true,
       }
     });
