@@ -1,7 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
 import { Architects, Prisma } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -58,6 +54,7 @@ const transformers = {
     return {
       id: settlementType.id,
       name: settlementType.name,
+      slug: settlementType.slug,
       description: settlementType.description ?? '',
       resources: settlementType.resources.map(transformers.resource),
       details: settlementType.details.map(transformers.detail),
@@ -77,6 +74,9 @@ const transformers = {
       id: resource.id,
       name: resource.name,
       url: resource.url,
+      source: resource.source ?? '',
+      license: resource.license ?? '',
+      copyright: resource.copyright ?? '',
       type: transformers.resourceType(resource.resourceType),
       description: resource.description ?? '',
     };
@@ -109,32 +109,29 @@ const resolvers = {
   clearCache: async (): Promise<void> => {
     await flushCache();
   },
-  addArchitect: async (payload: Prisma.ArchitectsCreateInput): Promise<Architect> => {
+  addArchitect: async (payload: Prisma.ArchitectsCreateArgs): Promise<Architect> => {
     return transformers.architect(await createArchitect(payload));
   },
-  addSettlement: async (payload: Prisma.SettlementsCreateInput): Promise<Settlement> => {
+  addSettlement: async (payload: Prisma.SettlementsCreateArgs): Promise<Settlement> => {
     return transformers.settlement(await createSettlement(payload));
   },
   updateSettlement: async (payload: Prisma.SettlementsUpdateArgs): Promise<Settlement> => {
     return transformers.settlement(await updateSettlement(payload));
   },
-  addTag: async (payload: Prisma.TagsCreateInput): Promise<Tag> => {
+  addTag: async (payload: Prisma.TagsCreateArgs): Promise<Tag> => {
     return transformers.tag(await createTag(payload));
   },
-  deleteArchitect: async (payload: Prisma.ArchitectsWhereUniqueInput): Promise<Architect> => {
-    return transformers.architect(await deleteArchitect({ id: payload.id }));
+  deleteArchitect: async (payload: Prisma.ArchitectsDeleteArgs): Promise<Architect> => {
+    return transformers.architect(await deleteArchitect(payload));
   },
-  deleteTag: async (payload: Prisma.TagsWhereUniqueInput): Promise<Tag> => {
-    return transformers.tag(await deleteTag({ id: payload.id }));
+  deleteTag: async (payload: Prisma.TagsDeleteArgs): Promise<Tag> => {
+    return transformers.tag(await deleteTag(payload));
   },
-  deleteSettlement: async (payload: Prisma.SettlementsWhereUniqueInput): Promise<Settlement> => {
-    return transformers.settlement(await deleteSettlement({ id: payload.id }));
+  deleteSettlement: async (payload: Prisma.SettlementsDeleteArgs): Promise<Settlement> => {
+    return transformers.settlement(await deleteSettlement(payload));
   },
-  getArchitects: async (payload?: Prisma.ArchitectsWhereInput): Promise<Architect[]> => {
-    const architects: Architects[] = await (payload ? findArchitects({
-      id: payload.id,
-      name: payload.name,
-    }) : findArchitects());
+  getArchitects: async (payload?: Prisma.ArchitectsFindManyArgs): Promise<Architect[]> => {
+    const architects: Architects[] = await (payload ? findArchitects(payload) : findArchitects());
 
     return architects.map(transformers.architect);
   },
@@ -147,28 +144,31 @@ const resolvers = {
     if (!settlement) throw new Error('settlement not found');
     return transformers.settlement(settlement);
   },
-  getEvents: async (payload: Prisma.EventsWhereInput): Promise<Event[]> => {
-    const events = await findEvents({ id: payload.id });
-    return events.map(transformers.event);
+  getEvents: async (payload: Prisma.EventsFindManyArgs): Promise<void> => {
+    const events = await findEvents(payload);
+    return;
+    // return events.map(transformers.event);
   },
-  getEventTypes: async (payload?: Prisma.EventTypesWhereInput): Promise<EventType[]> => {
-    const eventTypes = await (payload ? findEventTypes({ id: payload.id }) : findEventTypes());
+  getEventTypes: async (payload?: Prisma.EventTypesFindManyArgs): Promise<EventType[]> => {
+    const eventTypes = await (payload ? findEventTypes(payload) : findEventTypes());
     return eventTypes.map(transformers.eventType);
   },
-  getResources: async (payload?: Prisma.ResourcesWhereInput): Promise<Resource[]> => {
-    const resources = await (payload ? findResources({ id: payload.id }) : findResources());
-    return resources.map(transformers.resource);
+  getResources: async (payload?: Prisma.ResourcesFindManyArgs): Promise<void> => {
+    const resources = await (payload ? findResources(payload) : findResources());
+    return;
+    // return resources.map(transformers.resource);
   },
-  getResourceTypes: async (payload?: Prisma.ResourceTypesWhereInput): Promise<ResourceType[]> => {
-    const resourceTypes = await (payload ? findResourceTypes({ id: payload.id }) : findResourceTypes());
+  getResourceTypes: async (payload?: Prisma.ResourceTypesFindManyArgs): Promise<ResourceType[]> => {
+    const resourceTypes = await (payload ? findResourceTypes(payload) : findResourceTypes());
     return resourceTypes.map(transformers.resourceType);
   },
-  getDetails: async (payload: Prisma.DetailsWhereInput): Promise<Detail[]> => {
-    const details = await findDetails({ id: payload.id });
-    return details.map(transformers.detail);
+  getDetails: async (payload: Prisma.DetailsFindManyArgs): Promise<void> => {
+    const details = await findDetails(payload);
+    return;
+    // return details.map(transformers.detail);
   },
-  getTags: async (payload?: Prisma.TagsWhereInput): Promise<Tag[]> => {
-    const tags = await (payload ? findTags({ id: payload.id }) : findTags());
+  getTags: async (payload?: Prisma.TagsFindManyArgs): Promise<Tag[]> => {
+    const tags = await (payload ? findTags(payload) : findTags());
     return tags.map(transformers.tag);
   }
 }

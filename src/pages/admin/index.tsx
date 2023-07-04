@@ -42,6 +42,9 @@ export interface Resource {
   id: string;
   name: string;
   description: string;
+  source: string;
+  license: string;
+  copyright: string;
   url: string;
   type: ResourceType;
 }
@@ -65,8 +68,8 @@ export interface SettlementType {
 export interface Settlement {
   id: string;
   name: string;
-  description: string;
   slug: string;
+  description: string;
   events: Event[];
   location: Location | null;
   resources: Resource[];

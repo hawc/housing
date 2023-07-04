@@ -35,6 +35,9 @@ const settlementsInclude = Prisma.validator<Prisma.SettlementsInclude>()({
       id: true,
       name: true,
       description: true,
+      source: true,
+      license: true,
+      copyright: true,
       url: true,
       resourceType: {
         select: {
@@ -65,12 +68,16 @@ const settlementsInclude = Prisma.validator<Prisma.SettlementsInclude>()({
         select: {
           id: true,
           name: true,
+          slug: true,
           description: true,
           resources: {
             select: {
               id: true,
               name: true,
               description: true,
+              source: true,
+              license: true,
+              copyright: true,
               url: true,
               resourceType: {
                 select: {
@@ -142,7 +149,7 @@ export async function createArchitect(
 }
 
 export async function deleteArchitect(
-  data: Prisma.ArchitectsUpdateArgs
+  data: Prisma.ArchitectsDeleteArgs
 ) {
   return await prisma.architects.update({
     where: {
@@ -174,11 +181,12 @@ export async function createSettlement(
 ) {
   return await prisma.settlements.create({
     data: data.data,
+    include: settlementsInclude
   });
 }
 
 export async function deleteSettlement(
-  data: Prisma.SettlementsUpdateArgs
+  data: Prisma.SettlementsDeleteArgs
 ) {
   return await prisma.settlements.update({
     where: {
@@ -186,7 +194,8 @@ export async function deleteSettlement(
     },
     data: {
       published: false
-    }
+    },
+    include: settlementsInclude
   });
 }
 
@@ -229,7 +238,7 @@ export async function findSettlement(
 }
 
 export async function findSettlements(
-  data: Prisma.SettlementsFindManyArgs
+  data?: Prisma.SettlementsFindManyArgs
 ) {
   if (data && data.where) {
     if (data.where.slug) {
