@@ -7,6 +7,8 @@ import { callAPI } from '@/lib/api';
 
 import Skeleton, { skeletonClass, skeletonStyle } from '@/components/Skeleton';
 
+import { Settlement } from '@/pages/admin';
+
 function AddSettlement({ getSettlements }: { getSettlements: () => Promise<void> | void }) {
   const [settlement, setSettlement] = useState<string | null>(null);
 
@@ -38,7 +40,7 @@ function AddSettlement({ getSettlements }: { getSettlements: () => Promise<void>
 }
 
 export function ListSettlements() {
-  const [settlements, setSettlements] = useState([]);
+  const [settlements, setSettlements] = useState<Settlement[]>([]);
   const [loading, setLoading] = useState(false);
 
   const getSettlements = async () => {
@@ -69,10 +71,10 @@ export function ListSettlements() {
       <div className="relative flex w-full max-w-[24rem]">
         {loading && settlements ? (
           <List>
-            {settlements.map(({ title, id }) => (
-              <ListItem key={id} className={skeletonClass} style={skeletonStyle}>
+            {settlements.map(({ name, slug }) => (
+              <ListItem key={slug} className={skeletonClass} style={skeletonStyle}>
                 <Skeleton nested>
-                  <Link href={`/admin/siedlungen/${id}`}>{title}</Link>
+                  <Link href={`/admin/siedlungen/${slug}`}>{name}</Link>
                   <Button
                     disabled
                     size='sm'
@@ -88,9 +90,9 @@ export function ListSettlements() {
           </List>
         ) : settlements ? (
           <List>
-            {settlements.map(({ title, id }) => (
-              <ListItem key={id}>
-                <Link href={`/admin/siedlungen/${id}`}>{title}</Link>
+            {settlements.map(({ id, name, slug }) => (
+              <ListItem key={slug}>
+                <Link href={`/admin/siedlungen/${slug}`}>{name}</Link>
                 <Button
                   size='sm'
                   className="ml-2 right-1 top-1 rounded"

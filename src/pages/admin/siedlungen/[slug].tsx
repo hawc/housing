@@ -16,15 +16,15 @@ export async function getStaticPaths() {
   return {
     paths: settlements ? settlements.map(settlement => (
       {
-        params: { id: settlement.id }
+        params: { slug: settlement.slug }
       }
     )) : [],
     fallback: true,
   }
 }
 
-export async function getStaticProps({ params }: { params: { id: string } }): Promise<{ props: { settlement: SettlementType } }> {
-  const settlement: SettlementType = await callAPI({ type: 'getSettlement', payload: { where: { id: params.id } } });
+export async function getStaticProps({ params }: { params: { slug: string } }): Promise<{ props: { settlement: SettlementType } }> {
+  const settlement: SettlementType = await callAPI({ type: 'getSettlement', payload: { where: { slug: params.slug } } });
 
   return {
     props: {

@@ -212,9 +212,17 @@ export type SettlementsFull = Prisma.SettlementsGetPayload<{
 export async function findSettlement(
   data: Prisma.SettlementsFindUniqueArgs
 ) {
+  if (data.where.slug) {
+    return await prisma.settlements.findUnique({
+      where: {
+        slug: data.where.slug,
+      },
+      include: settlementsInclude
+    });
+  }
   return await prisma.settlements.findUnique({
     where: {
-      id: data.where.id
+      id: data.where.id,
     },
     include: settlementsInclude
   });
@@ -224,6 +232,15 @@ export async function findSettlements(
   data: Prisma.SettlementsFindManyArgs
 ) {
   if (data && data.where) {
+    if (data.where.slug) {
+      return await prisma.settlements.findMany({
+        where: {
+          slug: data.where.slug,
+          published: true,
+        },
+        include: settlementsInclude
+      });
+    }
     return await prisma.settlements.findMany({
       where: {
         id: data.where.id,
@@ -234,6 +251,9 @@ export async function findSettlements(
 
   }
   return await prisma.settlements.findMany({
+    where: {
+      published: true,
+    },
     include: settlementsInclude
   });
 }

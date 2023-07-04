@@ -14,7 +14,7 @@ const transformers = {
     console.log(JSON.stringify({
       id: settlement.id,
       name: settlement.name,
-      slug: settlement.slug ?? '',
+      slug: settlement.slug,
       description: settlement.description ?? '',
       details: settlement.details.map(transformers.detail),
       types: settlement.settlementTypes.map(settlementTypesRelation => transformers.settlementType(settlementTypesRelation.settlementType)),
@@ -27,7 +27,7 @@ const transformers = {
     return {
       id: settlement.id,
       name: settlement.name,
-      slug: settlement.slug ?? '',
+      slug: settlement.slug,
       description: settlement.description ?? '',
       details: settlement.details.map(transformers.detail),
       types: settlement.settlementTypes.map(settlementTypesRelation => transformers.settlementType(settlementTypesRelation.settlementType)),
