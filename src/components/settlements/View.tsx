@@ -1,6 +1,6 @@
 
 
-import { Map } from '@/components/admin/settlements/Maps';
+import { Map } from '@/components/admin/settlements/Map';
 import { Box, Container } from '@/components/blocks/Box';
 import { DetailsList } from '@/components/blocks/DetailsList';
 import { TagList } from '@/components/blocks/Tags';
@@ -79,7 +79,7 @@ export function Settlement({ settlement }: { settlement: Settlement }) {
           </>
         </div>
         <>
-          {settlement.location && (
+          {settlement.location && settlement.location.lat > 0 && settlement.location.lng > 0 && (
             <Container>
               <Map lat={settlement.location.lat} lng={settlement.location.lng} />
             </Container>

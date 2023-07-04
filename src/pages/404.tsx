@@ -15,7 +15,7 @@ export default function NotFoundPage() {
         <section>
           <Container>
             <Box>
-              <Headline type='h1' className='mb-2'>Seite nicht gefunden</Headline>
+              <Headline type='h1'>Seite nicht gefunden</Headline>
               <p>Die von dir angeforderte Seite konnte leider nicht gefunden werden. Es tut uns leid für das Missgeschick.</p>
               <p>Vielleicht hast du eine falsche URL eingegeben oder die Seite wurde möglicherweise verschoben, umbenannt oder gelöscht. Keine Sorge, wir helfen dir gerne weiter.</p>
               <p>Hier sind ein paar Schritte, die du ausprobieren kannst, um das Problem zu beheben:</p>
