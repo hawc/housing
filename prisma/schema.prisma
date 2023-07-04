@@ -9,7 +9,8 @@ datasource db {
 
 model Settlements {
   id              String                         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  title           String?
+  name            String
+  slug            String?
   description     String?
   published       Boolean                        @default(true)
   createdAt       DateTime                       @default(now())
@@ -26,6 +27,7 @@ model Settlements {
 model SettlementTypes {
   id          String                         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name        String                         @unique
+  slug        String?
   description String?
   published   Boolean                        @default(true)
   createdAt   DateTime                       @default(now())
