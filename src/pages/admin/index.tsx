@@ -56,6 +56,8 @@ export interface Tag {
 export interface Architect {
   id: string;
   name: string;
+  slug: string;
+  description?: string;
 }
 export interface SettlementType {
   id: string;

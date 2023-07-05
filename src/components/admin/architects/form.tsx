@@ -5,10 +5,8 @@ import { callAPI } from '@/lib/api';
 
 import Skeleton, { skeletonClass, skeletonStyle } from '@/components/Skeleton';
 
-import type { Architect } from '@/pages/admin';
-
 function AddArchitect({ getArchitects }: { getArchitects: () => Promise<void> | void }) {
-  const [architect, setArchitect] = useState<Architect | null>(null);
+  const [architect, setArchitect] = useState<string | null>(null);
 
   const addArchitect = async (architectName: string) => {
     if (!architectName) {
@@ -33,12 +31,12 @@ function AddArchitect({ getArchitects }: { getArchitects: () => Promise<void> | 
         containerProps={{
           className: 'min-w-0',
         }}
-        value={architect?.name ?? ''}
-        onChange={({ target }) => setArchitect({ id: '', name: target.value })} />
+        value={architect ?? ''}
+        onChange={({ target }) => setArchitect(target.value)} />
       <Button
         size="sm"
         className="ml-2 right-1 top-1 rounded"
-        onClick={() => architect && addArchitect(architect.name)}>Add</Button>
+        onClick={() => architect && addArchitect(architect)}>Add</Button>
     </>
   );
 }

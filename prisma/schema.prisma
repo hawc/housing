@@ -41,7 +41,8 @@ model SettlementTypes {
 
 model Architects {
   id              String                        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name            String
+  name            String                        @unique
+  slug            String                        @unique
   description     String?
   url             String?
   published       Boolean                       @default(true)

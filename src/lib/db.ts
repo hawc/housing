@@ -2,13 +2,40 @@ import { Prisma } from '@prisma/client';
 
 import prisma from '@/lib/prisma';
 
+const architectsInclude = Prisma.validator<Prisma.ArchitectsInclude>()({
+  settlements: {
+    select: {
+      settlement: {
+        select: {
+          id: true,
+          name: true,
+          description: true,
+          slug: true,
+          tags: {
+            select: {
+              tag: {
+                select: {
+                  id: true,
+                  name: true,
+                  description: true,
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+  },
+})
+
 const settlementsInclude = Prisma.validator<Prisma.SettlementsInclude>()({
   architects: {
     select: {
       architect: {
         select: {
           id: true,
-          name: true
+          name: true,
+          slug: true
         }
       }
     }
@@ -146,6 +173,7 @@ export async function createArchitect(
   return await prisma.architects.create({
     data: {
       name: data.data.name,
+      slug: data.data.slug,
     },
   });
 }
@@ -222,6 +250,25 @@ export async function updateSettlement(
 export type SettlementsFull = Prisma.SettlementsGetPayload<{
   include: typeof settlementsInclude;
 }>;
+
+export async function findArchitect(
+  data: Prisma.ArchitectsFindUniqueArgs
+) {
+  if (data.where.slug) {
+    return await prisma.architects.findUnique({
+      where: {
+        slug: data.where.slug,
+      },
+      include: architectsInclude
+    });
+  }
+  return await prisma.architects.findUnique({
+    where: {
+      id: data.where.id,
+    },
+    include: architectsInclude
+  });
+}
 
 export async function findSettlement(
   data: Prisma.SettlementsFindUniqueArgs
