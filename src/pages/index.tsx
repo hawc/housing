@@ -24,7 +24,7 @@ export default function HomePage() {
           <Box>
             <List>
               <ListItem>
-                <Link href="/architects">
+                <Link href="/architekten">
                   Architekten
                 </Link>
               </ListItem>

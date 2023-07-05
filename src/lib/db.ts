@@ -35,6 +35,7 @@ const settlementsInclude = Prisma.validator<Prisma.SettlementsInclude>()({
         select: {
           id: true,
           name: true,
+          description: true,
           slug: true
         }
       }
@@ -191,21 +192,6 @@ export async function deleteArchitect(
   });
 }
 
-export async function findArchitects(
-  data?: Prisma.ArchitectsFindManyArgs
-) {
-  if (data?.where) {
-    return await prisma.architects.findMany({
-      where: {
-        id: data.where.id,
-        name: data.where.name,
-        published: true,
-      },
-    });
-  }
-  return await prisma.architects.findMany();
-}
-
 export async function createSettlement(
   data: Prisma.SettlementsCreateArgs
 ) {
@@ -265,6 +251,35 @@ export async function findArchitect(
   return await prisma.architects.findUnique({
     where: {
       id: data.where.id,
+    },
+    include: architectsInclude
+  });
+}
+
+export async function findArchitects(
+  data?: Prisma.ArchitectsFindManyArgs
+) {
+  if (data && data.where) {
+    if (data.where.slug) {
+      return await prisma.architects.findMany({
+        where: {
+          slug: data.where.slug,
+          published: true,
+        },
+        include: architectsInclude
+      });
+    }
+    return await prisma.architects.findMany({
+      where: {
+        id: data.where.id,
+        published: true,
+      },
+      include: architectsInclude
+    });
+  }
+  return await prisma.architects.findMany({
+    where: {
+      published: true,
     },
     include: architectsInclude
   });

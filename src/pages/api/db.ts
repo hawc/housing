@@ -1,7 +1,7 @@
-import { Architects, Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { createArchitect, createSettlement, createTag, deleteArchitect, deleteSettlement, deleteTag, findArchitects, findDetails, findEvents, findEventTypes, findResources, findResourceTypes, findSettlement, findSettlements, findTags, flushCache, SettlementsFull, updateSettlement } from '@/lib/db';
+import { createArchitect, createSettlement, createTag, deleteArchitect, deleteSettlement, deleteTag, findArchitect, findArchitects, findDetails, findEvents, findEventTypes, findResources, findResourceTypes, findSettlement, findSettlements, findTags, flushCache, SettlementsFull, updateSettlement } from '@/lib/db';
 
 import { Architect, Detail, DetailType, Event, EventType, Location, Resource, ResourceType, Settlement, SettlementType, Tag } from '@/pages/admin';
 
@@ -26,6 +26,7 @@ const transformers = {
       id: architect.id,
       name: architect.name,
       slug: architect.slug,
+      description: architect.description ?? '',
     };
   },
   event: (event: SettlementsFull['events'][0]): Event => {
@@ -132,9 +133,13 @@ const resolvers = {
     return transformers.settlement(await deleteSettlement(payload));
   },
   getArchitects: async (payload?: Prisma.ArchitectsFindManyArgs): Promise<Architect[]> => {
-    const architects: Architects[] = await (payload ? findArchitects(payload) : findArchitects());
-
+    const architects = await (payload ? findArchitects(payload) : findArchitects());
     return architects.map(transformers.architect);
+  },
+  getArchitect: async (payload: Prisma.ArchitectsFindUniqueArgs): Promise<Architect> => {
+    const architect = await findArchitect(payload);
+    if (!architect) throw new Error('architect not found');
+    return transformers.architect(architect);
   },
   getSettlements: async (payload?: Prisma.SettlementsFindManyArgs): Promise<Settlement[]> => {
     const settlements = await (payload ? findSettlements(payload) : findSettlements());
