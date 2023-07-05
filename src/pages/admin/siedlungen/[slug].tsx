@@ -8,11 +8,11 @@ import { Box, Container } from '@/components/blocks/Box';
 import { Link } from '@/components/blocks/Link';
 import Layout from '@/components/layout/Layout';
 
-import type { Settlement as SettlementType } from '@/pages/admin';
+import type { BaseSettlement } from '@/pages/admin';
 
 
 export async function getStaticPaths() {
-  const settlements: SettlementType[] = await callAPI({ type: 'getSettlements' });
+  const settlements: BaseSettlement[] = await callAPI({ type: 'getSettlements' });
   return {
     paths: settlements ? settlements.map(settlement => (
       {
@@ -23,8 +23,8 @@ export async function getStaticPaths() {
   }
 }
 
-export async function getStaticProps({ params }: { params: { slug: string } }): Promise<{ props: { settlement: SettlementType } }> {
-  const settlement: SettlementType = await callAPI({ type: 'getSettlement', payload: { where: { slug: params.slug } } });
+export async function getStaticProps({ params }: { params: { slug: string } }): Promise<{ props: { settlement: BaseSettlement } }> {
+  const settlement: BaseSettlement = await callAPI({ type: 'getSettlement', payload: { where: { slug: params.slug } } });
 
   return {
     props: {

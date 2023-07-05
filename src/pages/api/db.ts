@@ -1,35 +1,57 @@
 import { Prisma } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { createArchitect, createSettlement, createTag, deleteArchitect, deleteSettlement, deleteTag, findArchitect, findArchitects, findDetails, findEvents, findEventTypes, findResources, findResourceTypes, findSettlement, findSettlements, findTags, flushCache, SettlementsFull, updateSettlement } from '@/lib/db';
+import { ArchitectsInclude, ArchitectsSelect, createArchitect, createSettlement, createTag, deleteArchitect, deleteSettlement, deleteTag, DetailsSelect, DetailsTypesSelect, EventsSelect, EventTypesSelect, findArchitect, findArchitects, findDetails, findEvents, findEventTypes, findResources, findResourceTypes, findSettlement, findSettlements, findTags, flushCache, LocationsSelect, ResourcesSelect, ResourceTypesSelect, SettlementsInclude, SettlementsSelect, SettlementTypesSelect, TagsSelect, updateSettlement } from '@/lib/db';
 
-import { Architect, Detail, DetailType, Event, EventType, Location, Resource, ResourceType, Settlement, SettlementType, Tag } from '@/pages/admin';
+import { Architect, BaseArchitect, BaseSettlement, Detail, DetailType, Event, EventType, Location, Resource, ResourceType, Settlement, SettlementType, Tag } from '@/pages/admin';
 
-const transformers = {
-  settlement: (settlement: SettlementsFull): Settlement => {
+const baseTransformers = {
+  settlement: (settlement: SettlementsInclude): BaseSettlement => {
     return {
       id: settlement.id,
       name: settlement.name,
       slug: settlement.slug,
       description: settlement.description ?? '',
       details: settlement.details.map(transformers.detail),
-      types: settlement.settlementTypes.map(settlementTypesRelation => transformers.settlementType(settlementTypesRelation.settlementType)),
-      architects: settlement.architects.map(archictectRelation => transformers.architect(archictectRelation.architect)),
+      types: settlement.settlementTypes.map(settlementsOnSettlementType => transformers.settlementType(settlementsOnSettlementType.settlementType)),
+      architects: settlement.architects.map((settlementsOnArchitect) => transformers.architect(settlementsOnArchitect.architect)),
       resources: settlement.resources.map(transformers.resource),
       tags: settlement.tags.map(tagRelation => transformers.tag(tagRelation.tag)),
       events: settlement.events.map(transformers.event),
       location: transformers.location(settlement.location),
     };
   },
-  architect: (architect: SettlementsFull['architects'][0]['architect']): Architect => {
+  architect: (architect: ArchitectsInclude): BaseArchitect => {
     return {
       id: architect.id,
       name: architect.name,
       slug: architect.slug,
       description: architect.description ?? '',
+      url: architect.url ?? '',
+      settlements: architect.settlements.map((settlementsOnArchitect) => transformers.settlement(settlementsOnArchitect.settlement)),
     };
   },
-  event: (event: SettlementsFull['events'][0]): Event => {
+}
+const transformers = {
+  settlement: (settlement: SettlementsSelect): Settlement => {
+    return {
+      id: settlement.id,
+      name: settlement.name,
+      slug: settlement.slug,
+      description: settlement.description ?? '',
+      tags: settlement.tags.map(settlementsOnTag => transformers.tag(settlementsOnTag.tag)),
+    };
+  },
+  architect: (architect: ArchitectsSelect): Architect => {
+    return {
+      id: architect.id,
+      name: architect.name,
+      slug: architect.slug,
+      description: architect.description ?? '',
+      url: architect.url ?? '',
+    };
+  },
+  event: (event: EventsSelect): Event => {
     return {
       id: event.id,
       name: event.name,
@@ -38,21 +60,21 @@ const transformers = {
       type: transformers.eventType(event.eventType)
     };
   },
-  eventType: (eventType: SettlementsFull['events'][0]['eventType']): EventType => {
+  eventType: (eventType: EventTypesSelect): EventType => {
     return {
       id: eventType.id,
       name: eventType.name,
       description: eventType.description ?? '',
     };
   },
-  tag: (tag: SettlementsFull['tags'][0]['tag']): Tag => {
+  tag: (tag: TagsSelect): Tag => {
     return {
       id: tag.id,
       name: tag.name,
       description: tag.description ?? '',
     };
   },
-  settlementType: (settlementType: SettlementsFull['settlementTypes'][0]['settlementType']): SettlementType => {
+  settlementType: (settlementType: SettlementTypesSelect): SettlementType => {
     return {
       id: settlementType.id,
       name: settlementType.name,
@@ -62,7 +84,7 @@ const transformers = {
       details: settlementType.details.map(transformers.detail),
     };
   },
-  location: (location: SettlementsFull['location']): Location | null => {
+  location: (location: LocationsSelect): Location | null => {
     if (!location) return null;
     return {
       id: location.id,
@@ -71,7 +93,7 @@ const transformers = {
       lng: location.lng,
     };
   },
-  resource: (resource: SettlementsFull['resources'][0]): Resource => {
+  resource: (resource: ResourcesSelect): Resource => {
     return {
       id: resource.id,
       name: resource.name,
@@ -83,22 +105,22 @@ const transformers = {
       description: resource.description ?? '',
     };
   },
-  resourceType: (resourceType: SettlementsFull['resources'][0]['resourceType']): ResourceType => {
+  resourceType: (resourceType: ResourceTypesSelect): ResourceType => {
     return {
       id: resourceType.id,
       name: resourceType.name,
       description: resourceType.description ?? '',
     };
   },
-  detail: (detail: SettlementsFull['details'][0]): Detail => {
+  detail: (detail: DetailsSelect): Detail => {
     return {
       id: detail.id,
       name: detail.name,
       description: detail.description ?? '',
-      detailType: transformers.detailType(detail.detailType),
+      type: transformers.detailType(detail.detailType),
     };
   },
-  detailType: (detailType: SettlementsFull['details'][0]['detailType']): DetailType => {
+  detailType: (detailType: DetailsTypesSelect): DetailType => {
     return {
       id: detailType.id,
       name: detailType.name,
@@ -115,40 +137,40 @@ const resolvers = {
     return transformers.architect(await createArchitect(payload));
   },
   addSettlement: async (payload: Prisma.SettlementsCreateArgs): Promise<Settlement> => {
-    return transformers.settlement(await createSettlement(payload));
+    return baseTransformers.settlement(await createSettlement(payload));
   },
   updateSettlement: async (payload: Prisma.SettlementsUpdateArgs): Promise<Settlement> => {
-    return transformers.settlement(await updateSettlement(payload));
+    return baseTransformers.settlement(await updateSettlement(payload));
   },
   addTag: async (payload: Prisma.TagsCreateArgs): Promise<Tag> => {
     return transformers.tag(await createTag(payload));
   },
   deleteArchitect: async (payload: Prisma.ArchitectsDeleteArgs): Promise<Architect> => {
-    return transformers.architect(await deleteArchitect(payload));
+    return baseTransformers.architect(await deleteArchitect(payload));
   },
   deleteTag: async (payload: Prisma.TagsDeleteArgs): Promise<Tag> => {
     return transformers.tag(await deleteTag(payload));
   },
   deleteSettlement: async (payload: Prisma.SettlementsDeleteArgs): Promise<Settlement> => {
-    return transformers.settlement(await deleteSettlement(payload));
+    return baseTransformers.settlement(await deleteSettlement(payload));
   },
   getArchitects: async (payload?: Prisma.ArchitectsFindManyArgs): Promise<Architect[]> => {
     const architects = await (payload ? findArchitects(payload) : findArchitects());
-    return architects.map(transformers.architect);
+    return architects.map(baseTransformers.architect);
   },
   getArchitect: async (payload: Prisma.ArchitectsFindUniqueArgs): Promise<Architect> => {
     const architect = await findArchitect(payload);
     if (!architect) throw new Error('architect not found');
-    return transformers.architect(architect);
+    return baseTransformers.architect(architect);
   },
   getSettlements: async (payload?: Prisma.SettlementsFindManyArgs): Promise<Settlement[]> => {
     const settlements = await (payload ? findSettlements(payload) : findSettlements());
-    return settlements.map(transformers.settlement);
+    return settlements.map(baseTransformers.settlement);
   },
   getSettlement: async (payload: Prisma.SettlementsFindUniqueArgs): Promise<Settlement> => {
     const settlement = await findSettlement(payload);
     if (!settlement) throw new Error('settlement not found');
-    return transformers.settlement(settlement);
+    return baseTransformers.settlement(settlement);
   },
   getEvents: async (payload: Prisma.EventsFindManyArgs): Promise<void> => {
     const events = await findEvents(payload);

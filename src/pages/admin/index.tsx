@@ -31,7 +31,7 @@ export interface Detail {
   id: string;
   name: string;
   description: string;
-  detailType: DetailType;
+  type: DetailType;
 }
 export interface ResourceType {
   id: string;
@@ -58,6 +58,7 @@ export interface Architect {
   name: string;
   slug: string;
   description: string;
+  url: string;
 }
 export interface SettlementType {
   id: string;
@@ -68,6 +69,21 @@ export interface SettlementType {
   details: Detail[];
 }
 export interface Settlement {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  tags: Tag[];
+}
+export interface BaseArchitect {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  url: string;
+  settlements: Settlement[];
+}
+export interface BaseSettlement {
   id: string;
   name: string;
   slug: string;

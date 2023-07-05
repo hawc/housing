@@ -10,19 +10,19 @@ import { TagList } from '@/components/blocks/Tags';
 import { Timeline } from '@/components/blocks/Timeline';
 import { Headline } from '@/components/Headline';
 
-import type { Architect, Settlement, Tag } from '@/pages/admin';
+import type { Architect, BaseSettlement, Tag } from '@/pages/admin';
 
-type Partial<T> = { [P in keyof T]?: T[P] };
+export type Partial<T> = { [P in keyof T]?: T[P] };
 
-export function SettlementEdit({ settlementInput }: { settlementInput: Settlement }) {
-  const [settlement, setSettlement] = useState<Settlement>(settlementInput);
+export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettlement }) {
+  const [settlement, setSettlement] = useState<BaseSettlement>(settlementInput);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const updateSettlement = (input: Partial<Settlement>) => {
+  const updateSettlement = (input: Partial<BaseSettlement>) => {
     setSettlement({
       ...settlement,
       ...input,
-    } as Settlement)
+    } as BaseSettlement)
   }
 
   const submitData = async () => {

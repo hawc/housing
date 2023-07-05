@@ -5,9 +5,9 @@ import { TagList } from '@/components/blocks/Tags';
 import { Timeline } from '@/components/blocks/Timeline';
 import { Headline } from '@/components/Headline';
 
-import type { Architect, Settlement, Tag } from '@/pages/admin';
+import type { Architect, BaseSettlement, Settlement, Tag } from '@/pages/admin';
 
-export function Settlement({ settlement }: { settlement: Settlement }) {
+export function Settlement({ settlement }: { settlement: BaseSettlement }) {
   return (
     <>
       <Container>
