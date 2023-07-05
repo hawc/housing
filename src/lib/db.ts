@@ -275,7 +275,9 @@ export async function createTag(
   data: Prisma.TagsCreateArgs
 ) {
   return await prisma.tags.create({
-    data: data.data,
+    data: {
+      name: data.data.name
+    },
   });
 }
 
