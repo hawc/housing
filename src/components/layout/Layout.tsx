@@ -6,7 +6,7 @@ import { Header } from '@/components/blocks/Header';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="container mx-auto px-5">
+    <div className="container mx-auto px-3 md:px-5">
       <ThemeProvider>
         <Header />
         <main>

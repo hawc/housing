@@ -43,7 +43,7 @@ export default withMT({
         shimmer: 'shimmer 1.3s linear infinite',
       },
       fontSize: {
-        '2xl': '1.25rem',
+        '2xl': '1.5rem',
         '3xl': '2rem',
         '4xl': '2.4rem',
         '5xl': '2.8rem',

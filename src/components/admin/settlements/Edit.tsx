@@ -102,7 +102,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
             )}
           </>
         </Container>
-        <div className='columns-2 gap-5'>
+        <div className='columns-2 gap-3 md:gap-5'>
           <>
             {settlement.resources.length > 0 && (
               <>

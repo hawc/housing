@@ -1,6 +1,7 @@
 import { Map } from '@/components/admin/settlements/Map';
 import { Box, Container } from '@/components/blocks/Box';
 import { DetailsList } from '@/components/blocks/DetailsList';
+import { Link } from '@/components/blocks/Link';
 import { TagList } from '@/components/blocks/Tags';
 import { Timeline } from '@/components/blocks/Timeline';
 import { Headline } from '@/components/Headline';
@@ -52,7 +53,11 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
                   </Headline>
                   {settlement.architects.map((architect: Architect) => (
                     <div key={architect.id}>
-                      {architect.name}
+                      {architect.description.length > 0 ? (
+                        <Link href={`/architekten/${architect.slug}`} arrow>{architect.name}</Link>
+                      ) : (
+                        <>{architect.name}</>
+                      )}
                     </div>
                   ))}
                 </>
@@ -60,7 +65,7 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
             )}
           </>
         </Container>
-        <div className='columns-2 gap-5'>
+        <div className='columns-2 gap-3 md:gap-5'>
           <>
             {settlement.resources.length > 0 && (
               <>

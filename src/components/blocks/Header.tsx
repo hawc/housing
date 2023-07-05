@@ -6,7 +6,7 @@ export function Header() {
   return (
     <header className='flex items-end justify-between'>
       <Container>
-        <div className="mt-6 text-3xl md:text-5xl text-content leading-normal">
+        <div className="mt-4 md:mt-6 text-2xl md:text-5xl text-content leading-tight md:leading-normal">
           <Link className="inline-block font-black text-grey-light" href="/">
             <>Großwohn&shy;<span className='whitespace-nowrap'>siedlungen<span className='text-highlight'>
               <svg
