@@ -168,17 +168,20 @@ async function main() {
   });
   const architectOne = await prisma.architects.create({
     data: {
-      name: 'Klaus Nickels'
+      name: 'Klaus Nickels',
+      slug: 'klaus-nickels'
     }
   });
   const architectTwo = await prisma.architects.create({
     data: {
       name: 'Timm Ohrt',
+      slug: 'timm-ohrt',
     }
   });
   const architectThree = await prisma.architects.create({
     data: {
       name: 'Architektengemeinschaft Schween / Streb',
+      slug: 'architektengemeinschaft-schween-streb',
     }
   });
   const tagOne = await prisma.tags.create({
