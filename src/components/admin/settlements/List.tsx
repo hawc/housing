@@ -16,7 +16,14 @@ function AddSettlement({ getSettlements }: { getSettlements: () => Promise<void>
     if (!settlementName) {
       return console.error('No name provided');
     }
-    await callAPI({ type: 'addSettlement', payload: { data: { name: settlementName } } });
+    await callAPI({
+      type: 'addSettlement',
+      payload: {
+        data: {
+          name: settlementName
+        }
+      }
+    });
     await getSettlements();
   };
 

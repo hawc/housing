@@ -144,7 +144,9 @@ export async function createArchitect(
   data: Prisma.ArchitectsCreateArgs
 ) {
   return await prisma.architects.create({
-    data: data.data,
+    data: {
+      name: data.data.name,
+    },
   });
 }
 
@@ -180,7 +182,10 @@ export async function createSettlement(
   data: Prisma.SettlementsCreateArgs
 ) {
   return await prisma.settlements.create({
-    data: data.data,
+    data: {
+      name: data.data.name,
+      slug: '',
+    },
     include: settlementsInclude
   });
 }

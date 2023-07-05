@@ -14,7 +14,14 @@ function AddArchitect({ getArchitects }: { getArchitects: () => Promise<void> | 
     if (!architectName) {
       return console.error('No name provided');
     }
-    await callAPI({ type: 'addArchitect', payload: { data: { name: architectName } } });
+    await callAPI({
+      type: 'addArchitect',
+      payload: {
+        data: {
+          name: architectName,
+        }
+      }
+    });
     await getArchitects();
   };
 
