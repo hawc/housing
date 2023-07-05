@@ -65,14 +65,16 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
             )}
           </>
         </Container>
-        <div className='columns-2 gap-3 md:gap-5'>
+        <Container cols='md:grid-cols-2'>
           <>
             {settlement.resources.length > 0 && (
               <>
-                {settlement.resources.filter(resource => resource.type.name === 'Foto').map((resource, index) => (
-                  <Box key={resource.id} className={index < settlement.resources.filter(resource => resource.type.name === 'Foto').length - 2 ? 'mb-5 p-0 block' : 'p-0 block'}>
-                    <img className='block' src={resource.url} alt={resource.description} loading='lazy' />
-                    <div className='px-5 py-4'>
+                {settlement.resources.filter(resource => resource.type.name === 'Foto').map((resource) => (
+                  <Box key={resource.id} className="py-3 md:p-0 h-60 lg:h-96 justify-between">
+                    <div className='bg-grey-light grow flex items-center overflow-hidden mb-1 md:mb-0'>
+                      <img className='' src={resource.url} alt={resource.description} loading='lazy' />
+                    </div>
+                    <div className='md:px-5 pt-2 md:pt-4 md:pb-4'>
                       {resource.description}
                     </div>
                   </Box>
@@ -80,7 +82,7 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
               </>
             )}
           </>
-        </div>
+        </Container>
         <>
           {settlement.location && settlement.location.lat > 0 && settlement.location.lng > 0 && (
             <Container>
