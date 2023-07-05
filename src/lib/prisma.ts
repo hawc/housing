@@ -64,6 +64,90 @@ const publicPrisma = prisma.$extends({
         });
       },
     },
+    settlementTypes: {
+      create({ args, query }) {
+        return query({
+          ...args,
+          data: {
+            ...args.data,
+            slug: slugify(args.data.name, { lower: true, locale: 'de' })
+          }
+        });
+      },
+      update({ args, query }) {
+        return query({
+          ...args,
+          data: {
+            ...args.data,
+            slug: slugify(getValue(args.data.name), { lower: true, locale: 'de' })
+          }
+        });
+      },
+      upsert({ args, query }) {
+        return query({
+          ...args,
+          update: {
+            ...args.update,
+            slug: slugify(getValue(args.update.name), { lower: true, locale: 'de' })
+          },
+          create: {
+            ...args.create,
+            slug: slugify(args.create.name, { lower: true, locale: 'de' })
+          }
+        });
+      },
+      updateMany({ args, query }) {
+        return query({
+          ...args,
+          data: {
+            ...args.data,
+            slug: slugify(getValue(args.data.name), { lower: true, locale: 'de' })
+          }
+        });
+      },
+    },
+    architects: {
+      create({ args, query }) {
+        return query({
+          ...args,
+          data: {
+            ...args.data,
+            slug: slugify(args.data.name, { lower: true, locale: 'de' })
+          }
+        });
+      },
+      update({ args, query }) {
+        return query({
+          ...args,
+          data: {
+            ...args.data,
+            slug: slugify(getValue(args.data.name), { lower: true, locale: 'de' })
+          }
+        });
+      },
+      upsert({ args, query }) {
+        return query({
+          ...args,
+          update: {
+            ...args.update,
+            slug: slugify(getValue(args.update.name), { lower: true, locale: 'de' })
+          },
+          create: {
+            ...args.create,
+            slug: slugify(args.create.name, { lower: true, locale: 'de' })
+          }
+        });
+      },
+      updateMany({ args, query }) {
+        return query({
+          ...args,
+          data: {
+            ...args.data,
+            slug: slugify(getValue(args.data.name), { lower: true, locale: 'de' })
+          }
+        });
+      },
+    },
   },
 });
 
