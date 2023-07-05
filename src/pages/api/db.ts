@@ -25,6 +25,7 @@ const transformers = {
     return {
       id: architect.id,
       name: architect.name,
+      slug: architect.slug,
     };
   },
   event: (event: SettlementsFull['events'][0]): Event => {
