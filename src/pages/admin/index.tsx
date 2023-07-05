@@ -14,7 +14,7 @@ export interface Event {
   name: string;
   description: string;
   type: EventType;
-  eventDate: Date | null;
+  eventDate: string;
 }
 export interface Location {
   id: string;

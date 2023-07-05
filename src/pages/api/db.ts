@@ -5,7 +5,7 @@ import { ArchitectsInclude, ArchitectsSelect, createArchitect, createSettlement,
 
 import { Architect, BaseArchitect, BaseSettlement, Detail, DetailType, Event, EventType, Location, Resource, ResourceType, Settlement, SettlementType, Tag } from '@/pages/admin';
 
-const baseTransformers = {
+export const baseTransformers = {
   settlement: (settlement: SettlementsInclude): BaseSettlement => {
     return {
       id: settlement.id,
@@ -56,7 +56,7 @@ const transformers = {
       id: event.id,
       name: event.name,
       description: event.description ?? '',
-      eventDate: event.eventDate,
+      eventDate: event.eventDate.toDateString(),
       type: transformers.eventType(event.eventType)
     };
   },

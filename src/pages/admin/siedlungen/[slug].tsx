@@ -1,7 +1,7 @@
 
 import { InferGetStaticPropsType } from 'next';
 
-import { callAPI } from '@/lib/api';
+import { findSettlement, findSettlements } from '@/lib/db';
 
 import { SettlementEdit } from '@/components/admin/settlements/Edit';
 import { Box, Container } from '@/components/blocks/Box';
@@ -9,10 +9,10 @@ import { Link } from '@/components/blocks/Link';
 import Layout from '@/components/layout/Layout';
 
 import type { BaseSettlement } from '@/pages/admin';
-
+import { baseTransformers } from '@/pages/api/db';
 
 export async function getStaticPaths() {
-  const settlements: BaseSettlement[] = await callAPI({ type: 'getSettlements' });
+  const settlements: BaseSettlement[] = (await findSettlements()).map(baseTransformers.settlement);
   return {
     paths: settlements ? settlements.map(settlement => (
       {
@@ -24,7 +24,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }: { params: { slug: string } }): Promise<{ props: { settlement: BaseSettlement } }> {
-  const settlement: BaseSettlement = await callAPI({ type: 'getSettlement', payload: { where: { slug: params.slug } } });
+  const settlement: BaseSettlement = baseTransformers.settlement(await findSettlement({ where: { slug: params.slug } }));
 
   return {
     props: {

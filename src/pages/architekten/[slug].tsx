@@ -1,18 +1,19 @@
 
 import { InferGetStaticPropsType } from 'next';
 
-import { callAPI } from '@/lib/api';
+import { findArchitect, findArchitects } from '@/lib/db';
 
 import { Architect } from '@/components/architects/View';
 import { Box } from '@/components/blocks/Box';
 import { Link } from '@/components/blocks/Link';
 import Layout from '@/components/layout/Layout';
 
-import type { Architect as ArchitectType } from '@/pages/admin';
+import type { BaseArchitect } from '@/pages/admin';
+import { baseTransformers } from '@/pages/api/db';
 
 
 export async function getStaticPaths() {
-  const architects: ArchitectType[] = await callAPI({ type: 'getArchitects' });
+  const architects: BaseArchitect[] = (await findArchitects()).map(baseTransformers.architect);
   return {
     paths: architects ? architects.map(architect => (
       {
@@ -23,8 +24,8 @@ export async function getStaticPaths() {
   }
 }
 
-export async function getStaticProps({ params }: { params: { slug: string } }): Promise<{ props: { architect: ArchitectType } }> {
-  const architect: ArchitectType = await callAPI({ type: 'getArchitect', payload: { where: { slug: params.slug } } });
+export async function getStaticProps({ params }: { params: { slug: string } }): Promise<{ props: { architect: BaseArchitect } }> {
+  const architect: BaseArchitect = baseTransformers.architect(await findArchitect({ where: { slug: params.slug } }));
 
   return {
     props: {
