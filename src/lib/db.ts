@@ -194,6 +194,7 @@ export async function createArchitect(
       name: data.data.name,
       slug: data.data.slug,
     },
+    include: architectsInclude
   });
 }
 
@@ -492,7 +493,7 @@ export async function findTags(
 }
 
 export async function flushCache() {
-  return await prisma.tags.upsert({
+  await prisma.tags.upsert({
     where: {
       name: 'flush',
     },
@@ -503,5 +504,6 @@ export async function flushCache() {
       name: 'flush',
       published: false
     }
-  })
+  });
+  return true;
 }

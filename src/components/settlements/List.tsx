@@ -1,6 +1,6 @@
 import { Button } from '@material-tailwind/react';
 import { RotateCwIcon } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { callAPI } from '@/lib/api';
 
@@ -9,8 +9,10 @@ import { List, ListItem } from '@/components/blocks/List';
 import { Headline } from '@/components/Headline';
 import Skeleton, { skeletonClass, skeletonStyle } from '@/components/Skeleton';
 
-export function ListSettlements() {
-  const [settlements, setSettlements] = useState([]);
+import { BaseSettlement } from '@/pages/admin';
+
+export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSettlement[] }) {
+  const [settlements, setSettlements] = useState(settlementsInput);
   const [loading, setLoading] = useState(false);
 
   const getSettlements = async () => {
@@ -20,10 +22,6 @@ export function ListSettlements() {
     setSettlements(settlements);
     setLoading(false);
   };
-
-  useEffect(() => {
-    getSettlements();
-  }, [])
 
   return (
     <>
