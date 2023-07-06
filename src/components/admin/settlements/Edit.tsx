@@ -3,11 +3,12 @@ import { useState } from 'react';
 import { callAPI } from '@/lib/api';
 
 import { Map } from '@/components/admin/settlements/Map';
+import { Timeline } from '@/components/admin/settlements/Timeline';
 import { Box, Container } from '@/components/blocks/Box';
 import { DetailsList } from '@/components/blocks/DetailsList';
 import { InputGhost } from '@/components/blocks/form/Input';
+import { TextareaGhost } from '@/components/blocks/form/Textarea';
 import { TagList } from '@/components/blocks/Tags';
-import { Timeline } from '@/components/blocks/Timeline';
 import { Headline } from '@/components/Headline';
 
 import type { Architect, BaseSettlement, Tag } from '@/pages/admin';
@@ -19,6 +20,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
   const [loading, setLoading] = useState<boolean>(false);
 
   const updateSettlement = (input: Partial<BaseSettlement>) => {
+    console.log(input)
     setSettlement({
       ...settlement,
       ...input,
@@ -32,7 +34,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
       payload: {
         data: {
           name: settlement.name,
-          description: settlement.description
+          description: settlement.description,
         },
         where: { id: settlement.id }
       }
@@ -49,7 +51,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
             <>{loading && 'loading'}</>
             <>
               <div className='align-middle'>
-                <Headline type="h1" className='inline-block'>
+                <Headline type='h1' className='inline-block'>
                   <InputGhost
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => updateSettlement({ name: event.target.value })}
                     value={settlement.name} />
@@ -59,11 +61,11 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
                 )}
               </div>
               {settlement.description && (
-                <p>
-                  <InputGhost
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => updateSettlement({ description: event.target.value })}
+                <div>
+                  <TextareaGhost
+                    onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => updateSettlement({ description: event.target.value })}
                     value={settlement.description} />
-                </p>
+                </div>
               )}
             </>
           </Box>
@@ -73,7 +75,8 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
             {settlement.events.length > 0 && (
               <Box>
                 <Headline className='inline-block' tag='h2' type='h3'>Historie</Headline>
-                <Timeline events={settlement.events} />
+                <Timeline
+                  events={settlement.events} />
               </Box>
             )}
             {settlement.details.length > 0 && (
@@ -102,14 +105,16 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
             )}
           </>
         </Container>
-        <div className='columns-2 gap-3 md:gap-5'>
+        <Container cols='md:grid-cols-2'>
           <>
             {settlement.resources.length > 0 && (
               <>
-                {settlement.resources.filter(resource => resource.type.name === 'Foto').map((resource, index) => (
-                  <Box key={resource.id} className={index < settlement.resources.filter(resource => resource.type.name === 'Foto').length - 2 ? 'mb-5 p-0 block' : 'p-0 block'}>
-                    <img className='block' src={resource.url} alt={resource.description} loading='lazy' />
-                    <div className='px-5 py-4'>
+                {settlement.resources.filter(resource => resource.type.name === 'Foto').map((resource) => (
+                  <Box key={resource.id} className="py-3 md:p-0 h-60 lg:h-96 justify-between">
+                    <div className='bg-grey-light grow flex items-center overflow-hidden mb-1 md:mb-0'>
+                      <img src={resource.url} alt={resource.description} loading='lazy' />
+                    </div>
+                    <div className='md:px-5 pt-2 md:pt-4 md:pb-4'>
                       {resource.description}
                     </div>
                   </Box>
@@ -117,7 +122,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
               </>
             )}
           </>
-        </div>
+        </Container>
         <>
           {settlement.location && settlement.location.lat > 0 && settlement.location.lng > 0 && (
             <Container>

@@ -1,9 +1,9 @@
 import { Prisma } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { ArchitectsInclude, ArchitectsSelect, createArchitect, createSettlement, createTag, deleteArchitect, deleteSettlement, deleteTag, DetailsSelect, DetailsTypesSelect, EventsSelect, EventTypesSelect, findArchitect, findArchitects, findDetails, findEvents, findEventTypes, findResources, findResourceTypes, findSettlement, findSettlements, findTags, flushCache, LocationsSelect, ResourcesSelect, ResourceTypesSelect, SettlementsInclude, SettlementsSelect, SettlementTypesSelect, TagsSelect, updateSettlement } from '@/lib/db';
+import { ArchitectsInclude, ArchitectsSelect, createArchitect, createSettlement, createTag, deleteArchitect, deleteSettlement, deleteTag, DetailsSelect, DetailsTypesSelect, EventsInclude, EventsSelect, EventTypesSelect, findArchitect, findArchitects, findDetails, findEvent, findEvents, findEventTypes, findResources, findResourceTypes, findSettlement, findSettlements, findTags, flushCache, LocationsSelect, ResourcesSelect, ResourceTypesSelect, SettlementsInclude, SettlementsSelect, SettlementTypesSelect, TagsSelect, updateEvent, updateSettlement } from '@/lib/db';
 
-import { Architect, BaseArchitect, BaseSettlement, Detail, DetailType, Event, EventType, Location, Resource, ResourceType, Settlement, SettlementType, Tag } from '@/pages/admin';
+import { Architect, BaseArchitect, BaseEvent, BaseSettlement, Detail, DetailType, Event, EventType, Location, Resource, ResourceType, Settlement, SettlementType, Tag } from '@/pages/admin';
 
 export const baseTransformers = {
   settlement: (settlement: SettlementsInclude): BaseSettlement => {
@@ -29,6 +29,15 @@ export const baseTransformers = {
       description: architect.description ?? '',
       url: architect.url ?? '',
       settlements: architect.settlements.map((settlementsOnArchitect) => transformers.settlement(settlementsOnArchitect.settlement)),
+    };
+  },
+  event: (event: EventsInclude): BaseEvent => {
+    return {
+      id: event.id,
+      name: event.name,
+      description: event.description ?? '',
+      eventDate: event.eventDate.toDateString(),
+      type: transformers.eventType(event.eventType)
     };
   },
 }
@@ -172,10 +181,17 @@ const resolvers = {
     if (!settlement) throw new Error('settlement not found');
     return baseTransformers.settlement(settlement);
   },
-  getEvents: async (payload: Prisma.EventsFindManyArgs): Promise<void> => {
+  updateEvent: async (payload: Prisma.EventsUpdateArgs): Promise<Event> => {
+    return baseTransformers.event(await updateEvent(payload));
+  },
+  getEvent: async (payload: Prisma.EventsFindUniqueArgs): Promise<Event> => {
+    const event = await findEvent(payload);
+    if (!event) throw new Error('Event not found');
+    return baseTransformers.event(event);
+  },
+  getEvents: async (payload: Prisma.EventsFindManyArgs): Promise<Event[]> => {
     const events = await findEvents(payload);
-    return;
-    // return events.map(transformers.event);
+    return events.map(baseTransformers.event);
   },
   getEventTypes: async (payload?: Prisma.EventTypesFindManyArgs): Promise<EventType[]> => {
     const eventTypes = await (payload ? findEventTypes(payload) : findEventTypes());

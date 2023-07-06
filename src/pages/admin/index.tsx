@@ -9,6 +9,13 @@ export interface EventType {
   name: string;
   description: string;
 }
+export interface BaseEvent {
+  id: string;
+  name: string;
+  description: string;
+  type: EventType;
+  eventDate: string;
+}
 export interface Event {
   id: string;
   name: string;

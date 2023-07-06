@@ -95,3 +95,6 @@ p + p {
 .bg-highlight {
   background-color: var(--highlight);
 }
+.text-inherit {
+  font-size: inherit;
+}

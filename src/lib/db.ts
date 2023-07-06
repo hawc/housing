@@ -135,6 +135,10 @@ export type SettlementTypesSelect = Prisma.SettlementTypesGetPayload<{ select: t
 export type SettlementsOnSettlementTypesSelect = Prisma.SettlementsOnSettlementTypesGetPayload<{ select: typeof settlementsOnSettlementTypesSelect }>
 export type LocationsSelect = Prisma.LocationsGetPayload<{ select: typeof locationsSelect }>
 
+const eventsInclude = Prisma.validator<Prisma.EventsInclude>()({
+  eventType: true
+});
+
 const architectsInclude = Prisma.validator<Prisma.ArchitectsInclude>()({
   settlements: {
     select: {
@@ -178,6 +182,7 @@ const settlementsInclude = Prisma.validator<Prisma.SettlementsInclude>()({
   },
 });
 
+export type EventsInclude = Prisma.EventsGetPayload<{ include: typeof eventsInclude }>
 export type ArchitectsInclude = Prisma.ArchitectsGetPayload<{ include: typeof architectsInclude }>
 export type SettlementsInclude = Prisma.SettlementsGetPayload<{ include: typeof settlementsInclude }>
 
@@ -367,6 +372,17 @@ export async function deleteTag(
   });
 }
 
+export async function findEvent(
+  data: Prisma.EventsFindUniqueArgs
+) {
+  return await prisma.events.findUnique({
+    where: {
+      id: data.where.id,
+    },
+    include: eventsInclude
+  });
+}
+
 export async function findEvents(
   data: Prisma.EventsFindManyArgs
 ) {
@@ -382,6 +398,20 @@ export async function findEvents(
   return await prisma.events.findMany();
 }
 
+export async function updateEvent(
+  data: Prisma.EventsUpdateArgs
+) {
+  const updateData = data.data;
+  return await prisma.events.update({
+    where: {
+      id: data.where.id
+    },
+    data: {
+      ...updateData
+    },
+    include: eventsInclude
+  });
+}
 
 export async function findEventTypes(
   data?: Prisma.EventTypesFindManyArgs

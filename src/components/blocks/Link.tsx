@@ -11,7 +11,7 @@ interface LinkProps extends React.HTMLAttributes<HTMLElement> {
 
 export function Link({ children, href, arrow = false, back = false, ...rest }: LinkProps) {
   const isExternal = href.includes('http');
-  const arrowIcon = <svg className='self-center' style={{ height: '0.66rem' }} viewBox="0 0 73.082 74.219" xmlns="http://www.w3.org/2000/svg"><g transform='rotate(180deg)' strokeWidth="0" fill="currentcolor"><path d="M 73.082 37.109 L 35.973 74.219 L 26.811 65.128 L 48.153 43.786 L 0 43.786 L 0 30.433 L 48.153 30.433 L 26.811 9.126 L 35.973 0 L 73.082 37.109 Z" /></g></svg>;
+  const arrowIcon = <svg className='self-center' style={{ height: '0.66rem' }} viewBox="0 0 73.082 74.219" xmlns="http://www.w3.org/2000/svg"><g strokeWidth="0" fill="currentcolor"><path d="M 73.082 37.109 L 35.973 74.219 L 26.811 65.128 L 48.153 43.786 L 0 43.786 L 0 30.433 L 48.153 30.433 L 26.811 9.126 L 35.973 0 L 73.082 37.109 Z" /></g></svg>;
   return (
     <NextLink
       {...rest}
