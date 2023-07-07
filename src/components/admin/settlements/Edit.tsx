@@ -88,7 +88,6 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
       <Container>
         <Container>
           <Box>
-            <>{loading && 'loading'}</>
             <>
               <div className='align-middle'>
                 <Headline type='h1' className='inline-block'>
@@ -100,13 +99,11 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
                   <TagList className='ml-2 align-top' tags={settlement.tags} removeTag={removeTag} updateTag={updateTag} />
                 )}
               </div>
-              {settlement.description && (
-                <div>
-                  <TextareaGhost
-                    onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => updateSettlement({ description: event.target.value })}
-                    value={settlement.description} />
-                </div>
-              )}
+              <div>
+                <TextareaGhost
+                  onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => updateSettlement({ description: event.target.value })}
+                  value={settlement.description} />
+              </div>
             </>
           </Box>
         </Container>

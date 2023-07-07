@@ -209,6 +209,21 @@ export async function createArchitect(
   });
 }
 
+export async function updateArchitect(
+  data: Prisma.ArchitectsUpdateArgs
+) {
+  const updateData = data.data;
+  return await prisma.architects.update({
+    where: {
+      id: data.where.id
+    },
+    data: {
+      ...updateData
+    },
+    include: architectsInclude
+  });
+}
+
 export async function deleteArchitect(
   data: Prisma.ArchitectsDeleteArgs
 ) {

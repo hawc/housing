@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { ArchitectsInclude, ArchitectsSelect, createArchitect, createSettlement, createTag, deleteArchitect, deleteSettlement, deleteTag, DetailsSelect, DetailsTypesSelect, EventsInclude, EventsSelect, EventTypesSelect, findArchitect, findArchitects, findDetails, findEvent, findEvents, findEventTypes, findResources, findResourceTypes, findSettlement, findSettlements, findTags, flushCache, LocationsSelect, ResourcesSelect, ResourceTypesSelect, SettlementsInclude, SettlementsSelect, SettlementTypesSelect, TagsInclude, TagsSelect, updateEvent, updateSettlement, updateTag } from '@/lib/db';
+import { ArchitectsInclude, ArchitectsSelect, createArchitect, createSettlement, createTag, deleteArchitect, deleteSettlement, deleteTag, DetailsSelect, DetailsTypesSelect, EventsInclude, EventsSelect, EventTypesSelect, findArchitect, findArchitects, findDetails, findEvent, findEvents, findEventTypes, findResources, findResourceTypes, findSettlement, findSettlements, findTags, flushCache, LocationsSelect, ResourcesSelect, ResourceTypesSelect, SettlementsInclude, SettlementsSelect, SettlementTypesSelect, TagsInclude, TagsSelect, updateArchitect, updateEvent, updateSettlement, updateTag } from '@/lib/db';
 
 import { Architect, BaseArchitect, BaseEvent, BaseSettlement, BaseTag, Detail, DetailType, Event, EventType, Location, Resource, ResourceType, Settlement, SettlementType, Tag } from '@/pages/admin';
 
@@ -188,6 +188,9 @@ const resolvers = {
     const architect = await findArchitect(payload);
     if (!architect) throw new Error('architect not found');
     return baseTransformers.architect(architect);
+  },
+  updateArchitect: async (payload: Prisma.ArchitectsUpdateArgs): Promise<BaseArchitect> => {
+    return baseTransformers.architect(await updateArchitect(payload));
   },
   updateTag: async (payload: Prisma.TagsUpdateArgs): Promise<BaseTag> => {
     return baseTransformers.tag(await updateTag(payload));

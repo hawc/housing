@@ -1,48 +1,48 @@
 
 import { InferGetStaticPropsType } from 'next';
 
-import { findSettlement, findSettlements } from '@/lib/db';
+import { findArchitect, findArchitects } from '@/lib/db';
 
-import { SettlementEdit } from '@/components/admin/settlements/Edit';
+import { ArchitectEdit } from '@/components/admin/architects/Edit';
 import { Box, Container } from '@/components/blocks/Box';
 import { Link } from '@/components/blocks/Link';
 import Layout from '@/components/layout/Layout';
 
-import type { BaseSettlement } from '@/pages/admin';
+import type { BaseArchitect } from '@/pages/admin';
 import { baseTransformers } from '@/pages/api/db';
 
 export async function getStaticPaths() {
-  const settlements: BaseSettlement[] = (await findSettlements()).map(baseTransformers.settlement);
+  const architects: BaseArchitect[] = (await findArchitects()).map(baseTransformers.architect);
   return {
-    paths: settlements ? settlements.map(settlement => (
+    paths: architects ? architects.map(architect => (
       {
-        params: { slug: settlement.slug }
+        params: { slug: architect.slug }
       }
     )) : [],
     fallback: true,
   }
 }
 
-export async function getStaticProps({ params }: { params: { slug: string } }): Promise<{ props: { settlement: BaseSettlement } }> {
-  const settlement: BaseSettlement = baseTransformers.settlement(await findSettlement({ where: { slug: params.slug } }));
+export async function getStaticProps({ params }: { params: { slug: string } }): Promise<{ props: { architect: BaseArchitect } }> {
+  const architect: BaseArchitect = baseTransformers.architect(await findArchitect({ where: { slug: params.slug } }));
 
   return {
     props: {
-      settlement,
+      architect,
     },
   };
 }
 
-export default function SettlementPage({ settlement }: InferGetStaticPropsType<typeof getStaticProps>) {
+export default function ArchitectPage({ architect }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <Layout>
       <section>
         <Container>
           <Box ghost className='mb-2'>
-            <Link href='/admin/siedlungen' arrow back>zurück zur Übersicht</Link>
+            <Link href='/admin/architekten' arrow back>zurück zur Übersicht</Link>
           </Box>
-          {settlement && (
-            <SettlementEdit settlementInput={settlement} />
+          {architect && (
+            <ArchitectEdit architectInput={architect} />
           )}
         </Container>
       </section>
