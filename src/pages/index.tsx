@@ -9,7 +9,7 @@ import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
 
 export default function HomePage() {
-  const { user, error, isLoading } = useUser();
+  const { user } = useUser();
 
   return (
     <Layout>

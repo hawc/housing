@@ -229,7 +229,7 @@ export async function createSettlement(
   return await prisma.settlements.create({
     data: {
       name: data.data.name,
-      slug: '',
+      slug: data.data.slug
     },
     include: settlementsInclude
   });
@@ -364,10 +364,10 @@ export async function createTag(
   data: Prisma.TagsCreateArgs
 ) {
   const updateData = data.data;
-  console.log(updateData)
   return await prisma.tags.create({
     data: {
-      ...updateData
+      name: updateData.name,
+      description: updateData.description,
     },
   });
 }
