@@ -95,9 +95,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => updateSettlement({ name: event.target.value })}
                     value={settlement.name} />
                 </Headline>
-                {settlement.tags.length > 0 && (
-                  <TagList className='ml-2 align-top' tags={settlement.tags} removeTag={removeTag} updateTag={updateTag} />
-                )}
+                <TagList className='ml-2 align-top' tags={settlement.tags} removeTag={removeTag} updateTag={updateTag} />
               </div>
               <div>
                 <TextareaGhost
