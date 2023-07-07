@@ -1,4 +1,3 @@
-import { Input } from '@material-tailwind/react';
 import { RotateCwIcon } from 'lucide-react';
 import { useState } from 'react';
 
@@ -11,42 +10,6 @@ import { List, ListItem } from '@/components/blocks/List';
 import { Headline } from '@/components/Headline';
 
 import { Architect, BaseArchitect } from '@/pages/admin';
-
-function AddArchitect({ getArchitects }: { getArchitects: () => Promise<void> | void }) {
-  const [architect, setArchitect] = useState<string | null>(null);
-
-  const addArchitect = async (architectName: string) => {
-    if (!architectName) {
-      return console.error('No name provided');
-    }
-    await callAPI({
-      type: 'addArchitect',
-      payload: {
-        data: {
-          name: architectName
-        }
-      }
-    });
-    await getArchitects();
-  };
-
-  return (
-    <>
-      <div>
-        <Input
-          label='New Architect Name'
-          className="pr-20"
-          containerProps={{
-            className: 'min-w-0',
-          }}
-          value={architect ?? ''}
-          onChange={({ target }) => setArchitect(target.value)} />
-        <Button
-          className="ml-2 right-1 top-1 rounded"
-          onClick={() => architect && addArchitect(architect)}>Add</Button>
-      </div></>
-  );
-}
 
 export function ListArchitects({ architectsInput }: { architectsInput: BaseArchitect[] }) {
   const [architects, setArchitects] = useState<Architect[]>(architectsInput);
@@ -84,14 +47,9 @@ export function ListArchitects({ architectsInput }: { architectsInput: BaseArchi
               {architects.map(({ name, slug }) => (
                 <ListItem plain key={slug} className='flex'>
                   <span><Link arrow href='#'>{name}</Link></span>
-                  <Button
-                    className="ml-2 right-1 top-1 rounded"
-                    onClick={() => { return }}>Löschen</Button>
+                  <Button className="ml-2 right-1 top-1 rounded">Löschen</Button>
                 </ListItem>
               ))}
-              <ListItem plain>
-                <AddArchitect getArchitects={() => getArchitects()} />
-              </ListItem>
             </List>
           ) : architects ? (
             <List>
@@ -103,14 +61,14 @@ export function ListArchitects({ architectsInput }: { architectsInput: BaseArchi
                     onClick={() => deleteArchitect(id)}>Löschen</Button>
                 </ListItem>
               ))}
-              <ListItem plain>
-                <AddArchitect getArchitects={() => getArchitects()} />
-              </ListItem>
             </List>
           ) : (
             <>Keine Datensätze gefunden.</>
           )}
         </div>
+      </Box>
+      <Box>
+        <Link arrow href="/admin/architekten/neu">Neuer Architekt</Link>
       </Box>
     </>
   );

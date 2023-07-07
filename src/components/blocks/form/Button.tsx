@@ -9,7 +9,7 @@ interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   onClick?: (...args: any[]) => void | Promise<void>;
 }
 
-export function Button({ children, className = '', type = 'button', onClick, disabled = false, ghost = false, ...rest }: ButtonProps) {
+export function Button({ children, className = '', type = 'button', onClick = () => { return }, disabled = false, ghost = false, ...rest }: ButtonProps) {
   return (
     <>
       <button

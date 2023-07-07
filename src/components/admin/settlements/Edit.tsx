@@ -1,4 +1,5 @@
 import { Loader2Icon } from 'lucide-react';
+import Link from 'next/link';
 import { useState } from 'react';
 
 import { callAPI } from '@/lib/api';
@@ -170,8 +171,9 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
           )}
         </>
       </Container>
-      <Container>
-        <Button onClick={submitData} disabled={loading}><>Änderungen speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</></Button>
+      <Container cols='grid-cols-2'>
+        <Button onClick={submitData} disabled={loading}><>Speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</></Button>
+        <Link href="/admin/siedlungen" className='inline-block py-1 px-3 bg-content text-center'>Abbrechen</Link>
       </Container>
     </>
   );

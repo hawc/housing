@@ -1,4 +1,3 @@
-import { Input } from '@material-tailwind/react';
 import { RotateCwIcon } from 'lucide-react';
 import { useState } from 'react';
 
@@ -11,42 +10,6 @@ import { List, ListItem } from '@/components/blocks/List';
 import { Headline } from '@/components/Headline';
 
 import { BaseSettlement, Settlement } from '@/pages/admin';
-
-function AddSettlement({ getSettlements }: { getSettlements: () => Promise<void> | void }) {
-  const [settlement, setSettlement] = useState<string | null>(null);
-
-  const addSettlement = async (settlementName: string) => {
-    if (!settlementName) {
-      return console.error('No name provided');
-    }
-    await callAPI({
-      type: 'addSettlement',
-      payload: {
-        data: {
-          name: settlementName
-        }
-      }
-    });
-    await getSettlements();
-  };
-
-  return (
-    <>
-      <div>
-        <Input
-          label='New Settlement Name'
-          className="pr-20"
-          containerProps={{
-            className: 'min-w-0',
-          }}
-          value={settlement ?? ''}
-          onChange={({ target }) => setSettlement(target.value)} />
-        <Button
-          className="ml-2 right-1 top-1 rounded"
-          onClick={() => settlement && addSettlement(settlement)}>Add</Button>
-      </div></>
-  );
-}
 
 export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSettlement[] }) {
   const [settlements, setSettlements] = useState<Settlement[]>(settlementsInput);
@@ -89,9 +52,6 @@ export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSe
                     onClick={() => { return }}>Löschen</Button>
                 </ListItem>
               ))}
-              <ListItem plain>
-                <AddSettlement getSettlements={() => getSettlements()} />
-              </ListItem>
             </List>
           ) : settlements ? (
             <List>
@@ -103,14 +63,14 @@ export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSe
                     onClick={() => deleteSettlement(id)}>Löschen</Button>
                 </ListItem>
               ))}
-              <ListItem plain>
-                <AddSettlement getSettlements={() => getSettlements()} />
-              </ListItem>
             </List>
           ) : (
             <>Keine Datensätze gefunden.</>
           )}
         </div>
+      </Box>
+      <Box>
+        <Link arrow href="/admin/siedlungen/neu">Neue Siedlung</Link>
       </Box>
     </>
   );
