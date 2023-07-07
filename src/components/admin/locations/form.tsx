@@ -1,8 +1,9 @@
-import { Button, Input, List, ListItem } from '@material-tailwind/react';
+import { Input, List, ListItem } from '@material-tailwind/react';
 import { useEffect, useState } from 'react';
 
 import { callAPI } from '@/lib/api';
 
+import { Button } from '@/components/blocks/form/Button';
 import Skeleton, { skeletonClass, skeletonStyle } from '@/components/Skeleton';
 
 function AddLocation({ getLocations }: { getLocations: () => Promise<void> | void }) {
@@ -28,7 +29,6 @@ function AddLocation({ getLocations }: { getLocations: () => Promise<void> | voi
           value={location ?? ''}
           onChange={({ target }) => setLocation(target.value)} />
         <Button
-          size='sm'
           className='ml-2 right-1 top-1 rounded'
           onClick={() => location && addLocation(location)}>Add</Button>
       </div></>
@@ -69,7 +69,6 @@ export function ListLocations() {
                 <Skeleton nested>{id}: {name}
                   <Button
                     disabled
-                    size='sm'
                     className='ml-2 right-1 top-1 rounded'
                   >Delete</Button></Skeleton>
               </ListItem>
@@ -85,7 +84,6 @@ export function ListLocations() {
             {locations.map(({ name, id }) => (
               <ListItem key={id}>{id}: {name}
                 <Button
-                  size='sm'
                   className='ml-2 right-1 top-1 rounded'
                   onClick={() => deleteLocation(id)}>Delete</Button></ListItem>
             ))}

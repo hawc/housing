@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import { callAPI } from '@/lib/api';
 
+import { Button } from '@/components/blocks/form/Button';
 import { InputGhost } from '@/components/blocks/form/Input';
 import { TextareaGhost } from '@/components/blocks/form/Textarea';
 import { Headline } from '@/components/Headline';
@@ -119,7 +120,7 @@ export function Event({ event, hasConnector = false }: { event: Event, hasConnec
         </TimelineHeader>
         <TimelineBody>
           <TextareaGhost value={event.description} onChange={(e) => event.description = e.target.value} />
-          <button onClick={submitData}>Änderungen speichern {loading && <Loader2Icon className='animate-spin' />}</button>
+          <Button onClick={submitData} disabled={loading}><>Änderungen speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</></Button>
         </TimelineBody>
       </TimelineItem>
     </>

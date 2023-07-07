@@ -1,10 +1,11 @@
-import { Button, Input, List, ListItem } from '@material-tailwind/react';
+import { Input, List, ListItem } from '@material-tailwind/react';
 import { RotateCwIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 
 import { callAPI } from '@/lib/api';
 
+import { Button } from '@/components/blocks/form/Button';
 import Skeleton, { skeletonClass, skeletonStyle } from '@/components/Skeleton';
 
 import { BaseSettlement, Settlement } from '@/pages/admin';
@@ -39,7 +40,6 @@ function AddSettlement({ getSettlements }: { getSettlements: () => Promise<void>
           value={settlement ?? ''}
           onChange={({ target }) => setSettlement(target.value)} />
         <Button
-          size="sm"
           className="ml-2 right-1 top-1 rounded"
           onClick={() => settlement && addSettlement(settlement)}>Add</Button>
       </div></>
@@ -69,7 +69,7 @@ export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSe
     <>
       <div className='mt-4'>
         <h1 className='inline-block'>Siedlungen: Übersicht</h1>
-        <Button size='sm' className='align-top mt-1 ml-3' onClick={() => getSettlements()}><RotateCwIcon className={`align-text-bottom ${loading && 'animate-spin'}`} size={16} /></Button>
+        <Button className='align-top mt-1 ml-3' onClick={() => getSettlements()}><RotateCwIcon className={`align-text-bottom ${loading && 'animate-spin'}`} size={16} /></Button>
       </div>
       <div className="relative flex w-full max-w-[24rem]">
         {loading && settlements ? (
@@ -80,7 +80,6 @@ export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSe
                   <Link href={`/admin/siedlungen/${slug}`}>{name}</Link>
                   <Button
                     disabled
-                    size='sm'
                     className="ml-2 right-1 top-1 rounded"
                   >Bearbeiten</Button></Skeleton>
               </ListItem>
@@ -97,7 +96,7 @@ export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSe
               <ListItem key={slug}>
                 <Link href={`/admin/siedlungen/${slug}`}>{name}</Link>
                 <Button
-                  size='sm'
+
                   className="ml-2 right-1 top-1 rounded"
                   onClick={() => deleteSettlement(id)}>Löschen</Button>
               </ListItem>

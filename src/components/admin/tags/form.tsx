@@ -1,8 +1,9 @@
-import { Button, Input, List, ListItem } from '@material-tailwind/react';
+import { Input, List, ListItem } from '@material-tailwind/react';
 import { useEffect, useState } from 'react';
 
 import { callAPI } from '@/lib/api';
 
+import { Button } from '@/components/blocks/form/Button';
 import Skeleton, { skeletonClass, skeletonStyle } from '@/components/Skeleton';
 
 function AddTag({ getTags }: { getTags: () => Promise<void> | void }) {
@@ -28,7 +29,6 @@ function AddTag({ getTags }: { getTags: () => Promise<void> | void }) {
           value={tag ?? ''}
           onChange={({ target }) => setTag(target.value)} />
         <Button
-          size="sm"
           className="ml-2 right-1 top-1 rounded"
           onClick={() => tag && addTag(tag)}>Add</Button>
       </div></>
@@ -69,7 +69,6 @@ export function ListTags() {
                 <Skeleton nested>{id}: {name}
                   <Button
                     disabled
-                    size='sm'
                     className="ml-2 right-1 top-1 rounded"
                   >Delete</Button></Skeleton>
               </ListItem>
@@ -85,7 +84,6 @@ export function ListTags() {
             {tags.map(({ name, id }) => (
               <ListItem key={id}>{id}: {name}
                 <Button
-                  size='sm'
                   className="ml-2 right-1 top-1 rounded"
                   onClick={() => deleteTag(id)}>Delete</Button></ListItem>
             ))}

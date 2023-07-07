@@ -1,9 +1,9 @@
-import { Button } from '@material-tailwind/react';
 import { RotateCwIcon } from 'lucide-react';
 import { useState } from 'react';
 
 import { callAPI } from '@/lib/api';
 
+import { Button } from '@/components/blocks/form/Button';
 import { Link } from '@/components/blocks/Link';
 import { List, ListItem } from '@/components/blocks/List';
 import { Headline } from '@/components/Headline';
@@ -27,7 +27,7 @@ export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSe
     <>
       <div>
         <Headline type='h1' className='inline-block'>Siedlungen: Übersicht</Headline>
-        <Button size='sm' color='white' className='align-top mt-1 ml-3' onClick={() => getSettlements()}><RotateCwIcon className={`align-text-bottom ${loading && 'animate-spin'}`} size={16} /></Button>
+        <Button color='white' className='align-top mt-1 ml-3' onClick={() => getSettlements()}><RotateCwIcon className={`align-text-bottom ${loading && 'animate-spin'}`} size={16} /></Button>
       </div>
       <div className="relative flex w-full max-w-[24rem]">
         {loading && settlements ? (

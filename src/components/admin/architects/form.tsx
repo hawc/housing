@@ -1,8 +1,9 @@
-import { Button, Input, List, ListItem } from '@material-tailwind/react';
+import { Input, List, ListItem } from '@material-tailwind/react';
 import { useEffect, useState } from 'react';
 
 import { callAPI } from '@/lib/api';
 
+import { Button } from '@/components/blocks/form/Button';
 import Skeleton, { skeletonClass, skeletonStyle } from '@/components/Skeleton';
 
 function AddArchitect({ getArchitects }: { getArchitects: () => Promise<void> | void }) {
@@ -34,7 +35,6 @@ function AddArchitect({ getArchitects }: { getArchitects: () => Promise<void> | 
         value={architect ?? ''}
         onChange={({ target }) => setArchitect(target.value)} />
       <Button
-        size="sm"
         className="ml-2 right-1 top-1 rounded"
         onClick={() => architect && addArchitect(architect)}>Add</Button>
     </>
@@ -75,7 +75,6 @@ export function ListArchitects() {
                 <Skeleton nested>{id}: {name}
                   <Button
                     disabled
-                    size='sm'
                     className="ml-2 right-1 top-1 rounded"
                   >Delete</Button></Skeleton>
               </ListItem>
@@ -91,7 +90,6 @@ export function ListArchitects() {
             {architects.map(({ name, id }) => (
               <ListItem key={id}>{id}: {name}
                 <Button
-                  size='sm'
                   className="ml-2 right-1 top-1 rounded"
                   onClick={() => deleteArchitect(id)}>Delete</Button></ListItem>
             ))}

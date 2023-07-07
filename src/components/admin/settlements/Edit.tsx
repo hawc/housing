@@ -6,6 +6,7 @@ import { Map } from '@/components/admin/settlements/Map';
 import { Timeline } from '@/components/admin/settlements/Timeline';
 import { Box, Container } from '@/components/blocks/Box';
 import { DetailsList } from '@/components/blocks/DetailsList';
+import { Button } from '@/components/blocks/form/Button';
 import { InputGhost } from '@/components/blocks/form/Input';
 import { TextareaGhost } from '@/components/blocks/form/Textarea';
 import { TagList } from '@/components/blocks/Tags';
@@ -132,7 +133,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
         </>
       </Container>
       <Container>
-        <button onClick={submitData}>Änderungen speichern</button>
+        <Button onClick={submitData}>Änderungen speichern</Button>
       </Container>
     </>
   );
