@@ -1,13 +1,16 @@
+import { useUser } from '@auth0/nextjs-auth0/client';
 import Image from 'next/image';
 import * as React from 'react';
 
 import { Box, Container } from '@/components/blocks/Box';
-import { Link, Link as StyledLink } from '@/components/blocks/Link';
-import { List, ListItem } from '@/components/blocks/List';
+import { Link as StyledLink } from '@/components/blocks/Link';
+import { Headline } from '@/components/Headline';
 import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
 
 export default function HomePage() {
+  const { user, error, isLoading } = useUser();
+
   return (
     <Layout>
       {/* <Seo templateTitle='Home' /> */}
@@ -22,24 +25,16 @@ export default function HomePage() {
             <StyledLink href='/siedlungen' arrow>Zum Archiv</StyledLink>
           </Box>
           <Box>
-            <List>
-              <ListItem>
-                <Link href="/architekten">
-                  Architekten
-                </Link>
-              </ListItem>
-              <ListItem>
-                <Link href="/siedlungen">
-                  Siedlungen
-                </Link>
-              </ListItem>
-              <ListItem>
-                <Link href="/tags">
-                  Tags
-                </Link>
-              </ListItem>
-            </List>
+            <StyledLink href='/architekten' arrow>Architekten</StyledLink>
           </Box>
+          {user && (
+            <Box>
+              <Headline type='h3' tag='h2' className='mb-2'>Administration</Headline>
+              <StyledLink href='/admin/siedlungen' arrow>Siedlungen</StyledLink>
+              <StyledLink href='/admin/architekten' arrow>Architekten</StyledLink>
+              <StyledLink href='/admin/tags' arrow>Tags</StyledLink>
+            </Box>
+          )}
         </Container>
       </section>
     </Layout>
