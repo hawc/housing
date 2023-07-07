@@ -34,12 +34,12 @@ export function ListArchitects({ architectsInput }: { architectsInput: BaseArchi
         </div>
       </Box>
       <Box>
-        <div className={`transition-filter ${loading ? 'blur-sm' : 'blur-none'}`}>
+        <div className={`transition-filter ${loading ? 'blur-sm pointer-events-none' : 'blur-none'}`}>
           {loading && architects ? (
             <List>
               {architects.map(({ name, slug }) => (
                 <ListItem plain key={slug}>
-                  <Link href='#' className='pointer-events-none'>{name}</Link>
+                  <Link href='#'>{name}</Link>
                 </ListItem>
               ))}
             </List>

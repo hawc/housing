@@ -10,60 +10,60 @@ import { Link } from '@/components/blocks/Link';
 import { List, ListItem } from '@/components/blocks/List';
 import { Headline } from '@/components/Headline';
 
-import { BaseSettlement, Settlement } from '@/pages/admin';
+import { Architect, BaseArchitect } from '@/pages/admin';
 
-function AddSettlement({ getSettlements }: { getSettlements: () => Promise<void> | void }) {
-  const [settlement, setSettlement] = useState<string | null>(null);
+function AddArchitect({ getArchitects }: { getArchitects: () => Promise<void> | void }) {
+  const [architect, setArchitect] = useState<string | null>(null);
 
-  const addSettlement = async (settlementName: string) => {
-    if (!settlementName) {
+  const addArchitect = async (architectName: string) => {
+    if (!architectName) {
       return console.error('No name provided');
     }
     await callAPI({
-      type: 'addSettlement',
+      type: 'addArchitect',
       payload: {
         data: {
-          name: settlementName
+          name: architectName
         }
       }
     });
-    await getSettlements();
+    await getArchitects();
   };
 
   return (
     <>
       <div>
         <Input
-          label='New Settlement Name'
+          label='New Architect Name'
           className="pr-20"
           containerProps={{
             className: 'min-w-0',
           }}
-          value={settlement ?? ''}
-          onChange={({ target }) => setSettlement(target.value)} />
+          value={architect ?? ''}
+          onChange={({ target }) => setArchitect(target.value)} />
         <Button
           className="ml-2 right-1 top-1 rounded"
-          onClick={() => settlement && addSettlement(settlement)}>Add</Button>
+          onClick={() => architect && addArchitect(architect)}>Add</Button>
       </div></>
   );
 }
 
-export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSettlement[] }) {
-  const [settlements, setSettlements] = useState<Settlement[]>(settlementsInput);
+export function ListArchitects({ architectsInput }: { architectsInput: BaseArchitect[] }) {
+  const [architects, setArchitects] = useState<Architect[]>(architectsInput);
   const [loading, setLoading] = useState(false);
 
-  const getSettlements = async () => {
+  const getArchitects = async () => {
     setLoading(true);
     await callAPI({ type: 'clearCache' });
-    const settlements = await callAPI({ type: 'getSettlements' });
-    setSettlements(settlements);
+    const architects = await callAPI({ type: 'getArchitects' });
+    setArchitects(architects);
     setLoading(false);
   };
 
-  const deleteSettlement = async (id: string) => {
+  const deleteArchitect = async (id: string) => {
     setLoading(true);
-    await callAPI({ type: 'deleteSettlement', payload: { where: { id } } });
-    getSettlements();
+    await callAPI({ type: 'deleteArchitect', payload: { where: { id } } });
+    getArchitects();
     setLoading(false);
   };
 
@@ -71,17 +71,17 @@ export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSe
     <>
       <Box>
         <div className='flex'>
-          <Headline type='h1' className='mb-0 inline-block'>Siedlungen: Übersicht</Headline>
-          <Button className='ml-3 p-2 rounded-full' onClick={() => getSettlements()}>
+          <Headline type='h1' className='mb-0 inline-block'>Architekten: Übersicht</Headline>
+          <Button className='ml-3 p-2 rounded-full' onClick={() => getArchitects()}>
             <RotateCwIcon className={`align-text-bottom ${loading && 'animate-spin'}`} size={15} />
           </Button>
         </div>
       </Box>
       <Box>
         <div className={`transition-filter ${loading ? 'blur-sm pointer-events-none' : 'blur-none'}`}>
-          {loading && settlements ? (
+          {loading && architects ? (
             <List>
-              {settlements.map(({ name, slug }) => (
+              {architects.map(({ name, slug }) => (
                 <ListItem plain key={slug} className='flex'>
                   <span><Link arrow href='#'>{name}</Link></span>
                   <Button
@@ -90,21 +90,21 @@ export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSe
                 </ListItem>
               ))}
               <ListItem plain>
-                <AddSettlement getSettlements={() => getSettlements()} />
+                <AddArchitect getArchitects={() => getArchitects()} />
               </ListItem>
             </List>
-          ) : settlements ? (
+          ) : architects ? (
             <List>
-              {settlements.map(({ id, name, slug }) => (
+              {architects.map(({ id, name, slug }) => (
                 <ListItem plain key={slug} className='flex'>
-                  <span><Link arrow href={`/admin/siedlungen/${slug}`}>{name}</Link></span>
+                  <span><Link arrow href={`/admin/architekten/${slug}`}>{name}</Link></span>
                   <Button
                     className="ml-2 right-1 top-1 rounded"
-                    onClick={() => deleteSettlement(id)}>Löschen</Button>
+                    onClick={() => deleteArchitect(id)}>Löschen</Button>
                 </ListItem>
               ))}
               <ListItem plain>
-                <AddSettlement getSettlements={() => getSettlements()} />
+                <AddArchitect getArchitects={() => getArchitects()} />
               </ListItem>
             </List>
           ) : (
