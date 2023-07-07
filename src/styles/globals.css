@@ -98,3 +98,6 @@ p + p {
 .text-inherit {
   font-size: inherit;
 }
+.transition-filter {
+  transition: filter 0.3s;
+}

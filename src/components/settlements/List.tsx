@@ -3,11 +3,11 @@ import { useState } from 'react';
 
 import { callAPI } from '@/lib/api';
 
+import { Box } from '@/components/blocks/Box';
 import { Button } from '@/components/blocks/form/Button';
 import { Link } from '@/components/blocks/Link';
 import { List, ListItem } from '@/components/blocks/List';
 import { Headline } from '@/components/Headline';
-import Skeleton, { skeletonClass, skeletonStyle } from '@/components/Skeleton';
 
 import { BaseSettlement } from '@/pages/admin';
 
@@ -25,33 +25,37 @@ export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSe
 
   return (
     <>
-      <div>
-        <Headline type='h1' className='inline-block'>Siedlungen: Übersicht</Headline>
-        <Button color='white' className='align-top mt-1 ml-3' onClick={() => getSettlements()}><RotateCwIcon className={`align-text-bottom ${loading && 'animate-spin'}`} size={16} /></Button>
-      </div>
-      <div className="relative flex w-full max-w-[24rem]">
-        {loading && settlements ? (
-          <List>
-            {settlements.map(({ name, slug }) => (
-              <ListItem key={slug} plain className={skeletonClass} style={skeletonStyle}>
-                <Skeleton nested>
+      <Box>
+        <div className='flex'>
+          <Headline type='h1' className='mb-0 inline-block'>Siedlungen: Übersicht</Headline>
+          <Button className='ml-3 p-2 rounded-full' onClick={() => getSettlements()}>
+            <RotateCwIcon className={`align-text-bottom ${loading && 'animate-spin'}`} size={15} />
+          </Button>
+        </div>
+      </Box>
+      <Box>
+        <div className={`transition-filter ${loading ? 'blur-sm' : 'blur-none'}`}>
+          {loading && settlements ? (
+            <List>
+              {settlements.map(({ name, slug }) => (
+                <ListItem plain key={slug}>
+                  <Link href='#' className='pointer-events-none'>{name}</Link>
+                </ListItem>
+              ))}
+            </List>
+          ) : settlements ? (
+            <List>
+              {settlements.map(({ name, slug }) => (
+                <ListItem plain key={slug}>
                   <Link href={`/siedlungen/${slug}`}>{name}</Link>
-                </Skeleton>
-              </ListItem>
-            ))}
-          </List>
-        ) : settlements ? (
-          <List>
-            {settlements.map(({ name, slug }) => (
-              <ListItem plain key={slug}>
-                <Link href={`/siedlungen/${slug}`}>{name}</Link>
-              </ListItem>
-            ))}
-          </List>
-        ) : (
-          <>Couldn't load settlements.</>
-        )}
-      </div >
+                </ListItem>
+              ))}
+            </List>
+          ) : (
+            <>Keine Datensätze gefunden.</>
+          )}
+        </div>
+      </Box>
     </>
   );
 }

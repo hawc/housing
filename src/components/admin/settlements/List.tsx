@@ -69,7 +69,7 @@ export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSe
     <>
       <div className='mt-4'>
         <h1 className='inline-block'>Siedlungen: Übersicht</h1>
-        <Button className='align-top mt-1 ml-3' onClick={() => getSettlements()}><RotateCwIcon className={`align-text-bottom ${loading && 'animate-spin'}`} size={16} /></Button>
+        <Button className='align-top mt-1 ml-3' onClick={() => getSettlements()}><RotateCwIcon className={`align-text-bottom ${loading && 'animate-spin'}`} size={15} /></Button>
       </div>
       <div className="relative flex w-full max-w-[24rem]">
         {loading && settlements ? (

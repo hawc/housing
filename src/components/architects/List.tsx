@@ -1,16 +1,18 @@
 import { RotateCwIcon } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { callAPI } from '@/lib/api';
 
+import { Box } from '@/components/blocks/Box';
 import { Button } from '@/components/blocks/form/Button';
 import { Link } from '@/components/blocks/Link';
 import { List, ListItem } from '@/components/blocks/List';
 import { Headline } from '@/components/Headline';
-import Skeleton, { skeletonClass, skeletonStyle } from '@/components/Skeleton';
 
-export function ListArchitects() {
-  const [architects, setArchitects] = useState([]);
+import { BaseArchitect } from '@/pages/admin';
+
+export function ListArchitects({ architectsInput }: { architectsInput: BaseArchitect[] }) {
+  const [architects, setArchitects] = useState(architectsInput);
   const [loading, setLoading] = useState(false);
 
   const getArchitects = async () => {
@@ -21,39 +23,39 @@ export function ListArchitects() {
     setLoading(false);
   };
 
-  useEffect(() => {
-    getArchitects();
-  }, [])
-
   return (
     <>
-      <div>
-        <Headline type='h1' className='inline-block'>Architekten: Übersicht</Headline>
-        <Button color='white' className='align-top mt-1 ml-3' onClick={() => getArchitects()}><RotateCwIcon className={`align-text-bottom ${loading && 'animate-spin'}`} size={16} /></Button>
-      </div>
-      <div className="relative flex w-full max-w-[24rem]">
-        {loading && architects ? (
-          <List>
-            {architects.map(({ name, slug }) => (
-              <ListItem key={slug} plain className={skeletonClass} style={skeletonStyle}>
-                <Skeleton nested>
+      <Box>
+        <div className='flex'>
+          <Headline type='h1' className='mb-0 inline-block'>Architekten: Übersicht</Headline>
+          <Button className='ml-3 p-2 rounded-full' onClick={() => getArchitects()}>
+            <RotateCwIcon className={`align-text-bottom ${loading && 'animate-spin'}`} size={15} />
+          </Button>
+        </div>
+      </Box>
+      <Box>
+        <div className={`transition-filter ${loading ? 'blur-sm' : 'blur-none'}`}>
+          {loading && architects ? (
+            <List>
+              {architects.map(({ name, slug }) => (
+                <ListItem plain key={slug}>
+                  <Link href='#' className='pointer-events-none'>{name}</Link>
+                </ListItem>
+              ))}
+            </List>
+          ) : architects ? (
+            <List>
+              {architects.map(({ name, slug }) => (
+                <ListItem plain key={slug}>
                   <Link href={`/architekten/${slug}`}>{name}</Link>
-                </Skeleton>
-              </ListItem>
-            ))}
-          </List>
-        ) : architects ? (
-          <List>
-            {architects.map(({ name, slug }) => (
-              <ListItem plain key={slug}>
-                <Link href={`/architekten/${slug}`}>{name}</Link>
-              </ListItem>
-            ))}
-          </List>
-        ) : (
-          <>Couldn't load architects.</>
-        )}
-      </div >
+                </ListItem>
+              ))}
+            </List>
+          ) : (
+            <>Keine Datensätze gefunden.</>
+          )}
+        </div>
+      </Box>
     </>
   );
 }

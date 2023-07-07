@@ -24,7 +24,7 @@ function TimelineItem({ children }: React.HTMLAttributes<HTMLElement>) {
 
 function TimelineIcon({ children }: React.HTMLAttributes<HTMLElement>) {
   return (
-    <span className="w-max relative z-[2] flex-shrink-0 rounded-full overflow-hidden bg-bg text-grey-light p-2" style={{ margin: '-0.5rem 0', top: '0.5rem' }}>
+    <span className="w-max relative z-[2] flex-shrink-0 rounded-full overflow-hidden bg-bg text-grey-light p-2 self-start">
       {children}
     </span>)
 }
@@ -56,7 +56,7 @@ function TimelineWrapper({ children }: React.HTMLAttributes<HTMLElement>) {
 
 function TimelineConnector() {
   return (
-    <span className="absolute left-0 grid justify-center bg-transparent" style={{ top: 'calc(0.5rem + 40px)', width: '40px', height: 'calc(100% - 0.5rem - 40px)' }}>
+    <span className="absolute left-0 grid justify-center bg-transparent" style={{ top: '45px', width: '40px', height: 'calc(100% - 50px)' }}>
       <span className="w-0.5 h-full bg-highlight rounded-sm"></span>
     </span>
   )

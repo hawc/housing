@@ -1,7 +1,7 @@
 
 import { findSettlements } from '@/lib/db';
 
-import { Box, Container } from '@/components/blocks/Box';
+import { Container } from '@/components/blocks/Box';
 import Layout from '@/components/layout/Layout';
 import { ListSettlements } from '@/components/settlements/List';
 
@@ -18,15 +18,12 @@ export async function getStaticProps(): Promise<{ props: { settlements: BaseSett
   };
 }
 
-
 export default function Settlements({ settlements }: { settlements: BaseSettlement[] }) {
   return (
     <Layout>
       <section>
         <Container>
-          <Box>
-            <ListSettlements settlementsInput={settlements} />
-          </Box>
+          <ListSettlements settlementsInput={settlements} />
         </Container>
       </section>
     </Layout>
