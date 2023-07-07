@@ -18,7 +18,6 @@ export async function getStaticProps(): Promise<{ props: { settlements: BaseSett
   };
 }
 
-
 export default function Settlements({ settlements }: { settlements: BaseSettlement[] }) {
   return (
     <Layout>

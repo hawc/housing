@@ -173,8 +173,8 @@ const resolvers = {
   updateSettlement: async (payload: Prisma.SettlementsUpdateArgs): Promise<BaseSettlement> => {
     return baseTransformers.settlement(await updateSettlement(payload));
   },
-  getSettlements: async (payload?: Prisma.SettlementsFindManyArgs): Promise<BaseSettlement[]> => {
-    const settlements = await (payload ? findSettlements(payload) : findSettlements());
+  getSettlements: async (): Promise<BaseSettlement[]> => {
+    const settlements = await findSettlements();
     return settlements.map(baseTransformers.settlement);
   },
   addArchitect: async (payload: Prisma.ArchitectsCreateArgs): Promise<BaseArchitect> => {
@@ -222,9 +222,9 @@ const resolvers = {
     return;
     // return details.map(transformers.detail);
   },
-  getTags: async (payload?: Prisma.TagsFindManyArgs): Promise<Tag[]> => {
-    const tags = await (payload ? findTags(payload) : findTags());
-    return tags.map(transformers.tag);
+  getTags: async (): Promise<Tag[]> => {
+    const tags = await findTags();
+    return tags.map(baseTransformers.tag);
   }
 }
 

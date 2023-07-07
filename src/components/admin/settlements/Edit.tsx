@@ -67,6 +67,21 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
     setLoading(false);
   }
 
+  const updateTag = async (tag: Tag) => {
+    setLoading(true);
+    await callAPI({
+      type: 'addTag',
+      payload: {
+        data: {
+          name: tag.name,
+          description: tag.description,
+        },
+        where: { id: tag.id }
+      }
+    });
+    setLoading(false);
+  }
+
   return (
     <>
       <Container>
@@ -81,7 +96,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
                     value={settlement.name} />
                 </Headline>
                 {settlement.tags.length > 0 && (
-                  <TagList className='ml-2 align-top' tags={settlement.tags} removeTag={removeTag} />
+                  <TagList className='ml-2 align-top' tags={settlement.tags} removeTag={removeTag} updateTag={updateTag} />
                 )}
               </div>
               {settlement.description && (

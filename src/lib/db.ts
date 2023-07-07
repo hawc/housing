@@ -351,27 +351,7 @@ export async function findSettlement(
   });
 }
 
-export async function findSettlements(
-  data?: Prisma.SettlementsFindManyArgs
-) {
-  if (data && data.where) {
-    if (data.where.slug) {
-      return await prisma.settlements.findMany({
-        where: {
-          slug: data.where.slug,
-          published: true,
-        },
-        include: settlementsInclude
-      });
-    }
-    return await prisma.settlements.findMany({
-      where: {
-        id: data.where.id,
-        published: true,
-      },
-      include: settlementsInclude
-    });
-  }
+export async function findSettlements() {
   return await prisma.settlements.findMany({
     where: {
       published: true,
@@ -383,9 +363,11 @@ export async function findSettlements(
 export async function createTag(
   data: Prisma.TagsCreateArgs
 ) {
+  const updateData = data.data;
+  console.log(updateData)
   return await prisma.tags.create({
     data: {
-      name: data.data.name
+      ...updateData
     },
   });
 }
@@ -447,7 +429,6 @@ export async function findEventTypes(
   if (data?.where) {
     return await prisma.eventTypes.findMany({
       where: {
-        id: data.where.id,
         published: true,
       }
     });
@@ -462,7 +443,6 @@ export async function findResources(
   if (data?.where) {
     return await prisma.resources.findMany({
       where: {
-        id: data.where.id,
         published: true,
       }
     });
@@ -478,7 +458,6 @@ export async function findResourceTypes(
   if (data?.where) {
     return await prisma.resourceTypes.findMany({
       where: {
-        id: data.where.id,
         published: true,
       }
     });
@@ -494,7 +473,6 @@ export async function findDetails(
   if (data?.where) {
     return await prisma.details.findMany({
       where: {
-        id: data.where.id,
         published: true,
       }
     });
@@ -504,19 +482,13 @@ export async function findDetails(
 }
 
 
-export async function findTags(
-  data?: Prisma.TagsFindManyArgs
-) {
-  if (data?.where) {
-    return await prisma.tags.findMany({
-      where: {
-        id: data.where.id,
-        published: true,
-      }
-    });
-
-  }
-  return await prisma.tags.findMany();
+export async function findTags() {
+  return await prisma.tags.findMany({
+    where: {
+      published: true,
+    },
+    include: tagsInclude
+  });
 }
 
 export async function flushCache() {
