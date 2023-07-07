@@ -6,7 +6,7 @@ import { TagList } from '@/components/blocks/Tags';
 import { Timeline } from '@/components/blocks/Timeline';
 import { Headline } from '@/components/Headline';
 
-import type { Architect, BaseSettlement, Settlement, Tag } from '@/pages/admin';
+import type { Architect, BaseSettlement, Settlement } from '@/pages/admin';
 
 export function Settlement({ settlement }: { settlement: BaseSettlement }) {
   return (
@@ -18,7 +18,7 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
               <div className='align-middle'>
                 <Headline type="h1" className='inline-block'>{settlement.name}</Headline>
                 {settlement.tags.length > 0 && (
-                  <TagList className='ml-2 inline-block align-top' tagNames={settlement.tags.map((tag: Tag) => tag.name)} />
+                  <TagList className='ml-2 align-top' tags={settlement.tags} />
                 )}
               </div>
               {settlement.description && (

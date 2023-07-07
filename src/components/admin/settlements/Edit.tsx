@@ -1,15 +1,16 @@
+import { Loader2Icon } from 'lucide-react';
 import { useState } from 'react';
 
 import { callAPI } from '@/lib/api';
 
 import { Map } from '@/components/admin/settlements/Map';
+import { TagList } from '@/components/admin/settlements/Tags';
 import { Timeline } from '@/components/admin/settlements/Timeline';
 import { Box, Container } from '@/components/blocks/Box';
 import { DetailsList } from '@/components/blocks/DetailsList';
 import { Button } from '@/components/blocks/form/Button';
 import { InputGhost } from '@/components/blocks/form/Input';
 import { TextareaGhost } from '@/components/blocks/form/Textarea';
-import { TagList } from '@/components/blocks/Tags';
 import { Headline } from '@/components/Headline';
 
 import type { Architect, BaseSettlement, Tag } from '@/pages/admin';
@@ -44,6 +45,28 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
     setLoading(false);
   }
 
+  const removeTag = async (tag: Tag) => {
+    setLoading(true);
+    await callAPI({
+      type: 'updateTag',
+      payload: {
+        data: {
+          settlements: {
+            delete: {
+              settlementId_tagId: {
+                tagId: tag.id,
+                settlementId: settlement.id,
+              }
+            }
+          }
+        },
+        where: { id: tag.id }
+      }
+    });
+    setSettlement(await callAPI({ type: 'getSettlement', payload: { where: { id: settlement.id } } }));
+    setLoading(false);
+  }
+
   return (
     <>
       <Container>
@@ -58,7 +81,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
                     value={settlement.name} />
                 </Headline>
                 {settlement.tags.length > 0 && (
-                  <TagList className='ml-2 inline-block align-top' tagNames={settlement.tags.map((tag: Tag) => tag.name)} />
+                  <TagList className='ml-2 align-top' tags={settlement.tags} removeTag={removeTag} />
                 )}
               </div>
               {settlement.description && (
@@ -133,7 +156,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
         </>
       </Container>
       <Container>
-        <Button onClick={submitData}>Änderungen speichern</Button>
+        <Button onClick={submitData} disabled={loading}><>Änderungen speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</></Button>
       </Container>
     </>
   );
