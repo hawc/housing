@@ -5,8 +5,7 @@ import { callAPI } from '@/lib/api';
 
 import { Box } from '@/components/blocks/Box';
 import { Button } from '@/components/blocks/form/Button';
-import { Link } from '@/components/blocks/Link';
-import { List, ListItem } from '@/components/blocks/List';
+import { SearchList } from '@/components/blocks/SearchList';
 import { Headline } from '@/components/Headline';
 
 import { BaseSettlement } from '@/pages/admin';
@@ -35,24 +34,10 @@ export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSe
       </Box>
       <Box>
         <div className={`transition-filter ${loading ? 'blur-sm' : 'blur-none'}`}>
-          {loading && settlements ? (
-            <List>
-              {settlements.map(({ name, slug }) => (
-                <ListItem plain key={slug}>
-                  <Link href='#' className='pointer-events-none'>{name}</Link>
-                </ListItem>
-              ))}
-            </List>
-          ) : settlements ? (
-            <List>
-              {settlements.map(({ name, slug }) => (
-                <ListItem plain key={slug}>
-                  <Link href={`/siedlungen/${slug}`}>{name}</Link>
-                </ListItem>
-              ))}
-            </List>
-          ) : (
+          {!loading && !settlements ? (
             <>Keine Datensätze gefunden.</>
+          ) : (
+            <SearchList loading={Boolean(loading && settlements)} items={settlements} />
           )}
         </div>
       </Box>
