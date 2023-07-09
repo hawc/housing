@@ -1,11 +1,17 @@
 import { Prisma } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { ArchitectsInclude, ArchitectsSelect, createArchitect, createSettlement, createTag, deleteArchitect, deleteSettlement, deleteTag, DetailsSelect, DetailsTypesSelect, EventsInclude, EventsSelect, EventTypesSelect, findArchitect, findArchitects, findDetails, findEvent, findEvents, findEventTypes, findResources, findResourceTypes, findSettlement, findSettlements, findTags, flushCache, LocationsSelect, ResourcesSelect, ResourceTypesSelect, SettlementsInclude, SettlementsSelect, SettlementTypesSelect, TagsInclude, TagsSelect, updateArchitect, updateEvent, updateSettlement, updateTag } from '@/lib/db';
+import { addSettlementOnTag, ArchitectsInclude, ArchitectsSelect, createArchitect, createSettlement, createTag, deleteArchitect, deleteSettlement, deleteTag, DetailsSelect, DetailsTypesSelect, EventsInclude, EventsSelect, EventTypesSelect, findArchitect, findArchitects, findDetails, findEvent, findEvents, findEventTypes, findResources, findResourceTypes, findSettlement, findSettlements, findTags, flushCache, LocationsSelect, ResourcesSelect, ResourceTypesSelect, SettlementsInclude, SettlementsOnTagsInclude, SettlementsSelect, SettlementTypesSelect, TagsInclude, TagsSelect, updateArchitect, updateEvent, updateSettlement, updateTag } from '@/lib/db';
 
-import { Architect, BaseArchitect, BaseEvent, BaseSettlement, BaseTag, Detail, DetailType, Event, EventType, Location, Resource, ResourceType, Settlement, SettlementType, Tag } from '@/pages/admin';
+import { Architect, BaseArchitect, BaseEvent, BaseSettlement, BaseSettlementOnTag, BaseTag, Detail, DetailType, Event, EventType, Location, Resource, ResourceType, Settlement, SettlementType, Tag } from '@/pages/admin';
 
 export const baseTransformers = {
+  settlementOnTag: (settlementOnTag: SettlementsOnTagsInclude): BaseSettlementOnTag => {
+    return {
+      tag: transformers.tag(settlementOnTag.tag),
+      settlement: transformers.settlement(settlementOnTag.settlement),
+    }
+  },
   settlement: (settlement: SettlementsInclude): BaseSettlement => {
     return {
       id: settlement.id,
@@ -176,6 +182,9 @@ const resolvers = {
   getSettlements: async (): Promise<BaseSettlement[]> => {
     const settlements = await findSettlements();
     return settlements.map(baseTransformers.settlement);
+  },
+  addSettlementOnTag: async (payload: Prisma.SettlementsOnTagsCreateArgs): Promise<BaseSettlementOnTag> => {
+    return baseTransformers.settlementOnTag(await addSettlementOnTag(payload));
   },
   addArchitect: async (payload: Prisma.ArchitectsCreateArgs): Promise<BaseArchitect> => {
     return baseTransformers.architect(await createArchitect(payload));

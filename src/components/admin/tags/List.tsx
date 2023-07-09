@@ -80,6 +80,10 @@ export function EditTag({ tag, getTags }: { tag: BaseTag, getTags: () => Promise
   );
 }
 
+export function sortAlphabetically(array) {
+  return array.sort((a, b) => a.name.localeCompare(b.name));
+}
+
 export function ListTags({ tagsInput }: { tagsInput: BaseTag[] }) {
   const [tags, setTags] = useState<BaseTag[]>(tagsInput);
   const [loading, setLoading] = useState(false);
@@ -105,7 +109,7 @@ export function ListTags({ tagsInput }: { tagsInput: BaseTag[] }) {
         </Box>
         <Container cols='grid-cols-2'>
           <>
-            {tags.sort((tagA, tagB) => tagA.name.localeCompare(tagB.name)).map((tag: BaseTag) => (
+            {sortAlphabetically(tags).map((tag: BaseTag) => (
               <Box key={tag.id}>
                 <EditTag tag={tag} getTags={getTags} />
               </Box>

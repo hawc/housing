@@ -68,18 +68,18 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
     setLoading(false);
   }
 
-  const updateTag = async (tag: Tag) => {
+  const addTag = async (tag: Tag) => {
     setLoading(true);
     await callAPI({
-      type: 'addTag',
+      type: 'addSettlementOnTag',
       payload: {
         data: {
-          name: tag.name,
-          description: tag.description,
-        },
-        where: { id: tag.id }
+          tagId: tag.id,
+          settlementId: settlement.id,
+        }
       }
     });
+    setSettlement(await callAPI({ type: 'getSettlement', payload: { where: { id: settlement.id } } }));
     setLoading(false);
   }
 
@@ -95,7 +95,13 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => updateSettlement({ name: event.target.value })}
                     value={settlement.name} />
                 </Headline>
-                <TagList className='ml-2 align-top' tags={settlement.tags} removeTag={removeTag} updateTag={updateTag} />
+                {loading ? (
+                  <div className='inline-block pb-1'>
+                    <Loader2Icon className='animate-spin' />
+                  </div>
+                ) : (
+                  <TagList key={Object.keys(settlement.tags).length} className='ml-2 align-top' existingTags={settlement.tags} removeTag={removeTag} addTag={addTag} />
+                )}
               </div>
               <div>
                 <TextareaGhost

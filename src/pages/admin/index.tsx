@@ -96,6 +96,10 @@ export interface BaseArchitect {
   url: string;
   settlements: Settlement[];
 }
+export interface BaseSettlementOnTag {
+  settlement: Settlement;
+  tag: Tag;
+}
 export interface BaseSettlement {
   id: string;
   name: string;
