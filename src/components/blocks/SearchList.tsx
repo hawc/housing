@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import slugify from 'slugify';
 
+import { sortAlphabetically } from '@/components/admin/tags/List';
 import { InputGhost } from '@/components/blocks/form/Input';
 import { Link } from '@/components/blocks/Link';
 import { List, ListItem } from '@/components/blocks/List';
@@ -21,8 +22,8 @@ export function SearchList({ items, path, className = '', loading = false, ...re
   return (
     <div className={className} {...rest}>
       <InputGhost placeholder='Suchbegriff eingeben' value='' onChange={event => setFilter(event.target.value)} className='mt-1 border-highlight border-solid border-2 mb-2 p-1' />
-      <List>
-        {items.filter(item => removeSpaces(item.name).includes(removeSpaces(filter))).map(item => (
+      <List className='columns-3'>
+        {sortAlphabetically(items.filter(item => removeSpaces(item.name).includes(removeSpaces(filter)))).map(item => (
           loading ? (
             <ListItem plain key={item.slug}>
               <Link href='#' className='pointer-events-none'>{item.name}</Link>
