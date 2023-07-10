@@ -35,9 +35,9 @@ export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSe
       <Box>
         <div className={`transition-filter ${loading ? 'blur-sm' : 'blur-none'}`}>
           {!loading && !settlements ? (
-            <>Keine Datensätze gefunden.</>
+            <>Keine Siedlungen gefunden.</>
           ) : (
-            <SearchList loading={Boolean(loading && settlements)} items={settlements} />
+            <SearchList path='/siedlungen/' loading={Boolean(loading && settlements)} items={settlements} />
           )}
         </div>
       </Box>

@@ -1,7 +1,6 @@
 
-import { List, ListItem } from '@material-tailwind/react';
-import Link from 'next/link';
-
+import { Link } from '@/components/blocks/Link';
+import { List, ListItem } from '@/components/blocks/List';
 import Layout from '@/components/layout/Layout';
 
 export interface EventType {
@@ -119,30 +118,23 @@ export default function Admin() {
     <Layout>
       <div className="py-4">
         <h1>Manage Data</h1>
-        <div className="relative flex w-full max-w-[24rem]">
-          <List>
-            <ListItem>
-              <Link href="/admin/architects">
-                Architects
-              </Link>
-            </ListItem>
-            <ListItem>
-              <Link href="/admin/settlements">
-                Settlements
-              </Link>
-            </ListItem>
-            <ListItem>
-              <Link href="/admin/tags">
-                Tags
-              </Link>
-            </ListItem>
-            <ListItem>
-              <Link href="/admin/resources">
-                Resources
-              </Link>
-            </ListItem>
-          </List>
-        </div>
+        <List>
+          <ListItem>
+            <Link href="/admin/architekten">
+              Architekten
+            </Link>
+          </ListItem>
+          <ListItem>
+            <Link href="/admin/siedlungen">
+              Siedlungen
+            </Link>
+          </ListItem>
+          <ListItem>
+            <Link href="/admin/tags">
+              Tags
+            </Link>
+          </ListItem>
+        </List>
       </div>
     </Layout>
   );

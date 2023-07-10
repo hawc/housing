@@ -20,132 +20,91 @@ const getValue = (input: string | OriginalPrisma.StringFieldUpdateOperationsInpu
   return typeof input === 'string' ? input : (input.set ?? '');
 }
 
+const getCreateOrUpdateQuery = (args, query) => {
+  if (args.data.name) {
+    return query({
+      ...args,
+      data: {
+        ...args.data,
+        slug: slugify(getValue(args.data.name), { lower: true, locale: 'de' })
+      }
+    });
+  }
+  return query({
+    ...args,
+    data: {
+      ...args.data,
+    }
+  });
+};
+
+const getUpsertQuery = (args, query) => {
+  if (args.create.name) {
+    return query({
+      ...args,
+      update: {
+        ...args.update,
+        slug: slugify(getValue(args.update.name), { lower: true, locale: 'de' })
+      },
+      create: {
+        ...args.create,
+        slug: slugify(args.create.name, { lower: true, locale: 'de' })
+      }
+    });
+  }
+  return query({
+    ...args,
+    update: {
+      ...args.update,
+    },
+    create: {
+      ...args.create,
+    }
+  });
+};
+
 const publicPrisma = prisma.$extends({
   query: {
     settlements: {
       create({ args, query }) {
-        return query({
-          ...args,
-          data: {
-            ...args.data,
-            slug: slugify(args.data.name, { lower: true, locale: 'de' })
-          }
-        });
+        return getCreateOrUpdateQuery(args, query);
       },
       update({ args, query }) {
-        return query({
-          ...args,
-          data: {
-            ...args.data,
-            slug: slugify(getValue(args.data.name), { lower: true, locale: 'de' })
-          }
-        });
+        return getCreateOrUpdateQuery(args, query);
       },
       upsert({ args, query }) {
-        return query({
-          ...args,
-          update: {
-            ...args.update,
-            slug: slugify(getValue(args.update.name), { lower: true, locale: 'de' })
-          },
-          create: {
-            ...args.create,
-            slug: slugify(args.create.name, { lower: true, locale: 'de' })
-          }
-        });
+        return getUpsertQuery(args, query);
       },
       updateMany({ args, query }) {
-        return query({
-          ...args,
-          data: {
-            ...args.data,
-            slug: slugify(getValue(args.data.name), { lower: true, locale: 'de' })
-          }
-        });
+        return getCreateOrUpdateQuery(args, query);
       },
     },
     settlementTypes: {
       create({ args, query }) {
-        return query({
-          ...args,
-          data: {
-            ...args.data,
-            slug: slugify(args.data.name, { lower: true, locale: 'de' })
-          }
-        });
+        return getCreateOrUpdateQuery(args, query);
       },
       update({ args, query }) {
-        return query({
-          ...args,
-          data: {
-            ...args.data,
-            slug: slugify(getValue(args.data.name), { lower: true, locale: 'de' })
-          }
-        });
+        return getCreateOrUpdateQuery(args, query);
       },
       upsert({ args, query }) {
-        return query({
-          ...args,
-          update: {
-            ...args.update,
-            slug: slugify(getValue(args.update.name), { lower: true, locale: 'de' })
-          },
-          create: {
-            ...args.create,
-            slug: slugify(args.create.name, { lower: true, locale: 'de' })
-          }
-        });
+        return getUpsertQuery(args, query);
       },
       updateMany({ args, query }) {
-        return query({
-          ...args,
-          data: {
-            ...args.data,
-            slug: slugify(getValue(args.data.name), { lower: true, locale: 'de' })
-          }
-        });
+        return getCreateOrUpdateQuery(args, query);
       },
     },
     architects: {
       create({ args, query }) {
-        return query({
-          ...args,
-          data: {
-            ...args.data,
-            slug: slugify(args.data.name, { lower: true, locale: 'de' })
-          }
-        });
+        return getCreateOrUpdateQuery(args, query);
       },
       update({ args, query }) {
-        return query({
-          ...args,
-          data: {
-            ...args.data,
-            slug: slugify(getValue(args.data.name), { lower: true, locale: 'de' })
-          }
-        });
+        return getCreateOrUpdateQuery(args, query);
       },
       upsert({ args, query }) {
-        return query({
-          ...args,
-          update: {
-            ...args.update,
-            slug: slugify(getValue(args.update.name), { lower: true, locale: 'de' })
-          },
-          create: {
-            ...args.create,
-            slug: slugify(args.create.name, { lower: true, locale: 'de' })
-          }
-        });
+        return getUpsertQuery(args, query);
       },
       updateMany({ args, query }) {
-        return query({
-          ...args,
-          data: {
-            ...args.data,
-            slug: slugify(getValue(args.data.name), { lower: true, locale: 'de' })
-          }
-        });
+        return getCreateOrUpdateQuery(args, query);
       },
     },
   },

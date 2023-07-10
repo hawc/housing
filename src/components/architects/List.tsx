@@ -5,8 +5,7 @@ import { callAPI } from '@/lib/api';
 
 import { Box } from '@/components/blocks/Box';
 import { Button } from '@/components/blocks/form/Button';
-import { Link } from '@/components/blocks/Link';
-import { List, ListItem } from '@/components/blocks/List';
+import { SearchList } from '@/components/blocks/SearchList';
 import { Headline } from '@/components/Headline';
 
 import { BaseArchitect } from '@/pages/admin';
@@ -34,25 +33,11 @@ export function ListArchitects({ architectsInput }: { architectsInput: BaseArchi
         </div>
       </Box>
       <Box>
-        <div className={`transition-filter ${loading ? 'blur-sm pointer-events-none' : 'blur-none'}`}>
-          {loading && architects ? (
-            <List>
-              {architects.map(({ name, slug }) => (
-                <ListItem plain key={slug}>
-                  <Link href='#'>{name}</Link>
-                </ListItem>
-              ))}
-            </List>
-          ) : architects ? (
-            <List>
-              {architects.map(({ name, slug }) => (
-                <ListItem plain key={slug}>
-                  <Link href={`/architekten/${slug}`}>{name}</Link>
-                </ListItem>
-              ))}
-            </List>
+        <div className={`transition-filter ${loading ? 'blur-sm' : 'blur-none'}`}>
+          {!loading && !architects ? (
+            <>Keine Architekten gefunden.</>
           ) : (
-            <>Keine Datensätze gefunden.</>
+            <SearchList path='/architekten/' loading={Boolean(loading && architects)} items={architects} />
           )}
         </div>
       </Box>

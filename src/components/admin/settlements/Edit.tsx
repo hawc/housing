@@ -1,5 +1,6 @@
 import { Loader2Icon } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import { callAPI } from '@/lib/api';
@@ -19,6 +20,7 @@ import type { Architect, BaseSettlement, Tag } from '@/pages/admin';
 export type Partial<T> = { [P in keyof T]?: T[P] };
 
 export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettlement }) {
+  const router = useRouter();
   const [settlement, setSettlement] = useState<BaseSettlement>(settlementInput);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -45,6 +47,13 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
     setSettlement(await callAPI({ type: 'getSettlement', payload: { where: { id: settlement.id } } }));
     setLoading(false);
   }
+
+  const deleteSettlement = async (id: string, name: string) => {
+    setLoading(true);
+    await callAPI({ type: 'deleteSettlement', payload: { where: { id }, data: { name } } });
+    router.push('/siedlungen');
+    setLoading(false);
+  };
 
   const removeTag = async (tag: Tag) => {
     setLoading(true);
@@ -174,7 +183,8 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
       </Container>
       <Container cols='grid-cols-2'>
         <Button onClick={submitData} disabled={loading}><>Speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</></Button>
-        <Link href="/admin/siedlungen" className='inline-block py-1 px-3 bg-content text-center'>Abbrechen</Link>
+        <Button onClick={() => deleteSettlement(settlement.id, settlement.name)} disabled={loading}><>Löschen {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none bg-red' />}</></Button>
+        <Link href='/admin/siedlungen' className='inline-block py-1 px-3 bg-content text-center'>Abbrechen</Link>
       </Container>
     </>
   );

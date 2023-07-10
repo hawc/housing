@@ -6,7 +6,7 @@ import { callAPI } from '@/lib/api';
 import { Box } from '@/components/blocks/Box';
 import { Button } from '@/components/blocks/form/Button';
 import { Link } from '@/components/blocks/Link';
-import { List, ListItem } from '@/components/blocks/List';
+import { SearchList } from '@/components/blocks/SearchList';
 import { Headline } from '@/components/Headline';
 
 import { BaseSettlement, Settlement } from '@/pages/admin';
@@ -41,31 +41,11 @@ export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSe
         </div>
       </Box>
       <Box>
-        <div className={`transition-filter ${loading ? 'blur-sm pointer-events-none' : 'blur-none'}`}>
-          {loading && settlements ? (
-            <List>
-              {settlements.map(({ name, slug }) => (
-                <ListItem plain key={slug} className='flex'>
-                  <span><Link arrow href='#'>{name}</Link></span>
-                  <Button
-                    className="ml-2 right-1 top-1 rounded"
-                    onClick={() => { return }}>Löschen</Button>
-                </ListItem>
-              ))}
-            </List>
-          ) : settlements ? (
-            <List>
-              {settlements.map(({ id, name, slug }) => (
-                <ListItem plain key={slug} className='flex'>
-                  <span><Link arrow href={`/admin/siedlungen/${slug}`}>{name}</Link></span>
-                  <Button
-                    className="ml-2 right-1 top-1 rounded"
-                    onClick={() => deleteSettlement(id)}>Löschen</Button>
-                </ListItem>
-              ))}
-            </List>
+        <div className={`transition-filter ${loading ? 'blur-sm' : 'blur-none'}`}>
+          {!loading && !settlements ? (
+            <>Keine Siedlungen gefunden.</>
           ) : (
-            <>Keine Datensätze gefunden.</>
+            <SearchList path='/admin/siedlungen/' loading={Boolean(loading && settlements)} items={settlements} />
           )}
         </div>
       </Box>

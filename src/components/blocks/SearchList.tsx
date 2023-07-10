@@ -7,6 +7,7 @@ import { List, ListItem } from '@/components/blocks/List';
 
 interface SearchListProps extends React.HTMLAttributes<HTMLElement> {
   items: { name: string; slug: string }[];
+  path: string;
   className?: string;
   loading?: boolean;
 }
@@ -15,7 +16,7 @@ function removeSpaces(string: string) {
   return slugify(string.toLocaleLowerCase().replace(/\s/g, ''));
 }
 
-export function SearchList({ items, className = '', loading = false, ...rest }: SearchListProps): React.ReactElement {
+export function SearchList({ items, path, className = '', loading = false, ...rest }: SearchListProps): React.ReactElement {
   const [filter, setFilter] = useState<string>('');
   return (
     <div className={className} {...rest}>
@@ -28,7 +29,7 @@ export function SearchList({ items, className = '', loading = false, ...rest }: 
             </ListItem>
           ) : (
             <ListItem plain key={item.slug}>
-              <Link href={`/siedlungen/${item.slug}`}>
+              <Link href={`${path}${item.slug}`}>
                 {item.name}
               </Link>
             </ListItem>

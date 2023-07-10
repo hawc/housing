@@ -10,7 +10,7 @@ interface ListProps extends React.HTMLAttributes<HTMLElement> {
 
 export function ListItem({ children, plain, className = '', ...rest }: ListItemProps) {
   return (
-    <li className={twMerge(`${plain ? 'list-none' : ''} ${className}`)} {...rest}>
+    <li className={twMerge(`${plain ? 'list-none' : 'ml-5 pl-1 marker:text-highlight'} ${className}`)} {...rest}>
       {children}
     </li>
   );
