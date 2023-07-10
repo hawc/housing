@@ -102,9 +102,13 @@ model Resources {
 
 model Locations {
   id           String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name         String
   lat          Float       @default(0.0)
   lng          Float       @default(0.0)
+  name         String?
+  address      String?
+  district     String?
+  zipCode      String?
+  city         String?
   published    Boolean     @default(true)
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt

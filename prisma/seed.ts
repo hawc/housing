@@ -354,6 +354,10 @@ async function main() {
     data:
     {
       name: 'Kroonhorst, 22549 Hamburg, Deutschland',
+      address: 'Kroonhorst',
+      district: 'Osdorf',
+      zipCode: '22549',
+      city: 'Hamburg',
       lat: 53.5898119,
       lng: 9.8435661,
       settlement: {
@@ -365,6 +369,10 @@ async function main() {
     data:
     {
       name: 'Julius-Vosseler-Straße 193, 22527 Hamburg, Deutschland',
+      address: 'Julius-Vosseler-Straße 193',
+      district: 'Lokstedt',
+      zipCode: '22527',
+      city: 'Hamburg',
       lat: 53.5846993,
       lng: 9.9497935,
       settlement: {
