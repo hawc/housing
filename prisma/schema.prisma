@@ -56,6 +56,7 @@ model Details {
   id               String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name             String
   description      String?
+  annotation       String?
   published        Boolean          @default(true)
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @updatedAt
