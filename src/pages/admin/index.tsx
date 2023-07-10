@@ -18,6 +18,10 @@ export interface Event {
 export interface Location {
   id: string;
   name: string;
+  address: string;
+  district: string;
+  zipCode: string;
+  city: string;
   lat: number;
   lng: number;
 }

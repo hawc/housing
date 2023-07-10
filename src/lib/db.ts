@@ -116,6 +116,10 @@ const settlementsOnSettlementTypesSelect = Prisma.validator<Prisma.SettlementsOn
 const locationsSelect = Prisma.validator<Prisma.LocationsSelect>()({
   id: true,
   name: true,
+  address: true,
+  district: true,
+  zipCode: true,
+  city: true,
   lat: true,
   lng: true,
 });

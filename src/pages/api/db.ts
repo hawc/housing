@@ -112,6 +112,10 @@ const transformers = {
     return {
       id: location.id,
       name: location.name,
+      address: location.address ?? '',
+      district: location.district ?? '',
+      zipCode: location.zipCode ?? '',
+      city: location.city ?? '',
       lat: location.lat,
       lng: location.lng,
     };

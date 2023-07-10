@@ -6,7 +6,7 @@ import { callAPI } from '@/lib/api';
 import { Box } from '@/components/blocks/Box';
 import { Button } from '@/components/blocks/form/Button';
 import { Link } from '@/components/blocks/Link';
-import { SearchList } from '@/components/blocks/SearchList';
+import { SettlementsSearchList } from '@/components/blocks/SearchList';
 import { Headline } from '@/components/Headline';
 
 import { BaseSettlement, Settlement } from '@/pages/admin';
@@ -45,7 +45,7 @@ export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSe
           {!loading && !settlements ? (
             <>Keine Siedlungen gefunden.</>
           ) : (
-            <SearchList path='/admin/siedlungen/' loading={Boolean(loading && settlements)} items={settlements} />
+            <SettlementsSearchList path='/admin/siedlungen/' loading={Boolean(loading && settlements)} items={settlements} />
           )}
         </div>
       </Box>
