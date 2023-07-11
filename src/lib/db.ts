@@ -211,6 +211,42 @@ export type SettlementsInclude = Prisma.SettlementsGetPayload<{ include: typeof 
 export type SettlementsOnTagsInclude = Prisma.SettlementsOnTagsGetPayload<{ include: typeof settlementsOnTagsInclude }>
 export type TagsInclude = Prisma.TagsGetPayload<{ include: typeof tagsInclude }>
 
+export async function createLocation(
+  data: Prisma.LocationsCreateArgs
+) {
+  const updateData = data.data;
+  return await prisma.locations.create({
+    data: {
+      lat: updateData.lat,
+      lng: updateData.lng,
+      name: updateData.name,
+      address: updateData.address,
+      district: updateData.district,
+      zipCode: updateData.zipCode,
+      city: updateData.city,
+      settlement: {
+        connect: {
+          id: updateData.settlementId
+        }
+      }
+    },
+  });
+}
+
+export async function updateLocation(
+  data: Prisma.LocationsUpdateArgs
+) {
+  const updateData = data.data;
+  return await prisma.locations.update({
+    where: {
+      id: data.where.id,
+    },
+    data: {
+      ...updateData
+    }
+  });
+}
+
 export async function createArchitect(
   data: Prisma.ArchitectsCreateArgs
 ) {

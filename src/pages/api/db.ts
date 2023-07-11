@@ -1,11 +1,23 @@
 import { Prisma } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { addSettlementOnTag, ArchitectsInclude, ArchitectsSelect, createArchitect, createSettlement, createTag, deleteArchitect, deleteSettlement, deleteTag, DetailsSelect, DetailsTypesSelect, EventsInclude, EventsSelect, EventTypesSelect, findArchitect, findArchitects, findDetails, findEvent, findEvents, findEventTypes, findResources, findResourceTypes, findSettlement, findSettlements, findTags, flushCache, LocationsSelect, ResourcesSelect, ResourceTypesSelect, SettlementsInclude, SettlementsOnTagsInclude, SettlementsSelect, SettlementTypesSelect, TagsInclude, TagsSelect, updateArchitect, updateEvent, updateSettlement, updateTag } from '@/lib/db';
+import { addSettlementOnTag, ArchitectsInclude, ArchitectsSelect, createArchitect, createLocation, createSettlement, createTag, deleteArchitect, deleteSettlement, deleteTag, DetailsSelect, DetailsTypesSelect, EventsInclude, EventsSelect, EventTypesSelect, findArchitect, findArchitects, findDetails, findEvent, findEvents, findEventTypes, findResources, findResourceTypes, findSettlement, findSettlements, findTags, flushCache, LocationsSelect, ResourcesSelect, ResourceTypesSelect, SettlementsInclude, SettlementsOnTagsInclude, SettlementsSelect, SettlementTypesSelect, TagsInclude, TagsSelect, updateArchitect, updateEvent, updateLocation, updateSettlement, updateTag } from '@/lib/db';
 
-import { Architect, BaseArchitect, BaseEvent, BaseSettlement, BaseSettlementOnTag, BaseTag, Detail, DetailType, Event, EventType, Location, Resource, ResourceType, Settlement, SettlementType, Tag } from '@/pages/admin';
+import { Architect, BaseArchitect, BaseEvent, BaseLocation, BaseSettlement, BaseSettlementOnTag, BaseTag, Detail, DetailType, Event, EventType, Location, Resource, ResourceType, Settlement, SettlementType, Tag } from '@/pages/admin';
 
 export const baseTransformers = {
+  location: (location: LocationsSelect): Location => {
+    return {
+      id: location.id,
+      name: location.name,
+      address: location.address ?? '',
+      district: location.district ?? '',
+      zipCode: location.zipCode ?? '',
+      city: location.city ?? '',
+      lat: location.lat,
+      lng: location.lng,
+    };
+  },
   settlementOnTag: (settlementOnTag: SettlementsOnTagsInclude): BaseSettlementOnTag => {
     return {
       tag: transformers.tag(settlementOnTag.tag),
@@ -189,6 +201,12 @@ const resolvers = {
   },
   addSettlementOnTag: async (payload: Prisma.SettlementsOnTagsCreateArgs): Promise<BaseSettlementOnTag> => {
     return baseTransformers.settlementOnTag(await addSettlementOnTag(payload));
+  },
+  addLocation: async (payload: Prisma.LocationsCreateArgs): Promise<BaseLocation> => {
+    return baseTransformers.location(await createLocation(payload));
+  },
+  updateLocation: async (payload: Prisma.LocationsUpdateArgs): Promise<BaseLocation> => {
+    return baseTransformers.location(await updateLocation(payload));
   },
   addArchitect: async (payload: Prisma.ArchitectsCreateArgs): Promise<BaseArchitect> => {
     return baseTransformers.architect(await createArchitect(payload));

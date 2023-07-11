@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 import { callAPI } from '@/lib/api';
 
+import { Location } from '@/components/admin/settlements/Location';
 import { Map } from '@/components/admin/settlements/Map';
 import { TagList } from '@/components/admin/settlements/Tags';
 import { Timeline } from '@/components/admin/settlements/Timeline';
@@ -25,7 +26,6 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
   const [loading, setLoading] = useState<boolean>(false);
 
   const updateSettlement = (input: Partial<BaseSettlement>) => {
-    console.log(input)
     setSettlement({
       ...settlement,
       ...input,
@@ -44,8 +44,15 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
         where: { id: settlement.id }
       }
     });
+    await getSettlement();
+    setLoading(false);
+  }
+
+  const getSettlement = async () => {
+    setLoading(true);
     setSettlement(await callAPI({ type: 'getSettlement', payload: { where: { id: settlement.id } } }));
     setLoading(false);
+    console.log(settlement.location)
   }
 
   const deleteSettlement = async (id: string, name: string) => {
@@ -73,7 +80,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
         where: { id: tag.id }
       }
     });
-    setSettlement(await callAPI({ type: 'getSettlement', payload: { where: { id: settlement.id } } }));
+    await getSettlement();
     setLoading(false);
   }
 
@@ -88,7 +95,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
         }
       }
     });
-    setSettlement(await callAPI({ type: 'getSettlement', payload: { where: { id: settlement.id } } }));
+    await getSettlement();
     setLoading(false);
   }
 
@@ -176,9 +183,12 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
         <>
           {settlement.location && settlement.location.lat > 0 && settlement.location.lng > 0 && (
             <Container>
-              <Map lat={settlement.location.lat} lng={settlement.location.lng} />
+              <Map key={`${settlement.location.lat}${settlement.location.lng}`} lat={settlement.location.lat} lng={settlement.location.lng} />
             </Container>
           )}
+          <Box>
+            <Location settlement={settlement} onUpdate={getSettlement} />
+          </Box>
         </>
       </Container>
       <Container cols='grid-cols-2'>

@@ -91,6 +91,16 @@ export interface BaseTag {
   description: string;
   settlements: Settlement[];
 }
+export interface BaseLocation {
+  id: string;
+  name: string;
+  address: string;
+  district: string;
+  zipCode: string;
+  city: string;
+  lat: number;
+  lng: number;
+}
 export interface BaseArchitect {
   id: string;
   name: string;

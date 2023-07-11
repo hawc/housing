@@ -5,6 +5,7 @@ interface Payload {
   payload?: {
     data?: any;
     where?: any;
+    update?: any;
   };
 }
 

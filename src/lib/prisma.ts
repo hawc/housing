@@ -16,8 +16,11 @@ if (process.env.NODE_ENV === 'production') {
   prisma = globalWithPrisma.prisma;
 }
 
-const getValue = (input: string | OriginalPrisma.StringFieldUpdateOperationsInput = '') => {
-  return typeof input === 'string' ? input : (input.set ?? '');
+export const getValue = (input: string | number | OriginalPrisma.StringFieldUpdateOperationsInput | OriginalPrisma.FloatFieldUpdateOperationsInput) => {
+  if (input === null || input === undefined) {
+    return input;
+  }
+  return (typeof input === 'object') ? (input.set ?? '') : input;
 }
 
 const getCreateOrUpdateQuery = (args, query) => {
@@ -26,7 +29,7 @@ const getCreateOrUpdateQuery = (args, query) => {
       ...args,
       data: {
         ...args.data,
-        slug: slugify(getValue(args.data.name), { lower: true, locale: 'de' })
+        slug: slugify(getValue(args.data.name) as string, { lower: true, locale: 'de' })
       }
     });
   }
@@ -44,7 +47,7 @@ const getUpsertQuery = (args, query) => {
       ...args,
       update: {
         ...args.update,
-        slug: slugify(getValue(args.update.name), { lower: true, locale: 'de' })
+        slug: slugify(getValue(args.update.name) as string, { lower: true, locale: 'de' })
       },
       create: {
         ...args.create,
