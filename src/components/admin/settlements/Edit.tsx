@@ -52,7 +52,6 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
     setLoading(true);
     setSettlement(await callAPI({ type: 'getSettlement', payload: { where: { id: settlement.id } } }));
     setLoading(false);
-    console.log(settlement.location)
   }
 
   const deleteSettlement = async (id: string, name: string) => {

@@ -48,7 +48,7 @@ export function SettlementsSearchList({ items, path, className = '', loading = f
   return (
     <div className={className} {...rest}>
       <InputGhost placeholder='Nach Siedlung oder Stadt suchen' value='' onChange={event => setFilter(event.target.value)} className='mt-1 border-highlight border-solid border-2 mb-2 p-1' />
-      <List className='columns-3'>
+      <List className='md:columns-2'>
         {sortAlphabetically(items.filter(item => removeSpaces(item.name).includes(removeSpaces(filter)) || removeSpaces(item.location?.city ?? '').includes(removeSpaces(filter)))).map(item => (
           loading ? (
             <ListItem plain key={item.slug}>

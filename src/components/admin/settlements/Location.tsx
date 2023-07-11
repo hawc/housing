@@ -70,34 +70,34 @@ export function Location({ settlement, onUpdate, className = '' }: { settlement:
     <div className={`columns-2 ${className}`}>
       <div>
         <label htmlFor="lat">Lat:</label>
-        <InputGhost value={location.lat} step="0.01" disabled={loading} type='number' id='lat' className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocation({ lat: Number(event.target.value) })} />
+        <InputGhost value={location?.lat ?? ''} step="0.01" disabled={loading} type='number' id='lat' className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocation({ lat: Number(event.target.value) })} />
       </div>
       <div>
         <label htmlFor="lng">Lng:</label>
-        <InputGhost value={location.lng} step="0.01" disabled={loading} type='number' id='lng' className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocation({ lng: Number(event.target.value) })} />
+        <InputGhost value={location?.lng ?? ''} step="0.01" disabled={loading} type='number' id='lng' className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocation({ lng: Number(event.target.value) })} />
       </div>
       <div>
         <label htmlFor="name">Volle Adresse:</label>
-        <InputGhost value={location.name} disabled={loading} id='name' className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocation({ name: event.target.value })} />
+        <InputGhost value={location?.name ?? ''} disabled={loading} id='name' className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocation({ name: event.target.value })} />
       </div>
       <div>
         <label htmlFor="address">Straße:</label>
-        <InputGhost value={location.address} disabled={loading} id='address' className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocation({ address: event.target.value })} />
+        <InputGhost value={location?.address ?? ''} disabled={loading} id='address' className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocation({ address: event.target.value })} />
       </div>
       <div>
         <label htmlFor="district">Stadtteil:</label>
-        <InputGhost value={location.district} disabled={loading} id='district' className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocation({ district: event.target.value })} />
+        <InputGhost value={location?.district ?? ''} disabled={loading} id='district' className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocation({ district: event.target.value })} />
       </div>
       <div>
         <label htmlFor="zipCode">PLZ:</label>
-        <InputGhost value={location.zipCode} disabled={loading} type='number' id='zipCode' className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocation({ zipCode: event.target.value })} />
+        <InputGhost value={location?.zipCode ?? ''} disabled={loading} type='number' id='zipCode' className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocation({ zipCode: event.target.value })} />
       </div>
       <div>
         <label htmlFor="city">Stadt:</label>
-        <InputGhost value={location.city} disabled={loading} id='city' className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocation({ city: event.target.value })} />
+        <InputGhost value={location?.city ?? ''} disabled={loading} id='city' className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocation({ city: event.target.value })} />
       </div>
       <div className='pt-7'>
-        <Button onClick={submitLocation} disabled={loading}><>Speichern{loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</></Button>
+        <Button onClick={submitLocation} disabled={loading}><>Speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</></Button>
       </div>
     </div >
   );
