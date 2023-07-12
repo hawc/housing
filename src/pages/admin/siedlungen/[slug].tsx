@@ -23,13 +23,14 @@ export async function getStaticPaths() {
   }
 }
 
-export async function getStaticProps({ params }: { params: { slug: string } }): Promise<{ props: { settlement: BaseSettlement } }> {
+export async function getStaticProps({ params }: { params: { slug: string } }): Promise<{ props: { settlement: BaseSettlement }, revalidate: number }> {
   const settlement: BaseSettlement = baseTransformers.settlement(await findSettlement({ where: { slug: params.slug } }));
 
   return {
     props: {
       settlement,
     },
+    revalidate: 10,
   };
 }
 
