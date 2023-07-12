@@ -25,6 +25,7 @@ export const baseTransformers = {
     }
   },
   settlement: (settlement: SettlementsInclude): BaseSettlement => {
+    if (!settlement) return null;
     return {
       id: settlement.id,
       name: settlement.name,
@@ -186,7 +187,7 @@ const resolvers = {
   },
   getSettlement: async (payload: Prisma.SettlementsFindUniqueArgs): Promise<BaseSettlement> => {
     const settlement = await findSettlement(payload);
-    if (!settlement) throw new Error('settlement not found');
+    if (!settlement) return null;
     return baseTransformers.settlement(settlement);
   },
   addSettlement: async (payload: Prisma.SettlementsCreateArgs): Promise<BaseSettlement> => {
@@ -197,6 +198,7 @@ const resolvers = {
   },
   getSettlements: async (): Promise<BaseSettlement[]> => {
     const settlements = await findSettlements();
+    if (!settlements || settlements.length === 0) return null;
     return settlements.map(baseTransformers.settlement);
   },
   addSettlementOnTag: async (payload: Prisma.SettlementsOnTagsCreateArgs): Promise<BaseSettlementOnTag> => {

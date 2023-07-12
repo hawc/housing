@@ -36,9 +36,7 @@ export default function SettlementPage({ settlement }: InferGetStaticPropsType<t
   return (
     <Layout>
       <section>
-        {settlement && (
-          <SettlementEdit settlementInput={settlement} />
-        )}
+        <SettlementEdit settlementInput={settlement} />
       </section>
     </Layout>
   );
