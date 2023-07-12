@@ -1,5 +1,8 @@
+import { ArrowLeftIcon } from 'lucide-react';
+import Link from 'next/link';
+
 import { Box, Container } from '@/components/blocks/Box';
-import { Link } from '@/components/blocks/Link';
+import { Link as LinkElement } from '@/components/blocks/Link';
 import { Headline } from '@/components/Headline';
 
 import type { BaseArchitect } from '@/pages/admin';
@@ -14,7 +17,9 @@ export function Architect({ architect }: { architect: BaseArchitect }) {
               <div className='align-middle'>
                 <Headline type='h1' className='inline-block'>{architect.name}</Headline>
                 <div>
-                  <Link href='/architekten'>zurück zur Übersicht</Link>
+                  <Link className='block ml-3 p-2 rounded-full bg-highlight' href='/architekten'>
+                    <ArrowLeftIcon className='align-text-bottom' size={15} />
+                  </Link>
                 </div>
               </div>
               {architect.description && (
@@ -26,9 +31,9 @@ export function Architect({ architect }: { architect: BaseArchitect }) {
             <Headline type='h3' tag='h2'>Siedlungen</Headline>
             <>
               {architect.settlements.map(settlement => (
-                <Link key={settlement.slug} href={`/siedlungen/${settlement.slug}`} arrow>
+                <LinkElement key={settlement.slug} href={`/siedlungen/${settlement.slug}`} arrow>
                   {settlement.name}
-                </Link>
+                </LinkElement>
               ))}
             </>
           </Box>

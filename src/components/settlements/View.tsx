@@ -1,7 +1,10 @@
+import { ArrowLeftIcon } from 'lucide-react';
+import Link from 'next/link';
+
 import { Map } from '@/components/admin/settlements/Map';
 import { Box, Container } from '@/components/blocks/Box';
 import { DetailsList } from '@/components/blocks/DetailsList';
-import { Link } from '@/components/blocks/Link';
+import { Link as LinkElement } from '@/components/blocks/Link';
 import { TagList } from '@/components/blocks/Tags';
 import { Timeline } from '@/components/blocks/Timeline';
 import { Headline } from '@/components/Headline';
@@ -11,22 +14,27 @@ import type { Architect, BaseSettlement, Settlement } from '@/pages/admin';
 export function Settlement({ settlement }: { settlement: BaseSettlement }) {
   return (
     <>
+      <Box ghost>
+        <div className='flex'>
+          <Headline type="h1" className='inline-block'>{settlement.name}</Headline>
+          {settlement.tags.length > 0 && (
+            <TagList className='ml-2 align-top' tags={settlement.tags} />
+          )}
+          <div>
+            <Link className='block ml-3 p-2 rounded-full bg-highlight' href='/siedlungen'>
+              <ArrowLeftIcon className='align-text-bottom' size={15} />
+            </Link>
+          </div>
+        </div>
+      </Box>
       <Container>
-        <Container>
-          <Box>
-            <>
-              <div className='align-middle'>
-                <Headline type="h1" className='inline-block mb-4'>{settlement.name}</Headline>
-                {settlement.tags.length > 0 && (
-                  <TagList className='ml-2 align-top' tags={settlement.tags} />
-                )}
-              </div>
-              {settlement.description && (
-                <p dangerouslySetInnerHTML={{ __html: settlement.description }}></p>
-              )}
-            </>
-          </Box>
-        </Container>
+        {settlement.description && (
+          <Container>
+            <Box>
+              <p dangerouslySetInnerHTML={{ __html: settlement.description }}></p>
+            </Box>
+          </Container>
+        )}
         {(settlement.events.length > 0 || settlement.details.length > 0) && (
           <Container cols="grid-cols-1 md:grid-cols-2">
             <>
@@ -55,7 +63,7 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
                 {settlement.architects.map((architect: Architect) => (
                   <div key={architect.id}>
                     {architect.description.length > 0 ? (
-                      <Link href={`/architekten/${architect.slug}`} arrow>{architect.name}</Link>
+                      <LinkElement href={`/architekten/${architect.slug}`} arrow>{architect.name}</LinkElement>
                     ) : (
                       <>{architect.name}</>
                     )}

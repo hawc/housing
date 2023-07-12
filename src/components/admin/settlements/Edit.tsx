@@ -1,4 +1,4 @@
-import { Loader2Icon } from 'lucide-react';
+import { ArrowLeftIcon, Loader2Icon } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -100,29 +100,31 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
 
   return (
     <>
-      <Container>
-        <Container>
-          <Box ghost>
-            <div className='align-middle'>
-              <Headline type='h1' className='inline-block'>
-                <InputGhost
-                  className='text-inherit'
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => updateSettlement({ name: event.target.value })}
-                  value={settlement.name} />
-              </Headline>
-              <div>
-                <Link href='/admin/architekten'>zurück zur Übersicht</Link>
+      <Box ghost>
+        <div className='flex'>
+          <Headline type='h1' className='inline-block'>
+            <InputGhost
+              className='text-inherit'
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => updateSettlement({ name: event.target.value })}
+              value={settlement.name} />
+          </Headline>
+          <div>
+            <Link className='block ml-3 p-2 rounded-full bg-highlight' href='/admin/siedlungen'>
+              <ArrowLeftIcon className={`align-text-bottom ${loading && 'animate-spin'}`} size={15} />
+            </Link>
+          </div>
+          <div>
+            {loading ? (
+              <div className='inline-block pb-1'>
+                <Loader2Icon className='animate-spin' />
               </div>
-              {loading ? (
-                <div className='inline-block pb-1'>
-                  <Loader2Icon className='animate-spin' />
-                </div>
-              ) : (
-                <TagList key={Object.keys(settlement.tags).length} className='ml-2 align-top' existingTags={settlement.tags} removeTag={removeTag} addTag={addTag} />
-              )}
-            </div>
-          </Box>
-        </Container>
+            ) : (
+              <TagList key={Object.keys(settlement.tags).length} className='ml-2' existingTags={settlement.tags} removeTag={removeTag} addTag={addTag} />
+            )}
+          </div>
+        </div>
+      </Box>
+      <Container>
         <Container>
           <Box>
             <TextareaGhost
@@ -131,56 +133,47 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
           </Box>
         </Container>
         <Container cols="grid-cols-1 md:grid-cols-2">
-          <>
-            {settlement.events.length > 0 && (
-              <Box>
-                <Headline className='inline-block' tag='h2' type='h3'>Historie</Headline>
-                <Timeline
-                  events={settlement.events} />
-              </Box>
-            )}
-            {settlement.details.length > 0 && (
-              <Box>
-                <Headline className='inline-block' tag='h2' type='h3'>Details</Headline>
-                <DetailsList details={settlement.details} />
-              </Box>
-            )}
-          </>
+          <Box>
+            <Headline className='inline-block' tag='h2' type='h3'>Historie</Headline>
+            <Timeline
+              events={settlement.events} />
+          </Box>
+          <Box>
+            <Headline className='inline-block' tag='h2' type='h3'>Details</Headline>
+            <DetailsList details={settlement.details} />
+          </Box>
         </Container>
         <Container>
-          <>
-            {settlement.architects.length > 0 && (
-              <Box>
-                <>
-                  <Headline className='inline-block' tag='h2' type='h3'>
-                    {settlement.architects.length > 1 ? 'Architekten' : 'Architekt'}
-                  </Headline>
-                  {settlement.architects.map((architect: Architect) => (
-                    <div key={architect.id}>
-                      {architect.name}
-                    </div>
-                  ))}
-                </>
-              </Box>
-            )}
-          </>
+          <Box>
+            <>
+              <Headline className='inline-block' tag='h2' type='h3'>
+                {settlement.architects.length > 1 ? 'Architekten' : 'Architekt'}
+              </Headline>
+              {settlement.architects.map((architect: Architect) => (
+                <div key={architect.id}>
+                  {architect.name}
+                </div>
+              ))}
+            </>
+          </Box>
         </Container>
         <Container cols='md:grid-cols-2'>
           <>
-            {settlement.resources.length > 0 && (
-              <>
-                {settlement.resources.filter(resource => resource.type.name === 'Foto').map((resource) => (
-                  <Box key={resource.id} className="py-3 md:p-0 h-60 lg:h-96 justify-between">
-                    <div className='bg-grey-light grow flex items-center overflow-hidden mb-1 md:mb-0'>
-                      <img src={resource.url} alt={resource.description} loading='lazy' />
-                    </div>
-                    <div className='md:px-5 pt-2 md:pt-4 md:pb-4'>
-                      {resource.description}
-                    </div>
-                  </Box>
-                ))}
-              </>
-            )}
+            {settlement.resources.filter(resource => resource.type.name === 'Foto').map((resource) => (
+              <Box key={resource.id} className="py-3 md:p-0 h-60 lg:h-96 justify-between">
+                <div className='bg-grey-light grow flex items-center overflow-hidden mb-1 md:mb-0'>
+                  <img src={resource.url} alt={resource.description} loading='lazy' />
+                </div>
+                <div className='md:px-5 pt-2 md:pt-4 md:pb-4'>
+                  {resource.description}
+                </div>
+              </Box>
+            ))}
+            <Box>
+              <Headline className='inline-block' tag='h2' type='h3'>
+                Ressource hinzufügen
+              </Headline>
+            </Box>
           </>
         </Container>
         <>
@@ -193,11 +186,11 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
             <Location settlement={settlement} onUpdate={getSettlement} />
           </Box>
         </>
-      </Container>
-      <Container cols='grid-cols-2'>
-        <Button onClick={submitData} disabled={loading}><>Speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</></Button>
-        <Button onClick={() => deleteSettlement(settlement.id, settlement.name)} disabled={loading}><>Löschen {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none bg-red' />}</></Button>
-        <Link href='/admin/siedlungen' className='inline-block py-1 px-3 bg-content text-center'>Abbrechen</Link>
+        <Container cols='grid-cols-2'>
+          <Button onClick={submitData} disabled={loading}><>Speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</></Button>
+          <Button onClick={() => deleteSettlement(settlement.id, settlement.name)} disabled={loading}><>Löschen {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none bg-red' />}</></Button>
+          <Link href='/admin/siedlungen' className='inline-block py-1 px-3 bg-content text-center'>Abbrechen</Link>
+        </Container>
       </Container>
     </>
   );

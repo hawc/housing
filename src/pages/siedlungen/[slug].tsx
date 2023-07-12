@@ -3,8 +3,6 @@ import { InferGetStaticPropsType } from 'next';
 
 import { findSettlement, findSettlements } from '@/lib/db';
 
-import { Box } from '@/components/blocks/Box';
-import { Link } from '@/components/blocks/Link';
 import Layout from '@/components/layout/Layout';
 import { Settlement } from '@/components/settlements/View';
 
@@ -37,9 +35,6 @@ export default function SettlementPage({ settlement }: InferGetStaticPropsType<t
   return (
     <Layout>
       <section>
-        <Box ghost className='mb-2'>
-          <Link href='/siedlungen' arrow back>zurück zur Übersicht</Link>
-        </Box>
         {settlement && (
           <Settlement settlement={settlement} />
         )}

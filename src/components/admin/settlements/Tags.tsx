@@ -11,7 +11,7 @@ import { Tag } from '@/pages/admin';
 
 function TagItem({ tag, onClick }: { tag: Tag, onClick: (...args: any[]) => void | Promise<void>; }) {
   return (
-    <li className="flex mr-1 mb-1 py-0.5 px-2 italic text-xs font-semibold border-2 border-text rounded-full items-center">
+    <li className="flex mr-1 mb-1 py-1.5 px-2 italic text-xs font-semibold border-2 border-text rounded-full items-center">
       {tag.name}
       <Button ghost className='pl-2' onClick={onClick}><XIcon size={15} /></Button>
     </li>
@@ -33,7 +33,7 @@ function NewTagItem({ availableTags, onAdd }: { availableTags: Tag[], onAdd: (ta
   }
 
   return (
-    <li className="flex mr-1 mb-1 py-0.5 px-2 italic text-xs font-semibold border-2 border-text rounded-full items-center">
+    <li className="flex mr-1 mb-1 py-1.5 px-2 italic text-xs font-semibold border-2 border-text rounded-full items-center">
       <Select<Tag> options={availableTags} onChange={(e) => setTag(e.target.value)} className='italic leading-none' disabled={loading} />
       <Button ghost className='pl-2' onClick={() => addTag(currentTag)} disabled={!currentTag?.name.length || loading}><PlusIcon size={15} /></Button>
     </li>
