@@ -1,5 +1,6 @@
 import { ArrowLeftIcon, Loader2Icon } from 'lucide-react';
 import Link from 'next/link';
+import router from 'next/router';
 import { useState } from 'react';
 
 import { callAPI } from '@/lib/api';
@@ -26,19 +27,49 @@ export function ArchitectEdit({ architectInput }: { architectInput: BaseArchitec
     } as BaseArchitect)
   }
 
+  const deleteArchitect = async (id: string) => {
+    setLoading(true);
+    await callAPI({ type: 'deleteArchitect', payload: { where: { id } } });
+    router.push('/admin/architekten');
+    setLoading(false);
+  };
+
   const submitData = async (architect) => {
     setLoading(true);
-    await callAPI({
-      type: 'updateArchitect',
-      payload: {
-        data: {
-          name: architect.name,
-          description: architect.description,
-        },
-        where: { id: architect.id }
+    if (architect?.id) {
+      await callAPI({
+        type: 'updateArchitect',
+        payload: {
+          data: {
+            name: architect.name,
+            description: architect.description,
+          },
+          where: { id: architect.id }
+        }
+      });
+      await getArchitect();
+    } else {
+      const response = await callAPI({
+        type: 'addArchitect',
+        payload: {
+          data: {
+            name: architect.name,
+            description: architect.description,
+          },
+        }
+      });
+      if (response) {
+        setArchitect(response);
       }
-    });
-    setArchitect(await callAPI({ type: 'getArchitect', payload: { where: { id: architect.id } } }));
+    }
+    setLoading(false);
+  }
+
+  const getArchitect = async () => {
+    setLoading(true);
+    if (architect.id) {
+      setArchitect(await callAPI({ type: 'getArchitect', payload: { where: { id: architect.id } } }));
+    }
     setLoading(false);
   }
 
@@ -50,7 +81,7 @@ export function ArchitectEdit({ architectInput }: { architectInput: BaseArchitec
             <InputGhost
               className='text-inherit'
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => updateArchitect({ name: event.target.value })}
-              value={architect.name} />
+              value={architect?.name ?? ''} />
           </Headline>
           <div>
             <Link className='block ml-3 p-2 rounded-full bg-highlight' href='/admin/architekten'>
@@ -65,12 +96,13 @@ export function ArchitectEdit({ architectInput }: { architectInput: BaseArchitec
             <div>
               <TextareaGhost
                 onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => updateArchitect({ description: event.target.value })}
-                value={architect.description} />
+                value={architect?.description ?? ''} />
             </div>
           </Box>
         </Container>
         <Container cols='grid-cols-2'>
-          <Button onClick={() => submitData(architect)} disabled={loading}><>Speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</></Button>
+          <Button onClick={() => submitData(architect)} disabled={loading || !architect?.name}><>Speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</></Button>
+          <Button onClick={() => deleteArchitect(architect.id)} disabled={loading || !(architect?.id)}><>Löschen {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none bg-red' />}</></Button>
           <LinkElement href="/admin/architekten" className='inline-block py-1 px-3 bg-content text-center'>Abbrechen</LinkElement>
         </Container>
       </Container>

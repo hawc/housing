@@ -68,9 +68,9 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
     setLoading(false);
   }
 
-  const deleteSettlement = async (id: string, name: string) => {
+  const deleteSettlement = async (id: string) => {
     setLoading(true);
-    await callAPI({ type: 'deleteSettlement', payload: { where: { id }, data: { name } } });
+    await callAPI({ type: 'deleteSettlement', payload: { where: { id } } });
     router.push('/siedlungen');
     setLoading(false);
   };
@@ -206,7 +206,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
         </>
         <Container cols='grid-cols-2'>
           <Button onClick={submitData} disabled={loading || !(settlement?.name)}><>Speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</></Button>
-          <Button onClick={() => deleteSettlement(settlement.id, settlement.name)} disabled={loading || !(settlement?.id)}><>Löschen {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none bg-red' />}</></Button>
+          <Button onClick={() => deleteSettlement(settlement.id)} disabled={loading || !(settlement?.id)}><>Löschen {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none bg-red' />}</></Button>
           <Link href='/admin/siedlungen' className='inline-block py-1 px-3 bg-content text-center'>Abbrechen</Link>
         </Container>
       </Container>

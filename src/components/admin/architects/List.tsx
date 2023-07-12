@@ -24,13 +24,6 @@ export function ListArchitects({ architectsInput }: { architectsInput: BaseArchi
     setLoading(false);
   };
 
-  const deleteArchitect = async (id: string) => {
-    setLoading(true);
-    await callAPI({ type: 'deleteArchitect', payload: { where: { id } } });
-    getArchitects();
-    setLoading(false);
-  };
-
   return (
     <>
       <Box ghost>

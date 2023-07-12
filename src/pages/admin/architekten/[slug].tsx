@@ -36,9 +36,7 @@ export default function ArchitectPage({ architect }: InferGetStaticPropsType<typ
   return (
     <Layout>
       <section>
-        {architect && (
-          <ArchitectEdit architectInput={architect} />
-        )}
+        <ArchitectEdit architectInput={architect} />
       </section>
     </Layout>
   );

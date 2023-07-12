@@ -7,6 +7,7 @@ import { Architect, BaseArchitect, BaseEvent, BaseLocation, BaseSettlement, Base
 
 export const baseTransformers = {
   location: (location: LocationsSelect): Location => {
+    if (!location) return null;
     return {
       id: location.id,
       name: location.name,
@@ -19,6 +20,7 @@ export const baseTransformers = {
     };
   },
   settlementOnTag: (settlementOnTag: SettlementsOnTagsInclude): BaseSettlementOnTag => {
+    if (!settlementOnTag) return null;
     return {
       tag: transformers.tag(settlementOnTag.tag),
       settlement: transformers.settlement(settlementOnTag.settlement),
@@ -41,6 +43,7 @@ export const baseTransformers = {
     };
   },
   architect: (architect: ArchitectsInclude): BaseArchitect => {
+    if (!architect) return null;
     return {
       id: architect.id,
       name: architect.name,
@@ -51,6 +54,7 @@ export const baseTransformers = {
     };
   },
   tag: (tag: TagsInclude): BaseTag => {
+    if (!tag) return null;
     return {
       id: tag.id,
       name: tag.name,
@@ -59,6 +63,7 @@ export const baseTransformers = {
     };
   },
   event: (event: EventsInclude): BaseEvent => {
+    if (!event) return null;
     return {
       id: event.id,
       name: event.name,
@@ -215,11 +220,12 @@ const resolvers = {
   },
   getArchitects: async (payload?: Prisma.ArchitectsFindManyArgs): Promise<BaseArchitect[]> => {
     const architects = await (payload ? findArchitects(payload) : findArchitects());
+    if (!architects || architects.length === 0) return null;
     return architects.map(baseTransformers.architect);
   },
   getArchitect: async (payload: Prisma.ArchitectsFindUniqueArgs): Promise<Architect> => {
     const architect = await findArchitect(payload);
-    if (!architect) throw new Error('architect not found');
+    if (!architect) return null;
     return baseTransformers.architect(architect);
   },
   updateArchitect: async (payload: Prisma.ArchitectsUpdateArgs): Promise<BaseArchitect> => {
