@@ -1,22 +1,46 @@
-import { Prisma as OriginalPrisma } from '@prisma/client';
-import { Prisma as CachedPrisma } from 'cached-prisma';
+// import { Prisma as OriginalPrisma } from '@prisma/client';
+// import { Prisma as CachedPrisma } from 'cached-prisma';
+// import slugify from 'slugify';
+
+// let prisma: CachedPrisma['client'];
+
+// if (process.env.NODE_ENV === 'production') {
+//   prisma = new CachedPrisma().client;
+// } else {
+//   const globalWithPrisma = global as typeof globalThis & {
+//     prisma: CachedPrisma['client'];
+//   };
+//   if (!globalWithPrisma.prisma) {
+//     globalWithPrisma.prisma = new CachedPrisma().client;
+//   }
+//   prisma = globalWithPrisma.prisma;
+// }
+
+// export const getValue = (input: string | number | OriginalPrisma.StringFieldUpdateOperationsInput | OriginalPrisma.FloatFieldUpdateOperationsInput) => {
+//   if (input === null || input === undefined) {
+//     return input;
+//   }
+//   return (typeof input === 'object') ? (input.set ?? '') : input;
+// }
+
+import { Prisma, PrismaClient } from '@prisma/client';
 import slugify from 'slugify';
 
-let prisma: CachedPrisma['client'];
+let prisma: PrismaClient;
 
 if (process.env.NODE_ENV === 'production') {
-  prisma = new CachedPrisma().client;
+  prisma = new PrismaClient();
 } else {
   const globalWithPrisma = global as typeof globalThis & {
-    prisma: CachedPrisma['client'];
+    prisma: PrismaClient;
   };
   if (!globalWithPrisma.prisma) {
-    globalWithPrisma.prisma = new CachedPrisma().client;
+    globalWithPrisma.prisma = new PrismaClient();
   }
   prisma = globalWithPrisma.prisma;
 }
 
-export const getValue = (input: string | number | OriginalPrisma.StringFieldUpdateOperationsInput | OriginalPrisma.FloatFieldUpdateOperationsInput) => {
+export const getValue = (input: string | number | Prisma.StringFieldUpdateOperationsInput | Prisma.FloatFieldUpdateOperationsInput) => {
   if (input === null || input === undefined) {
     return input;
   }
