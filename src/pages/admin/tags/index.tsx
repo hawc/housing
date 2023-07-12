@@ -7,13 +7,14 @@ import Layout from '@/components/layout/Layout';
 import { BaseTag } from '@/pages/admin';
 import { baseTransformers } from '@/pages/api/db';
 
-export async function getStaticProps(): Promise<{ props: { tags: BaseTag[] } }> {
+export async function getStaticProps(): Promise<{ props: { tags: BaseTag[] }, revalidate: number }> {
   const tags: BaseTag[] = (await findTags()).map(baseTransformers.tag);
 
   return {
     props: {
       tags,
     },
+    revalidate: 10
   };
 }
 

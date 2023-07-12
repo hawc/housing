@@ -23,13 +23,14 @@ export async function getStaticPaths() {
   }
 }
 
-export async function getStaticProps({ params }: { params: { slug: string } }): Promise<{ props: { architect: BaseArchitect } }> {
+export async function getStaticProps({ params }: { params: { slug: string } }): Promise<{ props: { architect: BaseArchitect }, revalidate: number }> {
   const architect: BaseArchitect = baseTransformers.architect(await findArchitect({ where: { slug: params.slug } }));
 
   return {
     props: {
       architect,
     },
+    revalidate: 10
   };
 }
 
