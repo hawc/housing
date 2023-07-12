@@ -9,11 +9,11 @@ export function Header() {
           <Link className="inline-block font-black" href="/">
             <>Großwohn&shy;<span className='whitespace-nowrap'>siedlungen<span className='text-highlight'>
               <svg
-                className='inline align-baseline ml-1 text-highlight'
-                width="0.5rem"
-                height="0.5rem"
+                className='inline align-baseline ml-0.5 text-highlight'
+                width="0.33rem"
+                height="0.33rem"
                 aria-hidden>
-                <rect width="0.5rem" height="0.5rem" fill='currentcolor' />
+                <rect width="0.33rem" height="0.33rem" fill='currentcolor' />
               </svg></span>
             </span></>
           </Link>

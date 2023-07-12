@@ -36,7 +36,7 @@ export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSe
         </div>
       </Box>
       <Box>
-        <div className={`flex flex-col transition-filter ${loading ? 'blur-sm' : 'blur-none'}`}>
+        <div className="flex flex-col transition-filter">
           <SearchInput
             searchTerm={searchTerm}
             loading={Boolean(loading && settlements)}
@@ -47,6 +47,7 @@ export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSe
           ) : (
             <>
               <SettlementsSearchList
+                className={`transition-filter ${loading ? 'blur-sm' : 'blur-none'}`}
                 searchTerm={searchTerm}
                 path='/siedlungen/'
                 loading={Boolean(loading && settlements)}

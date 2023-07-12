@@ -48,7 +48,7 @@ export function SearchList({ items, path, className = '', searchTerm = '', loadi
   return (
     <div className={className} {...rest}>
       <List className='md:columns-2'>
-        {sortAlphabetically(items.filter(item => removeSpaces(item.name).includes(removeSpaces(searchTerm)))).map(item => (
+        {getListOrNull(sortAlphabetically(items.filter(item => removeSpaces(item.name).includes(removeSpaces(searchTerm)))).map(item => (
           loading ? (
             <ListItem plain key={item.slug}>
               <Link href='#' className='pointer-events-none'>{item.name}</Link>
@@ -60,7 +60,7 @@ export function SearchList({ items, path, className = '', searchTerm = '', loadi
               </Link>
             </ListItem>
           )
-        ))}
+        ))) ?? <span className='leading-relaxed'>Keine Suchergebnisse</span>}
       </List>
     </div>
   );
