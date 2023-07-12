@@ -100,7 +100,7 @@ export function ListTags({ tagsInput }: { tagsInput: BaseTag[] }) {
     <>
       <Box ghost>
         <div className='flex'>
-          <Headline type='h1' className='mb-0 inline-block'>Tags: Übersicht</Headline>
+          <Headline type='h1' className='mb-0 inline-block'>Tags</Headline>
           <div>
             <Button className='ml-3 p-2 rounded-full' onClick={() => getTags()}>
               <RotateCwIcon className={`align-text-bottom ${loading && 'animate-spin'}`} size={15} />

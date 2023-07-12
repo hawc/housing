@@ -10,34 +10,30 @@ import type { BaseArchitect } from '@/pages/admin';
 export function Architect({ architect }: { architect: BaseArchitect }) {
   return (
     <>
+      <div className='flex'>
+        <Headline type='h1' className='inline-block'>{architect.name}</Headline>
+        <div>
+          <Link className='block ml-3 p-2 rounded-full bg-highlight' href='/architekten'>
+            <ArrowLeftIcon className='align-text-bottom' size={15} />
+          </Link>
+        </div>
+      </div>
       <Container>
-        <Container>
-          <Box ghost>
-            <>
-              <div className='flex'>
-                <Headline type='h1' className='inline-block'>{architect.name}</Headline>
-                <div>
-                  <Link className='block ml-3 p-2 rounded-full bg-highlight' href='/architekten'>
-                    <ArrowLeftIcon className='align-text-bottom' size={15} />
-                  </Link>
-                </div>
-              </div>
-              {architect.description && (
-                <p>{architect.description}</p>
-              )}
-            </>
-          </Box>
+        {architect.description && (
           <Box>
-            <Headline type='h3' tag='h2'>Siedlungen</Headline>
-            <>
-              {architect.settlements.map(settlement => (
-                <LinkElement key={settlement.slug} href={`/siedlungen/${settlement.slug}`} arrow>
-                  {settlement.name}
-                </LinkElement>
-              ))}
-            </>
+            <p>{architect.description}</p>
           </Box>
-        </Container>
+        )}
+        <Box>
+          <Headline type='h3' tag='h2'>Siedlungen</Headline>
+          <>
+            {architect.settlements.map(settlement => (
+              <LinkElement key={settlement.slug} href={`/siedlungen/${settlement.slug}`} arrow>
+                {settlement.name}
+              </LinkElement>
+            ))}
+          </>
+        </Box>
       </Container>
     </>
   );

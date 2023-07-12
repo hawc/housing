@@ -27,7 +27,7 @@ export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSe
     <>
       <Box ghost>
         <div className='flex'>
-          <Headline type='h1' className='mb-0 inline-block'>Siedlungen: Übersicht</Headline>
+          <Headline type='h1' className='mb-0 inline-block'>Siedlungen</Headline>
           <div>
             <Button className='ml-3 p-2 rounded-full' onClick={() => getSettlements()}>
               <RotateCwIcon className={`align-text-bottom ${loading && 'animate-spin'}`} size={15} />

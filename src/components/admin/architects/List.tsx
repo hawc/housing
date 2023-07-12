@@ -28,7 +28,7 @@ export function ListArchitects({ architectsInput }: { architectsInput: BaseArchi
     <>
       <Box ghost>
         <div className='flex'>
-          <Headline type='h1' className='mb-0 inline-block'>Architekten: Übersicht</Headline>
+          <Headline type='h1' className='mb-0 inline-block'>Architekten</Headline>
           <div>
             <Button className='ml-3 p-2 rounded-full' onClick={() => getArchitects()}>
               <RotateCwIcon className={`align-text-bottom ${loading && 'animate-spin'}`} size={15} />
