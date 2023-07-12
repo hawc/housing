@@ -1,12 +1,11 @@
-import { Container } from '@/components/blocks/Box';
 import { Link } from '@/components/blocks/Link';
 import { LoginButton } from '@/components/LoginButton';
 
 export function Header() {
   return (
-    <header className='flex items-end justify-between'>
-      <Container>
-        <div className="mt-4 md:mt-6 text-2xl md:text-5xl text-content leading-tight md:leading-normal">
+    <header className='sticky top-0 z-10' style={{ 'backdropFilter': 'blur(10px) brightness(0.8)' }}>
+      <div className="container xl:max-w-full mx-auto px-3 md:px-5 items-center justify-between  flex">
+        <div className="my-4 md:mv-6 text-2xl text-content leading-tight md:leading-normal">
           <Link className="inline-block font-black text-grey-light" href="/">
             <>Großwohn&shy;<span className='whitespace-nowrap'>siedlungen<span className='text-highlight'>
               <svg
@@ -19,8 +18,8 @@ export function Header() {
             </span></>
           </Link>
         </div>
-      </Container>
-      <LoginButton className='mb-1.5 md:mb-3' />
+        <LoginButton />
+      </div>
     </header>
   );
 }

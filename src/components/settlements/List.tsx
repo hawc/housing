@@ -5,12 +5,13 @@ import { callAPI } from '@/lib/api';
 
 import { Box } from '@/components/blocks/Box';
 import { Button } from '@/components/blocks/form/Button';
-import { SettlementsSearchList } from '@/components/blocks/SearchList';
+import { SearchInput, SettlementsSearchList } from '@/components/blocks/SearchList';
 import { Headline } from '@/components/Headline';
 
 import { BaseSettlement } from '@/pages/admin';
 
 export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSettlement[] }) {
+  const [searchTerm, setSearchTerm] = useState('');
   const [settlements, setSettlements] = useState(settlementsInput);
   const [loading, setLoading] = useState(false);
 
@@ -24,20 +25,33 @@ export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSe
 
   return (
     <>
-      <Box>
+      <Box ghost>
         <div className='flex'>
           <Headline type='h1' className='mb-0 inline-block'>Siedlungen: Übersicht</Headline>
-          <Button className='ml-3 p-2 rounded-full' onClick={() => getSettlements()}>
-            <RotateCwIcon className={`align-text-bottom ${loading && 'animate-spin'}`} size={15} />
-          </Button>
+          <div>
+            <Button className='ml-3 p-2 rounded-full' onClick={() => getSettlements()}>
+              <RotateCwIcon className={`align-text-bottom ${loading && 'animate-spin'}`} size={15} />
+            </Button>
+          </div>
         </div>
       </Box>
       <Box>
-        <div className={`transition-filter ${loading ? 'blur-sm' : 'blur-none'}`}>
+        <div className={`flex flex-col transition-filter ${loading ? 'blur-sm' : 'blur-none'}`}>
+          <SearchInput
+            searchTerm={searchTerm}
+            loading={Boolean(loading && settlements)}
+            onChange={(event) => setSearchTerm(event.target.value)}
+            placeholder='Nach Siedlungen suchen' />
           {!loading && !settlements ? (
             <>Keine Siedlungen gefunden.</>
           ) : (
-            <SettlementsSearchList path='/siedlungen/' loading={Boolean(loading && settlements)} items={settlements} />
+            <>
+              <SettlementsSearchList
+                searchTerm={searchTerm}
+                path='/siedlungen/'
+                loading={Boolean(loading && settlements)}
+                items={settlements} />
+            </>
           )}
         </div>
       </Box>

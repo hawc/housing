@@ -102,28 +102,32 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
     <>
       <Container>
         <Container>
-          <Box>
-            <>
-              <div className='align-middle'>
-                <Headline type='h1' className='inline-block'>
-                  <InputGhost
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => updateSettlement({ name: event.target.value })}
-                    value={settlement.name} />
-                </Headline>
-                {loading ? (
-                  <div className='inline-block pb-1'>
-                    <Loader2Icon className='animate-spin' />
-                  </div>
-                ) : (
-                  <TagList key={Object.keys(settlement.tags).length} className='ml-2 align-top' existingTags={settlement.tags} removeTag={removeTag} addTag={addTag} />
-                )}
-              </div>
+          <Box ghost>
+            <div className='align-middle'>
+              <Headline type='h1' className='inline-block'>
+                <InputGhost
+                  className='text-inherit'
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => updateSettlement({ name: event.target.value })}
+                  value={settlement.name} />
+              </Headline>
               <div>
-                <TextareaGhost
-                  onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => updateSettlement({ description: event.target.value })}
-                  value={settlement.description} />
+                <Link href='/admin/architekten'>zurück zur Übersicht</Link>
               </div>
-            </>
+              {loading ? (
+                <div className='inline-block pb-1'>
+                  <Loader2Icon className='animate-spin' />
+                </div>
+              ) : (
+                <TagList key={Object.keys(settlement.tags).length} className='ml-2 align-top' existingTags={settlement.tags} removeTag={removeTag} addTag={addTag} />
+              )}
+            </div>
+          </Box>
+        </Container>
+        <Container>
+          <Box>
+            <TextareaGhost
+              onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => updateSettlement({ description: event.target.value })}
+              value={settlement.description} />
           </Box>
         </Container>
         <Container cols="grid-cols-1 md:grid-cols-2">

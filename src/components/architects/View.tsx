@@ -9,10 +9,13 @@ export function Architect({ architect }: { architect: BaseArchitect }) {
     <>
       <Container>
         <Container>
-          <Box>
+          <Box ghost>
             <>
               <div className='align-middle'>
-                <Headline type="h1" className='inline-block'>{architect.name}</Headline>
+                <Headline type='h1' className='inline-block'>{architect.name}</Headline>
+                <div>
+                  <Link href='/architekten'>zurück zur Übersicht</Link>
+                </div>
               </div>
               {architect.description && (
                 <p>{architect.description}</p>
@@ -23,11 +26,9 @@ export function Architect({ architect }: { architect: BaseArchitect }) {
             <Headline type='h3' tag='h2'>Siedlungen</Headline>
             <>
               {architect.settlements.map(settlement => (
-                <>
-                  <Link href={`/siedlungen/${settlement.slug}`} arrow>
-                    {settlement.name}
-                  </Link>
-                </>
+                <Link key={settlement.slug} href={`/siedlungen/${settlement.slug}`} arrow>
+                  {settlement.name}
+                </Link>
               ))}
             </>
           </Box>

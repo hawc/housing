@@ -2,7 +2,6 @@
 import { findArchitects } from '@/lib/db';
 
 import { ListArchitects } from '@/components/admin/architects/List';
-import { Container } from '@/components/blocks/Box';
 import Layout from '@/components/layout/Layout';
 
 import { BaseArchitect } from '@/pages/admin';
@@ -23,9 +22,7 @@ export default function Architects({ architects }: { architects: BaseArchitect[]
   return (
     <Layout>
       <section>
-        <Container>
-          <ListArchitects architectsInput={architects} />
-        </Container>
+        <ListArchitects architectsInput={architects} />
       </section>
     </Layout>
   );

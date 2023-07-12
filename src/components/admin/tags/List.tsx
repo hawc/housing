@@ -98,27 +98,27 @@ export function ListTags({ tagsInput }: { tagsInput: BaseTag[] }) {
 
   return (
     <>
-      <Container>
-        <Box>
-          <div className='flex'>
-            <Headline type='h1' className='mb-0 inline-block'>Tags: Übersicht</Headline>
+      <Box ghost>
+        <div className='flex'>
+          <Headline type='h1' className='mb-0 inline-block'>Tags: Übersicht</Headline>
+          <div>
             <Button className='ml-3 p-2 rounded-full' onClick={() => getTags()}>
               <RotateCwIcon className={`align-text-bottom ${loading && 'animate-spin'}`} size={15} />
             </Button>
           </div>
+        </div>
+      </Box>
+      <Container cols='grid-cols-2'>
+        <>
+          {sortAlphabetically(tags).map((tag: BaseTag) => (
+            <Box key={tag.id}>
+              <EditTag tag={tag} getTags={getTags} />
+            </Box>
+          ))}
+        </>
+        <Box>
+          <AddTag key={tags.length} getTags={getTags} />
         </Box>
-        <Container cols='grid-cols-2'>
-          <>
-            {sortAlphabetically(tags).map((tag: BaseTag) => (
-              <Box key={tag.id}>
-                <EditTag tag={tag} getTags={getTags} />
-              </Box>
-            ))}
-          </>
-          <Box>
-            <AddTag key={tags.length} getTags={getTags} />
-          </Box>
-        </Container>
       </Container>
     </>
   );

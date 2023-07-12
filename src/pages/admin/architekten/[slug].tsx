@@ -4,8 +4,6 @@ import { InferGetStaticPropsType } from 'next';
 import { findArchitect, findArchitects } from '@/lib/db';
 
 import { ArchitectEdit } from '@/components/admin/architects/Edit';
-import { Box, Container } from '@/components/blocks/Box';
-import { Link } from '@/components/blocks/Link';
 import Layout from '@/components/layout/Layout';
 
 import type { BaseArchitect } from '@/pages/admin';
@@ -38,14 +36,9 @@ export default function ArchitectPage({ architect }: InferGetStaticPropsType<typ
   return (
     <Layout>
       <section>
-        <Container>
-          <Box ghost className='mb-2'>
-            <Link href='/admin/architekten' arrow back>zurück zur Übersicht</Link>
-          </Box>
-          {architect && (
-            <ArchitectEdit architectInput={architect} />
-          )}
-        </Container>
+        {architect && (
+          <ArchitectEdit architectInput={architect} />
+        )}
       </section>
     </Layout>
   );

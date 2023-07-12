@@ -4,8 +4,6 @@ import { InferGetStaticPropsType } from 'next';
 import { findSettlement, findSettlements } from '@/lib/db';
 
 import { SettlementEdit } from '@/components/admin/settlements/Edit';
-import { Box, Container } from '@/components/blocks/Box';
-import { Link } from '@/components/blocks/Link';
 import Layout from '@/components/layout/Layout';
 
 import type { BaseSettlement } from '@/pages/admin';
@@ -38,14 +36,9 @@ export default function SettlementPage({ settlement }: InferGetStaticPropsType<t
   return (
     <Layout>
       <section>
-        <Container>
-          <Box ghost className='mb-2'>
-            <Link href='/admin/siedlungen' arrow back>zurück zur Übersicht</Link>
-          </Box>
-          {settlement && (
-            <SettlementEdit settlementInput={settlement} />
-          )}
-        </Container>
+        {settlement && (
+          <SettlementEdit settlementInput={settlement} />
+        )}
       </section>
     </Layout>
   );

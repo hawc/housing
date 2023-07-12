@@ -5,15 +5,15 @@ import { Footer } from '@/components/blocks/Footer';
 import { Header } from '@/components/blocks/Header';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return (
+  return (<>
+    <Header />
     <div className="container mx-auto px-3 md:px-5">
       <ThemeProvider>
-        <Header />
         <main>
           {children}
         </main>
         <Footer />
       </ThemeProvider>
-    </div>
+    </div></>
   );
 }

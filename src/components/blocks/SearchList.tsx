@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import slugify from 'slugify';
+import { twMerge } from 'tailwind-merge';
 
 import { sortAlphabetically } from '@/components/admin/tags/List';
 import { InputGhost } from '@/components/blocks/form/Input';
@@ -12,20 +12,42 @@ interface SearchListProps extends React.HTMLAttributes<HTMLElement> {
   items: { name: string; slug: string, location?: Location }[];
   path: string;
   className?: string;
+  searchTerm?: string;
   loading?: boolean;
+}
+interface SearchInputProps extends React.HTMLAttributes<HTMLElement> {
+  className?: string;
+  searchTerm?: string;
+  placeholder?: string;
+  loading?: boolean;
+  onChange?: (event: any) => void;
 }
 
 function removeSpaces(string: string) {
   return slugify(string.toLocaleLowerCase().replace(/\s/g, ''));
 }
 
-export function SearchList({ items, path, className = '', loading = false, ...rest }: SearchListProps): React.ReactElement {
-  const [filter, setFilter] = useState<string>('');
+function getListOrNull(list: any[]) {
+  return list.length > 0 ? list : null;
+}
+
+
+export function SearchInput({ className = '', searchTerm = '', placeholder = 'Suchbegriff eingeben.', loading = false, onChange = () => { return }, ...rest }: SearchInputProps): React.ReactElement {
+  return (
+    <InputGhost
+      placeholder={placeholder}
+      value={searchTerm}
+      onChange={onChange}
+      className={twMerge(`w-auto -mx-3 -mt-2 md:-mx-5 md:-mt-4 mb-4 p-5 text-xl font-normal bg-black-500 ${loading ? 'pointer-events-none' : ''} ${className}`)}
+      {...rest} />
+  )
+}
+
+export function SearchList({ items, path, className = '', searchTerm = '', loading = false, ...rest }: SearchListProps): React.ReactElement {
   return (
     <div className={className} {...rest}>
-      <InputGhost placeholder='Suchbegriff eingeben' value='' onChange={event => setFilter(event.target.value)} className='mt-1 border-highlight border-solid border-2 mb-2 p-1' />
       <List className='md:columns-2'>
-        {sortAlphabetically(items.filter(item => removeSpaces(item.name).includes(removeSpaces(filter)))).map(item => (
+        {sortAlphabetically(items.filter(item => removeSpaces(item.name).includes(removeSpaces(searchTerm)))).map(item => (
           loading ? (
             <ListItem plain key={item.slug}>
               <Link href='#' className='pointer-events-none'>{item.name}</Link>
@@ -43,13 +65,11 @@ export function SearchList({ items, path, className = '', loading = false, ...re
   );
 }
 
-export function SettlementsSearchList({ items, path, className = '', loading = false, ...rest }: SearchListProps): React.ReactElement {
-  const [filter, setFilter] = useState<string>('');
+export function SettlementsSearchList({ items, path, className = '', searchTerm = '', loading = false, ...rest }: SearchListProps): React.ReactElement {
   return (
     <div className={className} {...rest}>
-      <InputGhost placeholder='Nach Siedlung oder Stadt suchen' value='' onChange={event => setFilter(event.target.value)} className='mt-1 border-highlight border-solid border-2 mb-2 p-1' />
       <List className='md:columns-2'>
-        {sortAlphabetically(items.filter(item => removeSpaces(item.name).includes(removeSpaces(filter)) || removeSpaces(item.location?.city ?? '').includes(removeSpaces(filter)))).map(item => (
+        {getListOrNull(sortAlphabetically(items.filter(item => removeSpaces(item.name).includes(removeSpaces(searchTerm)) || removeSpaces(item.location?.city ?? '').includes(removeSpaces(searchTerm)))).map(item => (
           loading ? (
             <ListItem plain key={item.slug}>
               <Link href='#' className='pointer-events-none'>{item.name}</Link>
@@ -64,7 +84,7 @@ export function SettlementsSearchList({ items, path, className = '', loading = f
               )}
             </ListItem>
           )
-        ))}
+        ))) ?? <span className='leading-relaxed'>Keine Suchergebnisse</span>}
       </List>
     </div>
   );

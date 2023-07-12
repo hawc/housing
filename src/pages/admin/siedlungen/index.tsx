@@ -2,7 +2,6 @@
 import { findSettlements } from '@/lib/db';
 
 import { ListSettlements } from '@/components/admin/settlements/List';
-import { Container } from '@/components/blocks/Box';
 import Layout from '@/components/layout/Layout';
 
 import { BaseSettlement } from '@/pages/admin';
@@ -23,9 +22,7 @@ export default function Settlements({ settlements }: { settlements: BaseSettleme
   return (
     <Layout>
       <section>
-        <Container>
-          <ListSettlements settlementsInput={settlements} />
-        </Container>
+        <ListSettlements settlementsInput={settlements} />
       </section>
     </Layout>
   );
