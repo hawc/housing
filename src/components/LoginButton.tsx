@@ -6,7 +6,7 @@ export function LoginButton({ className = '' }: { className?: string }) {
   const { user, error, isLoading } = useUser();
 
   return (
-    <span className={className}>
+    <span className={`text-white ${className}`}>
       {isLoading ? <><Loader2Icon className='animate-spin' /></> :
         error ? <>Login-Fehler 😔</> :
           user ? (

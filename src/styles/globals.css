@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -53,22 +54,34 @@
 
 
 :root {
-  --grey-light: #f6f6f6;
+  /* --grey-light: #f6f6f6; */
   --grey-dark: #2f2f2f;
+  --white: #ffffff;
   --black: #000000;
   --orange: #ff4d00;
-  --content: var(--grey-light);
+  --form-bg: rgba(0,0,0,.2);
+  --content: var(--white);
   --bg: var(--black);
   --text: var(--black);
   --highlight-orange: var(--orange);
   --highlight: var(--highlight-orange);
 }
 
+* {
+  --tw-ring-offset-shadow: none;
+  --tw-ring-shadow: none;
+  --tw-ring-offset-color: transparent;
+  --tw-ring-color: var(--highlight-orange) !important;
+  outline-color: var(--highlight-orange);
+  outline-offset: 2px;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
+  --form-bg: rgba(0,0,0,.5);
     --content: var(--grey-dark);
     --bg: var(--black);
-    --text: var(--grey-light);
+    --text: var(--white);
   }
 }
 
@@ -84,8 +97,15 @@ body {
   hyphens: auto;
 }
 [type='text'], [type='email'], [type='url'], [type='password'], [type='number'], [type='date'], [type='datetime-local'], [type='month'], [type='search'], [type='tel'], [type='time'], [type='week'], [multiple], textarea, select {
-  background-color: rgba(0,0,0,.5);
+  background-color: var(--form-bg);
 }
+input::placeholder,
+textarea::placeholder {
+  color: inherit;
+  opacity: 0.8;
+  font-size: var(--text-base);
+}
+
 p + p {
   margin-top: 1rem;
 }

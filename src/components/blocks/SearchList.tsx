@@ -38,7 +38,8 @@ export function SearchInput({ className = '', searchTerm = '', placeholder = 'Su
       placeholder={placeholder}
       value={searchTerm}
       onChange={onChange}
-      className={twMerge(`w-auto -mx-3 -mt-2 md:-mx-5 md:-mt-4 mb-4 p-5 text-xl font-normal bg-black-500 ${loading ? 'pointer-events-none' : ''} ${className}`)}
+      style={{ outlineOffset: '-2px' }}
+      className={twMerge(`w-auto -mx-3 -mt-2 md:-mx-5 md:-mt-4 mb-4 px-5 py-4 font-normal bg-black-500 ${loading ? 'pointer-events-none' : ''} ${className}`)}
       {...rest} />
   )
 }

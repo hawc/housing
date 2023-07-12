@@ -14,7 +14,7 @@ export function Architect({ architect }: { architect: BaseArchitect }) {
         <Container>
           <Box ghost>
             <>
-              <div className='align-middle'>
+              <div className='flex'>
                 <Headline type='h1' className='inline-block'>{architect.name}</Headline>
                 <div>
                   <Link className='block ml-3 p-2 rounded-full bg-highlight' href='/architekten'>
