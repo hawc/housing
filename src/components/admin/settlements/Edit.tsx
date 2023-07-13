@@ -199,9 +199,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
             </Container>
           )}
           <Box>
-            {settlement?.location && (
-              <Location settlement={settlement} onUpdate={getSettlement} />
-            )}
+            <Location settlement={settlement} onUpdate={getSettlement} />
           </Box>
         </>
         <Container cols='grid-cols-2'>
