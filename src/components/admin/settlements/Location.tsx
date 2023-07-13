@@ -6,10 +6,10 @@ import { callAPI } from '@/lib/api';
 import { Button } from '@/components/blocks/form/Button';
 import { InputGhost } from '@/components/blocks/form/Input';
 
-import { BaseSettlement, Location } from '@/pages/admin';
+import { Location } from '@/pages/admin';
 
-export function Location({ settlement, onUpdate, className = '' }: { settlement: BaseSettlement, onUpdate: () => any; className?: string }) {
-  const [location, setLocation] = useState<Location | null>(settlement.location);
+export function Location({ locationInput, settlementId, onUpdate, className = '' }: { locationInput: Location | undefined, settlementId: string | undefined, onUpdate: () => any; className?: string }) {
+  const [location, setLocation] = useState<Location | undefined>(locationInput);
   const [loading, setLoading] = useState<boolean>(false);
 
   const submitLocation = async () => {
@@ -46,14 +46,14 @@ export function Location({ settlement, onUpdate, className = '' }: { settlement:
             district: location?.district ?? undefined,
             zipCode: location?.zipCode ?? undefined,
             city: location?.city ?? undefined,
-            settlementId: settlement.id
+            settlementId: settlementId
           }
         }
       };
     }
     const locationResponse = await callAPI(submitData);
     setLoading(false);
-    if (locationResponse) {
+    if (locationResponse?.id) {
       setLocation(locationResponse);
       await onUpdate();
     }

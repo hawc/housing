@@ -199,7 +199,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
             </Container>
           )}
           <Box>
-            <Location settlement={settlement} onUpdate={getSettlement} />
+            <Location settlementId={settlement?.id} locationInput={settlement?.location} onUpdate={getSettlement} />
           </Box>
         </>
         <Container cols='grid-cols-2'>
