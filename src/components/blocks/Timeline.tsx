@@ -72,7 +72,7 @@ export function Timeline({ events }: { events: Event[] }) {
           )}
           <TimelineHeader>
             <TimelineIcon>
-              <IconComponent className="h-4 w-4" type={event.type.name} />
+              <IconComponent className="h-4 w-4" type={event.eventType.name} />
             </TimelineIcon>
             <Headline type='h5'>
               <>{new Date(event.eventDate ?? 0).getFullYear()}: {event.name}</>
@@ -87,7 +87,7 @@ export function Timeline({ events }: { events: Event[] }) {
         <TimelineItem key={index}>
           <TimelineHeader>
             <TimelineIcon>
-              <IconComponent className="h-4 w-4" type={event.type.name} />
+              <IconComponent className="h-4 w-4" type={event.eventType.name} />
             </TimelineIcon>
             <Headline type='h5'>
               {event.name}

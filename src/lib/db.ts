@@ -153,6 +153,8 @@ const tagsInclude = Prisma.validator<Prisma.TagsInclude>()({
   },
 });
 
+const eventTypesInclude = Prisma.validator<Prisma.EventTypesInclude>()({});
+
 const architectsInclude = Prisma.validator<Prisma.ArchitectsInclude>()({
   settlements: {
     select: {
@@ -210,6 +212,7 @@ export type ArchitectsInclude = Prisma.ArchitectsGetPayload<{ include: typeof ar
 export type SettlementsInclude = Prisma.SettlementsGetPayload<{ include: typeof settlementsInclude }>
 export type SettlementsOnTagsInclude = Prisma.SettlementsOnTagsGetPayload<{ include: typeof settlementsOnTagsInclude }>
 export type TagsInclude = Prisma.TagsGetPayload<{ include: typeof tagsInclude }>
+export type EventTypesInclude = Prisma.EventTypesGetPayload<{ include: typeof eventTypesInclude }>
 
 export async function createLocation(
   data: Prisma.LocationsCreateArgs
@@ -487,6 +490,21 @@ export async function findEvents(
 
   }
   return await prisma.events.findMany();
+}
+
+export async function createEvent(
+  data: Prisma.EventsCreateArgs
+) {
+  const updateData = data.data;
+  return await prisma.events.create({
+    data: {
+      name: updateData.name,
+      description: updateData.description,
+      eventTypeId: updateData.eventTypeId,
+      settlementId: updateData.settlementId
+    },
+    include: eventsInclude
+  });
 }
 
 export async function updateEvent(

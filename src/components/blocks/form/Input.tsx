@@ -18,7 +18,7 @@ export function InputGhost({ className = '', value = '', type = 'text', disabled
     <>
       <input
         className={twMerge(`appearance-none inline-block bg-transparent w-full border-none p-0 ${disabled ? 'opacity-50' : ''} ${className}`)}
-        defaultValue={type === 'date' ? formatDate(value) : value}
+        defaultValue={type === 'date' && value ? formatDate(value) : value}
         type={type}
         onChange={onChange}
         {...rest} />

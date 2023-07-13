@@ -5,10 +5,11 @@ import { callAPI } from '@/lib/api';
 
 import { Button } from '@/components/blocks/form/Button';
 import { InputGhost } from '@/components/blocks/form/Input';
+import { Select } from '@/components/blocks/form/Select';
 import { TextareaGhost } from '@/components/blocks/form/Textarea';
 import { Headline } from '@/components/Headline';
 
-import { Event } from '@/pages/admin';
+import { Event, EventType } from '@/pages/admin';
 
 const IconComponent = ({ type, className }: { type: string, className: string }): JSX.Element => {
   switch (type) {
@@ -57,8 +58,9 @@ function TimelineConnector() {
   )
 }
 
-export function Event({ event, hasConnector = false }: { event: Event, hasConnector?: boolean, }) {
-  const [currentEvent, setCurrentEvent] = useState<Event>(event);
+export function Event({ eventInput, availableEventTypes, settlementId, hasConnector = false }: { eventInput: Event | undefined, availableEventTypes: EventType[], settlementId: string | null, hasConnector?: boolean, }) {
+  const [event, setCurrentEvent] = useState<Event | undefined>(eventInput);
+  const [eventTypeId, setEventTypeId] = useState<string | undefined>(event?.eventType?.id ?? '');
   const [loading, setLoading] = useState<boolean>(false);
 
   const updateEvent = (input: Partial<Event>) => {
@@ -68,32 +70,40 @@ export function Event({ event, hasConnector = false }: { event: Event, hasConnec
     } as Event)
   }
 
-  function setEventName(eventName) {
-    updateEvent({
-      name: eventName
-    });
-  }
-
-  function setEventDate(eventDate) {
-    updateEvent({
-      eventDate: new Date(new Date(eventDate).toUTCString()).toISOString()
-    });
-  }
-
-  const submitData = async () => {
+  const submitEvent = async () => {
     setLoading(true);
-    await callAPI({
-      type: 'updateEvent',
-      payload: {
-        data: {
-          name: currentEvent.name,
-          description: currentEvent.description,
-          eventDate: new Date(currentEvent.eventDate).toISOString(),
-        },
-        where: { id: currentEvent.id }
-      }
-    });
-    setCurrentEvent(await callAPI({ type: 'getEvent', payload: { where: { id: currentEvent.id } } }));
+    let submitData;
+    if (event?.id) {
+      submitData = {
+        type: 'updateEvent',
+        payload: {
+          data: {
+            name: event.name,
+            description: event.description,
+            eventDate: event.eventDate || null,
+            eventTypeId: eventTypeId,
+          },
+          where: { id: event.id }
+        }
+      };
+    } else {
+      submitData = {
+        type: 'addEvent',
+        payload: {
+          data: {
+            name: event.name,
+            description: event.description,
+            eventDate: event.eventDate || null,
+            eventTypeId: eventTypeId,
+            settlementId: settlementId,
+          },
+        }
+      };
+    }
+    const response = await callAPI(submitData);
+    if (response?.id) {
+      setCurrentEvent(response);
+    }
     setLoading(false);
   }
 
@@ -105,22 +115,26 @@ export function Event({ event, hasConnector = false }: { event: Event, hasConnec
         )}
         <TimelineHeader>
           <TimelineIcon>
-            <IconComponent className="h-4 w-4" type={event.type.name} />
+            <IconComponent className="h-4 w-4" type={eventTypeId ? availableEventTypes.find(type => type.id === eventTypeId)?.name : ''} />
           </TimelineIcon>
-          <Headline type='h5'>
-            <><InputGhost
-              className='inline-block w-auto'
-              type="date"
-              value={event.eventDate}
-              onChange={(e) => setEventDate(e.target.value)} />: <InputGhost
-                className='block w-full'
-                value={event.name}
-                onChange={(e) => setEventName(e.target.value)} /></>
+          <Headline type='h5' className='flex'>
+            <>
+              <InputGhost
+                className='inline-block w-auto border-highlight border-2 border-solid'
+                type="date"
+                value={event?.eventDate ?? new Date().toDateString()}
+                onChange={(event) => updateEvent({ eventDate: new Date(new Date(event.target.value).toUTCString()).toISOString() })} />:
+              <InputGhost
+                className='block w-full border-highlight border-2 border-solid'
+                value={event?.name ?? ''}
+                onChange={(event) => updateEvent({ name: event.target.value })} />
+            </>
           </Headline>
         </TimelineHeader>
         <TimelineBody>
-          <TextareaGhost value={event.description} onChange={(e) => event.description = e.target.value} />
-          <Button onClick={submitData} disabled={loading}><>Änderungen speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</></Button>
+          <Select<EventType> value={event?.eventType?.id ?? ''} options={availableEventTypes} onChange={(event) => setEventTypeId(event.target.value)} />
+          <TextareaGhost className='border-highlight border-2 border-solid' value={event?.description ?? ''} onChange={(event) => updateEvent({ description: event.target.value })} />
+          <Button onClick={submitEvent} disabled={loading || !(event?.name)}><>Änderungen speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</></Button>
         </TimelineBody>
       </TimelineItem>
     </>

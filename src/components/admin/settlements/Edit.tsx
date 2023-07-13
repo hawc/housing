@@ -152,6 +152,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
           <Box>
             <Headline className='inline-block' tag='h2' type='h3'>Historie</Headline>
             <Timeline
+              settlementId={settlement?.id}
               events={settlement?.events ?? []} />
           </Box>
           <Box>

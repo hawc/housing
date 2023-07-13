@@ -34,7 +34,7 @@ export function Select<T>({ value = '', className = '', disabled = false, option
         {...rest}>
         <option value=''></option>
         {options.map(option => (
-          <option key={option.id}>{option.name}</option>
+          <option key={option.id} value={option.id}>{option.name}</option>
         ))}
       </select>
     </>

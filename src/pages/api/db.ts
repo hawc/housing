@@ -1,9 +1,9 @@
 import { Prisma } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { addSettlementOnTag, ArchitectsInclude, ArchitectsSelect, createArchitect, createLocation, createSettlement, createTag, deleteArchitect, deleteSettlement, deleteTag, DetailsSelect, DetailsTypesSelect, EventsInclude, EventsSelect, EventTypesSelect, findArchitect, findArchitects, findDetails, findEvent, findEvents, findEventTypes, findResources, findResourceTypes, findSettlement, findSettlements, findTags, flushCache, LocationsSelect, ResourcesSelect, ResourceTypesSelect, SettlementsInclude, SettlementsOnTagsInclude, SettlementsSelect, SettlementTypesSelect, TagsInclude, TagsSelect, updateArchitect, updateEvent, updateLocation, updateSettlement, updateTag } from '@/lib/db';
+import { addSettlementOnTag, ArchitectsInclude, ArchitectsSelect, createArchitect, createEvent, createLocation, createSettlement, createTag, deleteArchitect, deleteSettlement, deleteTag, DetailsSelect, DetailsTypesSelect, EventsInclude, EventsSelect, EventTypesInclude, EventTypesSelect, findArchitect, findArchitects, findDetails, findEvent, findEvents, findEventTypes, findResources, findResourceTypes, findSettlement, findSettlements, findTags, flushCache, LocationsSelect, ResourcesSelect, ResourceTypesSelect, SettlementsInclude, SettlementsOnTagsInclude, SettlementsSelect, SettlementTypesSelect, TagsInclude, TagsSelect, updateArchitect, updateEvent, updateLocation, updateSettlement, updateTag } from '@/lib/db';
 
-import { Architect, BaseArchitect, BaseEvent, BaseLocation, BaseSettlement, BaseSettlementOnTag, BaseTag, Detail, DetailType, Event, EventType, Location, Resource, ResourceType, Settlement, SettlementType, Tag } from '@/pages/admin';
+import { Architect, BaseArchitect, BaseEvent, BaseEventType, BaseLocation, BaseSettlement, BaseSettlementOnTag, BaseTag, Detail, DetailType, Event, EventType, Location, Resource, ResourceType, Settlement, SettlementType, Tag } from '@/pages/admin';
 
 export const baseTransformers = {
   location: (location: LocationsSelect): Location => {
@@ -62,14 +62,22 @@ export const baseTransformers = {
       settlements: tag.settlements.map((settlementsOnTag) => transformers.settlement(settlementsOnTag.settlement)),
     };
   },
+  eventType: (eventType: EventTypesInclude): BaseEventType => {
+    if (!eventType) return null;
+    return {
+      id: eventType.id,
+      name: eventType.name,
+      description: eventType.description ?? '',
+    };
+  },
   event: (event: EventsInclude): BaseEvent => {
     if (!event) return null;
     return {
       id: event.id,
       name: event.name,
       description: event.description ?? '',
-      eventDate: event.eventDate.toDateString(),
-      type: transformers.eventType(event.eventType)
+      eventDate: event.eventDate?.toDateString() ?? '',
+      eventType: transformers.eventType(event.eventType)
     };
   },
 }
@@ -97,8 +105,8 @@ const transformers = {
       id: event.id,
       name: event.name,
       description: event.description ?? '',
-      eventDate: event.eventDate.toDateString(),
-      type: transformers.eventType(event.eventType)
+      eventDate: event.eventDate?.toDateString() ?? '',
+      eventType: transformers.eventType(event.eventType)
     };
   },
   eventType: (eventType: EventTypesSelect): EventType => {
@@ -181,6 +189,9 @@ const resolvers = {
   addTag: async (payload: Prisma.TagsCreateArgs): Promise<Tag> => {
     return transformers.tag(await createTag(payload));
   },
+  addEvent: async (payload: Prisma.EventsCreateArgs): Promise<Event> => {
+    return baseTransformers.event(await createEvent(payload));
+  },
   deleteArchitect: async (payload: Prisma.ArchitectsDeleteArgs): Promise<BaseArchitect> => {
     return baseTransformers.architect(await deleteArchitect(payload));
   },
@@ -246,10 +257,6 @@ const resolvers = {
     const events = await findEvents(payload);
     return events.map(baseTransformers.event);
   },
-  getEventTypes: async (payload?: Prisma.EventTypesFindManyArgs): Promise<EventType[]> => {
-    const eventTypes = await (payload ? findEventTypes(payload) : findEventTypes());
-    return eventTypes.map(transformers.eventType);
-  },
   getResources: async (payload?: Prisma.ResourcesFindManyArgs): Promise<void> => {
     const resources = await (payload ? findResources(payload) : findResources());
     return;
@@ -267,6 +274,10 @@ const resolvers = {
   getTags: async (): Promise<Tag[]> => {
     const tags = await findTags();
     return tags.map(baseTransformers.tag);
+  },
+  getEventTypes: async (): Promise<EventType[]> => {
+    const eventTypes = await findEventTypes();
+    return eventTypes.map(baseTransformers.eventType);
   }
 }
 

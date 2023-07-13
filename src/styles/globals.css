@@ -1,6 +1,9 @@
 
 @tailwind base;
 @tailwind components;
+[type='text'], [type='email'], [type='url'], [type='password'], [type='number'], [type='date'], [type='datetime-local'], [type='month'], [type='search'], [type='tel'], [type='time'], [type='week'], [multiple], textarea, select {
+  background-color: var(--form-bg);
+}
 @tailwind utilities;
 
 @layer base {
@@ -52,7 +55,6 @@
   }
 }
 
-
 :root {
   /* --grey-light: #f6f6f6; */
   --grey-dark: #2f2f2f;
@@ -96,9 +98,7 @@ body {
   overflow-x: hidden;
   hyphens: auto;
 }
-[type='text'], [type='email'], [type='url'], [type='password'], [type='number'], [type='date'], [type='datetime-local'], [type='month'], [type='search'], [type='tel'], [type='time'], [type='week'], [multiple], textarea, select {
-  background-color: var(--form-bg);
-}
+
 input::placeholder,
 textarea::placeholder {
   color: inherit;

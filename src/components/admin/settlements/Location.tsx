@@ -15,7 +15,6 @@ export function Location({ locationInput, settlementId, onUpdate, className = ''
   const submitLocation = async () => {
     setLoading(true);
     let submitData;
-    console.log(location?.id)
     if (location?.id) {
       submitData = {
         type: 'updateLocation',
@@ -97,7 +96,7 @@ export function Location({ locationInput, settlementId, onUpdate, className = ''
         <InputGhost value={location?.city ?? ''} disabled={loading} id='city' className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocation({ city: event.target.value })} />
       </div>
       <div className='pt-7'>
-        <Button onClick={submitLocation} disabled={loading}><>Speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</></Button>
+        <Button onClick={submitLocation} disabled={loading || !location?.lat || !location?.lng}><>Speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</></Button>
       </div>
     </div >
   );

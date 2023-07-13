@@ -8,12 +8,17 @@ export interface EventType {
   name: string;
   description: string;
 }
+export interface BaseEventType {
+  id: string;
+  name: string;
+  description: string;
+}
 export interface Event {
   id: string;
   name: string;
   description: string;
-  type: EventType;
   eventDate: string;
+  eventType: EventType;
 }
 export interface Location {
   id: string;
@@ -82,7 +87,7 @@ export interface BaseEvent {
   id: string;
   name: string;
   description: string;
-  type: EventType;
+  eventType: EventType;
   eventDate: string;
 }
 export interface BaseTag {
