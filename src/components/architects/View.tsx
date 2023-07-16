@@ -10,7 +10,7 @@ import type { BaseArchitect } from '@/pages/admin';
 export function Architect({ architect }: { architect: BaseArchitect }) {
   return (
     <>
-      <div className='flex'>
+      <div className='flex mt-6'>
         <Headline type='h1' className='inline-block'>{architect.name}</Headline>
         <div>
           <Link className='block ml-3 p-2 rounded-full bg-highlight' href='/architekten'>

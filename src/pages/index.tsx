@@ -18,7 +18,9 @@ export default function HomePage() {
       <Seo />
       <section>
         <Container>
-          <Image src='/images/header-01.png' alt='header' width={1280} height={400} />
+          <Box className='p-0 md:p-0'>
+            <Image src='/images/header-01.png' alt='header' width={1280} height={400} priority />
+          </Box>
           <Box>
             <p>
               Ein Katalog von Großwohnsiedlungen in Deutschland.

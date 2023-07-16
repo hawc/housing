@@ -1,6 +1,6 @@
-
 import { findSettlements } from '@/lib/db';
 
+import LoginPageFrame from '@/components/admin/LoginPageFrame';
 import { ListSettlements } from '@/components/admin/settlements/List';
 import Layout from '@/components/layout/Layout';
 
@@ -21,9 +21,11 @@ export async function getStaticProps(): Promise<{ props: { settlements: BaseSett
 export default function Settlements({ settlements }: { settlements: BaseSettlement[] }) {
   return (
     <Layout>
-      <section>
-        <ListSettlements settlementsInput={settlements} />
-      </section>
+      <LoginPageFrame>
+        <section>
+          <ListSettlements settlementsInput={settlements} />
+        </section>
+      </LoginPageFrame>
     </Layout>
   );
 }

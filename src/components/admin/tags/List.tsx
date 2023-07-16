@@ -99,7 +99,7 @@ export function ListTags({ tagsInput }: { tagsInput: BaseTag[] }) {
   return (
     <>
       <Box ghost>
-        <div className='flex'>
+        <div className='flex mt-6'>
           <Headline type='h1' className='mb-0 inline-block'>Tags</Headline>
           <div>
             <Button className='ml-3 p-2 rounded-full' onClick={() => getTags()}>

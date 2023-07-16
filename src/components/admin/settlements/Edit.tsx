@@ -1,4 +1,5 @@
 import { ArrowLeftIcon, Loader2Icon } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -6,7 +7,6 @@ import { useState } from 'react';
 import { callAPI } from '@/lib/api';
 
 import { Location } from '@/components/admin/settlements/Location';
-import { Map } from '@/components/admin/settlements/Map';
 import { TagList } from '@/components/admin/settlements/Tags';
 import { Timeline } from '@/components/admin/settlements/Timeline';
 import { Box, Container } from '@/components/blocks/Box';
@@ -24,6 +24,10 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
   const router = useRouter();
   const [settlement, setSettlement] = useState<BaseSettlement>(settlementInput);
   const [loading, setLoading] = useState<boolean>(false);
+
+  const Map = dynamic(() => import('@/components/admin/settlements/Map'), {
+    ssr: false
+  });
 
   const updateSettlement = (input: Partial<BaseSettlement>) => {
     setSettlement({
@@ -115,7 +119,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
   return (
     <>
       <Box ghost>
-        <div className='flex'>
+        <div className='flex mt-6'>
           <Headline type='h1' className='inline-block'>
             <InputGhost
               className='text-inherit'
@@ -196,17 +200,25 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
         <>
           {settlement?.location && settlement.location.lat > 0 && settlement.location.lng > 0 && (
             <Container>
-              <Map key={`${settlement.location.lat}${settlement.location.lng}`} lat={settlement.location.lat} lng={settlement.location.lng} />
+              <Box className='p-0 md:p-0'>
+                <Map key={`${settlement.location.lat}${settlement.location.lng}`} lat={settlement.location.lat} lng={settlement.location.lng} />
+              </Box>
             </Container>
           )}
           <Box>
             <Location settlementId={settlement?.id} locationInput={settlement?.location} onUpdate={getSettlement} />
           </Box>
         </>
-        <Container cols='grid-cols-2'>
-          <Button onClick={submitData} disabled={loading || !(settlement?.name)}><>Speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</></Button>
-          <Button onClick={() => deleteSettlement(settlement.id)} disabled={loading || !(settlement?.id)}><>Löschen {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none bg-red' />}</></Button>
-          <Link href='/admin/siedlungen' className='inline-block py-1 px-3 bg-content text-center'>Abbrechen</Link>
+        <Container cols='md:grid-cols-3'>
+          <Box>
+            <Button onClick={submitData} disabled={loading || !(settlement?.name)}><>Speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</></Button>
+          </Box>
+          <Box>
+            <Link href='/admin/siedlungen' className='inline-block py-1 px-3 text-center border border-text'>Abbrechen</Link>
+          </Box>
+          <Box>
+            <Button className='bg-text text-bg border border-text' onClick={() => deleteSettlement(settlement.id)} disabled={loading || !(settlement?.id)}><>Löschen {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none bg-highlight' />}</></Button>
+          </Box>
         </Container>
       </Container>
     </>

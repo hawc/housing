@@ -1,7 +1,7 @@
-
 import { findArchitects } from '@/lib/db';
 
 import { ListArchitects } from '@/components/admin/architects/List';
+import LoginPageFrame from '@/components/admin/LoginPageFrame';
 import Layout from '@/components/layout/Layout';
 
 import { BaseArchitect } from '@/pages/admin';
@@ -21,9 +21,11 @@ export async function getStaticProps(): Promise<{ props: { architects: BaseArchi
 export default function Architects({ architects }: { architects: BaseArchitect[] }) {
   return (
     <Layout>
-      <section>
-        <ListArchitects architectsInput={architects} />
-      </section>
+      <LoginPageFrame>
+        <section>
+          <ListArchitects architectsInput={architects} />
+        </section>
+      </LoginPageFrame>
     </Layout>
   );
 }

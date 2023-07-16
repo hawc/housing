@@ -1,9 +1,9 @@
-
 import { InferGetStaticPropsType } from 'next';
 
 import { findArchitect, findArchitects } from '@/lib/db';
 
 import { ArchitectEdit } from '@/components/admin/architects/Edit';
+import LoginPageFrame from '@/components/admin/LoginPageFrame';
 import Layout from '@/components/layout/Layout';
 
 import type { BaseArchitect } from '@/pages/admin';
@@ -35,9 +35,11 @@ export async function getStaticProps({ params }: { params: { slug: string } }): 
 export default function ArchitectPage({ architect }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <Layout>
-      <section>
-        <ArchitectEdit architectInput={architect} />
-      </section>
+      <LoginPageFrame>
+        <section>
+          <ArchitectEdit architectInput={architect} />
+        </section>
+      </LoginPageFrame>
     </Layout>
   );
 }

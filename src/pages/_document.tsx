@@ -1,18 +1,11 @@
 import { Head, Html, Main, NextScript } from 'next/document';
-
 export default function Document() {
   return (
     <Html lang='en'>
       <Head>
-        <link
-          rel='preload'
-          href='/fonts/inter-var-latin.woff2'
-          as='font'
-          type='font/woff2'
-          crossOrigin='anonymous'
-        />
+        <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css' rel='stylesheet' />
       </Head>
-      <body className='bg-black'>
+      <body>
         <Main />
         <NextScript />
       </body>

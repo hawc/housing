@@ -7,18 +7,6 @@
 @tailwind utilities;
 
 @layer base {
-  /* inter var - latin */
-  @font-face {
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 100 900;
-    font-display: optional;
-    src: url('/fonts/inter-var-latin.woff2') format('woff2');
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-      U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212,
-      U+2215, U+FEFF, U+FFFD;
-  }
-
   .cursor-newtab {
     cursor: url('/images/new-tab.png') 10 10, pointer;
   }
@@ -58,12 +46,12 @@
 :root {
   /* --grey-light: #f6f6f6; */
   --grey-dark: #2f2f2f;
-  --white: #ffffff;
-  --black: #000000;
+  --white: #ededed;
+  --black: #121212;
   --orange: #ff4d00;
   --form-bg: rgba(0,0,0,.2);
-  --content: var(--white);
-  --bg: var(--black);
+  --bg: var(--white);
+  --bg-inv: var(--black);
   --text: var(--black);
   --highlight-orange: var(--orange);
   --highlight: var(--highlight-orange);
@@ -81,9 +69,9 @@
 @media (prefers-color-scheme: dark) {
   :root {
   --form-bg: rgba(0,0,0,.5);
-    --content: var(--grey-dark);
-    --bg: var(--black);
-    --text: var(--white);
+  --bg: var(--black);
+  --bg-inv: var(--white);
+  --text: var(--white);
   }
 }
 
@@ -122,4 +110,11 @@ p + p {
 }
 .transition-filter {
   transition: filter 0.3s;
+}
+.box {
+  margin-top: -1px;
+  margin-right: -1px;
+}
+.mapbox-improve-map {
+  display: none;
 }

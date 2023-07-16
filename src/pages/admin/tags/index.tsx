@@ -1,6 +1,6 @@
-
 import { findTags } from '@/lib/db';
 
+import LoginPageFrame from '@/components/admin/LoginPageFrame';
 import { ListTags } from '@/components/admin/tags/List';
 import Layout from '@/components/layout/Layout';
 
@@ -21,7 +21,11 @@ export async function getStaticProps(): Promise<{ props: { tags: BaseTag[] }, re
 export default function Admin({ tags }: { tags: BaseTag[] }) {
   return (
     <Layout>
-      <ListTags tagsInput={tags} />
+      <LoginPageFrame>
+        <section>
+          <ListTags tagsInput={tags} />
+        </section>
+      </LoginPageFrame>
     </Layout>
   );
 }

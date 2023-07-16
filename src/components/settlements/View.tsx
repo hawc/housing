@@ -1,7 +1,7 @@
 import { ArrowLeftIcon } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
-import { Map } from '@/components/admin/settlements/Map';
 import { Box, Container } from '@/components/blocks/Box';
 import { DetailsList } from '@/components/blocks/DetailsList';
 import { Link as LinkElement } from '@/components/blocks/Link';
@@ -12,16 +12,20 @@ import { Headline } from '@/components/Headline';
 import type { Architect, BaseSettlement, Settlement } from '@/pages/admin';
 
 export function Settlement({ settlement }: { settlement: BaseSettlement }) {
+  const Map = dynamic(() => import('@/components/admin/settlements/Map'), {
+    ssr: false
+  });
+
   return (
     <>
       <Box ghost>
-        <div className='flex'>
+        <div className='flex mt-6'>
           <Headline type="h1" className='inline-block'>{settlement.name}</Headline>
-          {settlement.tags.length > 0 && (
-            <TagList className='ml-2 align-top' tags={settlement.tags} />
-          )}
-          <div>
-            <Link className='block ml-3 p-2 rounded-full bg-highlight' href='/siedlungen'>
+          <div className='flex items-start'>
+            {settlement.tags.length > 0 && (
+              <TagList className='ml-2' tags={settlement.tags} />
+            )}
+            <Link className='block ml-2 p-2 rounded-full bg-highlight' href='/siedlungen'>
               <ArrowLeftIcon className='align-text-bottom' size={15} />
             </Link>
           </div>
@@ -31,7 +35,7 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
         {settlement.description && (
           <Container>
             <Box>
-              <p dangerouslySetInnerHTML={{ __html: settlement.description }}></p>
+              <div dangerouslySetInnerHTML={{ __html: settlement.description }}></div>
             </Box>
           </Container>
         )}
@@ -93,7 +97,9 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
         <>
           {settlement.location && settlement.location.lat > 0 && settlement.location.lng > 0 && (
             <Container>
-              <Map lat={settlement.location.lat} lng={settlement.location.lng} />
+              <Box className='p-0 md:p-0'>
+                <Map lat={settlement.location.lat} lng={settlement.location.lng} />
+              </Box>
             </Container>
           )}
         </>

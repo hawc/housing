@@ -1,8 +1,8 @@
-
 import { InferGetStaticPropsType } from 'next';
 
 import { findSettlement, findSettlements } from '@/lib/db';
 
+import LoginPageFrame from '@/components/admin/LoginPageFrame';
 import { SettlementEdit } from '@/components/admin/settlements/Edit';
 import Layout from '@/components/layout/Layout';
 
@@ -35,9 +35,11 @@ export async function getStaticProps({ params }: { params: { slug: string } }): 
 export default function SettlementPage({ settlement }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <Layout>
-      <section>
-        <SettlementEdit settlementInput={settlement} />
-      </section>
+      <LoginPageFrame>
+        <section>
+          <SettlementEdit settlementInput={settlement} />
+        </section>
+      </LoginPageFrame>
     </Layout>
   );
 }
