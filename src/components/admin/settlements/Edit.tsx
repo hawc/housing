@@ -201,7 +201,10 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
           {settlement?.location && settlement.location.lat > 0 && settlement.location.lng > 0 && (
             <Container>
               <Box className='p-0 md:p-0'>
-                <Map key={`${settlement.location.lat}${settlement.location.lng}`} lat={settlement.location.lat} lng={settlement.location.lng} />
+                <Map
+                  key={`${settlement.location.lat}${settlement.location.lng}`}
+                  markers={[settlement.location]}
+                  center={{ lat: settlement.location.lat, lng: settlement.location.lng }} />
               </Box>
             </Container>
           )}

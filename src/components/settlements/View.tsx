@@ -98,7 +98,9 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
           {settlement.location && settlement.location.lat > 0 && settlement.location.lng > 0 && (
             <Container>
               <Box className='p-0 md:p-0'>
-                <Map lat={settlement.location.lat} lng={settlement.location.lng} />
+                <Map
+                  markers={[settlement.location]}
+                  center={{ lat: settlement.location.lat, lng: settlement.location.lng }} />
               </Box>
             </Container>
           )}

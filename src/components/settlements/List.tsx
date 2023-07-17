@@ -7,10 +7,11 @@ import { Box } from '@/components/blocks/Box';
 import { Button } from '@/components/blocks/form/Button';
 import { SearchInput, SettlementsSearchList } from '@/components/blocks/SearchList';
 import { Headline } from '@/components/Headline';
+import { SettlementsMap } from '@/components/settlements/SettlementsMap';
 
-import { BaseSettlement } from '@/pages/admin';
+import { BaseLocation, BaseSettlement } from '@/pages/admin';
 
-export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSettlement[] }) {
+export function ListSettlements({ settlementsInput, locationsInput }: { settlementsInput: BaseSettlement[], locationsInput: BaseLocation[] }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [settlements, setSettlements] = useState(settlementsInput);
   const [loading, setLoading] = useState(false);
@@ -56,6 +57,7 @@ export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSe
           )}
         </div>
       </Box>
+      <SettlementsMap locationsInput={locationsInput} searchTerm={searchTerm} />
     </>
   );
 }

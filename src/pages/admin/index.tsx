@@ -105,6 +105,7 @@ export interface BaseLocation {
   city: string;
   lat: number;
   lng: number;
+  settlement: Settlement;
 }
 export interface BaseArchitect {
   id: string;

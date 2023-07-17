@@ -23,7 +23,7 @@ interface SearchInputProps extends React.HTMLAttributes<HTMLElement> {
   onChange?: (event: any) => void;
 }
 
-function removeSpaces(string: string) {
+export function removeSpaces(string: string) {
   return slugify(string.toLocaleLowerCase().replace(/\s/g, ''));
 }
 
@@ -66,11 +66,15 @@ export function SearchList({ items, path, className = '', searchTerm = '', loadi
   );
 }
 
+export function isSettlementFound(name: string, city: string, searchTerm: string) {
+  return removeSpaces(name).includes(removeSpaces(searchTerm)) || removeSpaces(city).includes(removeSpaces(searchTerm));
+}
+
 export function SettlementsSearchList({ items, path, className = '', searchTerm = '', loading = false, ...rest }: SearchListProps): React.ReactElement {
   return (
     <div className={className} {...rest}>
       <List className='md:columns-2'>
-        {getListOrNull(sortAlphabetically(items.filter(item => removeSpaces(item.name).includes(removeSpaces(searchTerm)) || removeSpaces(item.location?.city ?? '').includes(removeSpaces(searchTerm)))).map(item => (
+        {getListOrNull(sortAlphabetically(items.filter(item => isSettlementFound(item.name, item.location?.city ?? '', searchTerm))).map(item => (
           loading ? (
             <ListItem plain key={item.slug}>
               <Link href='#' className='pointer-events-none'>{item.name}</Link>

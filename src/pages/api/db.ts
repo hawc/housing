@@ -1,12 +1,12 @@
 import { Prisma } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { addSettlementOnTag, ArchitectsInclude, ArchitectsSelect, createArchitect, createEvent, createLocation, createSettlement, createTag, deleteArchitect, deleteSettlement, deleteTag, DetailsSelect, DetailsTypesSelect, EventsInclude, EventsSelect, EventTypesInclude, EventTypesSelect, findArchitect, findArchitects, findDetails, findEvent, findEvents, findEventTypes, findResources, findResourceTypes, findSettlement, findSettlements, findTags, flushCache, LocationsSelect, ResourcesSelect, ResourceTypesSelect, SettlementsInclude, SettlementsOnTagsInclude, SettlementsSelect, SettlementTypesSelect, TagsInclude, TagsSelect, updateArchitect, updateEvent, updateLocation, updateSettlement, updateTag } from '@/lib/db';
+import { addSettlementOnTag, ArchitectsInclude, ArchitectsSelect, createArchitect, createEvent, createLocation, createSettlement, createTag, deleteArchitect, deleteSettlement, deleteTag, DetailsSelect, DetailsTypesSelect, EventsInclude, EventsSelect, EventTypesInclude, EventTypesSelect, findArchitect, findArchitects, findDetails, findEvent, findEvents, findEventTypes, findResources, findResourceTypes, findSettlement, findSettlements, findTags, flushCache, LocationsInclude, LocationsSelect, ResourcesSelect, ResourceTypesSelect, SettlementsInclude, SettlementsOnTagsInclude, SettlementsSelect, SettlementTypesSelect, TagsInclude, TagsSelect, updateArchitect, updateEvent, updateLocation, updateSettlement, updateTag } from '@/lib/db';
 
 import { Architect, BaseArchitect, BaseEvent, BaseEventType, BaseLocation, BaseSettlement, BaseSettlementOnTag, BaseTag, Detail, DetailType, Event, EventType, Location, Resource, ResourceType, Settlement, SettlementType, Tag } from '@/pages/admin';
 
 export const baseTransformers = {
-  location: (location: LocationsSelect): Location => {
+  location: (location: LocationsInclude): BaseLocation => {
     if (!location) return null;
     return {
       id: location.id,
@@ -17,6 +17,7 @@ export const baseTransformers = {
       city: location.city ?? '',
       lat: location.lat,
       lng: location.lng,
+      settlement: transformers.settlement(location.settlement),
     };
   },
   settlementOnTag: (settlementOnTag: SettlementsOnTagsInclude): BaseSettlementOnTag => {
