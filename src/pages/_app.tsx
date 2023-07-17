@@ -12,11 +12,11 @@ const space_mono = Space_Mono({
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <div className={`${space_mono.variable} font-primary`}>
-      <UserProvider>
+    <UserProvider>
+      <div className={`${space_mono.variable} font-primary`}>
         <Component {...pageProps} />
-      </UserProvider>
-    </div>
+      </div>
+    </UserProvider>
   );
 }
 
