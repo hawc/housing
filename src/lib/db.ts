@@ -48,6 +48,7 @@ const detailsSelect = Prisma.validator<Prisma.DetailsSelect>()({
   id: true,
   name: true,
   description: true,
+  annotation: true,
   detailType: {
     select: detailTypesSelect
   }
@@ -143,6 +144,10 @@ const eventsInclude = Prisma.validator<Prisma.EventsInclude>()({
   eventType: true
 });
 
+const detailsInclude = Prisma.validator<Prisma.DetailsInclude>()({
+  detailType: true
+});
+
 const tagsInclude = Prisma.validator<Prisma.TagsInclude>()({
   settlements: {
     select: {
@@ -154,6 +159,7 @@ const tagsInclude = Prisma.validator<Prisma.TagsInclude>()({
 });
 
 const eventTypesInclude = Prisma.validator<Prisma.EventTypesInclude>()({});
+const detailTypesInclude = Prisma.validator<Prisma.DetailTypesInclude>()({});
 
 const architectsInclude = Prisma.validator<Prisma.ArchitectsInclude>()({
   settlements: {
@@ -215,11 +221,13 @@ const settlementsInclude = Prisma.validator<Prisma.SettlementsInclude>()({
 
 export type LocationsInclude = Prisma.LocationsGetPayload<{ include: typeof locationsInclude }>
 export type EventsInclude = Prisma.EventsGetPayload<{ include: typeof eventsInclude }>
+export type DetailsInclude = Prisma.DetailsGetPayload<{ include: typeof detailsInclude }>
 export type ArchitectsInclude = Prisma.ArchitectsGetPayload<{ include: typeof architectsInclude }>
 export type SettlementsInclude = Prisma.SettlementsGetPayload<{ include: typeof settlementsInclude }>
 export type SettlementsOnTagsInclude = Prisma.SettlementsOnTagsGetPayload<{ include: typeof settlementsOnTagsInclude }>
 export type TagsInclude = Prisma.TagsGetPayload<{ include: typeof tagsInclude }>
 export type EventTypesInclude = Prisma.EventTypesGetPayload<{ include: typeof eventTypesInclude }>
+export type DetailTypesInclude = Prisma.DetailTypesGetPayload<{ include: typeof detailTypesInclude }>
 
 export async function createLocation(
   data: Prisma.LocationsCreateArgs
@@ -553,7 +561,6 @@ export async function findEventTypes(
   return await prisma.eventTypes.findMany();
 }
 
-
 export async function findResources(
   data?: Prisma.ResourcesFindManyArgs
 ) {
@@ -580,22 +587,89 @@ export async function findResourceTypes(
     });
 
   }
-  return await prisma.resourceTypes.findMany();
+  return await prisma.resourceTypes.findMany({
+    where: {
+      published: true,
+    },
+  });
 }
 
+export async function findDetail(
+  data: Prisma.DetailsFindUniqueArgs
+) {
+  return await prisma.details.findUnique({
+    where: {
+      id: data.where.id,
+    },
+    include: detailsInclude
+  });
+}
 
 export async function findDetails(
   data: Prisma.DetailsFindManyArgs
 ) {
-  if (data?.where) {
+  if (data?.where?.settlementId) {
     return await prisma.details.findMany({
+      where: {
+        published: true,
+        settlementId: data.where.settlementId
+      },
+      include: detailsInclude
+    });
+  }
+  return await prisma.details.findMany({
+    where: {
+      published: true,
+    },
+    include: detailsInclude
+  });
+}
+
+export async function findDetailTypes(
+  data?: Prisma.DetailTypesFindManyArgs
+) {
+  if (data?.where) {
+    return await prisma.detailTypes.findMany({
       where: {
         published: true,
       }
     });
-
   }
-  return await prisma.details.findMany();
+  return await prisma.detailTypes.findMany({
+    where: {
+      published: true,
+    },
+  });
+}
+
+export async function createDetail(
+  data: Prisma.DetailsCreateArgs
+) {
+  const updateData = data.data;
+  return await prisma.details.create({
+    data: {
+      name: updateData.name,
+      description: updateData.description,
+      detailTypeId: updateData.detailTypeId,
+      settlementId: updateData.settlementId
+    },
+    include: detailsInclude
+  });
+}
+
+export async function updateDetail(
+  data: Prisma.DetailsUpdateArgs
+) {
+  const updateData = data.data;
+  return await prisma.details.update({
+    where: {
+      id: data.where.id
+    },
+    data: {
+      ...updateData
+    },
+    include: detailsInclude
+  });
 }
 
 export async function findTags() {

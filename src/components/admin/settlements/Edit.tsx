@@ -6,11 +6,11 @@ import { useState } from 'react';
 
 import { callAPI } from '@/lib/api';
 
+import { DetailsList } from '@/components/admin/settlements/Details';
 import { Location } from '@/components/admin/settlements/Location';
 import { TagList } from '@/components/admin/settlements/Tags';
 import { Timeline } from '@/components/admin/settlements/Timeline';
 import { Box, Container } from '@/components/blocks/Box';
-import { DetailsList } from '@/components/blocks/DetailsList';
 import { Button } from '@/components/blocks/form/Button';
 import { InputGhost } from '@/components/blocks/form/Input';
 import { TextareaGhost } from '@/components/blocks/form/Textarea';
@@ -161,7 +161,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
           </Box>
           <Box>
             <Headline className='inline-block' tag='h2' type='h3'>Details</Headline>
-            <DetailsList details={settlement?.details ?? []} />
+            <DetailsList detailsInput={settlement?.details ?? []} settlementId={settlement?.id} />
           </Box>
         </Container>
         <Container>
@@ -220,7 +220,11 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
             <Link href='/admin/siedlungen' className='inline-block py-1 px-3 text-center border border-text'>Abbrechen</Link>
           </Box>
           <Box>
-            <Button className='bg-text text-bg border border-text' onClick={() => deleteSettlement(settlement.id)} disabled={loading || !(settlement?.id)}><>Löschen {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none bg-highlight' />}</></Button>
+            <Button className='bg-text text-bg border border-text'
+              onClick={() => deleteSettlement(settlement.id)}
+              disabled={loading || !(settlement?.id)}><>Löschen
+                {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
+            </Button>
           </Box>
         </Container>
       </Container>

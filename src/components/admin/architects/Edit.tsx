@@ -102,7 +102,7 @@ export function ArchitectEdit({ architectInput }: { architectInput: BaseArchitec
         </Container>
         <Container cols='grid-cols-2'>
           <Button onClick={() => submitData(architect)} disabled={loading || !architect?.name}><>Speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</></Button>
-          <Button onClick={() => deleteArchitect(architect.id)} disabled={loading || !(architect?.id)}><>Löschen {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none bg-highlight' />}</></Button>
+          <Button onClick={() => deleteArchitect(architect.id)} disabled={loading || !(architect?.id)}><>Löschen {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</></Button>
           <LinkElement href="/admin/architekten" className='inline-block py-1 px-3 text-center'>Abbrechen</LinkElement>
         </Container>
       </Container>

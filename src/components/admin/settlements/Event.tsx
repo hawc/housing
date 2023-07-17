@@ -7,7 +7,6 @@ import { Button } from '@/components/blocks/form/Button';
 import { InputGhost } from '@/components/blocks/form/Input';
 import { Select } from '@/components/blocks/form/Select';
 import { TextareaGhost } from '@/components/blocks/form/Textarea';
-import { Headline } from '@/components/Headline';
 
 import { Event, EventType } from '@/pages/admin';
 
@@ -117,22 +116,24 @@ export function Event({ eventInput, availableEventTypes, settlementId, hasConnec
           <TimelineIcon>
             <IconComponent className="h-4 w-4" type={eventTypeId ? availableEventTypes.find(type => type.id === eventTypeId)?.name : ''} />
           </TimelineIcon>
-          <Headline type='h5' className='flex'>
-            <>
-              <InputGhost
-                className='inline-block w-auto border-highlight border-2 border-solid'
-                type="date"
-                value={event?.eventDate ?? new Date().toDateString()}
-                onChange={(event) => updateEvent({ eventDate: new Date(new Date(event.target.value).toUTCString()).toISOString() })} />:
-              <InputGhost
-                className='block w-full border-highlight border-2 border-solid'
-                value={event?.name ?? ''}
-                onChange={(event) => updateEvent({ name: event.target.value })} />
-            </>
-          </Headline>
+          <div className='flex w-full'>
+            <InputGhost
+              className='border-highlight border-2 border-solid mb-2 p-1'
+              type="date"
+              value={event?.eventDate ?? new Date().toDateString()}
+              onChange={(event) => updateEvent({ eventDate: new Date(new Date(event.target.value).toUTCString()).toISOString() })} />:
+            <InputGhost
+              className='border-highlight border-2 border-solid mb-2 p-1'
+              value={event?.name ?? ''}
+              onChange={(event) => updateEvent({ name: event.target.value })} />
+          </div>
         </TimelineHeader>
         <TimelineBody>
-          <Select<EventType> value={event?.eventType?.id ?? ''} options={availableEventTypes} onChange={(event) => setEventTypeId(event.target.value)} />
+          <Select<EventType>
+            className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
+            value={event?.eventType?.id ?? ''}
+            options={availableEventTypes}
+            onChange={(event) => setEventTypeId(event.target.value)} />
           <TextareaGhost className='border-highlight border-2 border-solid' value={event?.description ?? ''} onChange={(event) => updateEvent({ description: event.target.value })} />
           <Button onClick={submitEvent} disabled={loading || !(event?.name)}><>Änderungen speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</></Button>
         </TimelineBody>

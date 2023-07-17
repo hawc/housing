@@ -1,9 +1,9 @@
 import { Prisma } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { addSettlementOnTag, ArchitectsInclude, ArchitectsSelect, createArchitect, createEvent, createLocation, createSettlement, createTag, deleteArchitect, deleteSettlement, deleteTag, DetailsSelect, DetailsTypesSelect, EventsInclude, EventsSelect, EventTypesInclude, EventTypesSelect, findArchitect, findArchitects, findDetails, findEvent, findEvents, findEventTypes, findResources, findResourceTypes, findSettlement, findSettlements, findTags, flushCache, LocationsInclude, LocationsSelect, ResourcesSelect, ResourceTypesSelect, SettlementsInclude, SettlementsOnTagsInclude, SettlementsSelect, SettlementTypesSelect, TagsInclude, TagsSelect, updateArchitect, updateEvent, updateLocation, updateSettlement, updateTag } from '@/lib/db';
+import { addSettlementOnTag, ArchitectsInclude, ArchitectsSelect, createArchitect, createDetail, createEvent, createLocation, createSettlement, createTag, deleteArchitect, deleteSettlement, deleteTag, DetailsInclude, DetailsSelect, DetailsTypesSelect, DetailTypesInclude, EventsInclude, EventsSelect, EventTypesInclude, EventTypesSelect, findArchitect, findArchitects, findDetail, findDetails, findDetailTypes, findEvent, findEvents, findEventTypes, findResources, findResourceTypes, findSettlement, findSettlements, findTags, flushCache, LocationsInclude, LocationsSelect, ResourcesSelect, ResourceTypesSelect, SettlementsInclude, SettlementsOnTagsInclude, SettlementsSelect, SettlementTypesSelect, TagsInclude, TagsSelect, updateArchitect, updateDetail, updateEvent, updateLocation, updateSettlement, updateTag } from '@/lib/db';
 
-import { Architect, BaseArchitect, BaseEvent, BaseEventType, BaseLocation, BaseSettlement, BaseSettlementOnTag, BaseTag, Detail, DetailType, Event, EventType, Location, Resource, ResourceType, Settlement, SettlementType, Tag } from '@/pages/admin';
+import { Architect, BaseArchitect, BaseDetail, BaseDetailType, BaseEvent, BaseEventType, BaseLocation, BaseSettlement, BaseSettlementOnTag, BaseTag, Detail, DetailType, Event, EventType, Location, Resource, ResourceType, Settlement, SettlementType, Tag } from '@/pages/admin';
 
 export const baseTransformers = {
   location: (location: LocationsInclude): BaseLocation => {
@@ -71,6 +71,14 @@ export const baseTransformers = {
       description: eventType.description ?? '',
     };
   },
+  detailType: (detailType: DetailTypesInclude): BaseDetailType => {
+    if (!detailType) return null;
+    return {
+      id: detailType.id,
+      name: detailType.name,
+      description: detailType.description ?? '',
+    };
+  },
   event: (event: EventsInclude): BaseEvent => {
     if (!event) return null;
     return {
@@ -81,7 +89,18 @@ export const baseTransformers = {
       eventType: transformers.eventType(event.eventType)
     };
   },
+  detail: (detail: DetailsInclude): BaseDetail => {
+    if (!detail) return null;
+    return {
+      id: detail.id,
+      name: detail.name,
+      description: detail.description ?? '',
+      annotation: detail.annotation ?? '',
+      detailType: transformers.detailType(detail.detailType)
+    };
+  },
 }
+
 const transformers = {
   settlement: (settlement: SettlementsSelect): Settlement => {
     return {
@@ -99,22 +118,6 @@ const transformers = {
       slug: architect.slug,
       description: architect.description ?? '',
       url: architect.url ?? '',
-    };
-  },
-  event: (event: EventsSelect): Event => {
-    return {
-      id: event.id,
-      name: event.name,
-      description: event.description ?? '',
-      eventDate: event.eventDate?.toDateString() ?? '',
-      eventType: transformers.eventType(event.eventType)
-    };
-  },
-  eventType: (eventType: EventTypesSelect): EventType => {
-    return {
-      id: eventType.id,
-      name: eventType.name,
-      description: eventType.description ?? '',
     };
   },
   tag: (tag: TagsSelect): Tag => {
@@ -171,7 +174,8 @@ const transformers = {
       id: detail.id,
       name: detail.name,
       description: detail.description ?? '',
-      type: transformers.detailType(detail.detailType),
+      annotation: detail.annotation ?? '',
+      detailType: transformers.detailType(detail.detailType),
     };
   },
   detailType: (detailType: DetailsTypesSelect): DetailType => {
@@ -179,6 +183,22 @@ const transformers = {
       id: detailType.id,
       name: detailType.name,
       description: detailType.description ?? '',
+    };
+  },
+  event: (event: EventsSelect): Event => {
+    return {
+      id: event.id,
+      name: event.name,
+      description: event.description ?? '',
+      eventDate: event.eventDate?.toDateString() ?? '',
+      eventType: transformers.eventType(event.eventType)
+    };
+  },
+  eventType: (eventType: EventTypesSelect): EventType => {
+    return {
+      id: eventType.id,
+      name: eventType.name,
+      description: eventType.description ?? '',
     };
   },
 }
@@ -189,9 +209,6 @@ const resolvers = {
   },
   addTag: async (payload: Prisma.TagsCreateArgs): Promise<Tag> => {
     return transformers.tag(await createTag(payload));
-  },
-  addEvent: async (payload: Prisma.EventsCreateArgs): Promise<Event> => {
-    return baseTransformers.event(await createEvent(payload));
   },
   deleteArchitect: async (payload: Prisma.ArchitectsDeleteArgs): Promise<BaseArchitect> => {
     return baseTransformers.architect(await deleteArchitect(payload));
@@ -246,6 +263,9 @@ const resolvers = {
   updateTag: async (payload: Prisma.TagsUpdateArgs): Promise<BaseTag> => {
     return baseTransformers.tag(await updateTag(payload));
   },
+  addEvent: async (payload: Prisma.EventsCreateArgs): Promise<Event> => {
+    return baseTransformers.event(await createEvent(payload));
+  },
   updateEvent: async (payload: Prisma.EventsUpdateArgs): Promise<BaseEvent> => {
     return baseTransformers.event(await updateEvent(payload));
   },
@@ -267,10 +287,20 @@ const resolvers = {
     const resourceTypes = await (payload ? findResourceTypes(payload) : findResourceTypes());
     return resourceTypes.map(transformers.resourceType);
   },
-  getDetails: async (payload: Prisma.DetailsFindManyArgs): Promise<void> => {
+  addDetail: async (payload: Prisma.DetailsCreateArgs): Promise<Detail> => {
+    return baseTransformers.detail(await createDetail(payload));
+  },
+  updateDetail: async (payload: Prisma.DetailsUpdateArgs): Promise<BaseDetail> => {
+    return baseTransformers.detail(await updateDetail(payload));
+  },
+  getDetail: async (payload: Prisma.DetailsFindUniqueArgs): Promise<BaseDetail> => {
+    const detail = await findDetail(payload);
+    if (!detail) throw new Error('Detail not found');
+    return baseTransformers.detail(detail);
+  },
+  getDetails: async (payload: Prisma.DetailsFindManyArgs): Promise<BaseDetail[]> => {
     const details = await findDetails(payload);
-    return;
-    // return details.map(transformers.detail);
+    return details.map(baseTransformers.detail);
   },
   getTags: async (): Promise<Tag[]> => {
     const tags = await findTags();
@@ -279,6 +309,10 @@ const resolvers = {
   getEventTypes: async (): Promise<EventType[]> => {
     const eventTypes = await findEventTypes();
     return eventTypes.map(baseTransformers.eventType);
+  },
+  getDetailTypes: async (): Promise<DetailType[]> => {
+    const detailTypes = await findDetailTypes();
+    return detailTypes.map(baseTransformers.detailType);
   }
 }
 

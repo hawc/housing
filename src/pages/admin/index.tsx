@@ -35,11 +35,24 @@ export interface DetailType {
   name: string;
   description: string;
 }
+export interface BaseDetailType {
+  id: string;
+  name: string;
+  description: string;
+}
+export interface BaseDetail {
+  id: string;
+  name: string;
+  description: string;
+  annotation: string;
+  detailType: DetailType;
+}
 export interface Detail {
   id: string;
   name: string;
   description: string;
-  type: DetailType;
+  annotation: string;
+  detailType: DetailType;
 }
 export interface ResourceType {
   id: string;
