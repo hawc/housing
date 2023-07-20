@@ -1,9 +1,9 @@
 import { Prisma } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { addSettlementOnTag, ArchitectsInclude, ArchitectsSelect, createArchitect, createDetail, createEvent, createLocation, createSettlement, createTag, deleteArchitect, deleteSettlement, deleteTag, DetailsInclude, DetailsSelect, DetailsTypesSelect, DetailTypesInclude, EventsInclude, EventsSelect, EventTypesInclude, EventTypesSelect, findArchitect, findArchitects, findDetail, findDetails, findDetailTypes, findEvent, findEvents, findEventTypes, findResources, findResourceTypes, findSettlement, findSettlements, findTags, flushCache, LocationsInclude, LocationsSelect, ResourcesSelect, ResourceTypesSelect, SettlementsInclude, SettlementsOnTagsInclude, SettlementsSelect, SettlementTypesSelect, TagsInclude, TagsSelect, updateArchitect, updateDetail, updateEvent, updateLocation, updateSettlement, updateTag } from '@/lib/db';
+import { addSettlementOnArchitect, addSettlementOnTag, ArchitectsInclude, ArchitectsSelect, createArchitect, createDetail, createEvent, createLocation, createSettlement, createTag, deleteArchitect, deleteSettlement, deleteTag, DetailsInclude, DetailsSelect, DetailsTypesSelect, DetailTypesInclude, EventsInclude, EventsSelect, EventTypesInclude, EventTypesSelect, findArchitect, findArchitects, findDetail, findDetails, findDetailTypes, findEvent, findEvents, findEventTypes, findResources, findResourceTypes, findSettlement, findSettlements, findTags, flushCache, LocationsInclude, LocationsSelect, ResourcesSelect, ResourceTypesSelect, SettlementsInclude, SettlementsOnArchitectsInclude, SettlementsOnTagsInclude, SettlementsSelect, SettlementTypesSelect, TagsInclude, TagsSelect, updateArchitect, updateDetail, updateEvent, updateLocation, updateSettlement, updateTag } from '@/lib/db';
 
-import { Architect, BaseArchitect, BaseDetail, BaseDetailType, BaseEvent, BaseEventType, BaseLocation, BaseSettlement, BaseSettlementOnTag, BaseTag, Detail, DetailType, Event, EventType, Location, Resource, ResourceType, Settlement, SettlementType, Tag } from '@/pages/admin';
+import { Architect, BaseArchitect, BaseDetail, BaseDetailType, BaseEvent, BaseEventType, BaseLocation, BaseSettlement, BaseSettlementOnArchitect, BaseSettlementOnTag, BaseTag, Detail, DetailType, Event, EventType, Location, Resource, ResourceType, Settlement, SettlementType, Tag } from '@/pages/admin';
 
 export const baseTransformers = {
   location: (location: LocationsInclude): BaseLocation => {
@@ -25,6 +25,13 @@ export const baseTransformers = {
     return {
       tag: transformers.tag(settlementOnTag.tag),
       settlement: transformers.settlement(settlementOnTag.settlement),
+    }
+  },
+  settlementOnArchitect: (settlementOnArchitect: SettlementsOnArchitectsInclude): BaseSettlementOnArchitect => {
+    if (!settlementOnArchitect) return null;
+    return {
+      architect: transformers.architect(settlementOnArchitect.architect),
+      settlement: transformers.settlement(settlementOnArchitect.settlement),
     }
   },
   settlement: (settlement: SettlementsInclude): BaseSettlement => {
@@ -246,6 +253,9 @@ const resolvers = {
   },
   addArchitect: async (payload: Prisma.ArchitectsCreateArgs): Promise<BaseArchitect> => {
     return baseTransformers.architect(await createArchitect(payload));
+  },
+  addSettlementOnArchitect: async (payload: Prisma.SettlementsOnArchitectsCreateArgs): Promise<BaseSettlementOnArchitect> => {
+    return baseTransformers.settlementOnArchitect(await addSettlementOnArchitect(payload));
   },
   getArchitects: async (payload?: Prisma.ArchitectsFindManyArgs): Promise<BaseArchitect[]> => {
     const architects = await (payload ? findArchitects(payload) : findArchitects());

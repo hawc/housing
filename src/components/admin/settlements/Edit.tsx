@@ -6,6 +6,7 @@ import { useState } from 'react';
 
 import { callAPI } from '@/lib/api';
 
+import { ArchitectsList } from '@/components/admin/settlements/Architects';
 import { DetailsList } from '@/components/admin/settlements/Details';
 import { Location } from '@/components/admin/settlements/Location';
 import { TagList } from '@/components/admin/settlements/Tags';
@@ -16,7 +17,7 @@ import { InputGhost } from '@/components/blocks/form/Input';
 import { TextareaGhost } from '@/components/blocks/form/Textarea';
 import { Headline } from '@/components/Headline';
 
-import type { Architect, BaseSettlement, Tag } from '@/pages/admin';
+import type { BaseSettlement } from '@/pages/admin';
 
 export type Partial<T> = { [P in keyof T]?: T[P] };
 
@@ -79,43 +80,6 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
     setLoading(false);
   };
 
-  const removeTag = async (tag: Tag) => {
-    setLoading(true);
-    await callAPI({
-      type: 'updateTag',
-      payload: {
-        data: {
-          settlements: {
-            delete: {
-              settlementId_tagId: {
-                tagId: tag.id,
-                settlementId: settlement.id,
-              }
-            }
-          }
-        },
-        where: { id: tag.id }
-      }
-    });
-    await getSettlement();
-    setLoading(false);
-  }
-
-  const addTag = async (tag: Tag) => {
-    setLoading(true);
-    await callAPI({
-      type: 'addSettlementOnTag',
-      payload: {
-        data: {
-          tagId: tag.id,
-          settlementId: settlement.id,
-        }
-      }
-    });
-    await getSettlement();
-    setLoading(false);
-  }
-
   return (
     <>
       <Box ghost>
@@ -138,7 +102,12 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
               </div>
             ) : (settlement?.tags &&
               (
-                <TagList key={Object.keys(settlement.tags).length} className='ml-2' existingTags={settlement.tags} removeTag={removeTag} addTag={addTag} />
+                <TagList
+                  key={Object.keys(settlement.tags).length}
+                  className='ml-2'
+                  getSettlement={getSettlement}
+                  existingTags={settlement.tags}
+                  settlementId={settlement?.id} />
               )
             )}
           </div>
@@ -168,13 +137,13 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
           <Box>
             <>
               <Headline className='inline-block' tag='h2' type='h3'>
-                {settlement?.architects?.length > 1 ? 'Architekten' : 'Architekt'}
+                Architekten
               </Headline>
-              {settlement?.architects?.map((architect: Architect) => (
-                <div key={architect.id}>
-                  {architect.name}
-                </div>
-              ))}
+              <ArchitectsList
+                key={Object.keys(settlement.architects).length}
+                getSettlement={getSettlement}
+                architects={settlement?.architects}
+                settlementId={settlement?.id} />
             </>
           </Box>
         </Container>

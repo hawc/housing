@@ -132,6 +132,10 @@ export interface BaseSettlementOnTag {
   settlement: Settlement;
   tag: Tag;
 }
+export interface BaseSettlementOnArchitect {
+  settlement: Settlement;
+  architect: Architect;
+}
 export interface BaseSettlement {
   id: string;
   name: string;

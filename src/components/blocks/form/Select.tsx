@@ -28,11 +28,12 @@ export function Select<T>({ value = '', className = '', disabled = false, option
       <select
         value={currentValue}
         onChange={onSelectChange}
+        placeholder='test'
         disabled={disabled}
         style={{ backgroundPosition: 'right 0.25rem center' }}
-        className={twMerge(`appearance-none inline-block bg-transparent w-full border-none p-0 pr-6 text-inherit min-w-fit ${disabled ? 'opacity-50' : ''} ${className}`)}
+        className={twMerge(`appearance-none inline-block bg-transparent w-full border-none p-0 pr-6 text-inherit max-w-full ${disabled ? 'opacity-50' : ''} ${className}`)}
         {...rest}>
-        <option value=''></option>
+        <option value=''>Bitte auswählen</option>
         {options.map(option => (
           <option key={option.id} value={option.id}>{option.name}</option>
         ))}

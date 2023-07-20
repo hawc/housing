@@ -40,9 +40,47 @@ function NewTagItem({ availableTags, onAdd }: { availableTags: Tag[], onAdd: (ta
   );
 }
 
-export function TagList({ existingTags, className = '', removeTag, addTag }: { existingTags: Tag[], className?: string, removeTag?: (tag: Tag) => void | Promise<void>, addTag?: (tag: Partial<Tag>) => void | Promise<void> }) {
+export function TagList({ existingTags, settlementId, className = '', getSettlement }: { existingTags: Tag[], settlementId: string, className?: string, getSettlement: () => Promise<void> }) {
   const [loading, setLoading] = useState<boolean>(false);
   const [availableTags, setAvailableTags] = useState<Tag[]>([]);
+
+  const removeTag = async (tag: Tag) => {
+    setLoading(true);
+    await callAPI({
+      type: 'updateTag',
+      payload: {
+        data: {
+          settlements: {
+            delete: {
+              settlementId_tagId: {
+                tagId: tag.id,
+                settlementId: settlementId,
+              }
+            }
+          }
+        },
+        where: { id: tag.id }
+      }
+    });
+    await getSettlement();
+    setLoading(false);
+  }
+
+  const addTag = async (tag: Tag) => {
+    setLoading(true);
+    await callAPI({
+      type: 'addSettlementOnTag',
+      payload: {
+        data: {
+          tagId: tag.id,
+          settlementId: settlementId,
+        }
+      }
+    });
+    await getSettlement();
+    setLoading(false);
+  }
+
 
   const getAvailableTags = async () => {
     setLoading(true);

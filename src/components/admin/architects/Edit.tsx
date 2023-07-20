@@ -12,19 +12,19 @@ import { TextareaGhost } from '@/components/blocks/form/Textarea';
 import { Link as LinkElement } from '@/components/blocks/Link';
 import { Headline } from '@/components/Headline';
 
-import type { BaseArchitect } from '@/pages/admin';
+import type { Architect, BaseArchitect } from '@/pages/admin';
 
 export type Partial<T> = { [P in keyof T]?: T[P] };
 
-export function ArchitectEdit({ architectInput }: { architectInput: BaseArchitect }) {
-  const [architect, setArchitect] = useState<BaseArchitect>(architectInput);
+export function ArchitectEdit({ architectInput }: { architectInput: Architect }) {
+  const [architect, setArchitect] = useState<BaseArchitect | Architect>(architectInput);
   const [loading, setLoading] = useState<boolean>(false);
 
   const updateArchitect = (input: Partial<BaseArchitect>) => {
     setArchitect({
       ...architect,
       ...input,
-    } as BaseArchitect)
+    } as Architect)
   }
 
   const deleteArchitect = async (id: string) => {
