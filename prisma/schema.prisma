@@ -57,6 +57,7 @@ model Details {
   name             String
   description      String?
   annotation       String?
+  detailDate       DateTime?        @db.Timestamp(6)
   published        Boolean          @default(true)
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @updatedAt
