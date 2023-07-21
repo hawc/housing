@@ -324,6 +324,7 @@ export async function createSettlement(
   return await prisma.settlements.create({
     data: {
       name: data.data.name,
+      description: data.data.description ?? '',
       slug: data.data.slug
     },
     include: settlementsInclude

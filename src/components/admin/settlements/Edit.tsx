@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import slugify from 'slugify';
 
 import { callAPI } from '@/lib/api';
 
@@ -50,25 +51,27 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
           where: { id: settlement.id }
         }
       });
+      await getSettlement();
     } else {
-      await callAPI({
+      const response = await (callAPI({
         type: 'addSettlement',
         payload: {
           data: {
-            name: settlement?.name ?? '',
+            name: settlement.name,
             description: settlement?.description ?? '',
           },
         }
-      });
+      }) as Promise<BaseSettlement>);
+      await getSettlement(response?.id);
+      router.push(`/admin/siedlungen/${slugify(settlement.name, { lower: true, locale: 'de' })}`)
     }
-    await getSettlement();
     setLoading(false);
   }
 
-  const getSettlement = async () => {
+  const getSettlement = async (id?: string) => {
     setLoading(true);
-    if (settlement.id) {
-      setSettlement(await callAPI({ type: 'getSettlement', payload: { where: { id: settlement.id } } }));
+    if (id || settlement.id) {
+      setSettlement(await callAPI({ type: 'getSettlement', payload: { where: { id: id ?? settlement.id } } }));
     }
     setLoading(false);
   }
@@ -95,22 +98,24 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
               <ArrowLeftIcon className={`align-text-bottom ${loading && 'animate-spin'}`} size={15} />
             </Link>
           </div>
-          <div>
-            {loading ? (
-              <div className='inline-block pb-1'>
-                <Loader2Icon className='animate-spin' />
-              </div>
-            ) : (settlement?.tags &&
-              (
-                <TagList
-                  key={Object.keys(settlement.tags).length}
-                  className='ml-2'
-                  getSettlement={getSettlement}
-                  existingTags={settlement.tags}
-                  settlementId={settlement?.id} />
-              )
-            )}
-          </div>
+          {settlement?.id && (
+            <div>
+              {loading ? (
+                <div className='inline-block pb-1'>
+                  <Loader2Icon className='animate-spin' />
+                </div>
+              ) : (settlement?.tags &&
+                (
+                  <TagList
+                    key={Object.keys(settlement.tags).length}
+                    className='ml-2'
+                    getSettlement={getSettlement}
+                    existingTags={settlement.tags}
+                    settlementId={settlement?.id} />
+                )
+              )}
+            </div>
+          )}
         </div>
       </Box>
       <Container>
@@ -121,66 +126,70 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
               value={settlement?.description ?? ''} />
           </Box>
         </Container>
-        <Container cols="grid-cols-1 md:grid-cols-2">
-          <Box>
-            <Headline className='inline-block' tag='h2' type='h3'>Historie</Headline>
-            <Timeline
-              settlementId={settlement?.id}
-              events={settlement?.events ?? []} />
-          </Box>
-          <Box>
-            <Headline className='inline-block' tag='h2' type='h3'>Details</Headline>
-            <DetailsList detailsInput={settlement?.details ?? []} settlementId={settlement?.id} />
-          </Box>
-        </Container>
-        <Container>
-          <Box>
-            <>
-              <Headline className='inline-block' tag='h2' type='h3'>
-                Architekten
-              </Headline>
-              <ArchitectsList
-                key={Object.keys(settlement.architects).length}
-                getSettlement={getSettlement}
-                architects={settlement?.architects}
-                settlementId={settlement?.id} />
-            </>
-          </Box>
-        </Container>
-        <Container cols='md:grid-cols-2'>
+        {settlement?.id && (
           <>
-            {settlement?.resources?.filter(resource => resource.type.name === 'Foto').map((resource) => (
-              <Box key={resource.id} className="py-3 md:p-0 h-60 lg:h-96 justify-between">
-                <div className='bg-grey-light grow flex items-center overflow-hidden mb-1 md:mb-0'>
-                  <img src={resource.url} alt={resource.description} loading='lazy' />
-                </div>
-                <div className='md:px-5 pt-2 md:pt-4 md:pb-4'>
-                  {resource.description}
-                </div>
+            <Container cols="grid-cols-1 md:grid-cols-2">
+              <Box>
+                <Headline className='inline-block' tag='h2' type='h3'>Historie</Headline>
+                <Timeline
+                  settlementId={settlement?.id}
+                  events={settlement?.events ?? []} />
               </Box>
-            ))}
-            <Box>
-              <Headline className='inline-block' tag='h2' type='h3'>
-                Ressource hinzufügen
-              </Headline>
-            </Box>
-          </>
-        </Container>
-        <>
-          {settlement?.location && settlement.location.lat > 0 && settlement.location.lng > 0 && (
-            <Container>
-              <Box className='p-0 md:p-0'>
-                <Map
-                  key={`${settlement.location.lat}${settlement.location.lng}`}
-                  markers={[settlement.location]}
-                  center={{ lat: settlement.location.lat, lng: settlement.location.lng }} />
+              <Box>
+                <Headline className='inline-block' tag='h2' type='h3'>Details</Headline>
+                <DetailsList detailsInput={settlement?.details ?? []} settlementId={settlement?.id} />
               </Box>
             </Container>
-          )}
-          <Box>
-            <Location settlementId={settlement?.id} locationInput={settlement?.location} onUpdate={getSettlement} />
-          </Box>
-        </>
+            <Container>
+              <Box>
+                <>
+                  <Headline className='inline-block' tag='h2' type='h3'>
+                    Architekten
+                  </Headline>
+                  <ArchitectsList
+                    key={Object.keys(settlement?.architects ?? {}).length}
+                    getSettlement={getSettlement}
+                    architects={settlement?.architects}
+                    settlementId={settlement?.id} />
+                </>
+              </Box>
+            </Container>
+            <Container cols='md:grid-cols-2'>
+              <>
+                {settlement?.resources?.filter(resource => resource.type.name === 'Foto').map((resource) => (
+                  <Box key={resource.id} className="py-3 md:p-0 h-60 lg:h-96 justify-between">
+                    <div className='bg-grey-light grow flex items-center overflow-hidden mb-1 md:mb-0'>
+                      <img src={resource.url} alt={resource.description} loading='lazy' />
+                    </div>
+                    <div className='md:px-5 pt-2 md:pt-4 md:pb-4'>
+                      {resource.description}
+                    </div>
+                  </Box>
+                ))}
+                <Box>
+                  <Headline className='inline-block' tag='h2' type='h3'>
+                    Ressource hinzufügen
+                  </Headline>
+                </Box>
+              </>
+            </Container>
+            <>
+              {settlement?.location && settlement.location.lat > 0 && settlement.location.lng > 0 && (
+                <Container>
+                  <Box className='p-0 md:p-0'>
+                    <Map
+                      key={`${settlement.location.lat}${settlement.location.lng}`}
+                      markers={[settlement.location]}
+                      center={{ lat: settlement.location.lat, lng: settlement.location.lng }} />
+                  </Box>
+                </Container>
+              )}
+              <Box>
+                <Location settlementId={settlement?.id} locationInput={settlement?.location} onUpdate={getSettlement} />
+              </Box>
+            </>
+          </>
+        )}
         <Container cols='md:grid-cols-3'>
           <Box>
             <Button onClick={submitData} disabled={loading || !(settlement?.name)}><>Speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</></Button>
@@ -190,7 +199,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
           </Box>
           <Box>
             <Button className='bg-text text-bg border border-text'
-              onClick={() => deleteSettlement(settlement.id)}
+              onClick={() => deleteSettlement(settlement?.id)}
               disabled={loading || !(settlement?.id)}><>Löschen
                 {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
             </Button>
