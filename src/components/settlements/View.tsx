@@ -81,7 +81,7 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
         {settlement.resources.length > 0 && (
           <Container cols='md:grid-cols-2'>
             <>
-              {settlement.resources.filter(resource => resource.type.name === 'Foto').map((resource) => (
+              {settlement.resources.filter(resource => resource.resourceType.name === 'Foto').map((resource) => (
                 <Box key={resource.id} className="py-3 md:p-0 h-60 lg:h-96 justify-between">
                   <div className='bg-grey-light grow flex items-center overflow-hidden mb-1 md:mb-0'>
                     <img src={resource.url} alt={resource.description} loading='lazy' />
@@ -95,7 +95,7 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
           </Container>
         )}
         <>
-          {settlement.location && settlement.location.lat > 0 && settlement.location.lng > 0 && (
+          {settlement.location?.lat > 0 && settlement.location?.lng > 0 && (
             <Container>
               <Box className='p-0 md:p-0'>
                 <Map
