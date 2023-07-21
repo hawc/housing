@@ -22,8 +22,8 @@ function NewTagItem({ availableTags, onAdd }: { availableTags: Tag[], onAdd: (ta
   const [currentTag, setCurrentTag] = useState<Partial<Tag> | undefined>();
   const [loading, setLoading] = useState<boolean>(false);
 
-  const setTag = (tagName: string) => {
-    setCurrentTag(tagName ? availableTags.find(availableTag => availableTag.name === tagName) : undefined);
+  const setTag = (id: string) => {
+    setCurrentTag(id ? availableTags.find(availableTag => availableTag.id === id) : undefined);
   }
 
   const addTag = async (tag: Partial<Tag>) => {
@@ -34,8 +34,16 @@ function NewTagItem({ availableTags, onAdd }: { availableTags: Tag[], onAdd: (ta
 
   return (
     <li className="flex mr-1 mb-1 py-1.5 px-2 italic text-xs font-semibold border-2 border-text rounded-full items-center">
-      <Select<Tag> options={availableTags} onChange={(e) => setTag(e.target.value)} className='italic leading-none' disabled={loading} />
-      <Button ghost className='pl-2' onClick={() => addTag(currentTag)} disabled={!currentTag?.name.length || loading}><PlusIcon size={15} /></Button>
+      <Select<Tag>
+        options={availableTags}
+        onChange={(e) => setTag(e.target.value)}
+        className='italic leading-none'
+        disabled={loading} />
+      <Button
+        ghost
+        className='pl-2'
+        onClick={() => addTag(currentTag)}
+        disabled={!currentTag?.name.length || loading}><PlusIcon size={15} /></Button>
     </li>
   );
 }

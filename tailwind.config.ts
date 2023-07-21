@@ -1,8 +1,7 @@
-import withMT from '@material-tailwind/react/utils/withMT';
 import { Config } from 'tailwindcss';
 import defaultTheme from 'tailwindcss/defaultTheme';
 
-export default withMT({
+export default {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
@@ -33,4 +32,4 @@ export default withMT({
     },
   },
   plugins: [require('@tailwindcss/forms')],
-} satisfies Config);
+} satisfies Config;
