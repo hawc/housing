@@ -83,7 +83,7 @@ export function ArchitectsList({ architects, settlementId, getSettlement }: Arch
   }, []);
 
   return (
-    <div className={`grid lg:grid-cols-2 gap-4 lg:gap-10 ${loading ? 'blur pointer-events-none' : ''}`}>
+    <div className={`grid gap-4 ${loading ? 'blur pointer-events-none' : ''}`}>
       <div>
         {architects?.map((architect: Architect) => (
           <ArchitectsItem
@@ -95,7 +95,7 @@ export function ArchitectsList({ architects, settlementId, getSettlement }: Arch
       </div>
       <div>
         <label htmlFor="settlementArchitectSelect">Architekt hinzufügen:</label>
-        <div className='mt-1 mb-1'>
+        <div className='my-1'>
           <Select
             onChange={(event) => setCurrentArchitect(availableArchitects.find(architect => architect.id === event.target.value))}
             value={currentArchitect?.id}

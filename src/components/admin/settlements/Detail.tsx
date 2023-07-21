@@ -86,40 +86,44 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, on
 
   return (
     <div {...rest}>
-      <div>
-        <label htmlFor="detailName">Name:</label>
-        <InputGhost
-          id='detailName'
-          className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
-          value={detail?.name ?? ''}
-          onChange={(event) => updateDetail({ name: event.target.value })} />
-      </div>
-      <div>
-        <label htmlFor="detailAnnotation">Anmerkung:</label>
-        <InputGhost
-          id='detailAnnotation'
-          className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
-          value={detail?.annotation ?? ''}
-          onChange={(event) => updateDetail({ annotation: event.target.value })} />
-      </div>
-      <div>
-        <label htmlFor="detailType">Typ:</label>
-        <Select<DetailType>
-          id='detailType'
-          className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
-          value={detail?.detailType?.id ?? ''}
-          options={availableDetailTypes}
-          onChange={(detail) => setDetailTypeId(detail.target.value)} />
-      </div>
-      <div>
-        <label htmlFor="detailDescription">Beschreibung:</label>
-        <InputGhost
-          id='detailDescription'
-          className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
-          value={detail?.description ?? ''}
-          onChange={(event) => updateDetail({ description: event.target.value })} />
+      <div className='flex gap-4'>
+        <div className='basis-full'>
+          <label htmlFor="detailName">Name:</label>
+          <InputGhost
+            id='detailName'
+            className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
+            value={detail?.name ?? ''}
+            onChange={(event) => updateDetail({ name: event.target.value })} />
+        </div>
+        <div className='basis-full'>
+          <label htmlFor="detailDescription">Wert:</label>
+          <InputGhost
+            id='detailDescription'
+            className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
+            value={detail?.description ?? ''}
+            onChange={(event) => updateDetail({ description: event.target.value })} />
+        </div>
       </div>
       <div className='flex gap-4'>
+        <div className='basis-full'>
+          <label htmlFor="detailType">Typ:</label>
+          <Select<DetailType>
+            id='detailType'
+            className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
+            value={detail?.detailType?.id ?? ''}
+            options={availableDetailTypes}
+            onChange={(detail) => setDetailTypeId(detail.target.value)} />
+        </div>
+        <div className='basis-full'>
+          <label htmlFor="detailAnnotation">Anmerkung:</label>
+          <InputGhost
+            id='detailAnnotation'
+            className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
+            value={detail?.annotation ?? ''}
+            onChange={(event) => updateDetail({ annotation: event.target.value })} />
+        </div>
+      </div>
+      <div className='flex gap-4 flex-col lg:flex-row mt-2'>
         <Button
           className='w-full'
           onClick={() => submitDetail(detail?.id)}

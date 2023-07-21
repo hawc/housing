@@ -67,7 +67,22 @@ export interface Resource {
   license: string;
   copyright: string;
   url: string;
-  type: ResourceType;
+  resourceType: ResourceType;
+}
+export interface BaseResourceType {
+  id: string;
+  name: string;
+  description: string;
+}
+export interface BaseResource {
+  id: string;
+  name: string;
+  description: string;
+  source: string;
+  license: string;
+  copyright: string;
+  url: string;
+  resourceType: ResourceType;
 }
 export interface Tag {
   id: string;

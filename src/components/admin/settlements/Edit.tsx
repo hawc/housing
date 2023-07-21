@@ -140,7 +140,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
                 <DetailsList detailsInput={settlement?.details ?? []} settlementId={settlement?.id} />
               </Box>
             </Container>
-            <Container>
+            <Container cols='md:grid-cols-2'>
               <Box>
                 <>
                   <Headline className='inline-block' tag='h2' type='h3'>
@@ -153,19 +153,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
                     settlementId={settlement?.id} />
                 </>
               </Box>
-            </Container>
-            <Container cols='md:grid-cols-2'>
               <>
-                {settlement?.resources?.filter(resource => resource.type.name === 'Foto').map((resource) => (
-                  <Box key={resource.id} className="py-3 md:p-0 h-60 lg:h-96 justify-between">
-                    <div className='bg-grey-light grow flex items-center overflow-hidden mb-1 md:mb-0'>
-                      <img src={resource.url} alt={resource.description} loading='lazy' />
-                    </div>
-                    <div className='md:px-5 pt-2 md:pt-4 md:pb-4'>
-                      {resource.description}
-                    </div>
-                  </Box>
-                ))}
                 <Box>
                   <Headline className='inline-block' tag='h2' type='h3'>
                     Ressource hinzufügen

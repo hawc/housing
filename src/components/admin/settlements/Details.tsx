@@ -37,9 +37,16 @@ export function DetailsList({ detailsInput, settlementId }: DetailsListProps) {
   return (
     <div>
       {details?.map((detail: Detail) => (
-        <EditDetail
-          onUpdate={getDetails}
-          className='mb-4' key={detail.id} detailInput={detail} availableDetailTypes={availableDetailTypes} settlementId={settlementId} />
+        <div
+          key={detail.id}>
+          <EditDetail
+            onUpdate={getDetails}
+            className='mb-4'
+            detailInput={detail}
+            availableDetailTypes={availableDetailTypes}
+            settlementId={settlementId} />
+          <hr className='mb-4 mt-6 border' />
+        </div>
       ))}
       <EditDetail
         key={details.length}
