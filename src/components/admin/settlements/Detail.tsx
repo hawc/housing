@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import { callAPI } from '@/lib/api';
 
+import { dateIsValid } from '@/components/admin/settlements/Event';
 import { Button } from '@/components/blocks/form/Button';
 import { InputGhost } from '@/components/blocks/form/Input';
 import { Select } from '@/components/blocks/form/Select';
@@ -57,6 +58,8 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, on
             name: detail.name,
             description: detail.description,
             annotation: detail.annotation,
+            source: detail.source,
+            detailDate: detail.detailDate ? new Date(detail.detailDate) : null,
             detailTypeId: detailTypeId,
           },
           where: { id }
@@ -70,6 +73,8 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, on
             name: detail.name,
             description: detail.description,
             annotation: detail.annotation,
+            source: detail.source,
+            detailDate: detail.detailDate ? new Date(detail.detailDate) : null,
             detailTypeId: detailTypeId,
             settlementId: settlementId,
           },
@@ -121,6 +126,25 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, on
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={detail?.annotation ?? ''}
             onChange={(event) => updateDetail({ annotation: event.target.value })} />
+        </div>
+      </div>
+      <div className='flex gap-4'>
+        <div className='basis-full'>
+          <label htmlFor="detailDate">Datum:</label>
+          <InputGhost
+            type='date'
+            id='detailDate'
+            className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
+            value={detail?.detailDate ?? new Date().toDateString()}
+            onChange={(event) => updateDetail({ detailDate: dateIsValid(event.target.value) ? new Date(new Date(event.target.value).toUTCString()).toISOString() : null })} />
+        </div>
+        <div className='basis-full'>
+          <label htmlFor="detailSource">Quelle:</label>
+          <InputGhost
+            id='detailSource'
+            className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
+            value={detail?.source ?? ''}
+            onChange={(event) => updateDetail({ source: event.target.value })} />
         </div>
       </div>
       <div className='flex gap-4 flex-col lg:flex-row mt-2'>

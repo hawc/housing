@@ -49,6 +49,8 @@ const detailsSelect = Prisma.validator<Prisma.DetailsSelect>()({
   name: true,
   description: true,
   annotation: true,
+  source: true,
+  detailDate: true,
   detailType: {
     select: detailTypesSelect
   }

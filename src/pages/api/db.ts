@@ -103,6 +103,8 @@ export const baseTransformers = {
       name: detail.name,
       description: detail.description ?? '',
       annotation: detail.annotation ?? '',
+      source: detail.source ?? '',
+      detailDate: detail.detailDate?.toDateString() ?? '',
       detailType: transformers.detailType(detail.detailType)
     };
   },
@@ -203,6 +205,8 @@ const transformers = {
       name: detail.name,
       description: detail.description ?? '',
       annotation: detail.annotation ?? '',
+      source: detail.source ?? '',
+      detailDate: detail.detailDate?.toDateString() ?? '',
       detailType: transformers.detailType(detail.detailType),
     };
   },

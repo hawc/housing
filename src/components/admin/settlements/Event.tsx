@@ -10,6 +10,10 @@ import { TextareaGhost } from '@/components/blocks/form/Textarea';
 
 import { Event, EventType } from '@/pages/admin';
 
+export function dateIsValid(date) {
+  return !Number.isNaN(new Date(date).getTime());
+}
+
 const IconComponent = ({ type, className }: { type: string, className: string }): JSX.Element => {
   switch (type) {
     case 'Planung': return <CircleDotDashedIcon className={className} />;
@@ -79,7 +83,7 @@ export function Event({ eventInput, availableEventTypes, settlementId, hasConnec
           data: {
             name: event.name,
             description: event.description,
-            eventDate: event.eventDate || null,
+            eventDate: event.eventDate ? new Date(event.eventDate) : null,
             eventTypeId: eventTypeId,
           },
           where: { id: event.id }
@@ -92,7 +96,7 @@ export function Event({ eventInput, availableEventTypes, settlementId, hasConnec
           data: {
             name: event.name,
             description: event.description,
-            eventDate: event.eventDate || null,
+            eventDate: event.eventDate ? new Date(event.eventDate) : null,
             eventTypeId: eventTypeId,
             settlementId: settlementId,
           },
@@ -119,9 +123,9 @@ export function Event({ eventInput, availableEventTypes, settlementId, hasConnec
           <div className='flex w-full'>
             <InputGhost
               className='border-highlight border-2 border-solid mb-2 p-1'
-              type="date"
+              type='date'
               value={event?.eventDate ?? new Date().toDateString()}
-              onChange={(event) => updateEvent({ eventDate: new Date(new Date(event.target.value).toUTCString()).toISOString() })} />:
+              onChange={(event) => updateEvent({ eventDate: dateIsValid(event.target.value) ? new Date(new Date(event.target.value).toUTCString()).toISOString() : null })} />:
             <InputGhost
               className='border-highlight border-2 border-solid mb-2 p-1'
               value={event?.name ?? ''}

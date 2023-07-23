@@ -45,6 +45,8 @@ export interface BaseDetail {
   name: string;
   description: string;
   annotation: string;
+  source: string;
+  detailDate: string;
   detailType: DetailType;
 }
 export interface Detail {
@@ -52,6 +54,8 @@ export interface Detail {
   name: string;
   description: string;
   annotation: string;
+  source: string;
+  detailDate: string;
   detailType: DetailType;
 }
 export interface ResourceType {

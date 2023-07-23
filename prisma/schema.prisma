@@ -57,6 +57,7 @@ model Details {
   name             String
   description      String?
   annotation       String?
+  source           String?
   detailDate       DateTime?        @db.Timestamp(6)
   published        Boolean          @default(true)
   createdAt        DateTime         @default(now())
@@ -73,6 +74,7 @@ model Events {
   id           String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name         String
   description  String?
+  source       String?
   published    Boolean     @default(true)
   eventDate    DateTime?   @db.Timestamp(6)
   createdAt    DateTime    @default(now())
