@@ -733,6 +733,9 @@ export async function createDetail(
     data: {
       name: updateData.name,
       description: updateData.description,
+      annotation: updateData.annotation,
+      source: updateData.source,
+      detailDate: updateData.detailDate,
       detailTypeId: updateData.detailTypeId,
       settlementId: updateData.settlementId
     },

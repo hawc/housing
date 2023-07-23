@@ -10,6 +10,7 @@ import { callAPI } from '@/lib/api';
 import { ArchitectsList } from '@/components/admin/settlements/Architects';
 import { DetailsList } from '@/components/admin/settlements/Details';
 import { Location } from '@/components/admin/settlements/Location';
+import { ResourcesList } from '@/components/admin/settlements/Resources';
 import { TagList } from '@/components/admin/settlements/Tags';
 import { Timeline } from '@/components/admin/settlements/Timeline';
 import { Box, Container } from '@/components/blocks/Box';
@@ -156,8 +157,9 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
               <>
                 <Box>
                   <Headline className='inline-block' tag='h2' type='h3'>
-                    Ressource hinzufügen
+                    Ressourcen
                   </Headline>
+                  <ResourcesList resourcesInput={settlement?.resources ?? []} settlementId={settlement?.id} />
                 </Box>
               </>
             </Container>

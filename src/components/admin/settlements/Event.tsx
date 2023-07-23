@@ -139,7 +139,12 @@ export function Event({ eventInput, availableEventTypes, settlementId, hasConnec
             options={availableEventTypes}
             onChange={(event) => setEventTypeId(event.target.value)} />
           <TextareaGhost className='border-highlight border-2 border-solid' value={event?.description ?? ''} onChange={(event) => updateEvent({ description: event.target.value })} />
-          <Button onClick={submitEvent} disabled={loading || !(event?.name)}><>Änderungen speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</></Button>
+          <Button
+            onClick={submitEvent}
+            disabled={loading || !(event?.name)}>
+            <>Speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}
+            </>
+          </Button>
         </TimelineBody>
       </TimelineItem>
     </>

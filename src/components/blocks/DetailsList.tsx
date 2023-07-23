@@ -9,6 +9,8 @@ function formatDetail(detailText: string, type: string): string {
     case 'Fläche':
       return `${parseFloat(detailText).toLocaleString()}`;
     case 'Einwohner':
+    case 'Wohneinheiten':
+      return parseInt(detailText).toLocaleString();
     default:
       return detailText;
   }

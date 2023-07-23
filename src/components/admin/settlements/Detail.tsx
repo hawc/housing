@@ -29,7 +29,8 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, on
     } as Detail)
   }
 
-  const deleteDetail = async (id) => {
+  const deleteDetail = async (id: string) => {
+    setLoading(true);
     const submitData = {
       type: 'updateDetail',
       payload: {
@@ -47,7 +48,7 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, on
     setLoading(false);
   }
 
-  const submitDetail = async (id) => {
+  const submitDetail = async (id: string) => {
     setLoading(true);
     let submitData;
     if (id) {
@@ -101,16 +102,6 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, on
             onChange={(event) => updateDetail({ name: event.target.value })} />
         </div>
         <div className='basis-full'>
-          <label htmlFor="detailDescription">Wert:</label>
-          <InputGhost
-            id='detailDescription'
-            className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
-            value={detail?.description ?? ''}
-            onChange={(event) => updateDetail({ description: event.target.value })} />
-        </div>
-      </div>
-      <div className='flex gap-4'>
-        <div className='basis-full'>
           <label htmlFor="detailType">Typ:</label>
           <Select<DetailType>
             id='detailType'
@@ -118,6 +109,16 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, on
             value={detail?.detailType?.id ?? ''}
             options={availableDetailTypes}
             onChange={(detail) => setDetailTypeId(detail.target.value)} />
+        </div>
+      </div>
+      <div className='flex gap-4'>
+        <div className='basis-full'>
+          <label htmlFor="detailDescription">Wert:</label>
+          <InputGhost
+            id='detailDescription'
+            className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
+            value={detail?.description ?? ''}
+            onChange={(event) => updateDetail({ description: event.target.value })} />
         </div>
         <div className='basis-full'>
           <label htmlFor="detailAnnotation">Anmerkung:</label>
@@ -151,14 +152,14 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, on
         <Button
           className='w-full'
           onClick={() => submitDetail(detail?.id)}
-          disabled={loading || !(detail?.name)}><>Änderungen speichern
+          disabled={loading || !(detail?.name)}><>{detail?.id ? 'Speichern' : 'Hinzufügen'}
             {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
         </Button>
         {detail?.id && (
           <Button
             className='w-full bg-text text-bg border border-text'
             onClick={() => deleteDetail(detail.id)}
-            disabled={loading || !(detail?.name)}><>Detail löschen
+            disabled={loading || !(detail?.name)}><>Löschen
               {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
           </Button>
         )}

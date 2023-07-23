@@ -39,6 +39,7 @@ export function ArchitectsList({ architects, settlementId, getSettlement }: Arch
   }
 
   const removeArchitect = async (id, settlementId) => {
+    setLoading(true);
     const submitData = {
       type: 'updateArchitect',
       payload: {
@@ -83,7 +84,7 @@ export function ArchitectsList({ architects, settlementId, getSettlement }: Arch
   }, []);
 
   return (
-    <div className={`grid gap-4 ${loading ? 'blur pointer-events-none' : ''}`}>
+    <div className={`grid gap-4 transition-filter ${loading ? 'blur-sm pointer-events-none' : ''}`}>
       <div>
         {architects?.map((architect: Architect) => (
           <ArchitectsItem
@@ -94,22 +95,27 @@ export function ArchitectsList({ architects, settlementId, getSettlement }: Arch
         ))}
       </div>
       <div>
-        <label htmlFor="settlementArchitectSelect">Architekt hinzufügen:</label>
-        <div className='my-1'>
-          <Select
-            onChange={(event) => setCurrentArchitect(availableArchitects.find(architect => architect.id === event.target.value))}
-            value={currentArchitect?.id}
-            id='settlementArchitectSelect'
-            options={availableArchitects}
-            className='border-highlight border-2 border-solid p-1 w-full mb-2' />
-          <Button
-            className='w-full'
-            disabled={!currentArchitect}
-            onClick={() => addArchitect(currentArchitect)}>
-            Architekt hinzufügen
-          </Button>
+        <label htmlFor="settlementArchitectSelect"
+          className='mb-1 block'>Architekt hinzufügen:</label>
+        <div className='flex gap-4'>
+          <div className='basis-full'>
+            <Select
+              onChange={(event) => setCurrentArchitect(availableArchitects.find(architect => architect.id === event.target.value))}
+              value={currentArchitect?.id}
+              id='settlementArchitectSelect'
+              options={availableArchitects}
+              className='border-highlight border-2 border-solid p-1 w-full' />
+          </div>
+          <div className='basis-full'>
+            <Button
+              className='border-highlight border-2 border-solid w-full'
+              disabled={!currentArchitect}
+              onClick={() => addArchitect(currentArchitect)}>
+              Hinzufügen
+            </Button>
+          </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 }

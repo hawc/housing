@@ -28,7 +28,8 @@ export function EditResource({ resourceInput, availableResourceTypes, settlement
     } as Resource)
   }
 
-  const deleteResource = async (id) => {
+  const deleteResource = async (id: string) => {
+    setLoading(true);
     const submitData = {
       type: 'updateResource',
       payload: {
@@ -46,7 +47,7 @@ export function EditResource({ resourceInput, availableResourceTypes, settlement
     setLoading(false);
   }
 
-  const submitResource = async (id) => {
+  const submitResource = async (id: string) => {
     setLoading(true);
     let submitData;
     if (id) {
@@ -92,32 +93,44 @@ export function EditResource({ resourceInput, availableResourceTypes, settlement
 
   return (
     <div {...rest}>
-      <div>
-        <label htmlFor="resourceName">Name:</label>
-        <InputGhost
-          id='resourceName'
-          className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
-          value={resource?.name ?? ''}
-          onChange={(event) => updateResource({ name: event.target.value })} />
+      <div className='flex gap-4'>
+        <div className='basis-full'>
+          <label htmlFor="resourceName">Name:</label>
+          <InputGhost
+            id='resourceName'
+            className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
+            value={resource?.name ?? ''}
+            onChange={(event) => updateResource({ name: event.target.value })} />
+        </div>
+        <div className='basis-full'>
+          <label htmlFor="resourceType">Typ:</label>
+          <Select<ResourceType>
+            id='resourceType'
+            className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
+            value={resource?.resourceType?.id ?? ''}
+            options={availableResourceTypes}
+            onChange={(resource) => setResourceTypeId(resource.target.value)} />
+        </div>
       </div>
-      <div>
-        <label htmlFor="resourceSource">Quelle:</label>
-        <InputGhost
-          id='resourceSource'
-          className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
-          value={resource?.source ?? ''}
-          onChange={(event) => updateResource({ source: event.target.value })} />
+      <div className='flex gap-4'>
+        <div className='basis-full'>
+          <label htmlFor="resourceSource">URL:</label>
+          <InputGhost
+            id='resourceSource'
+            className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
+            value={resource?.url ?? ''}
+            onChange={(event) => updateResource({ source: event.target.value })} />
+        </div>
+        <div className='basis-full'>
+          <label htmlFor="resourceSource">Quelle:</label>
+          <InputGhost
+            id='resourceSource'
+            className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
+            value={resource?.source ?? ''}
+            onChange={(event) => updateResource({ source: event.target.value })} />
+        </div>
       </div>
-      <div>
-        <label htmlFor="resourceType">Typ:</label>
-        <Select<ResourceType>
-          id='resourceType'
-          className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
-          value={resource?.resourceType?.id ?? ''}
-          options={availableResourceTypes}
-          onChange={(resource) => setResourceTypeId(resource.target.value)} />
-      </div>
-      <div>
+      <div className='basis-full'>
         <label htmlFor="resourceDescription">Beschreibung:</label>
         <InputGhost
           id='resourceDescription'
@@ -125,18 +138,18 @@ export function EditResource({ resourceInput, availableResourceTypes, settlement
           value={resource?.description ?? ''}
           onChange={(event) => updateResource({ description: event.target.value })} />
       </div>
-      <div className='flex gap-4'>
+      <div className='flex gap-4 flex-col lg:flex-row mt-2'>
         <Button
           className='w-full'
           onClick={() => submitResource(resource?.id)}
-          disabled={loading || !(resource?.name)}><>Änderungen speichern
+          disabled={loading || !(resource?.name)}><>{resource?.id ? 'Speichern' : 'Hinzufügen'}
             {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
         </Button>
         {resource?.id && (
           <Button
             className='w-full bg-text text-bg border border-text'
             onClick={() => deleteResource(resource.id)}
-            disabled={loading || !(resource?.name)}><>Resource löschen
+            disabled={loading || !(resource?.name)}><>Löschen
               {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
           </Button>
         )}
