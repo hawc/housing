@@ -114,12 +114,12 @@ export function EditResource({ resourceInput, availableResourceTypes, settlement
       </div>
       <div className='flex gap-4'>
         <div className='basis-full'>
-          <label htmlFor="resourceSource">URL:</label>
+          <label htmlFor="resourceUrl">URL:</label>
           <InputGhost
-            id='resourceSource'
+            id='resourceUrl'
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={resource?.url ?? ''}
-            onChange={(event) => updateResource({ source: event.target.value })} />
+            onChange={(event) => updateResource({ url: event.target.value })} />
         </div>
         <div className='basis-full'>
           <label htmlFor="resourceSource">Quelle:</label>
@@ -130,13 +130,23 @@ export function EditResource({ resourceInput, availableResourceTypes, settlement
             onChange={(event) => updateResource({ source: event.target.value })} />
         </div>
       </div>
-      <div className='basis-full'>
-        <label htmlFor="resourceDescription">Beschreibung:</label>
-        <InputGhost
-          id='resourceDescription'
-          className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
-          value={resource?.description ?? ''}
-          onChange={(event) => updateResource({ description: event.target.value })} />
+      <div className='flex gap-4'>
+        <div className='basis-full'>
+          <label htmlFor="resourceDescription">Beschreibung:</label>
+          <InputGhost
+            id='resourceDescription'
+            className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
+            value={resource?.description ?? ''}
+            onChange={(event) => updateResource({ description: event.target.value })} />
+        </div>
+        <div className='basis-full'>
+          <label htmlFor="resourceLicense">Lizenz:</label>
+          <InputGhost
+            id='resourceLicense'
+            className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
+            value={resource?.license ?? ''}
+            onChange={(event) => updateResource({ license: event.target.value })} />
+        </div>
       </div>
       <div className='flex gap-4 flex-col lg:flex-row mt-2'>
         <Button
