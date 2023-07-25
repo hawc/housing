@@ -10,6 +10,13 @@ import { TextareaGhost } from '@/components/blocks/form/Textarea';
 
 import { Event, EventType } from '@/pages/admin';
 
+interface EditEventProps extends React.HTMLAttributes<HTMLElement> {
+  eventInput: Event | undefined;
+  availableEventTypes: EventType[];
+  settlementId: string | null;
+  onUpdate: (detailId: string | undefined) => void;
+}
+
 export function dateIsValid(date) {
   return !Number.isNaN(new Date(date).getTime());
 }
@@ -24,7 +31,7 @@ const IconComponent = ({ type, className }: { type: string, className: string })
 
 function TimelineItem({ children }: React.HTMLAttributes<HTMLElement>) {
   return (
-    <li className="flex relative flex-col pb-3 last:pb-0">
+    <li className="flex relative flex-col">
       {children}
     </li>)
 }
@@ -53,15 +60,7 @@ function TimelineBody({ children }: React.HTMLAttributes<HTMLElement>) {
     </div>)
 }
 
-function TimelineConnector() {
-  return (
-    <span className="absolute left-0 grid justify-center bg-transparent" style={{ top: '45px', width: '40px', height: 'calc(100% - 50px)' }}>
-      <span className="w-0.5 h-full bg-highlight rounded-sm"></span>
-    </span>
-  )
-}
-
-export function Event({ eventInput, availableEventTypes, settlementId, hasConnector = false }: { eventInput: Event | undefined, availableEventTypes: EventType[], settlementId: string | null, hasConnector?: boolean, }) {
+export function Event({ eventInput, availableEventTypes, settlementId, onUpdate }: EditEventProps) {
   const [event, setCurrentEvent] = useState<Event | undefined>(eventInput);
   const [eventTypeId, setEventTypeId] = useState<string | undefined>(event?.eventType?.id ?? '');
   const [loading, setLoading] = useState<boolean>(false);
@@ -73,16 +72,36 @@ export function Event({ eventInput, availableEventTypes, settlementId, hasConnec
     } as Event)
   }
 
-  const submitEvent = async () => {
+  const deleteEvent = async (id: string) => {
+    setLoading(true);
+    const submitData = {
+      type: 'updateEvent',
+      payload: {
+        data: {
+          published: false
+        },
+        where: { id }
+      }
+    };
+    const response = await callAPI(submitData);
+    if (response?.id) {
+      setCurrentEvent(undefined);
+    }
+    onUpdate(id);
+    setLoading(false);
+  }
+
+  const submitEvent = async (id: string | undefined) => {
     setLoading(true);
     let submitData;
-    if (event?.id) {
+    if (id) {
       submitData = {
         type: 'updateEvent',
         payload: {
           data: {
             name: event.name,
             description: event.description,
+            source: event.source,
             eventDate: event.eventDate ? new Date(event.eventDate) : null,
             eventTypeId: eventTypeId,
           },
@@ -96,6 +115,7 @@ export function Event({ eventInput, availableEventTypes, settlementId, hasConnec
           data: {
             name: event.name,
             description: event.description,
+            source: event.source,
             eventDate: event.eventDate ? new Date(event.eventDate) : null,
             eventTypeId: eventTypeId,
             settlementId: settlementId,
@@ -107,44 +127,81 @@ export function Event({ eventInput, availableEventTypes, settlementId, hasConnec
     if (response?.id) {
       setCurrentEvent(response);
     }
+    onUpdate(id);
     setLoading(false);
   }
 
   return (
     <>
       <TimelineItem>
-        {hasConnector && (
-          <TimelineConnector />
-        )}
         <TimelineHeader>
           <TimelineIcon>
             <IconComponent className="h-4 w-4" type={eventTypeId ? availableEventTypes.find(type => type.id === eventTypeId)?.name : ''} />
           </TimelineIcon>
-          <div className='flex w-full'>
-            <InputGhost
-              className='border-highlight border-2 border-solid mb-2 p-1'
-              type='date'
-              value={event?.eventDate ?? new Date().toDateString()}
-              onChange={(event) => updateEvent({ eventDate: dateIsValid(event.target.value) ? new Date(new Date(event.target.value).toUTCString()).toISOString() : null })} />:
-            <InputGhost
-              className='border-highlight border-2 border-solid mb-2 p-1'
-              value={event?.name ?? ''}
-              onChange={(event) => updateEvent({ name: event.target.value })} />
+          <div className='flex gap-4'>
+            <div className='basis-full'>
+              <label htmlFor="eventName">Name:</label>
+              <InputGhost
+                className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
+                value={event?.name ?? ''}
+                id='eventName'
+                onChange={(event) => updateEvent({ name: event.target.value })} />
+            </div>
+            <div className='basis-full'>
+              <label htmlFor="eventType">Typ:</label>
+              <Select<EventType>
+                className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
+                value={event?.eventType?.id ?? ''}
+                options={availableEventTypes}
+                id='eventType'
+                onChange={(event) => setEventTypeId(event.target.value)} />
+            </div>
           </div>
         </TimelineHeader>
         <TimelineBody>
-          <Select<EventType>
-            className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
-            value={event?.eventType?.id ?? ''}
-            options={availableEventTypes}
-            onChange={(event) => setEventTypeId(event.target.value)} />
-          <TextareaGhost className='border-highlight border-2 border-solid' value={event?.description ?? ''} onChange={(event) => updateEvent({ description: event.target.value })} />
-          <Button
-            onClick={submitEvent}
-            disabled={loading || !(event?.name)}>
-            <>Speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}
-            </>
-          </Button>
+          <div className='flex gap-4'>
+            <div className='basis-full'>
+              <label htmlFor="eventDate">Datum:</label>
+              <InputGhost
+                className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
+                type='date'
+                value={event?.eventDate}
+                id='eventDate'
+                onChange={(event) => updateEvent({ eventDate: dateIsValid(event.target.value) ? new Date(new Date(event.target.value).toUTCString()).toISOString() : null })} />
+            </div>
+            <div className='basis-full'>
+              <label htmlFor="eventSource">Quelle:</label>
+              <InputGhost
+                className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
+                value={event?.source ?? ''}
+                id='eventSource'
+                onChange={(event) => updateEvent({ source: event.target.value })} />
+            </div>
+          </div>
+          <div className='basis-full'>
+            <label htmlFor="eventDescription">Beschreibung:</label>
+            <TextareaGhost
+              className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
+              value={event?.description ?? ''}
+              id='eventDescription'
+              onChange={(event) => updateEvent({ description: event.target.value })} />
+          </div>
+          <div className='flex gap-4 flex-col lg:flex-row mt-2'>
+            <Button
+              className='w-full'
+              onClick={() => submitEvent(event?.id)}
+              disabled={loading || !(event?.name)}><>{event?.id ? 'Speichern' : 'Hinzufügen'}
+                {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
+            </Button>
+            {event?.id && (
+              <Button
+                className='w-full bg-text text-bg border border-text'
+                onClick={() => deleteEvent(event.id)}
+                disabled={loading || !(event?.name)}><>Löschen
+                  {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
+              </Button>
+            )}
+          </div>
         </TimelineBody>
       </TimelineItem>
     </>

@@ -84,6 +84,7 @@ export const baseTransformers = {
       id: event.id,
       name: event.name,
       description: event.description ?? '',
+      source: event.source ?? '',
       eventDate: event.eventDate?.toDateString() ?? '',
       eventType: transformers.eventType(event.eventType)
     };
@@ -222,6 +223,7 @@ const transformers = {
       id: event.id,
       name: event.name,
       description: event.description ?? '',
+      source: event.source ?? '',
       eventDate: event.eventDate?.toDateString() ?? '',
       eventType: transformers.eventType(event.eventType)
     };

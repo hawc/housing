@@ -17,6 +17,17 @@ interface EditDetailProps extends React.HTMLAttributes<HTMLElement> {
   onUpdate: (detailId: string | undefined) => void;
 }
 
+function getDescriptionInputType(detailType) {
+  switch (detailType) {
+    case 'Einwohner':
+    case 'Fläche':
+    case 'Wohneinheiten':
+      return 'number';
+    default:
+      return 'string';
+  }
+}
+
 export function EditDetail({ detailInput, availableDetailTypes, settlementId, onUpdate, ...rest }: EditDetailProps) {
   const [detail, setCurrentDetail] = useState<Detail | undefined>(detailInput);
   const [detailTypeId, setDetailTypeId] = useState<string | undefined>(detail?.detailType?.id ?? '');
@@ -48,7 +59,7 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, on
     setLoading(false);
   }
 
-  const submitDetail = async (id: string) => {
+  const submitDetail = async (id: string | undefined) => {
     setLoading(true);
     let submitData;
     if (id) {
@@ -116,6 +127,7 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, on
           <label htmlFor="detailDescription">Wert:</label>
           <InputGhost
             id='detailDescription'
+            type={getDescriptionInputType(detail?.detailType.name)}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={detail?.description ?? ''}
             onChange={(event) => updateDetail({ description: event.target.value })} />
@@ -136,7 +148,7 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, on
             type='date'
             id='detailDate'
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
-            value={detail?.detailDate ?? new Date().toDateString()}
+            value={detail?.detailDate}
             onChange={(event) => updateDetail({ detailDate: dateIsValid(event.target.value) ? new Date(new Date(event.target.value).toUTCString()).toISOString() : null })} />
         </div>
         <div className='basis-full'>

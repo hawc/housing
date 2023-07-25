@@ -13,10 +13,19 @@ export interface BaseEventType {
   name: string;
   description: string;
 }
+export interface BaseEvent {
+  id: string;
+  name: string;
+  description: string;
+  source: string;
+  eventDate: string;
+  eventType: EventType;
+}
 export interface Event {
   id: string;
   name: string;
   description: string;
+  source: string;
   eventDate: string;
   eventType: EventType;
 }
@@ -114,13 +123,6 @@ export interface Settlement {
   slug: string;
   description: string;
   tags: Tag[];
-}
-export interface BaseEvent {
-  id: string;
-  name: string;
-  description: string;
-  eventType: EventType;
-  eventDate: string;
 }
 export interface BaseTag {
   id: string;

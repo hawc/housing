@@ -21,14 +21,22 @@ function sortDates(dateA = '0', dateB = '0') {
   return new Date(dateB).getTime() - new Date(dateA).getTime();
 }
 
-export function Timeline({ events, settlementId }: { events: Event[], settlementId: string | null }) {
+export function Timeline({ eventsInput, settlementId }: { eventsInput: Event[], settlementId: string | null }) {
   const [loading, setLoading] = useState<boolean>(false);
   const [availableEventTypes, setAvailableEventTypes] = useState<EventType[]>([]);
+  const [events, setEvents] = useState<Event[]>(eventsInput);
 
   const getAvailableEventTypes = async () => {
     setLoading(true);
     const eventTypes = (await callAPI({ type: 'getEventTypes' }));
     setAvailableEventTypes(eventTypes);
+    setLoading(false);
+  }
+
+  const getEvents = async () => {
+    setLoading(true);
+    const events = (await callAPI({ type: 'getEvents', payload: { where: { settlementId } } }));
+    setEvents(events);
     setLoading(false);
   }
 
@@ -38,13 +46,22 @@ export function Timeline({ events, settlementId }: { events: Event[], settlement
 
   return (
     <TimelineWrapper className={loading ? 'transition-filter pointer-events-none blur-sm' : 'transition-filter'}>
-      {events.filter((event: Event) => event.eventDate !== null).sort((eventA: Event, eventB: Event) => sortDates(eventA.eventDate, eventB.eventDate)).map((event: Event, index: number) => (
-        <EventComponent settlementId={settlementId} availableEventTypes={availableEventTypes} key={event.id} eventInput={event} hasConnector={index < events.length - 1} />
+      {events?.sort((eventA: Event, eventB: Event) => sortDates(eventA.eventDate, eventB.eventDate)).map((event: Event) => (
+        <div key={event.id}>
+          <EventComponent
+            settlementId={settlementId}
+            availableEventTypes={availableEventTypes}
+            eventInput={event}
+            onUpdate={getEvents} />
+          <hr className='mb-4 mt-6 border' />
+        </div>
       ))}
-      {events.filter((event: Event) => event.eventDate === null).map((event: Event) => (
-        <EventComponent settlementId={settlementId} availableEventTypes={availableEventTypes} key={event.id} eventInput={event} />
-      ))}
-      <EventComponent settlementId={settlementId} availableEventTypes={availableEventTypes} eventInput={undefined} />
+      <EventComponent
+        key={events?.length}
+        settlementId={settlementId}
+        availableEventTypes={availableEventTypes}
+        eventInput={undefined}
+        onUpdate={getEvents} />
     </TimelineWrapper>
   );
 }

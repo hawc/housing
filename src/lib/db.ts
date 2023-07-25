@@ -85,6 +85,7 @@ const eventsSelect = Prisma.validator<Prisma.EventsSelect>()({
   id: true,
   name: true,
   description: true,
+  source: true,
   eventDate: true,
   eventType: {
     select: eventTypesSelect
@@ -209,13 +210,13 @@ const settlementsInclude = Prisma.validator<Prisma.SettlementsInclude>()({
   details: {
     select: detailsSelect,
     where: {
-      published: true,
+      published: true
     }
   },
   resources: {
     select: resourcesSelect,
     where: {
-      published: true,
+      published: true
     }
   },
   tags: {
@@ -227,7 +228,7 @@ const settlementsInclude = Prisma.validator<Prisma.SettlementsInclude>()({
   events: {
     select: eventsSelect,
     where: {
-      published: true,
+      published: true
     }
   },
   location: {
@@ -277,7 +278,7 @@ export async function updateLocation(
   const updateData = data.data;
   return await prisma.locations.update({
     where: {
-      id: data.where.id,
+      id: data.where.id
     },
     data: {
       ...updateData
@@ -292,7 +293,7 @@ export async function createArchitect(
   return await prisma.architects.create({
     data: {
       name: data.data.name,
-      slug: data.data.slug,
+      slug: data.data.slug
     },
     include: architectsInclude
   });
@@ -318,7 +319,7 @@ export async function deleteArchitect(
 ) {
   return await prisma.architects.update({
     where: {
-      id: data.where.id,
+      id: data.where.id
     },
     data: {
       published: false
@@ -395,7 +396,7 @@ export async function addSettlementOnTag(
   return await prisma.settlementsOnTags.create({
     data: {
       tagId: updateData.tagId,
-      settlementId: updateData.settlementId,
+      settlementId: updateData.settlementId
     },
     include: settlementsOnTagsInclude
   });
@@ -408,7 +409,7 @@ export async function addSettlementOnArchitect(
   return await prisma.settlementsOnArchitects.create({
     data: {
       architectId: updateData.architectId,
-      settlementId: updateData.settlementId,
+      settlementId: updateData.settlementId
     },
     include: settlementsOnArchitectsInclude
   });
@@ -424,14 +425,14 @@ export async function findArchitect(
   if (data.where.slug) {
     return await prisma.architects.findUnique({
       where: {
-        slug: data.where.slug,
+        slug: data.where.slug
       },
       include: architectsInclude
     });
   }
   return await prisma.architects.findUnique({
     where: {
-      id: data.where.id,
+      id: data.where.id
     },
     include: architectsInclude
   });
@@ -445,7 +446,7 @@ export async function findArchitects(
       return await prisma.architects.findMany({
         where: {
           slug: data.where.slug,
-          published: true,
+          published: true
         },
         include: architectsInclude
       });
@@ -453,14 +454,14 @@ export async function findArchitects(
     return await prisma.architects.findMany({
       where: {
         id: data.where.id,
-        published: true,
+        published: true
       },
       include: architectsInclude
     });
   }
   return await prisma.architects.findMany({
     where: {
-      published: true,
+      published: true
     },
     include: architectsInclude
   });
@@ -488,7 +489,7 @@ export async function findSettlement(
 export async function findSettlements() {
   return await prisma.settlements.findMany({
     where: {
-      published: true,
+      published: true
     },
     include: settlementsInclude
   });
@@ -497,7 +498,7 @@ export async function findSettlements() {
 export async function findLocations() {
   return await prisma.locations.findMany({
     where: {
-      published: true,
+      published: true
     },
     include: locationsInclude
   });
@@ -510,7 +511,7 @@ export async function createTag(
   return await prisma.tags.create({
     data: {
       name: updateData.name,
-      description: updateData.description,
+      description: updateData.description
     },
   });
 }
@@ -539,16 +540,21 @@ export async function findEvent(
 export async function findEvents(
   data: Prisma.EventsFindManyArgs
 ) {
-  if (data?.where) {
+  if (data?.where?.settlementId) {
     return await prisma.events.findMany({
       where: {
-        id: data.where.id,
         published: true,
-      }
+        settlementId: data.where.settlementId
+      },
+      include: eventsInclude
     });
-
   }
-  return await prisma.events.findMany();
+  return await prisma.events.findMany({
+    where: {
+      published: true
+    },
+    include: eventsInclude
+  });
 }
 
 export async function createEvent(
@@ -559,6 +565,7 @@ export async function createEvent(
     data: {
       name: updateData.name,
       description: updateData.description,
+      source: updateData.source,
       eventTypeId: updateData.eventTypeId,
       settlementId: updateData.settlementId
     },
@@ -587,7 +594,7 @@ export async function findEventTypes(
   if (data?.where) {
     return await prisma.eventTypes.findMany({
       where: {
-        published: true,
+        published: true
       }
     });
   }
@@ -599,7 +606,7 @@ export async function findResource(
 ) {
   return await prisma.resources.findUnique({
     where: {
-      id: data.where.id,
+      id: data.where.id
     },
     include: resourcesInclude
   });
@@ -619,7 +626,7 @@ export async function findResources(
   }
   return await prisma.resources.findMany({
     where: {
-      published: true,
+      published: true
     },
     include: resourcesInclude
   });
@@ -672,7 +679,7 @@ export async function findResourceTypes(
   }
   return await prisma.resourceTypes.findMany({
     where: {
-      published: true,
+      published: true
     },
   });
 }
@@ -682,7 +689,7 @@ export async function findDetail(
 ) {
   return await prisma.details.findUnique({
     where: {
-      id: data.where.id,
+      id: data.where.id
     },
     include: detailsInclude
   });
@@ -702,7 +709,7 @@ export async function findDetails(
   }
   return await prisma.details.findMany({
     where: {
-      published: true,
+      published: true
     },
     include: detailsInclude
   });
@@ -714,13 +721,13 @@ export async function findDetailTypes(
   if (data?.where) {
     return await prisma.detailTypes.findMany({
       where: {
-        published: true,
+        published: true
       }
     });
   }
   return await prisma.detailTypes.findMany({
     where: {
-      published: true,
+      published: true
     },
   });
 }
@@ -761,7 +768,7 @@ export async function updateDetail(
 export async function findTags() {
   return await prisma.tags.findMany({
     where: {
-      published: true,
+      published: true
     },
     include: tagsInclude
   });
@@ -770,7 +777,7 @@ export async function findTags() {
 export async function flushCache() {
   await prisma.tags.upsert({
     where: {
-      name: 'flush',
+      name: 'flush'
     },
     update: {
       published: false
