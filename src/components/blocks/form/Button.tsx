@@ -6,7 +6,7 @@ interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   ghost?: boolean;
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset';
-  onClick?: (...args: any[]) => void | Promise<void>;
+  onClick?: (...args: unknown[]) => void | Promise<void>;
 }
 
 export function Button({ children, className = '', type = 'button', onClick = () => { return }, disabled = false, ghost = false, ...rest }: ButtonProps) {

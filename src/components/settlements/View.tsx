@@ -16,11 +16,14 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
     ssr: false
   });
 
+  const photoResources = settlement?.resources?.filter(resource => resource.resourceType.name === 'Foto');
+  const otherResources = settlement?.resources?.filter(resource => resource.resourceType.name !== 'Foto');
+
   return (
     <>
       <Box ghost>
         <div className='flex mt-6'>
-          <Headline type="h1" className='inline-block'>{settlement.name}</Headline>
+          <Headline type='h1' className='inline-block'>{settlement.name}</Headline>
           <div className='flex items-start'>
             {settlement.tags.length > 0 && (
               <TagList className='ml-2' tags={settlement.tags} />
@@ -40,7 +43,7 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
           </Container>
         )}
         {(settlement.events.length > 0 || settlement.details.length > 0) && (
-          <Container cols="grid-cols-1 md:grid-cols-2">
+          <Container className='grid-cols-1 md:grid-cols-2'>
             <>
               {settlement.events.length > 0 && (
                 <Box>
@@ -78,11 +81,35 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
             </Box>
           </Container>
         )}
-        {settlement.resources.length > 0 && (
-          <Container cols='md:grid-cols-2'>
+        {otherResources?.length > 0 && (
+          <Container>
             <>
-              {settlement.resources.filter(resource => resource.resourceType.name === 'Foto').map((resource) => (
-                <Box key={resource.id} className="py-3 md:p-0 h-60 lg:h-96 justify-between">
+              {otherResources.map((resource) => (
+                <Box key={resource.id} className='py-3'>
+                  <Headline className='inline-block' tag='h2' type='h3'>
+                    {resource.name}
+                  </Headline>
+                  <div className=''>
+                    {resource.description}
+                  </div>
+                  {resource.url && (
+                    <LinkElement href={resource.url}>
+                      {resource.url}
+                    </LinkElement>
+                  )}
+                  {resource.source && (
+                    <>Quelle: {resource.source}</>
+                  )}
+                </Box>
+              ))}
+            </>
+          </Container>
+        )}
+        {photoResources?.length > 0 && (
+          <Container className='md:grid-cols-2'>
+            <>
+              {photoResources.map((resource) => (
+                <Box key={resource.id} className='py-3 md:p-0 h-60 lg:h-96 justify-between'>
                   <div className='bg-grey-light grow flex items-center overflow-hidden mb-1 md:mb-0'>
                     <img src={resource.url} alt={resource.description} loading='lazy' />
                   </div>
@@ -105,7 +132,7 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
             </Container>
           )}
         </>
-      </Container>
+      </Container >
     </>
   );
 }

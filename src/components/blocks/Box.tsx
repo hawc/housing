@@ -8,7 +8,6 @@ interface BoxProps extends React.HTMLAttributes<HTMLElement> {
 
 interface ContainerProps extends React.HTMLAttributes<HTMLElement> {
   children: React.ReactNode;
-  cols?: string;
 }
 
 export function Box({ children, ghost = false, highlighted = false, ...rest }: BoxProps): React.ReactElement {
@@ -19,9 +18,9 @@ export function Box({ children, ghost = false, highlighted = false, ...rest }: B
   );
 }
 
-export function Container({ children, cols = 'grid-cols-1', ...rest }: ContainerProps): React.ReactElement {
+export function Container({ children, className = '', ...rest }: ContainerProps): React.ReactElement {
   return (
-    <div className={twMerge(`grid ${cols} ${rest.className}`)}>
+    <div className={twMerge(`grid grid-cols-1 ${className}`)} {...rest}>
       {children}
     </div>
   );

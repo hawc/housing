@@ -100,7 +100,7 @@ export function ArchitectEdit({ architectInput }: { architectInput: Architect })
             </div>
           </Box>
         </Container>
-        <Container cols='md:grid-cols-3'>
+        <Container className='md:grid-cols-3'>
           <Box>
             <Button onClick={() => submitData(architect)} disabled={loading || !architect?.name}>
               <>

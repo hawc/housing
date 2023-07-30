@@ -129,7 +129,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
         </Container>
         {settlement?.id && (
           <>
-            <Container cols='grid-cols-1 md:grid-cols-2'>
+            <Container className='grid-cols-1 md:grid-cols-2'>
               <Box>
                 <Headline className='inline-block' tag='h2' type='h3'>Historie</Headline>
                 <Timeline
@@ -141,7 +141,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
                 <DetailsList detailsInput={settlement?.details ?? []} settlementId={settlement?.id} />
               </Box>
             </Container>
-            <Container cols='md:grid-cols-2'>
+            <Container className='md:grid-cols-2'>
               <Box>
                 <>
                   <Headline className='inline-block' tag='h2' type='h3'>
@@ -180,7 +180,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
             </>
           </>
         )}
-        <Container cols='md:grid-cols-3'>
+        <Container className='md:grid-cols-3'>
           <Box>
             <Button onClick={submitData} disabled={loading || !(settlement?.name)}>
               <>

@@ -108,7 +108,7 @@ export function ListTags({ tagsInput }: { tagsInput: BaseTag[] }) {
           </div>
         </div>
       </Box>
-      <Container cols='grid-cols-2'>
+      <Container className='grid-cols-2'>
         <>
           {sortAlphabetically(tags).map((tag: BaseTag) => (
             <Box key={tag.id}>

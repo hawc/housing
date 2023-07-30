@@ -566,6 +566,7 @@ export async function createEvent(
       name: updateData.name,
       description: updateData.description,
       source: updateData.source,
+      eventDate: updateData.eventDate,
       eventTypeId: updateData.eventTypeId,
       settlementId: updateData.settlementId
     },
