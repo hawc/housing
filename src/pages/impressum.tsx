@@ -4,11 +4,12 @@ import { Box, Container } from '@/components/blocks/Box';
 import { Link } from '@/components/blocks/Link';
 import { Headline } from '@/components/Headline';
 import Layout from '@/components/layout/Layout';
+import Seo from '@/components/Seo';
 
 export default function Impressum() {
   return (
     <Layout>
-      {/* <Seo templateTitle='Home' /> */}
+      <Seo templateTitle='Impressum' />
       <section>
         <Container>
           <Box>

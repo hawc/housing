@@ -2,6 +2,7 @@
 import { findLocations, findSettlements } from '@/lib/db';
 
 import Layout from '@/components/layout/Layout';
+import Seo from '@/components/Seo';
 import { ListSettlements } from '@/components/settlements/List';
 
 import { BaseLocation, BaseSettlement } from '@/pages/admin';
@@ -22,6 +23,7 @@ export async function getStaticProps(): Promise<{ props: { settlements: BaseSett
 export default function Settlements({ settlements, locations }: { settlements: BaseSettlement[], locations: BaseLocation[] }) {
   return (
     <Layout>
+      <Seo templateTitle='Siedlungen' />
       <section>
         <ListSettlements settlementsInput={settlements} locationsInput={locations} />
       </section>

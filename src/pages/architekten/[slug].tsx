@@ -5,6 +5,7 @@ import { findArchitect, findArchitects } from '@/lib/db';
 
 import { Architect } from '@/components/architects/View';
 import Layout from '@/components/layout/Layout';
+import Seo from '@/components/Seo';
 
 import type { BaseArchitect } from '@/pages/admin';
 import { baseTransformers } from '@/pages/api/db';
@@ -35,6 +36,7 @@ export async function getStaticProps({ params }: { params: { slug: string } }): 
 export default function ArchitectPage({ architect }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <Layout>
+      {architect && <Seo templateTitle={architect.name} />}
       <section>
         {architect && (
           <Architect architect={architect} />

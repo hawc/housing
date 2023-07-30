@@ -4,6 +4,7 @@ import { InferGetStaticPropsType } from 'next';
 import { findSettlement, findSettlements } from '@/lib/db';
 
 import Layout from '@/components/layout/Layout';
+import Seo from '@/components/Seo';
 import { Settlement } from '@/components/settlements/View';
 
 import type { BaseSettlement } from '@/pages/admin';
@@ -34,6 +35,7 @@ export async function getStaticProps({ params }: { params: { slug: string } }): 
 export default function SettlementPage({ settlement }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <Layout>
+      {settlement && <Seo templateTitle={settlement.name} />}
       <section>
         {settlement && (
           <Settlement settlement={settlement} />

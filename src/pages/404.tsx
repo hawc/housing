@@ -10,7 +10,7 @@ import Seo from '@/components/Seo';
 export default function NotFoundPage() {
   return (
     <Layout>
-      <Seo templateTitle='Not Found' />
+      <Seo templateTitle='Seite nicht gefunden' />
       <main>
         <section>
           <Container>

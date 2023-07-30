@@ -2,6 +2,7 @@ import { findArchitects } from '@/lib/db';
 
 import { ListArchitects } from '@/components/architects/List';
 import Layout from '@/components/layout/Layout';
+import Seo from '@/components/Seo';
 
 import { BaseArchitect } from '@/pages/admin';
 import { baseTransformers } from '@/pages/api/db';
@@ -20,6 +21,7 @@ export async function getStaticProps(): Promise<{ props: { architects: BaseArchi
 export default function Architects({ architects }: { architects: BaseArchitect[] }) {
   return (
     <Layout>
+      <Seo templateTitle='Architekten' />
       <section>
         <ListArchitects architectsInput={architects} />
       </section>
