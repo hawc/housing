@@ -2,8 +2,8 @@ import { PlusIcon, XIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import { callAPI } from '@/lib/api';
+import { sortAlphabetically } from '@/lib/utils';
 
-import { sortAlphabetically } from '@/components/admin/tags/List';
 import { Button } from '@/components/blocks/form/Button';
 import { Select } from '@/components/blocks/form/Select';
 
@@ -89,7 +89,6 @@ export function TagList({ existingTags, settlementId, className = '', getSettlem
     setLoading(false);
   }
 
-
   const getAvailableTags = async () => {
     setLoading(true);
     const tags = (await callAPI({ type: 'getTags' })).filter((tag: Tag) => !existingTags.map(existingTag => existingTag.id).includes(tag.id));
@@ -103,7 +102,7 @@ export function TagList({ existingTags, settlementId, className = '', getSettlem
 
   return (
     <ul className={`inline-flex ${className}`}>
-      {sortAlphabetically(existingTags).map((tag) => (
+      {sortAlphabetically(existingTags).map((tag: Tag) => (
         <TagItem onClick={() => removeTag(tag)} key={tag.id} tag={tag} />
       ))}
       {!loading && availableTags.length > 0 && (

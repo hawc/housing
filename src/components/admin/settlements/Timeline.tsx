@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 import { callAPI } from '@/lib/api';
+import { sortByDate } from '@/lib/utils';
 
 import { Event as EventComponent } from '@/components/admin/settlements/Event';
 
@@ -15,10 +16,6 @@ function TimelineWrapper({ children, className = '' }: React.HTMLAttributes<HTML
       {children}
     </ul>
   )
-}
-
-function sortDates(dateA = '0', dateB = '0') {
-  return new Date(dateB).getTime() - new Date(dateA).getTime();
 }
 
 export function Timeline({ eventsInput, settlementId }: { eventsInput: Event[], settlementId: string | null }) {
@@ -46,7 +43,7 @@ export function Timeline({ eventsInput, settlementId }: { eventsInput: Event[], 
 
   return (
     <TimelineWrapper className={loading ? 'transition-filter pointer-events-none blur-sm' : 'transition-filter'}>
-      {events?.sort((eventA: Event, eventB: Event) => sortDates(eventA.eventDate, eventB.eventDate)).map((event: Event) => (
+      {events && sortByDate(events).map((event: Event) => (
         <div key={event.id}>
           <EventComponent
             settlementId={settlementId}

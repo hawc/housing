@@ -2,6 +2,7 @@ import { XIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import { callAPI } from '@/lib/api';
+import { sortAlphabetically } from '@/lib/utils';
 
 import { Button } from '@/components/blocks/form/Button';
 import { Select } from '@/components/blocks/form/Select';
@@ -86,7 +87,7 @@ export function ArchitectsList({ architects, settlementId, getSettlement }: Arch
   return (
     <div className={`grid gap-4 transition-filter ${loading ? 'blur-sm pointer-events-none' : ''}`}>
       <div>
-        {architects?.map((architect: Architect) => (
+        {architects && sortAlphabetically(architects).map((architect: Architect) => (
           <ArchitectsItem
             removeArchitect={removeArchitect}
             key={architect.id}

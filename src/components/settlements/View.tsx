@@ -2,6 +2,8 @@ import { ArrowLeftIcon } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
+import { sortAlphabetically } from '@/lib/utils';
+
 import { Box, Container } from '@/components/blocks/Box';
 import { DetailsList } from '@/components/blocks/DetailsList';
 import { Link as LinkElement } from '@/components/blocks/Link';
@@ -68,7 +70,7 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
                 <Headline className='inline-block' tag='h2' type='h3'>
                   {settlement.architects.length > 1 ? 'Architekten' : 'Architekt'}
                 </Headline>
-                {settlement.architects.map((architect: Architect) => (
+                {sortAlphabetically(settlement.architects).map((architect: Architect) => (
                   <div key={architect.id}>
                     {architect.description.length > 0 ? (
                       <LinkElement href={`/architekten/${architect.slug}`} arrow>{architect.name}</LinkElement>
@@ -89,7 +91,7 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
                   <Headline className='inline-block' tag='h2' type='h3'>
                     {resource.name}
                   </Headline>
-                  <div className=''>
+                  <div>
                     {resource.description}
                   </div>
                   {resource.url && (

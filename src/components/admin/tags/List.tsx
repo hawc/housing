@@ -2,6 +2,7 @@ import { Loader2Icon, RotateCwIcon, XIcon } from 'lucide-react';
 import { useState } from 'react';
 
 import { callAPI } from '@/lib/api';
+import { sortAlphabetically } from '@/lib/utils';
 
 import { Box, Container } from '@/components/blocks/Box';
 import { Button } from '@/components/blocks/form/Button';
@@ -78,10 +79,6 @@ export function EditTag({ tag, getTags }: { tag: BaseTag, getTags: () => Promise
       <TextareaGhost value={tag.description} onChange={(e) => updateTag({ description: e.description })} />
     </>
   );
-}
-
-export function sortAlphabetically(array) {
-  return array.sort((a, b) => a.name.localeCompare(b.name));
 }
 
 export function ListTags({ tagsInput }: { tagsInput: BaseTag[] }) {

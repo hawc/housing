@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
+import { sortAlphabetically } from '@/lib/utils';
+
 interface Option {
   id: string;
   name: string;
@@ -34,7 +36,7 @@ export function Select<T>({ value = '', className = '', disabled = false, option
         className={twMerge(`appearance-none inline-block bg-transparent w-full border-none p-0 pr-6 text-inherit max-w-full ${disabled ? 'opacity-50' : ''} ${className}`)}
         {...rest}>
         <option value=''>Bitte auswählen</option>
-        {options.map(option => (
+        {sortAlphabetically(options).map(option => (
           <option key={option.id} value={option.id}>{option.name}</option>
         ))}
       </select>

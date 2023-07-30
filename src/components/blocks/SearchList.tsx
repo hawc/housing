@@ -1,7 +1,8 @@
 import slugify from 'slugify';
 import { twMerge } from 'tailwind-merge';
 
-import { sortAlphabetically } from '@/components/admin/tags/List';
+import { sortAlphabetically } from '@/lib/utils';
+
 import { InputGhost } from '@/components/blocks/form/Input';
 import { Link } from '@/components/blocks/Link';
 import { List, ListItem } from '@/components/blocks/List';

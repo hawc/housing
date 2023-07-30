@@ -22,7 +22,7 @@ export function DetailsList({ details }: DetailsListProps) {
       {details.map((detail: Detail) => (
         <dl className='grid grid-cols-2' key={detail.id}>
           <dt>{detail.name}:</dt>
-          <dd>{formatDetail(detail.description, detail.detailType?.name)}</dd>
+          <dd>{formatDetail(detail.description, detail.detailType?.name)} {detail.annotation && <>({detail.annotation})</>}</dd>
         </dl>
       ))}
     </div>

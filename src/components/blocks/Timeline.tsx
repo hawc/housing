@@ -3,6 +3,8 @@
 
 import { BuildingIcon, CircleDotDashedIcon, HomeIcon } from 'lucide-react';
 
+import { sortByDate } from '@/lib/utils';
+
 import { Headline } from '@/components/Headline';
 
 import { Event } from '@/pages/admin';
@@ -65,7 +67,7 @@ function TimelineConnector() {
 export function Timeline({ events }: { events: Event[] }) {
   return (
     <TimelineWrapper>
-      {events.filter((event: Event) => event.eventDate !== null).sort((eventA: Event, eventB: Event) => new Date(eventB.eventDate ?? 0).getTime() - new Date(eventA.eventDate ?? 0).getTime()).map((event: Event, index: number) => (
+      {sortByDate(events).map((event: Event, index: number) => (
         <TimelineItem key={index}>
           {index < events.length - 1 && (
             <TimelineConnector />
