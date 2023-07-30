@@ -57,7 +57,9 @@ export function ListSettlements({ settlementsInput, locationsInput }: { settleme
           )}
         </div>
       </Box>
-      <SettlementsMap locationsInput={locationsInput} searchTerm={searchTerm} />
+      <Box className='p-0 md:p-0'>
+        <SettlementsMap locationsInput={locationsInput} searchTerm={searchTerm} />
+      </Box>
     </>
   );
 }

@@ -6,8 +6,8 @@ interface DetailsListProps extends React.HTMLAttributes<HTMLElement> {
 
 function formatDetail(detailText: string, type: string): string {
   switch (type) {
-    case 'Fläche':
-      return `${parseFloat(detailText).toLocaleString()}`;
+    case 'Fläche (in km²)':
+      return `${parseFloat(detailText).toLocaleString()} km²`;
     case 'Einwohner':
     case 'Wohneinheiten':
       return parseInt(detailText).toLocaleString();

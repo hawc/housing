@@ -20,7 +20,7 @@ interface EditDetailProps extends React.HTMLAttributes<HTMLElement> {
 function getDescriptionInputType(detailType) {
   switch (detailType) {
     case 'Einwohner':
-    case 'Fläche':
+    case 'Fläche (in km²)':
     case 'Wohneinheiten':
       return 'number';
     default:
