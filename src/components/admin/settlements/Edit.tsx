@@ -52,7 +52,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
           where: { id: settlement.id }
         }
       });
-      await getSettlement();
+      await getSettlement(settlement.id);
     } else {
       const response = await (callAPI({
         type: 'addSettlement',
@@ -69,10 +69,10 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
     setLoading(false);
   }
 
-  const getSettlement = async (id?: string) => {
+  const getSettlement = async (id: string) => {
     setLoading(true);
     if (id || settlement.id) {
-      setSettlement(await callAPI({ type: 'getSettlement', payload: { where: { id: id ?? settlement.id } } }));
+      setSettlement(await callAPI({ type: 'getSettlement', payload: { where: { id } } }));
     }
     setLoading(false);
   }
@@ -110,7 +110,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
                   <TagList
                     key={Object.keys(settlement.tags).length}
                     className='ml-2'
-                    getSettlement={getSettlement}
+                    getSettlement={() => getSettlement(settlement.id)}
                     existingTags={settlement.tags}
                     settlementId={settlement?.id} />
                 )
@@ -149,7 +149,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
                   </Headline>
                   <ArchitectsList
                     key={Object.keys(settlement?.architects ?? {}).length}
-                    getSettlement={getSettlement}
+                    getSettlement={() => getSettlement(settlement.id)}
                     architects={settlement?.architects}
                     settlementId={settlement?.id} />
                 </>
@@ -175,23 +175,32 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
                 </Container>
               )}
               <Box>
-                <Location settlementId={settlement?.id} locationInput={settlement?.location} onUpdate={getSettlement} />
+                <Location settlementId={settlement?.id} locationInput={settlement?.location} onUpdate={() => getSettlement(settlement.id)} />
               </Box>
             </>
           </>
         )}
         <Container cols='md:grid-cols-3'>
           <Box>
-            <Button onClick={submitData} disabled={loading || !(settlement?.name)}><>Speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</></Button>
+            <Button onClick={submitData} disabled={loading || !(settlement?.name)}>
+              <>
+                Speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}
+              </>
+            </Button>
           </Box>
           <Box>
-            <Link href='/admin/siedlungen' className='inline-block py-1 px-3 text-center border border-text'>Abbrechen</Link>
+            <Link href='/admin/siedlungen' className='inline-block py-1 px-3 text-center border border-text'>
+              Abbrechen
+            </Link>
           </Box>
           <Box>
             <Button className='bg-text text-bg border border-text'
               onClick={() => deleteSettlement(settlement?.id)}
-              disabled={loading || !(settlement?.id)}><>Löschen
-                {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
+              disabled={loading || !(settlement?.id)}>
+              <>
+                Löschen
+                {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}
+              </>
             </Button>
           </Box>
         </Container>

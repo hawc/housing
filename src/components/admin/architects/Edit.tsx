@@ -2,6 +2,7 @@ import { ArrowLeftIcon, Loader2Icon } from 'lucide-react';
 import Link from 'next/link';
 import router from 'next/router';
 import { useState } from 'react';
+import slugify from 'slugify';
 
 import { callAPI } from '@/lib/api';
 
@@ -47,7 +48,7 @@ export function ArchitectEdit({ architectInput }: { architectInput: Architect })
           where: { id: architect.id }
         }
       });
-      await getArchitect();
+      await getArchitect(architect.id);
     } else {
       const response = await callAPI({
         type: 'addArchitect',
@@ -58,17 +59,16 @@ export function ArchitectEdit({ architectInput }: { architectInput: Architect })
           },
         }
       });
-      if (response) {
-        setArchitect(response);
-      }
+      await getArchitect(response?.id);
+      router.push(`/admin/architekten/${slugify(architect.name, { lower: true, locale: 'de' })}`)
     }
     setLoading(false);
   }
 
-  const getArchitect = async () => {
+  const getArchitect = async (id: string) => {
     setLoading(true);
     if (architect.id) {
-      setArchitect(await callAPI({ type: 'getArchitect', payload: { where: { id: architect.id } } }));
+      setArchitect(await callAPI({ type: 'getArchitect', payload: { where: { id } } }));
     }
     setLoading(false);
   }
@@ -100,18 +100,25 @@ export function ArchitectEdit({ architectInput }: { architectInput: Architect })
             </div>
           </Box>
         </Container>
-        <Container cols='grid-cols-2'>
-          <Button onClick={() => submitData(architect)} disabled={loading || !architect?.name}>
-            <>
-              Speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}
-            </>
-          </Button>
-          <Button onClick={() => deleteArchitect(architect.id)} disabled={loading || !(architect?.id)}>
-            <>
-              Löschen {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}
-            </>
-          </Button>
-          <LinkElement href='/admin/architekten' className='inline-block py-1 px-3 text-center'>Abbrechen</LinkElement>
+        <Container cols='md:grid-cols-3'>
+          <Box>
+            <Button onClick={() => submitData(architect)} disabled={loading || !architect?.name}>
+              <>
+                Speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}
+              </>
+            </Button>
+          </Box>
+          <Box>
+            <LinkElement href='/admin/architekten' className='inline-block py-1 px-3 text-center border border-text'>Abbrechen</LinkElement>          </Box>
+          <Box>
+            <Button
+              className='bg-text text-bg border border-text'
+              onClick={() => deleteArchitect(architect.id)} disabled={loading || !(architect?.id)}>
+              <>
+                Löschen {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}
+              </>
+            </Button>
+          </Box>
         </Container>
       </Container>
     </>
