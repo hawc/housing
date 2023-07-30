@@ -85,7 +85,7 @@ export function ArchitectEdit({ architectInput }: { architectInput: Architect })
           </Headline>
           <div>
             <Link className='block ml-3 p-2 rounded-full bg-highlight' href='/admin/architekten'>
-              <ArrowLeftIcon className={`align-text-bottom ${loading && 'animate-spin'}`} size={15} />
+              <ArrowLeftIcon className="align-text-bottom" size={15} />
             </Link>
           </div>
         </div>
@@ -101,9 +101,17 @@ export function ArchitectEdit({ architectInput }: { architectInput: Architect })
           </Box>
         </Container>
         <Container cols='grid-cols-2'>
-          <Button onClick={() => submitData(architect)} disabled={loading || !architect?.name}><>Speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</></Button>
-          <Button onClick={() => deleteArchitect(architect.id)} disabled={loading || !(architect?.id)}><>Löschen {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</></Button>
-          <LinkElement href="/admin/architekten" className='inline-block py-1 px-3 text-center'>Abbrechen</LinkElement>
+          <Button onClick={() => submitData(architect)} disabled={loading || !architect?.name}>
+            <>
+              Speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}
+            </>
+          </Button>
+          <Button onClick={() => deleteArchitect(architect.id)} disabled={loading || !(architect?.id)}>
+            <>
+              Löschen {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}
+            </>
+          </Button>
+          <LinkElement href='/admin/architekten' className='inline-block py-1 px-3 text-center'>Abbrechen</LinkElement>
         </Container>
       </Container>
     </>

@@ -127,7 +127,7 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, on
           <label htmlFor="detailDescription">Wert:</label>
           <InputGhost
             id='detailDescription'
-            type={getDescriptionInputType(detail?.detailType.name)}
+            type={getDescriptionInputType(detail?.detailType?.name)}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={detail?.description ?? ''}
             onChange={(event) => updateDetail({ description: event.target.value })} />

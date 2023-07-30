@@ -96,7 +96,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
           </Headline>
           <div>
             <Link className='block ml-3 p-2 rounded-full bg-highlight' href='/admin/siedlungen'>
-              <ArrowLeftIcon className={`align-text-bottom ${loading && 'animate-spin'}`} size={15} />
+              <ArrowLeftIcon className="align-text-bottom" size={15} />
             </Link>
           </div>
           {settlement?.id && (
@@ -129,7 +129,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
         </Container>
         {settlement?.id && (
           <>
-            <Container cols="grid-cols-1 md:grid-cols-2">
+            <Container cols='grid-cols-1 md:grid-cols-2'>
               <Box>
                 <Headline className='inline-block' tag='h2' type='h3'>Historie</Headline>
                 <Timeline
