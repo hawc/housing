@@ -134,7 +134,7 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
             </Container>
           )}
         </>
-      </Container >
+      </Container>
     </>
   );
 }

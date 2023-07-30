@@ -117,6 +117,6 @@ export function ArchitectsList({ architects, settlementId, getSettlement }: Arch
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 }

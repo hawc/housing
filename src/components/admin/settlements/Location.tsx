@@ -103,6 +103,6 @@ export function Location({ locationInput, settlementId, onUpdate, className = ''
           <>Speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
         </Button>
       </div>
-    </div >
+    </div>
   );
 }
