@@ -36,7 +36,7 @@ export async function getStaticProps({ params }: { params: { slug: string } }): 
 export default function ArchitectPage({ architect }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <Layout>
-      {architect && <Seo templateTitle={architect.name} />}
+      <Seo templateTitle={architect?.name} />
       <section>
         {architect && (
           <Architect architect={architect} />
