@@ -22,20 +22,23 @@ export default function HomePage() {
           </Box>
           <Box>
             <p>
-              Ein Katalog von Großwohnsiedlungen in Deutschland.
-              Der Fokus liegt dabei auf Tafel- bzw. Plattenbauten, soll aber andere Bauweisen nicht ausschließen.
-              Auch Baudenkmäler des Brutalismus werden als solche gekennzeichnet.
+              Ein Archiv für Großwohnsiedlungen in Deutschland.
             </p>
             <p>
-              Wie 1986 vom Bundesminister für Bauwesen, Raumordnung und Städtebau definiert, werden hier Gebäude gelistet, die den folgenden Kriterien entsprechen:
+              Wie 1986 vom Bundesminister für Bauwesen, Raumordnung und Städtebau definiert,
+              werden hier Siedlungen gelistet, die grob den folgenden Kriterien entsprechen:
             </p>
-            <List className='mt-4'>
+            <List className='my-4'>
               <ListItem>nach 1945 erbaut</ListItem>
               <ListItem>funktional eigenständige Siedlungseinheit</ListItem>
               <ListItem>dichte, hochgeschossige, relativ homogene Bebauung</ListItem>
               <ListItem>mindestens 1000 Wohneinheiten</ListItem>
               <ListItem>überwiegend sozialer Wohnungsbau</ListItem>
             </List>
+            <p>
+              Neben allgemeinen Information zu den gelisteten Großwohnsiedlungen finden sich
+              auf dieser Website auch Informationen über die beteiligten Architekt*innen.
+            </p>
           </Box>
           <Box>
             <StyledLink href='/siedlungen' arrow>Zum Archiv</StyledLink>

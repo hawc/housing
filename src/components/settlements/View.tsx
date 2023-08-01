@@ -116,8 +116,18 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
                     <img src={resource.url} alt={resource.description} loading='lazy' />
                   </div>
                   <div className='md:px-5 pt-2 md:pt-4 md:pb-4'>
-                    {resource.description}
+                    {resource.name}{(resource.name && resource.description ? ', ' : '')}{resource.description}
                   </div>
+                  {resource.source && (
+                    <div className='md:px-5 pt-2 md:pt-0 md:pb-4'>
+                      Quelle: {resource.source}
+                    </div>
+                  )}
+                  {resource.license && (
+                    <div className='md:px-5 pt-2 md:pt-0 md:pb-4'>
+                      Lizenz: {resource.license}
+                    </div>
+                  )}
                 </Box>
               ))}
             </>

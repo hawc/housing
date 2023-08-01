@@ -43,7 +43,7 @@ export function Timeline({ eventsInput, settlementId }: { eventsInput: Event[], 
 
   return (
     <TimelineWrapper className={loading ? 'transition-filter pointer-events-none blur-sm' : 'transition-filter'}>
-      {events && sortByDate(events).map((event: Event) => (
+      {events && sortByDate(events, 'eventDate').map((event: Event) => (
         <div key={event.id}>
           <EventComponent
             settlementId={settlementId}

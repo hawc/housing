@@ -67,7 +67,7 @@ function TimelineConnector() {
 export function Timeline({ events }: { events: Event[] }) {
   return (
     <TimelineWrapper>
-      {sortByDate(events).map((event: Event, index: number) => (
+      {sortByDate(events, 'eventDate').map((event: Event, index: number) => (
         <TimelineItem key={index}>
           {index < events.length - 1 && (
             <TimelineConnector />
