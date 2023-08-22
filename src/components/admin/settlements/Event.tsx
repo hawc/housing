@@ -1,3 +1,5 @@
+'use client';
+
 import { BuildingIcon, CircleDotDashedIcon, HomeIcon, Loader2Icon } from 'lucide-react';
 import { useState } from 'react';
 
@@ -8,7 +10,7 @@ import { InputGhost } from '@/components/blocks/form/Input';
 import { Select } from '@/components/blocks/form/Select';
 import { TextareaGhost } from '@/components/blocks/form/Textarea';
 
-import { Event, EventType } from '@/pages/admin';
+import { Event, EventType } from '@/app/admin/page';
 
 interface EditEventProps extends React.HTMLAttributes<HTMLElement> {
   eventInput: Event | undefined;
@@ -91,7 +93,7 @@ export function Event({ eventInput, availableEventTypes, settlementId, onUpdate 
     setLoading(false);
   }
 
-  const submitEvent = async (id: string | undefined) => {
+  const submitEvent = async (event: Event, id: string | undefined) => {
     setLoading(true);
     let submitData;
     if (id) {
@@ -189,7 +191,7 @@ export function Event({ eventInput, availableEventTypes, settlementId, onUpdate 
           <div className='flex gap-4 flex-col lg:flex-row mt-2'>
             <Button
               className='w-full'
-              onClick={() => submitEvent(event?.id)}
+              onClick={() => event && submitEvent(event, event?.id)}
               disabled={loading || !(event?.name)}><>{event?.id ? 'Speichern' : 'Hinzufügen'}
                 {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
             </Button>

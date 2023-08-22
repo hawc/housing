@@ -1,3 +1,5 @@
+'use client';
+
 import { Loader2Icon } from 'lucide-react';
 import { useState } from 'react';
 
@@ -7,7 +9,7 @@ import { Button } from '@/components/blocks/form/Button';
 import { InputGhost } from '@/components/blocks/form/Input';
 import { Select } from '@/components/blocks/form/Select';
 
-import { Resource, ResourceType } from '@/pages/admin';
+import { Resource, ResourceType } from '@/app/admin/page';
 
 interface EditResourceProps extends React.HTMLAttributes<HTMLElement> {
   resourceInput: Resource | undefined;
@@ -47,7 +49,7 @@ export function EditResource({ resourceInput, availableResourceTypes, settlement
     setLoading(false);
   }
 
-  const submitResource = async (id: string) => {
+  const submitResource = async (resource: Resource, id: string) => {
     setLoading(true);
     let submitData;
     if (id) {
@@ -151,7 +153,7 @@ export function EditResource({ resourceInput, availableResourceTypes, settlement
       <div className='flex gap-4 flex-col lg:flex-row mt-2'>
         <Button
           className='w-full'
-          onClick={() => submitResource(resource?.id)}
+          onClick={() => resource && submitResource(resource, resource?.id)}
           disabled={loading || !(resource?.name)}><>{resource?.id ? 'Speichern' : 'Hinzufügen'}
             {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
         </Button>

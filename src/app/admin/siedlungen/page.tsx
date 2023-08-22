@@ -4,21 +4,17 @@ import LoginPageFrame from '@/components/admin/LoginPageFrame';
 import { ListSettlements } from '@/components/admin/settlements/List';
 import Layout from '@/components/layout/Layout';
 
-import { BaseSettlement } from '@/pages/admin';
-import { baseTransformers } from '@/pages/api/db';
+import { BaseSettlement } from '@/app/admin/page';
+import { baseTransformers } from '@/app/api/db/route';
 
-export async function getStaticProps(): Promise<{ props: { settlements: BaseSettlement[] }, revalidate: number }> {
+async function getSettlements() {
   const settlements: BaseSettlement[] = (await findSettlements()).map(baseTransformers.settlement);
 
-  return {
-    props: {
-      settlements,
-    },
-    revalidate: 10,
-  };
+  return settlements;
 }
 
-export default function Settlements({ settlements }: { settlements: BaseSettlement[] }) {
+export default async function Settlements() {
+  const settlements = await getSettlements();
   return (
     <Layout>
       <LoginPageFrame>

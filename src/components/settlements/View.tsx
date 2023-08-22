@@ -11,7 +11,7 @@ import { TagList } from '@/components/blocks/Tags';
 import { Timeline } from '@/components/blocks/Timeline';
 import { Headline } from '@/components/Headline';
 
-import type { Architect, BaseSettlement, Settlement } from '@/pages/admin';
+import type { Architect, BaseSettlement, Settlement } from '@/app/admin';
 
 export function Settlement({ settlement }: { settlement: BaseSettlement }) {
   const Map = dynamic(() => import('@/components/admin/settlements/Map'), {

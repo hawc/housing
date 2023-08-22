@@ -1,4 +1,4 @@
-import { Detail } from '@/pages/admin';
+import { Detail } from '@/app/admin/page';
 
 interface DetailsListProps extends React.HTMLAttributes<HTMLElement> {
   details: Detail[];

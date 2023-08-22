@@ -1,3 +1,5 @@
+'use client';
+
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { Loader2Icon, LogInIcon, LogOutIcon } from 'lucide-react';
 import Link from 'next/link';

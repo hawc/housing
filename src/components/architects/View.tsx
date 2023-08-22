@@ -1,3 +1,5 @@
+'use client';
+
 import { ArrowLeftIcon } from 'lucide-react';
 import Link from 'next/link';
 
@@ -5,7 +7,7 @@ import { Box, Container } from '@/components/blocks/Box';
 import { Link as LinkElement } from '@/components/blocks/Link';
 import { Headline } from '@/components/Headline';
 
-import type { BaseArchitect } from '@/pages/admin';
+import type { BaseArchitect } from '@/app/admin/page';
 
 export function Architect({ architect }: { architect: BaseArchitect }) {
   return (

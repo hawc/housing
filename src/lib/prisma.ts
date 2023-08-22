@@ -24,7 +24,8 @@
 // }
 
 import { Prisma, PrismaClient } from '@prisma/client';
-import slugify from 'slugify';
+
+import { slugify } from '@/lib/utils';
 
 let prisma: PrismaClient;
 
@@ -53,7 +54,7 @@ const getCreateOrUpdateQuery = (args, query) => {
       ...args,
       data: {
         ...args.data,
-        slug: slugify(getValue(args.data.name) as string, { lower: true, locale: 'de' })
+        slug: slugify(getValue(args.data.name) as string)
       }
     });
   }
@@ -71,11 +72,11 @@ const getUpsertQuery = (args, query) => {
       ...args,
       update: {
         ...args.update,
-        slug: slugify(getValue(args.update.name) as string, { lower: true, locale: 'de' })
+        slug: slugify(getValue(args.update.name) as string)
       },
       create: {
         ...args.create,
-        slug: slugify(args.create.name, { lower: true, locale: 'de' })
+        slug: slugify(args.create.name)
       }
     });
   }

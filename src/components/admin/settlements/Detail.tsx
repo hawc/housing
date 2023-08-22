@@ -1,3 +1,5 @@
+'use client';
+
 import { Loader2Icon } from 'lucide-react';
 import { useState } from 'react';
 
@@ -8,7 +10,7 @@ import { Button } from '@/components/blocks/form/Button';
 import { InputGhost } from '@/components/blocks/form/Input';
 import { Select } from '@/components/blocks/form/Select';
 
-import { Detail, DetailType } from '@/pages/admin';
+import { Detail, DetailType } from '@/app/admin/page';
 
 interface EditDetailProps extends React.HTMLAttributes<HTMLElement> {
   detailInput: Detail | undefined;
@@ -59,7 +61,7 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, on
     setLoading(false);
   }
 
-  const submitDetail = async (id: string | undefined) => {
+  const submitDetail = async (detail: Detail, id: string | undefined) => {
     setLoading(true);
     let submitData;
     if (id) {
@@ -163,7 +165,7 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, on
       <div className='flex gap-4 flex-col lg:flex-row mt-2'>
         <Button
           className='w-full'
-          onClick={() => submitDetail(detail?.id)}
+          onClick={() => detail && submitDetail(detail, detail.id)}
           disabled={loading || !(detail?.name)}><>{detail?.id ? 'Speichern' : 'Hinzufügen'}
             {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
         </Button>

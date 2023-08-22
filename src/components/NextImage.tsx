@@ -1,4 +1,4 @@
-import Image, { ImageProps } from 'next/image';
+import Image, { ImageProps } from 'next/legacy/image';
 import * as React from 'react';
 
 import clsxm from '@/lib/clsxm';
@@ -9,9 +9,9 @@ type NextImageProps = {
   blurClassName?: string;
   alt: string;
 } & (
-  | { width: string | number; height: string | number }
-  | { layout: 'fill'; width?: string | number; height?: string | number }
-) &
+    | { width: string | number; height: string | number }
+    | { layout: 'fill'; width?: string | number; height?: string | number }
+  ) &
   ImageProps;
 
 /**

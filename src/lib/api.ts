@@ -1,7 +1,5 @@
-
 interface Payload {
   type: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   payload?: {
     data?: any;
     where?: any;

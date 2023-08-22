@@ -1,3 +1,5 @@
+'use client';
+
 import { RotateCwIcon } from 'lucide-react';
 import { useState } from 'react';
 
@@ -9,7 +11,7 @@ import { Link } from '@/components/blocks/Link';
 import { SearchInput, SearchList } from '@/components/blocks/SearchList';
 import { Headline } from '@/components/Headline';
 
-import { Architect, BaseArchitect } from '@/pages/admin';
+import { Architect, BaseArchitect } from '@/app/admin/page';
 
 export function ListArchitects({ architectsInput }: { architectsInput: BaseArchitect[] }) {
   const [searchTerm, setSearchTerm] = useState('');

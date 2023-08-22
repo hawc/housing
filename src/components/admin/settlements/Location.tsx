@@ -1,3 +1,5 @@
+'use client';
+
 import { Loader2Icon } from 'lucide-react';
 import { useState } from 'react';
 
@@ -6,7 +8,7 @@ import { callAPI } from '@/lib/api';
 import { Button } from '@/components/blocks/form/Button';
 import { InputGhost } from '@/components/blocks/form/Input';
 
-import { Location } from '@/pages/admin';
+import { Location } from '@/app/admin/page';
 
 export function Location({ locationInput, settlementId, onUpdate, className = '' }: { locationInput: Location | undefined, settlementId: string | undefined, onUpdate: () => any; className?: string }) {
   const [location, setLocation] = useState<Location | undefined>(locationInput);

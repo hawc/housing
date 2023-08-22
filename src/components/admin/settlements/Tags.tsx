@@ -1,3 +1,5 @@
+'use client';
+
 import { PlusIcon, XIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
@@ -7,7 +9,7 @@ import { sortAlphabetically } from '@/lib/utils';
 import { Button } from '@/components/blocks/form/Button';
 import { Select } from '@/components/blocks/form/Select';
 
-import { Tag } from '@/pages/admin';
+import { Tag } from '@/app/admin/page';
 
 function TagItem({ tag, onClick }: { tag: Tag, onClick: (...args: any[]) => void | Promise<void>; }) {
   return (
@@ -42,8 +44,8 @@ function NewTagItem({ availableTags, onAdd }: { availableTags: Tag[], onAdd: (ta
       <Button
         ghost
         className='pl-2'
-        onClick={() => addTag(currentTag)}
-        disabled={!currentTag?.name.length || loading}><PlusIcon size={15} /></Button>
+        onClick={() => currentTag && addTag(currentTag)}
+        disabled={!currentTag?.name?.length || loading}><PlusIcon size={15} /></Button>
     </li>
   );
 }

@@ -1,10 +1,12 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 
 import { callAPI } from '@/lib/api';
 
 import { EditDetail } from '@/components/admin/settlements/Detail';
 
-import { Detail, DetailType } from '@/pages/admin';
+import { Detail, DetailType } from '@/app/admin/page';
 
 interface DetailsListProps extends React.HTMLAttributes<HTMLElement> {
   detailsInput: Detail[];

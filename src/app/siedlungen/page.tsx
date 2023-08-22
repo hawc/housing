@@ -5,22 +5,24 @@ import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
 import { ListSettlements } from '@/components/settlements/List';
 
-import { BaseLocation, BaseSettlement } from '@/pages/admin';
-import { baseTransformers } from '@/pages/api/db';
+import { BaseLocation, BaseSettlement } from '@/app/admin/page';
+import { baseTransformers } from '@/app/api/db/route';
 
-export async function getStaticProps(): Promise<{ props: { settlements: BaseSettlement[], locations: BaseLocation[] } }> {
+async function getSettlements() {
   const settlements: BaseSettlement[] = (await findSettlements()).map(baseTransformers.settlement);
-  const locations: BaseLocation[] = (await findLocations()).map(baseTransformers.location);
 
-  return {
-    props: {
-      settlements,
-      locations,
-    },
-  };
+  return settlements;
 }
 
-export default function Settlements({ settlements, locations }: { settlements: BaseSettlement[], locations: BaseLocation[] }) {
+async function getLocations() {
+  const locations: BaseLocation[] = (await findLocations()).map(baseTransformers.location);
+
+  return locations;
+}
+
+export default async function Settlements() {
+  const settlements = await getSettlements();
+  const locations = await getLocations();
   return (
     <Layout>
       <Seo templateTitle='Siedlungen' />

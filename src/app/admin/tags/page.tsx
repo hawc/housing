@@ -4,21 +4,18 @@ import LoginPageFrame from '@/components/admin/LoginPageFrame';
 import { ListTags } from '@/components/admin/tags/List';
 import Layout from '@/components/layout/Layout';
 
-import { BaseTag } from '@/pages/admin';
-import { baseTransformers } from '@/pages/api/db';
+import { BaseTag } from '@/app/admin/page';
+import { baseTransformers } from '@/app/api/db/route';
 
-export async function getStaticProps(): Promise<{ props: { tags: BaseTag[] }, revalidate: number }> {
+async function getTags() {
   const tags: BaseTag[] = (await findTags()).map(baseTransformers.tag);
 
-  return {
-    props: {
-      tags,
-    },
-    revalidate: 10
-  };
+  return tags;
 }
 
-export default function Admin({ tags }: { tags: BaseTag[] }) {
+export default async function Admin() {
+  const tags = await getTags();
+
   return (
     <Layout>
       <LoginPageFrame>

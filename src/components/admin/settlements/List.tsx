@@ -1,3 +1,5 @@
+'use client';
+
 import { RotateCwIcon } from 'lucide-react';
 import { useState } from 'react';
 
@@ -9,7 +11,7 @@ import { Link } from '@/components/blocks/Link';
 import { SearchInput, SettlementsSearchList } from '@/components/blocks/SearchList';
 import { Headline } from '@/components/Headline';
 
-import { BaseSettlement, Settlement } from '@/pages/admin';
+import { BaseSettlement, Settlement } from '@/app/admin/page';
 
 export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSettlement[] }) {
   const [searchTerm, setSearchTerm] = useState('');

@@ -1,10 +1,12 @@
+'use client';
+
 import router from 'next/router';
 import React from 'react';
 import ReactMapGL, { Marker } from 'react-map-gl';
 
 import { isSettlementFound } from '@/components/blocks/SearchList';
 
-import { BaseLocation, Location } from '@/pages/admin';
+import { BaseLocation, Location } from '@/app/admin/page';
 
 export default function Map({ markers, center, zoom = 12, searchTerm = '' }: { markers: (BaseLocation | Location)[], center: { lat: number, lng: number }, zoom?: number, searchTerm?: string }) {
   return (

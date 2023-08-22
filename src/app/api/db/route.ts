@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 import { addSettlementOnArchitect, addSettlementOnTag, ArchitectsInclude, ArchitectsSelect, createArchitect, createDetail, createEvent, createLocation, createResource, createSettlement, createTag, deleteArchitect, deleteSettlement, deleteTag, DetailsInclude, DetailsSelect, DetailsTypesSelect, DetailTypesInclude, EventsInclude, EventsSelect, EventTypesInclude, EventTypesSelect, findArchitect, findArchitects, findDetail, findDetails, findDetailTypes, findEvent, findEvents, findEventTypes, findResource, findResources, findResourceTypes, findSettlement, findSettlements, findTags, flushCache, LocationsInclude, LocationsSelect, ResourcesInclude, ResourcesSelect, ResourceTypesInclude, ResourceTypesSelect, SettlementsInclude, SettlementsOnArchitectsInclude, SettlementsOnTagsInclude, SettlementsSelect, SettlementTypesSelect, TagsInclude, TagsSelect, updateArchitect, updateDetail, updateEvent, updateLocation, updateResource, updateSettlement, updateTag } from '@/lib/db';
 
-import { Architect, BaseArchitect, BaseDetail, BaseDetailType, BaseEvent, BaseEventType, BaseLocation, BaseResource, BaseResourceType, BaseSettlement, BaseSettlementOnArchitect, BaseSettlementOnTag, BaseTag, Detail, DetailType, Event, EventType, Location, Resource, ResourceType, Settlement, SettlementType, Tag } from '@/pages/admin';
+import { Architect, BaseArchitect, BaseDetail, BaseDetailType, BaseEvent, BaseEventType, BaseLocation, BaseResource, BaseResourceType, BaseSettlement, BaseSettlementOnArchitect, BaseSettlementOnTag, BaseTag, Detail, DetailType, Event, EventType, Location, Resource, ResourceType, Settlement, SettlementType, Tag } from '@/app/admin/page';
 
 export const baseTransformers = {
   location: (location: LocationsInclude): BaseLocation => {
@@ -363,7 +363,7 @@ const resolvers = {
   }
 }
 
-export default async function handle(req: NextApiRequest, res: NextApiResponse) {
+export default async function GET(req: NextApiRequest, res: NextApiResponse) {
   const body = await JSON.parse(req.body);
   const method = body.type as keyof typeof resolvers;
   if (!resolvers[method]) {

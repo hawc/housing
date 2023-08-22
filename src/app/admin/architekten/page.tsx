@@ -4,21 +4,17 @@ import { ListArchitects } from '@/components/admin/architects/List';
 import LoginPageFrame from '@/components/admin/LoginPageFrame';
 import Layout from '@/components/layout/Layout';
 
-import { BaseArchitect } from '@/pages/admin';
-import { baseTransformers } from '@/pages/api/db';
+import { BaseArchitect } from '@/app/admin/page';
+import { baseTransformers } from '@/app/api/db/route';
 
-export async function getStaticProps(): Promise<{ props: { architects: BaseArchitect[] }, revalidate: number }> {
+async function getArchitects() {
   const architects: BaseArchitect[] = (await findArchitects()).map(baseTransformers.architect);
 
-  return {
-    props: {
-      architects,
-    },
-    revalidate: 10
-  };
+  return architects;
 }
 
-export default function Architects({ architects }: { architects: BaseArchitect[] }) {
+export default async function Architects() {
+  const architects = await getArchitects();
   return (
     <Layout>
       <LoginPageFrame>

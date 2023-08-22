@@ -1,13 +1,12 @@
-import slugify from 'slugify';
 import { twMerge } from 'tailwind-merge';
 
-import { sortAlphabetically } from '@/lib/utils';
+import { slugify, sortAlphabetically } from '@/lib/utils';
 
 import { InputGhost } from '@/components/blocks/form/Input';
 import { Link } from '@/components/blocks/Link';
 import { List, ListItem } from '@/components/blocks/List';
 
-import { Location } from '@/pages/admin';
+import { Location } from '@/app/admin/page';
 
 interface SearchListProps extends React.HTMLAttributes<HTMLElement> {
   items: { name: string; slug: string, location?: Location }[];
@@ -22,10 +21,6 @@ interface SearchInputProps extends React.HTMLAttributes<HTMLElement> {
   placeholder?: string;
   loading?: boolean;
   onChange?: (event: any) => void;
-}
-
-export function removeSpaces(string: string) {
-  return slugify(string.toLocaleLowerCase().replace(/\s/g, ''));
 }
 
 function getListOrNull(list: any[]) {
@@ -49,7 +44,7 @@ export function SearchList({ items, path, className = '', searchTerm = '', loadi
   return (
     <div className={className} {...rest}>
       <List className='md:columns-2'>
-        {getListOrNull(sortAlphabetically(items.filter(item => removeSpaces(item.name).includes(removeSpaces(searchTerm)))).map(item => (
+        {getListOrNull(sortAlphabetically(items.filter(item => slugify(item.name).includes(slugify(searchTerm)))).map(item => (
           loading ? (
             <ListItem plain key={item.slug}>
               <Link href='#' className='pointer-events-none'>{item.name}</Link>
@@ -68,7 +63,7 @@ export function SearchList({ items, path, className = '', searchTerm = '', loadi
 }
 
 export function isSettlementFound(name: string, city: string, searchTerm: string) {
-  return removeSpaces(name).includes(removeSpaces(searchTerm)) || removeSpaces(city).includes(removeSpaces(searchTerm));
+  return slugify(name).includes(slugify(searchTerm)) || slugify(city).includes(slugify(searchTerm));
 }
 
 export function SettlementsSearchList({ items, path, className = '', searchTerm = '', loading = false, ...rest }: SearchListProps): React.ReactElement {

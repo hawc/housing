@@ -1,3 +1,5 @@
+'use client';
+
 import { XIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
@@ -7,7 +9,7 @@ import { sortAlphabetically } from '@/lib/utils';
 import { Button } from '@/components/blocks/form/Button';
 import { Select } from '@/components/blocks/form/Select';
 
-import { Architect } from '@/pages/admin';
+import { Architect } from '@/app/admin/page';
 
 interface ArchitectsItemProps extends React.HTMLAttributes<HTMLElement> {
   architect: Architect;

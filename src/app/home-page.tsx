@@ -1,5 +1,10 @@
+'use client'
+
+// This is a Client Component. It receives data as props and
+// has access to state and effects just like Page components
+// in the `pages` directory.
 import { useUser } from '@auth0/nextjs-auth0/client';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import * as React from 'react';
 
 import { Box, Container } from '@/components/blocks/Box';

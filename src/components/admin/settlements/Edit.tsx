@@ -1,11 +1,13 @@
+'use client';
+
 import { ArrowLeftIcon, Loader2Icon } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import slugify from 'slugify';
 
 import { callAPI } from '@/lib/api';
+import { slugify } from '@/lib/utils';
 
 import { ArchitectsList } from '@/components/admin/settlements/Architects';
 import { DetailsList } from '@/components/admin/settlements/Details';
@@ -19,11 +21,11 @@ import { InputGhost } from '@/components/blocks/form/Input';
 import { TextareaGhost } from '@/components/blocks/form/Textarea';
 import { Headline } from '@/components/Headline';
 
-import type { BaseSettlement } from '@/pages/admin';
+import type { BaseSettlement } from '@/app/admin/page';
 
 export type Partial<T> = { [P in keyof T]?: T[P] };
 
-export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettlement | null }) {
+export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettlement }) {
   const router = useRouter();
   const [settlement, setSettlement] = useState<BaseSettlement>(settlementInput);
   const [loading, setLoading] = useState<boolean>(false);
@@ -64,7 +66,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
         }
       }) as Promise<BaseSettlement>);
       await getSettlement(response?.id);
-      router.push(`/admin/siedlungen/${slugify(settlement.name, { lower: true, locale: 'de' })}`)
+      router.push(`/admin/siedlungen/${slugify(settlement.name)}`)
     }
     setLoading(false);
   }
@@ -175,7 +177,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
                 </Container>
               )}
               <Box>
-                <Location settlementId={settlement?.id} locationInput={settlement?.location} onUpdate={() => getSettlement(settlement.id)} />
+                <Location settlementId={settlement?.id} locationInput={settlement?.location ?? undefined} onUpdate={() => getSettlement(settlement.id)} />
               </Box>
             </>
           </>

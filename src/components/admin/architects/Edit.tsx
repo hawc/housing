@@ -1,10 +1,12 @@
+'use client';
+
 import { ArrowLeftIcon, Loader2Icon } from 'lucide-react';
 import Link from 'next/link';
 import router from 'next/router';
 import { useState } from 'react';
-import slugify from 'slugify';
 
 import { callAPI } from '@/lib/api';
+import { slugify } from '@/lib/utils';
 
 import { Box, Container } from '@/components/blocks/Box';
 import { Button } from '@/components/blocks/form/Button';
@@ -13,7 +15,7 @@ import { TextareaGhost } from '@/components/blocks/form/Textarea';
 import { Link as LinkElement } from '@/components/blocks/Link';
 import { Headline } from '@/components/Headline';
 
-import type { Architect, BaseArchitect } from '@/pages/admin';
+import type { Architect, BaseArchitect } from '@/app/admin/page';
 
 export type Partial<T> = { [P in keyof T]?: T[P] };
 
@@ -60,7 +62,7 @@ export function ArchitectEdit({ architectInput }: { architectInput: Architect })
         }
       });
       await getArchitect(response?.id);
-      router.push(`/admin/architekten/${slugify(architect.name, { lower: true, locale: 'de' })}`)
+      router.push(`/admin/architekten/${slugify(architect.name)}`)
     }
     setLoading(false);
   }

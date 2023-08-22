@@ -1,10 +1,12 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 
 import { callAPI } from '@/lib/api';
 
 import { EditResource } from '@/components/admin/settlements/Resource';
 
-import { Resource, ResourceType } from '@/pages/admin';
+import { Resource, ResourceType } from '@/app/admin/page';
 
 interface ResourcesListProps extends React.HTMLAttributes<HTMLElement> {
   resourcesInput: Resource[];
