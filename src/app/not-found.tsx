@@ -1,16 +1,13 @@
-import * as React from 'react';
 
 import { Box, Container } from '@/components/blocks/Box';
 import { Link } from '@/components/blocks/Link';
 import { List, ListItem } from '@/components/blocks/List';
 import { Headline } from '@/components/Headline';
 import Layout from '@/components/layout/Layout';
-import Seo from '@/components/Seo';
 
-export default function NotFoundPage() {
+export default function NotFound() {
   return (
     <Layout>
-      <Seo templateTitle='Seite nicht gefunden' />
       <main>
         <section>
           <Container>
@@ -33,5 +30,5 @@ export default function NotFoundPage() {
         </section>
       </main>
     </Layout>
-  );
+  )
 }

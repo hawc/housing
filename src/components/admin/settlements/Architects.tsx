@@ -9,7 +9,7 @@ import { sortAlphabetically } from '@/lib/utils';
 import { Button } from '@/components/blocks/form/Button';
 import { Select } from '@/components/blocks/form/Select';
 
-import { Architect } from '@/app/admin/page';
+import { Architect, BaseArchitect } from '@/app/admin/page';
 
 interface ArchitectsItemProps extends React.HTMLAttributes<HTMLElement> {
   architect: Architect;
@@ -36,8 +36,11 @@ export function ArchitectsList({ architects, settlementId, getSettlement }: Arch
 
   const getAvailableArchitects = async () => {
     setLoading(true);
-    const responseArchitects = (await callAPI({ type: 'getArchitects' }));
-    setAvailableArchitects(responseArchitects.filter(responseArchitect => !architects?.map(architect => architect.id).includes(responseArchitect.id)));
+    const responseArchitects: BaseArchitect[] = (await callAPI({ type: 'getArchitects' }));
+    if (responseArchitects) {
+      const filteredArchitects = responseArchitects.filter(responseArchitect => !architects?.map(architect => architect.id).includes(responseArchitect.id));
+      setAvailableArchitects(filteredArchitects ?? []);
+    }
     setLoading(false);
   }
 

@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 import { findSettlement, findSettlements } from '@/lib/db';
 
@@ -28,7 +29,7 @@ export async function generateStaticParams() {
 
 async function getSettlement(slug: string) {
   const response = await findSettlement({ where: { slug: slug } });
-  const settlement = response ? baseTransformers.settlement(response) : null;
+  const settlement = response ? baseTransformers.settlement(response) : undefined;
 
   return settlement;
 }
@@ -36,12 +37,14 @@ async function getSettlement(slug: string) {
 export default async function SettlementPage({ params }) {
   const settlement = await getSettlement(params.slug);
 
+  if (!settlement) {
+    notFound();
+  }
+
   return (
     <Layout>
       <section>
-        {settlement && (
-          <Settlement settlement={settlement} />
-        )}
+        <Settlement settlement={settlement} />
       </section>
     </Layout>
   );

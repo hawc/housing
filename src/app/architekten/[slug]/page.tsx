@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 import { findArchitect, findArchitects } from '@/lib/db';
 
@@ -36,12 +37,14 @@ async function getArchitect(slug: string) {
 export default async function ArchitectPage({ params }) {
   const architect = await getArchitect(params.slug);
 
+  if (!architect) {
+    notFound();
+  }
+
   return (
     <Layout>
       <section>
-        {architect && (
-          <Architect architect={architect} />
-        )}
+        <Architect architect={architect} />
       </section>
     </Layout>
   );

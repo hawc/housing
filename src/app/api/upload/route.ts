@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 import { saveToCloudinary } from '@/lib/cloudinary';
 
-interface ImageResponse {
+export interface ImageResponse {
   width: number,
   height: number,
   format: string,

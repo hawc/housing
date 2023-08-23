@@ -9,7 +9,7 @@ import { sortAlphabetically } from '@/lib/utils';
 import { Button } from '@/components/blocks/form/Button';
 import { Select } from '@/components/blocks/form/Select';
 
-import { Tag } from '@/app/admin/page';
+import { BaseTag, Tag } from '@/app/admin/page';
 
 function TagItem({ tag, onClick }: { tag: Tag, onClick: (...args: any[]) => void | Promise<void>; }) {
   return (
@@ -93,8 +93,11 @@ export function TagList({ existingTags, settlementId, className = '', getSettlem
 
   const getAvailableTags = async () => {
     setLoading(true);
-    const tags = (await callAPI({ type: 'getTags' })).filter((tag: Tag) => !existingTags.map(existingTag => existingTag.id).includes(tag.id));
-    setAvailableTags(tags);
+    const tags: BaseTag[] = await callAPI({ type: 'getTags' });
+    if (tags?.length) {
+      const filteredTags = tags.filter((tag: Tag) => !existingTags.map(existingTag => existingTag.id).includes(tag.id));
+      setAvailableTags(filteredTags ?? []);
+    }
     setLoading(false);
   }
 

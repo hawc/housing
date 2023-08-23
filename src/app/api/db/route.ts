@@ -1,9 +1,9 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextResponse } from 'next/server';
 
 import { resolvers } from '@/app/api/db/resolvers';
 
-export default async function GET(req: NextApiRequest, res: NextApiResponse) {
-  const body = await JSON.parse(req.body);
+export async function POST(req: Request) {
+  const body = await req.json();
   const method = body.type as keyof typeof resolvers;
   if (!resolvers[method]) {
     throw new Error('wrong action');
@@ -13,5 +13,5 @@ export default async function GET(req: NextApiRequest, res: NextApiResponse) {
   }
   const response = await resolvers[method](body.payload);
 
-  res.status(200).json(response);
+  return NextResponse.json({ success: true, response });
 }
