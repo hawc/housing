@@ -1,4 +1,5 @@
 import { UserProvider } from '@auth0/nextjs-auth0/client';
+import type { Metadata } from 'next';
 import { Space_Mono } from 'next/font/google';
 
 import '@/styles/globals.css';
@@ -10,9 +11,42 @@ const space_mono = Space_Mono({
   weight: ['400', '700']
 })
 
+export const metadata: Metadata = {
+  title: {
+    template: '%s | Großwohnsiedlungen',
+    default: 'Großwohnsiedlungen'
+  },
+  description: 'Archiv deutscher Großwohnsiedlungen nach 1945.',
+  keywords: ['Architektur', 'Großwohnsiedlungen', 'Plattenbau'],
+  referrer: 'origin-when-cross-origin',
+  robots: 'nofollow, noindex',
+  authors: [{ name: 'Hendrik Wichern', url: 'https://hendrikwichern.de' }],
+  creator: 'Hendrik Wichern',
+  metadataBase: new URL('https://grosswohnsiedlungen.de'),
+  // openGraph: {
+  //   images: '/og-image.png',
+  // },
+  openGraph: {
+    title: {
+      template: '%s | Großwohnsiedlungen',
+      default: 'Großwohnsiedlungen'
+    },
+    description: 'Archiv deutscher Großwohnsiedlungen nach 1945.',
+    url: 'https://grosswohnsiedlungen.de',
+    siteName: 'Großwohnsiedlungen',
+    // images: [
+    //   {
+    //     url: 'https://nextjs.org/og.png',
+    //     width: 800,
+    //     height: 600,
+    //   },
+    // ],
+    locale: 'de_DE',
+    type: 'website',
+  },
+}
+
 export default function RootLayout({
-  // Layouts must accept a children prop.
-  // This will be populated with nested layouts or pages
   children,
 }: {
   children: React.ReactNode

@@ -151,7 +151,7 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, on
             id='detailDate'
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={detail?.detailDate}
-            onChange={(event) => updateDetail({ detailDate: dateIsValid(event.target.value) ? new Date(new Date(event.target.value).toUTCString()).toISOString() : null })} />
+            onChange={(event) => updateDetail({ detailDate: dateIsValid(event.target.value) ? new Date(new Date(event.target.value).toUTCString()).toISOString() : undefined })} />
         </div>
         <div className='basis-full'>
           <label htmlFor="detailSource">Quelle:</label>

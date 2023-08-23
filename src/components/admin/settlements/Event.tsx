@@ -138,7 +138,7 @@ export function Event({ eventInput, availableEventTypes, settlementId, onUpdate 
       <TimelineItem>
         <TimelineHeader>
           <TimelineIcon>
-            <IconComponent className="h-4 w-4" type={eventTypeId ? availableEventTypes.find(type => type.id === eventTypeId)?.name : ''} />
+            <IconComponent className="h-4 w-4" type={eventTypeId ? (availableEventTypes.find(type => type.id === eventTypeId)?.name || '') : ''} />
           </TimelineIcon>
           <div className='flex gap-4'>
             <div className='basis-full'>
@@ -169,7 +169,7 @@ export function Event({ eventInput, availableEventTypes, settlementId, onUpdate 
                 type='date'
                 value={event?.eventDate}
                 id='eventDate'
-                onChange={(event) => updateEvent({ eventDate: dateIsValid(event.target.value) ? new Date(new Date(event.target.value).toUTCString()).toISOString() : null })} />
+                onChange={(event) => updateEvent({ eventDate: dateIsValid(event.target.value) ? new Date(new Date(event.target.value).toUTCString()).toISOString() : undefined })} />
             </div>
             <div className='basis-full'>
               <label htmlFor="eventSource">Quelle:</label>

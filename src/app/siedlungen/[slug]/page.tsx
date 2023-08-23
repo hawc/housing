@@ -1,13 +1,24 @@
 
 
+import { Metadata } from 'next';
+
 import { findSettlement, findSettlements } from '@/lib/db';
 
 import Layout from '@/components/layout/Layout';
-import Seo from '@/components/Seo';
 import { Settlement } from '@/components/settlements/View';
 
 import type { BaseSettlement } from '@/app/admin/page';
 import { baseTransformers } from '@/app/api/db/route';
+
+export async function generateMetadata(
+  { params },
+): Promise<Metadata> {
+  const settlement = await getSettlement(params.slug)
+
+  return {
+    title: settlement?.name,
+  }
+}
 
 export async function generateStaticParams() {
   const settlements: BaseSettlement[] = (await findSettlements()).map(baseTransformers.settlement);
@@ -29,7 +40,6 @@ export default async function SettlementPage({ params }) {
 
   return (
     <Layout>
-      <Seo templateTitle={settlement?.name} />
       <section>
         {settlement && (
           <Settlement settlement={settlement} />

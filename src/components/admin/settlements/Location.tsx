@@ -11,7 +11,7 @@ import { InputGhost } from '@/components/blocks/form/Input';
 import { Location } from '@/app/admin/page';
 
 export function Location({ locationInput, settlementId, onUpdate, className = '' }: { locationInput: Location | undefined, settlementId: string | undefined, onUpdate: () => any; className?: string }) {
-  const [location, setLocation] = useState<Location | undefined>(locationInput);
+  const [location, setLocation] = useState<Partial<Location> | undefined>(locationInput);
   const [loading, setLoading] = useState<boolean>(false);
 
   const submitLocation = async () => {

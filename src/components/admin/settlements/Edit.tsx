@@ -25,9 +25,9 @@ import type { BaseSettlement } from '@/app/admin/page';
 
 export type Partial<T> = { [P in keyof T]?: T[P] };
 
-export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettlement }) {
+export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettlement | undefined }) {
   const router = useRouter();
-  const [settlement, setSettlement] = useState<BaseSettlement>(settlementInput);
+  const [settlement, setSettlement] = useState<BaseSettlement | undefined>(settlementInput);
   const [loading, setLoading] = useState<boolean>(false);
 
   const Map = dynamic(() => import('@/components/admin/settlements/Map'), {
@@ -43,7 +43,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
 
   const submitData = async () => {
     setLoading(true);
-    if (settlement.id) {
+    if (settlement?.id) {
       await callAPI({
         type: 'updateSettlement',
         payload: {
@@ -56,24 +56,26 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
       });
       await getSettlement(settlement.id);
     } else {
-      const response = await (callAPI({
-        type: 'addSettlement',
-        payload: {
-          data: {
-            name: settlement.name,
-            description: settlement?.description ?? '',
-          },
-        }
-      }) as Promise<BaseSettlement>);
-      await getSettlement(response?.id);
-      router.push(`/admin/siedlungen/${slugify(settlement.name)}`)
+      if (settlement?.name) {
+        const response = await (callAPI({
+          type: 'addSettlement',
+          payload: {
+            data: {
+              name: settlement.name,
+              description: settlement?.description ?? '',
+            },
+          }
+        }) as Promise<BaseSettlement>);
+        await getSettlement(response?.id);
+        router.push(`/admin/siedlungen/${slugify(settlement.name)}`)
+      }
     }
     setLoading(false);
   }
 
   const getSettlement = async (id: string) => {
     setLoading(true);
-    if (id || settlement.id) {
+    if (id || settlement?.id) {
       setSettlement(await callAPI({ type: 'getSettlement', payload: { where: { id } } }));
     }
     setLoading(false);
@@ -197,7 +199,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
           </Box>
           <Box>
             <Button className='bg-text text-bg border border-text'
-              onClick={() => deleteSettlement(settlement?.id)}
+              onClick={() => settlement && deleteSettlement(settlement?.id)}
               disabled={loading || !(settlement?.id)}>
               <>
                 Löschen

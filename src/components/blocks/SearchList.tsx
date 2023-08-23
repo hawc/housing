@@ -9,7 +9,7 @@ import { List, ListItem } from '@/components/blocks/List';
 import { Location } from '@/app/admin/page';
 
 interface SearchListProps extends React.HTMLAttributes<HTMLElement> {
-  items: { name: string; slug: string, location?: Location }[];
+  items: { name: string; slug: string, location?: Location | null }[];
   path: string;
   className?: string;
   searchTerm?: string;

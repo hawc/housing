@@ -2,7 +2,7 @@
 
 import { ArrowLeftIcon, Loader2Icon } from 'lucide-react';
 import Link from 'next/link';
-import router from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { callAPI } from '@/lib/api';
@@ -19,8 +19,9 @@ import type { Architect, BaseArchitect } from '@/app/admin/page';
 
 export type Partial<T> = { [P in keyof T]?: T[P] };
 
-export function ArchitectEdit({ architectInput }: { architectInput: Architect }) {
-  const [architect, setArchitect] = useState<BaseArchitect | Architect>(architectInput);
+export function ArchitectEdit({ architectInput }: { architectInput: Architect | undefined }) {
+  const router = useRouter();
+  const [architect, setArchitect] = useState<BaseArchitect | Architect | undefined>(architectInput);
   const [loading, setLoading] = useState<boolean>(false);
 
   const updateArchitect = (input: Partial<BaseArchitect>) => {
@@ -34,7 +35,6 @@ export function ArchitectEdit({ architectInput }: { architectInput: Architect })
     setLoading(true);
     await callAPI({ type: 'deleteArchitect', payload: { where: { id } } });
     router.push('/admin/architekten');
-    setLoading(false);
   };
 
   const submitData = async (architect) => {
@@ -69,7 +69,7 @@ export function ArchitectEdit({ architectInput }: { architectInput: Architect })
 
   const getArchitect = async (id: string) => {
     setLoading(true);
-    if (architect.id) {
+    if (architect?.id) {
       setArchitect(await callAPI({ type: 'getArchitect', payload: { where: { id } } }));
     }
     setLoading(false);
@@ -115,7 +115,7 @@ export function ArchitectEdit({ architectInput }: { architectInput: Architect })
           <Box>
             <Button
               className='bg-text text-bg border border-text'
-              onClick={() => deleteArchitect(architect.id)} disabled={loading || !(architect?.id)}>
+              onClick={() => architect && deleteArchitect(architect.id)} disabled={loading || !(architect?.id)}>
               <>
                 Löschen {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}
               </>

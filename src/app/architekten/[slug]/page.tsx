@@ -1,13 +1,24 @@
 
 
+import { Metadata } from 'next';
+
 import { findArchitect, findArchitects } from '@/lib/db';
 
 import { Architect } from '@/components/architects/View';
 import Layout from '@/components/layout/Layout';
-import Seo from '@/components/Seo';
 
 import type { BaseArchitect } from '@/app/admin/page';
 import { baseTransformers } from '@/app/api/db/route';
+
+export async function generateMetadata(
+  { params },
+): Promise<Metadata> {
+  const architect = await getArchitect(params.slug)
+
+  return {
+    title: architect?.name,
+  }
+}
 
 export async function generateStaticParams() {
   const architects: BaseArchitect[] = (await findArchitects()).map(baseTransformers.architect);
@@ -29,7 +40,6 @@ export default async function ArchitectPage({ params }) {
 
   return (
     <Layout>
-      <Seo templateTitle={architect?.name} />
       <section>
         {architect && (
           <Architect architect={architect} />

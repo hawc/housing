@@ -30,7 +30,7 @@ export default async function SettlementPage({ params }) {
     <Layout>
       <LoginPageFrame>
         <section>
-          <SettlementEdit settlementInput={settlement} />
+          <SettlementEdit settlementInput={settlement || undefined} />
         </section>
       </LoginPageFrame>
     </Layout>

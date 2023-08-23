@@ -1,12 +1,17 @@
 
+import { Metadata } from 'next';
+
 import { findLocations, findSettlements } from '@/lib/db';
 
 import Layout from '@/components/layout/Layout';
-import Seo from '@/components/Seo';
 import { ListSettlements } from '@/components/settlements/List';
 
 import { BaseLocation, BaseSettlement } from '@/app/admin/page';
 import { baseTransformers } from '@/app/api/db/route';
+
+export const metadata: Metadata = {
+  title: 'Siedlungen',
+}
 
 async function getSettlements() {
   const settlements: BaseSettlement[] = (await findSettlements()).map(baseTransformers.settlement);
@@ -25,7 +30,6 @@ export default async function Settlements() {
   const locations = await getLocations();
   return (
     <Layout>
-      <Seo templateTitle='Siedlungen' />
       <section>
         <ListSettlements settlementsInput={settlements} locationsInput={locations} />
       </section>

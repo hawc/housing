@@ -1,8 +1,5 @@
-'use client'
+'use client';
 
-// This is a Client Component. It receives data as props and
-// has access to state and effects just like Page components
-// in the `pages` directory.
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Image from 'next/legacy/image';
 import * as React from 'react';
@@ -12,14 +9,12 @@ import { Link as StyledLink } from '@/components/blocks/Link';
 import { List, ListItem } from '@/components/blocks/List';
 import { Headline } from '@/components/Headline';
 import Layout from '@/components/layout/Layout';
-import Seo from '@/components/Seo';
 
 export default function HomePage() {
   const { user } = useUser();
 
   return (
     <Layout>
-      <Seo />
       <section>
         <Container>
           <Box className='p-0 md:p-0'>

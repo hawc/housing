@@ -11,7 +11,7 @@ import { TagList } from '@/components/blocks/Tags';
 import { Timeline } from '@/components/blocks/Timeline';
 import { Headline } from '@/components/Headline';
 
-import type { Architect, BaseSettlement, Settlement } from '@/app/admin';
+import type { Architect, BaseSettlement, Settlement } from '@/app/admin/page';
 
 export function Settlement({ settlement }: { settlement: BaseSettlement }) {
   const Map = dynamic(() => import('@/components/admin/settlements/Map'), {
@@ -134,7 +134,7 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
           </Container>
         )}
         <>
-          {settlement.location?.lat > 0 && settlement.location?.lng > 0 && (
+          {settlement.location && settlement.location.lat > 0 && settlement.location.lng > 0 && (
             <Container>
               <Box className='p-0 md:p-0'>
                 <Map
