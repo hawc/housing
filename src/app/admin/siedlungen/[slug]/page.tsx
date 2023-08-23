@@ -1,4 +1,3 @@
-
 import { findSettlement, findSettlements } from '@/lib/db';
 
 import LoginPageFrame from '@/components/admin/LoginPageFrame';
@@ -6,7 +5,7 @@ import { SettlementEdit } from '@/components/admin/settlements/Edit';
 import Layout from '@/components/layout/Layout';
 
 import type { BaseSettlement } from '@/app/admin/page';
-import { baseTransformers } from '@/app/api/db/route';
+import { baseTransformers } from '@/app/api/db/transformers';
 
 export async function generateStaticParams() {
   const settlements: BaseSettlement[] = (await findSettlements()).map(baseTransformers.settlement);

@@ -5,7 +5,7 @@ import { ListTags } from '@/components/admin/tags/List';
 import Layout from '@/components/layout/Layout';
 
 import { BaseTag } from '@/app/admin/page';
-import { baseTransformers } from '@/app/api/db/route';
+import { baseTransformers } from '@/app/api/db/transformers';
 
 async function getTags() {
   const tags: BaseTag[] = (await findTags()).map(baseTransformers.tag);

@@ -6,7 +6,7 @@ import { ListArchitects } from '@/components/architects/List';
 import Layout from '@/components/layout/Layout';
 
 import { BaseArchitect } from '@/app/admin/page';
-import { baseTransformers } from '@/app/api/db/route';
+import { baseTransformers } from '@/app/api/db/transformers';
 
 export const metadata: Metadata = {
   title: 'Architekten',

@@ -1,5 +1,3 @@
-
-
 import { Metadata } from 'next';
 
 import { findArchitect, findArchitects } from '@/lib/db';
@@ -8,7 +6,7 @@ import { Architect } from '@/components/architects/View';
 import Layout from '@/components/layout/Layout';
 
 import type { BaseArchitect } from '@/app/admin/page';
-import { baseTransformers } from '@/app/api/db/route';
+import { baseTransformers } from '@/app/api/db/transformers';
 
 export async function generateMetadata(
   { params },

@@ -1,5 +1,3 @@
-
-
 import { Metadata } from 'next';
 
 import { findSettlement, findSettlements } from '@/lib/db';
@@ -8,7 +6,7 @@ import Layout from '@/components/layout/Layout';
 import { Settlement } from '@/components/settlements/View';
 
 import type { BaseSettlement } from '@/app/admin/page';
-import { baseTransformers } from '@/app/api/db/route';
+import { baseTransformers } from '@/app/api/db/transformers';
 
 export async function generateMetadata(
   { params },

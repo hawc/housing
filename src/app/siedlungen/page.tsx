@@ -1,4 +1,3 @@
-
 import { Metadata } from 'next';
 
 import { findLocations, findSettlements } from '@/lib/db';
@@ -7,7 +6,7 @@ import Layout from '@/components/layout/Layout';
 import { ListSettlements } from '@/components/settlements/List';
 
 import { BaseLocation, BaseSettlement } from '@/app/admin/page';
-import { baseTransformers } from '@/app/api/db/route';
+import { baseTransformers } from '@/app/api/db/transformers';
 
 export const metadata: Metadata = {
   title: 'Siedlungen',

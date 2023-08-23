@@ -1,4 +1,3 @@
-
 import { Metadata } from 'next';
 
 import { findArchitect, findArchitects } from '@/lib/db';
@@ -8,7 +7,7 @@ import LoginPageFrame from '@/components/admin/LoginPageFrame';
 import Layout from '@/components/layout/Layout';
 
 import type { BaseArchitect } from '@/app/admin/page';
-import { baseTransformers } from '@/app/api/db/route';
+import { baseTransformers } from '@/app/api/db/transformers';
 
 export async function generateMetadata(
   { params },

@@ -5,7 +5,7 @@ import { ListSettlements } from '@/components/admin/settlements/List';
 import Layout from '@/components/layout/Layout';
 
 import { BaseSettlement } from '@/app/admin/page';
-import { baseTransformers } from '@/app/api/db/route';
+import { baseTransformers } from '@/app/api/db/transformers';
 
 async function getSettlements() {
   const settlements: BaseSettlement[] = (await findSettlements()).map(baseTransformers.settlement);

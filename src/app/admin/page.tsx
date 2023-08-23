@@ -13,7 +13,7 @@ export interface BaseEventType {
   name: string;
   description: string;
 }
-export interface BaseEvent {
+export interface Event {
   id: string;
   name: string;
   description: string;
@@ -21,7 +21,7 @@ export interface BaseEvent {
   eventDate: string;
   eventType: EventType;
 }
-export interface Event {
+export interface BaseEvent {
   id: string;
   name: string;
   description: string;
@@ -39,6 +39,17 @@ export interface Location {
   lat: number;
   lng: number;
 }
+export interface BaseLocation {
+  id: string;
+  name: string;
+  address: string;
+  district: string;
+  zipCode: string;
+  city: string;
+  lat: number;
+  lng: number;
+  settlement: Settlement;
+}
 export interface DetailType {
   id: string;
   name: string;
@@ -49,7 +60,7 @@ export interface BaseDetailType {
   name: string;
   description: string;
 }
-export interface BaseDetail {
+export interface Detail {
   id: string;
   name: string;
   description: string;
@@ -58,7 +69,7 @@ export interface BaseDetail {
   detailDate: string;
   detailType: DetailType;
 }
-export interface Detail {
+export interface BaseDetail {
   id: string;
   name: string;
   description: string;
@@ -72,6 +83,11 @@ export interface ResourceType {
   name: string;
   description: string;
 }
+export interface BaseResourceType {
+  id: string;
+  name: string;
+  description: string;
+}
 export interface Resource {
   id: string;
   name: string;
@@ -81,11 +97,6 @@ export interface Resource {
   copyright: string;
   url: string;
   resourceType: ResourceType;
-}
-export interface BaseResourceType {
-  id: string;
-  name: string;
-  description: string;
 }
 export interface BaseResource {
   id: string;
@@ -102,12 +113,26 @@ export interface Tag {
   name: string;
   description: string;
 }
+export interface BaseTag {
+  id: string;
+  name: string;
+  description: string;
+  settlements: Settlement[];
+}
 export interface Architect {
   id: string;
   name: string;
   slug: string;
   description: string;
   url: string;
+}
+export interface BaseArchitect {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  url: string;
+  settlements: Settlement[];
 }
 export interface SettlementType {
   id: string;
@@ -124,39 +149,6 @@ export interface Settlement {
   description: string;
   tags: Tag[];
 }
-export interface BaseTag {
-  id: string;
-  name: string;
-  description: string;
-  settlements: Settlement[];
-}
-export interface BaseLocation {
-  id: string;
-  name: string;
-  address: string;
-  district: string;
-  zipCode: string;
-  city: string;
-  lat: number;
-  lng: number;
-  settlement: Settlement;
-}
-export interface BaseArchitect {
-  id: string;
-  name: string;
-  slug: string;
-  description: string;
-  url: string;
-  settlements: Settlement[];
-}
-export interface BaseSettlementOnTag {
-  settlement: Settlement;
-  tag: Tag;
-}
-export interface BaseSettlementOnArchitect {
-  settlement: Settlement;
-  architect: Architect;
-}
 export interface BaseSettlement {
   id: string;
   name: string;
@@ -169,6 +161,14 @@ export interface BaseSettlement {
   types: SettlementType[];
   architects: Architect[];
   tags: Tag[];
+}
+export interface BaseSettlementOnTag {
+  settlement: Settlement;
+  tag: Tag;
+}
+export interface BaseSettlementOnArchitect {
+  settlement: Settlement;
+  architect: Architect;
 }
 
 export default function Admin() {
