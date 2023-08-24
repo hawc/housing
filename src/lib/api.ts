@@ -9,13 +9,17 @@ interface Payload {
 
 export async function callAPI(payload: Payload) {
   try {
-    const path = process.env.NODE_ENV === 'production' ? 'https://grosswohnsiedlungen.de/api/db' : typeof window === 'undefined' ? 'http://localhost:3000/api/db' : '/api/db';
+    const path = `${process.env.BASE_URL}/api/db`;
     const res = await fetch(path, {
       method: 'POST',
       body: JSON.stringify(payload)
     });
     const data = await res?.json();
-    return data;
+
+    if (data.success) {
+      return data.response;
+    }
+    throw new Error('Request not successful.');
   } catch (err) {
     console.error(err);
   }

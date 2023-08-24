@@ -36,7 +36,7 @@ export function ArchitectsList({ architects, settlementId, getSettlement }: Arch
 
   const getAvailableArchitects = async () => {
     setLoading(true);
-    const responseArchitects: BaseArchitect[] = (await callAPI({ type: 'getArchitects' }));
+    const responseArchitects: BaseArchitect[] = await callAPI({ type: 'getArchitects' });
     if (responseArchitects) {
       const filteredArchitects = responseArchitects.filter(responseArchitect => !architects?.map(architect => architect.id).includes(responseArchitect.id));
       setAvailableArchitects(filteredArchitects ?? []);

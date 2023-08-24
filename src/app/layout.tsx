@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   robots: 'nofollow, noindex',
   authors: [{ name: 'Hendrik Wichern', url: 'https://hendrikwichern.de' }],
   creator: 'Hendrik Wichern',
-  metadataBase: new URL('https://grosswohnsiedlungen.de'),
+  metadataBase: new URL(process.env.BASE_URL ?? ''),
   // openGraph: {
   //   images: '/og-image.png',
   // },
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
       default: 'Großwohnsiedlungen'
     },
     description: 'Archiv deutscher Großwohnsiedlungen nach 1945.',
-    url: 'https://grosswohnsiedlungen.de',
+    url: new URL(process.env.BASE_URL ?? ''),
     siteName: 'Großwohnsiedlungen',
     // images: [
     //   {
