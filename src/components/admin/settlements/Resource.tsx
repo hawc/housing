@@ -19,10 +19,9 @@ interface EditResourceProps extends React.HTMLAttributes<HTMLElement> {
   settlementId: string | null;
   settlementSlug: string;
   onUpdate: (resourceId: string | undefined) => void;
-  setImages: (images: ImageResponse[]) => void;
 }
 
-export function EditResource({ resourceInput, availableResourceTypes, settlementId, settlementSlug, onUpdate, setImages, ...rest }: EditResourceProps) {
+export function EditResource({ resourceInput, availableResourceTypes, settlementId, settlementSlug, onUpdate, ...rest }: EditResourceProps) {
   const [resource, setCurrentResource] = useState<Resource | undefined>(resourceInput);
   const [resourceType, setResourceType] = useState<ResourceType | undefined>(resource?.resourceType);
   const [loading, setLoading] = useState<boolean>(false);
@@ -97,6 +96,16 @@ export function EditResource({ resourceInput, availableResourceTypes, settlement
     setLoading(false);
   }
 
+  const imageUploadCallback = (images: ImageResponse[]) => {
+    if (images.length !== 1) {
+      return;
+    }
+    const image = images[0];
+    updateResource({
+      url: image.url
+    })
+  }
+
   return (
     <div {...rest}>
       <div className='flex gap-4'>
@@ -122,6 +131,7 @@ export function EditResource({ resourceInput, availableResourceTypes, settlement
         <div className='basis-full'>
           <label htmlFor="resourceUrl">URL:</label>
           <InputGhost
+            key={resource?.url}
             id='resourceUrl'
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={resource?.url ?? ''}
@@ -161,7 +171,7 @@ export function EditResource({ resourceInput, availableResourceTypes, settlement
             <Upload
               className='mt-1 mb-2'
               id='resourceImage'
-              setImages={setImages}
+              onUpload={imageUploadCallback}
               category={settlementSlug} />
           </div>
         </div>

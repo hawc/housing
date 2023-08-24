@@ -1,6 +1,5 @@
 'use client';
 
-import axios from 'axios';
 import { useState } from 'react';
 
 import { Button } from '@/components/blocks/form/Button';
@@ -8,12 +7,12 @@ import { Button } from '@/components/blocks/form/Button';
 import { ImageResponse } from '@/app/api/upload/route';
 
 interface UploadProps extends React.HTMLAttributes<HTMLElement> {
-  setImages: (images: ImageResponse[]) => void;
+  onUpload: (images: ImageResponse[]) => void;
   category: string;
   multiple?: boolean;
 }
 
-export default function Upload({ setImages, category, id, multiple = false, className = '', ...rest }: UploadProps) {
+export default function Upload({ onUpload, category, id, multiple = false, className = '', ...rest }: UploadProps) {
   const [uploadImages, setUploadImages] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
   const updateSelectedImages = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,6 +23,9 @@ export default function Upload({ setImages, category, id, multiple = false, clas
   };
 
   const handleSubmit = async () => {
+    if (uploadImages.length < 1) {
+      return;
+    }
     setUploading(true);
 
     const formData = new FormData();
@@ -31,9 +33,11 @@ export default function Upload({ setImages, category, id, multiple = false, clas
       formData.append('image', image);
     });
     formData.append('category', category);
-    const response = await axios.post('/api/upload', formData);
-    if (response.data.success) {
-      setImages(response.data.images);
+    const response = await fetch('/api/upload', { method: 'POST', body: formData });
+    const result = await response.json();
+
+    if (result.success) {
+      onUpload(result.images);
     }
     setUploading(false);
   };
@@ -52,7 +56,7 @@ export default function Upload({ setImages, category, id, multiple = false, clas
         multiple={multiple}
         hidden
         onChange={updateSelectedImages} />
-      <Button disabled={uploading} type='button' onClick={handleSubmit}>Hochladen</Button>
+      <Button disabled={uploading || uploadImages.length < 1} type='button' onClick={handleSubmit}>Hochladen</Button>
     </form>
   );
 }

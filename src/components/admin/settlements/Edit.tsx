@@ -2,7 +2,6 @@
 
 import { ArrowLeftIcon, Loader2Icon } from 'lucide-react';
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -23,13 +22,11 @@ import { TextareaGhost } from '@/components/blocks/form/Textarea';
 import { Headline } from '@/components/Headline';
 
 import type { BaseSettlement } from '@/app/admin/page';
-import { ImageResponse } from '@/app/api/upload/route';
 
 export type Partial<T> = { [P in keyof T]?: T[P] };
 
 export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettlement | undefined }) {
   const router = useRouter();
-  const [images, setImages] = useState<ImageResponse[]>([]);
   const [settlement, setSettlement] = useState<BaseSettlement | undefined>(settlementInput);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -169,17 +166,9 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
                   <ResourcesList
                     resourcesInput={settlement?.resources ?? []}
                     settlementId={settlement?.id}
-                    settlementSlug={settlement?.slug}
-                    setImages={setImages} />
+                    settlementSlug={settlement?.slug} />
                 </Box>
               </>
-            </Container>
-            <Container className='md:grid-cols-2'>
-              {images.map((image, index) => (
-                <Box key={index}>
-                  <Image src={image.url} alt="" width={image.width} height={image.height} />
-                </Box>
-              ))}
             </Container>
             <>
               {settlement?.location && settlement.location.lat > 0 && settlement.location.lng > 0 && (
