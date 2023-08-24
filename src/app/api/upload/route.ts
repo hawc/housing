@@ -17,17 +17,18 @@ export interface ImageResponse {
 
 export async function POST(req: Request) {
   const formData = await req.formData();
-  const formDataEntryValues = Array.from(formData.values());
+  const formDataImages = formData.getAll('image');
+  const formDataCategory = String(formData.get('category') ?? 'unsorted');
   const images: ImageResponse[] = [];
   try {
-    for (const formDataEntryValue of formDataEntryValues) {
+    for (const formDataEntryValue of formDataImages) {
       if (typeof formDataEntryValue === 'object' && formDataEntryValue && 'arrayBuffer' in formDataEntryValue) {
         const file = formDataEntryValue as unknown as Blob;
         const fileType = 'image';
         const name = file.name.split('.')[0];
         const ext = file.name.split('.')[1];
         const buffer = Buffer.from(await file.arrayBuffer());
-        const cloudinaryResponse = await saveToCloudinary({ src: `data:${fileType}/${ext};base64,${Buffer.from(buffer).toString('base64')}`, name: name }, 'test');
+        const cloudinaryResponse = await saveToCloudinary({ src: `data:${fileType}/${ext};base64,${Buffer.from(buffer).toString('base64')}`, name: name }, formDataCategory);
         if (cloudinaryResponse?.secure_url) {
           images.push({
             width: cloudinaryResponse.width,

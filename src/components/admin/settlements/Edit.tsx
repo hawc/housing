@@ -20,7 +20,6 @@ import { Box, Container } from '@/components/blocks/Box';
 import { Button } from '@/components/blocks/form/Button';
 import { InputGhost } from '@/components/blocks/form/Input';
 import { TextareaGhost } from '@/components/blocks/form/Textarea';
-import Upload from '@/components/blocks/form/Upload';
 import { Headline } from '@/components/Headline';
 
 import type { BaseSettlement } from '@/app/admin/page';
@@ -167,14 +166,15 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
                   <Headline className='inline-block' tag='h2' type='h3'>
                     Ressourcen
                   </Headline>
-                  <ResourcesList resourcesInput={settlement?.resources ?? []} settlementId={settlement?.id} />
+                  <ResourcesList
+                    resourcesInput={settlement?.resources ?? []}
+                    settlementId={settlement?.id}
+                    settlementSlug={settlement?.slug}
+                    setImages={setImages} />
                 </Box>
               </>
             </Container>
             <Container className='md:grid-cols-2'>
-              <Box>
-                <Upload setImages={setImages} />
-              </Box>
               {images.map((image, index) => (
                 <Box key={index}>
                   <Image src={image.url} alt="" width={image.width} height={image.height} />

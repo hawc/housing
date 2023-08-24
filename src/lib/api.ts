@@ -9,7 +9,7 @@ interface Payload {
 
 export async function callAPI(payload: Payload) {
   try {
-    const path = `${process.env.BASE_URL}/api/db`;
+    const path = `${process.env.BASE_URL ?? ''}/api/db`;
     const res = await fetch(path, {
       method: 'POST',
       body: JSON.stringify(payload)

@@ -8,19 +8,23 @@ import { callAPI } from '@/lib/api';
 import { Button } from '@/components/blocks/form/Button';
 import { InputGhost } from '@/components/blocks/form/Input';
 import { Select } from '@/components/blocks/form/Select';
+import Upload from '@/components/blocks/form/Upload';
 
 import { Resource, ResourceType } from '@/app/admin/page';
+import { ImageResponse } from '@/app/api/upload/route';
 
 interface EditResourceProps extends React.HTMLAttributes<HTMLElement> {
   resourceInput: Resource | undefined;
   availableResourceTypes: ResourceType[];
   settlementId: string | null;
+  settlementSlug: string;
   onUpdate: (resourceId: string | undefined) => void;
+  setImages: (images: ImageResponse[]) => void;
 }
 
-export function EditResource({ resourceInput, availableResourceTypes, settlementId, onUpdate, ...rest }: EditResourceProps) {
+export function EditResource({ resourceInput, availableResourceTypes, settlementId, settlementSlug, onUpdate, setImages, ...rest }: EditResourceProps) {
   const [resource, setCurrentResource] = useState<Resource | undefined>(resourceInput);
-  const [resourceTypeId, setResourceTypeId] = useState<string | undefined>(resource?.resourceType?.id ?? '');
+  const [resourceType, setResourceType] = useState<ResourceType | undefined>(resource?.resourceType);
   const [loading, setLoading] = useState<boolean>(false);
 
   const updateResource = (input: Partial<Resource>) => {
@@ -63,7 +67,7 @@ export function EditResource({ resourceInput, availableResourceTypes, settlement
             url: resource.url,
             license: resource.license,
             copyright: resource.copyright,
-            resourceTypeId: resourceTypeId,
+            resourceTypeId: resourceType?.id,
           },
           where: { id }
         }
@@ -79,7 +83,7 @@ export function EditResource({ resourceInput, availableResourceTypes, settlement
             url: resource.url,
             license: resource.license,
             copyright: resource.copyright,
-            resourceTypeId: resourceTypeId,
+            resourceTypeId: resourceType?.id,
             settlementId: settlementId,
           },
         }
@@ -111,7 +115,7 @@ export function EditResource({ resourceInput, availableResourceTypes, settlement
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={resource?.resourceType?.id ?? ''}
             options={availableResourceTypes}
-            onChange={(resource) => setResourceTypeId(resource.target.value)} />
+            onChange={(event) => setResourceType(availableResourceTypes.find(resourceType => resourceType.id === event.target.value))} />
         </div>
       </div>
       <div className='flex gap-4'>
@@ -150,7 +154,19 @@ export function EditResource({ resourceInput, availableResourceTypes, settlement
             onChange={(event) => updateResource({ license: event.target.value })} />
         </div>
       </div>
-      <div className='flex gap-4 flex-col lg:flex-row mt-2'>
+      {resourceType?.name === 'Foto' &&
+        <div className='flex gap-4'>
+          <div className='basis-full'>
+            <label htmlFor='resourceImage'>Foto:</label>
+            <Upload
+              className='mt-1 mb-2'
+              id='resourceImage'
+              setImages={setImages}
+              category={settlementSlug} />
+          </div>
+        </div>
+      }
+      <div className='flex gap-4 flex-col lg:flex-row mt-2 mb-1'>
         <Button
           className='w-full'
           onClick={() => resource && submitResource(resource, resource?.id)}

@@ -7,13 +7,16 @@ import { callAPI } from '@/lib/api';
 import { EditResource } from '@/components/admin/settlements/Resource';
 
 import { Resource, ResourceType } from '@/app/admin/page';
+import { ImageResponse } from '@/app/api/upload/route';
 
 interface ResourcesListProps extends React.HTMLAttributes<HTMLElement> {
   resourcesInput: Resource[];
   settlementId: string;
+  settlementSlug: string;
+  setImages: (images: ImageResponse[]) => void;
 }
 
-export function ResourcesList({ resourcesInput, settlementId }: ResourcesListProps) {
+export function ResourcesList({ resourcesInput, settlementId, setImages, settlementSlug }: ResourcesListProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [availableResourceTypes, setAvailableResourceTypes] = useState<ResourceType[]>([]);
   const [resources, setResources] = useState<Resource[]>(resourcesInput);
@@ -43,6 +46,8 @@ export function ResourcesList({ resourcesInput, settlementId }: ResourcesListPro
           key={resource.id}>
           <EditResource
             onUpdate={getResources}
+            setImages={setImages}
+            settlementSlug={settlementSlug}
             className='mb-4'
             resourceInput={resource}
             availableResourceTypes={availableResourceTypes}
@@ -53,6 +58,8 @@ export function ResourcesList({ resourcesInput, settlementId }: ResourcesListPro
       <EditResource
         key={resources.length}
         onUpdate={getResources}
+        setImages={setImages}
+        settlementSlug={settlementSlug}
         resourceInput={undefined} availableResourceTypes={availableResourceTypes} settlementId={settlementId} />
     </div>
   );
