@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import { Box } from '@/components/blocks/Box';
 
-import { BaseLocation } from '@/app/admin';
+import { BaseLocation } from '@/app/admin/page';
 
 
 export function SettlementsMap({ locationsInput, searchTerm }: { locationsInput: BaseLocation[], searchTerm?: string }) {
