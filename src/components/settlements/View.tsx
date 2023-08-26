@@ -1,4 +1,4 @@
-import { ArrowLeftIcon } from 'lucide-react';
+import { ArrowLeftIcon, CopyrightIcon } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
@@ -111,28 +111,31 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
           <Container className='md:grid-cols-2'>
             <>
               {photoResources.map((resource) => (
-                <Box key={resource.id} className='py-3 md:p-0 h-60 lg:h-96 justify-between'>
-                  <div className='grow flex mb-1 md:mb-0 items-center overflow-hidden bg-grey-light'>
-                    <img src={resource.url} alt={resource.description} loading='lazy' className='min-w-full' />
+                <Box key={resource.id} className='py-3 md:p-0 justify-between'>
+                  <div>
+                    <div className='flex mb-1 md:mb-0 items-center overflow-hidden bg-grey-light'>
+                      <img src={resource.url} alt={resource.description} loading='lazy' className='min-w-full' />
+                    </div>
+                    <div className='md:px-5 pt-2 md:pt-4 md:pb-4'>
+                      {resource.name}{(resource.name && resource.description ? ', ' : '')}{resource.description}
+                    </div>
                   </div>
-                  <div className='md:px-5 pt-2 md:pt-4 md:pb-4'>
-                    {resource.name}{(resource.name && resource.description ? ', ' : '')}{resource.description}
+                  <div>
+                    {resource.source && (
+                      <div className='md:px-5 pt-2 md:pt-0 md:pb-4'>
+                        Quelle: {resource.source}
+                      </div>
+                    )}
+                    <div className='md:px-5 pt-2 md:pt-0 md:pb-4'>
+                      {resource.license && resource.copyright && (
+                        <><CopyrightIcon className='inline-block mb-1' size={17} /> {resource.copyright}, {resource.license}</>
+                      ) || resource.license && (
+                        <>{resource.license}</>
+                      ) || resource.copyright && (
+                        <>© {resource.copyright}</>
+                      )}
+                    </div>
                   </div>
-                  {resource.source && (
-                    <div className='md:px-5 pt-2 md:pt-0 md:pb-4'>
-                      Quelle: {resource.source}
-                    </div>
-                  )}
-                  {resource.copyright && (
-                    <div className='md:px-5 pt-2 md:pt-0 md:pb-4'>
-                      © {resource.copyright}
-                    </div>
-                  )}
-                  {resource.license && (
-                    <div className='md:px-5 pt-2 md:pt-0 md:pb-4'>
-                      Lizenz: {resource.license}
-                    </div>
-                  )}
                 </Box>
               ))}
             </>
