@@ -1,13 +1,12 @@
 import { ArchitectsInclude, ArchitectsSelect, DetailsInclude, DetailsSelect, DetailsTypesSelect, DetailTypesInclude, EventsInclude, EventsSelect, EventTypesInclude, EventTypesSelect, LocationsInclude, LocationsSelect, ResourcesInclude, ResourcesSelect, ResourceTypesInclude, ResourceTypesSelect, SettlementsInclude, SettlementsOnArchitectsInclude, SettlementsOnTagsInclude, SettlementsSelect, SettlementTypesSelect, TagsInclude, TagsSelect } from '@/lib/db';
 
-import { Architect, BaseArchitect, BaseDetail, BaseDetailType, BaseEvent, BaseEventType, BaseLocation, BaseResource, BaseResourceType, BaseSettlement, BaseSettlementOnArchitect, BaseSettlementOnTag, BaseTag, Detail, DetailType, EventType, Resource, ResourceType, Settlement, SettlementType, Tag } from '@/app/admin/page';
+import { Architect, BaseArchitect, BaseDetail, BaseDetailType, BaseEvent, BaseEventType, BaseLocation, BaseResource, BaseResourceType, BaseSettlement, BaseSettlementOnArchitect, BaseSettlementOnTag, BaseTag, Detail, DetailType, Event, EventType, Location, Resource, ResourceType, Settlement, SettlementType, Tag } from '@/app/admin/page';
 
 export const baseTransformers = {
   location: (location: LocationsInclude): BaseLocation => {
-    if (!location) return null;
     return {
       id: location.id,
-      name: location.name,
+      name: location.name ?? '',
       address: location.address ?? '',
       district: location.district ?? '',
       zipCode: location.zipCode ?? '',
@@ -18,21 +17,18 @@ export const baseTransformers = {
     };
   },
   settlementOnTag: (settlementOnTag: SettlementsOnTagsInclude): BaseSettlementOnTag => {
-    if (!settlementOnTag) return null;
     return {
       tag: transformers.tag(settlementOnTag.tag),
       settlement: transformers.settlement(settlementOnTag.settlement),
     }
   },
   settlementOnArchitect: (settlementOnArchitect: SettlementsOnArchitectsInclude): BaseSettlementOnArchitect => {
-    if (!settlementOnArchitect) return null;
     return {
       architect: transformers.architect(settlementOnArchitect.architect),
       settlement: transformers.settlement(settlementOnArchitect.settlement),
     }
   },
   settlement: (settlement: SettlementsInclude): BaseSettlement => {
-    if (!settlement) return null;
     return {
       id: settlement.id,
       name: settlement.name,
@@ -44,11 +40,10 @@ export const baseTransformers = {
       resources: settlement.resources.map(transformers.resource),
       tags: settlement.tags.map(tagRelation => transformers.tag(tagRelation.tag)),
       events: settlement.events.map(transformers.event),
-      location: transformers.location(settlement.location),
+      location: settlement.location ? transformers.location(settlement.location) : null,
     };
   },
   architect: (architect: ArchitectsInclude): BaseArchitect => {
-    if (!architect) return null;
     return {
       id: architect.id,
       name: architect.name,
@@ -59,7 +54,6 @@ export const baseTransformers = {
     };
   },
   tag: (tag: TagsInclude): BaseTag => {
-    if (!tag) return null;
     return {
       id: tag.id,
       name: tag.name,
@@ -68,7 +62,6 @@ export const baseTransformers = {
     };
   },
   eventType: (eventType: EventTypesInclude): BaseEventType => {
-    if (!eventType) return null;
     return {
       id: eventType.id,
       name: eventType.name,
@@ -76,7 +69,6 @@ export const baseTransformers = {
     };
   },
   event: (event: EventsInclude): BaseEvent => {
-    if (!event) return null;
     return {
       id: event.id,
       name: event.name,
@@ -87,7 +79,6 @@ export const baseTransformers = {
     };
   },
   detailType: (detailType: DetailTypesInclude): BaseDetailType => {
-    if (!detailType) return null;
     return {
       id: detailType.id,
       name: detailType.name,
@@ -95,7 +86,6 @@ export const baseTransformers = {
     };
   },
   detail: (detail: DetailsInclude): BaseDetail => {
-    if (!detail) return null;
     return {
       id: detail.id,
       name: detail.name,
@@ -107,7 +97,6 @@ export const baseTransformers = {
     };
   },
   resourceType: (resourceType: ResourceTypesInclude): BaseResourceType => {
-    if (!resourceType) return null;
     return {
       id: resourceType.id,
       name: resourceType.name,
@@ -115,7 +104,6 @@ export const baseTransformers = {
     };
   },
   resource: (resource: ResourcesInclude): BaseResource => {
-    if (!resource) return null;
     return {
       id: resource.id,
       name: resource.name,
@@ -165,11 +153,10 @@ export const transformers = {
       details: settlementType.details.map(transformers.detail),
     };
   },
-  location: (location: LocationsSelect): Location | null => {
-    if (!location) return null;
+  location: (location: LocationsSelect): Location => {
     return {
       id: location.id,
-      name: location.name,
+      name: location.name ?? '',
       address: location.address ?? '',
       district: location.district ?? '',
       zipCode: location.zipCode ?? '',
