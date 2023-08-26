@@ -2,8 +2,10 @@
 
 import { Loader2Icon } from 'lucide-react';
 import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 import { callAPI } from '@/lib/api';
+import { getUniqueLabel } from '@/lib/utils';
 
 import { dateIsValid } from '@/components/admin/settlements/Event';
 import { Button } from '@/components/blocks/form/Button';
@@ -34,6 +36,8 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, on
   const [detail, setCurrentDetail] = useState<Detail | undefined>(detailInput);
   const [detailTypeId, setDetailTypeId] = useState<string | undefined>(detail?.detailType?.id ?? '');
   const [loading, setLoading] = useState<boolean>(false);
+
+  const uuid = uuidv4();
 
   const updateDetail = (input: Partial<Detail>) => {
     setCurrentDetail({
@@ -107,18 +111,18 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, on
     <div {...rest}>
       <div className='flex gap-4'>
         <div className='basis-full'>
-          <label htmlFor="detailType">Typ:</label>
+          <label htmlFor={getUniqueLabel('detailType', uuid)}>Typ:</label>
           <Select<DetailType>
-            id='detailType'
+            id={getUniqueLabel('detailType', uuid)}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={detail?.detailType?.id ?? ''}
             options={availableDetailTypes}
             onChange={(detail) => setDetailTypeId(detail.target.value)} />
         </div>
         <div className='basis-full'>
-          <label htmlFor="detailName">Name:</label>
+          <label htmlFor={getUniqueLabel('detailName', uuid)}>Name:</label>
           <InputGhost
-            id='detailName'
+            id={getUniqueLabel('detailName', uuid)}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={detail?.name ?? ''}
             onChange={(event) => updateDetail({ name: event.target.value })} />
@@ -126,18 +130,18 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, on
       </div>
       <div className='flex gap-4'>
         <div className='basis-full'>
-          <label htmlFor="detailDescription">Wert:</label>
+          <label htmlFor={getUniqueLabel('detailDescription', uuid)}>Wert:</label>
           <InputGhost
-            id='detailDescription'
+            id={getUniqueLabel('detailDescription', uuid)}
             type={getDescriptionInputType(detail?.detailType?.name)}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={detail?.description ?? ''}
             onChange={(event) => updateDetail({ description: event.target.value })} />
         </div>
         <div className='basis-full'>
-          <label htmlFor="detailAnnotation">Anmerkung:</label>
+          <label htmlFor={getUniqueLabel('detailAnnotation', uuid)}>Anmerkung:</label>
           <InputGhost
-            id='detailAnnotation'
+            id={getUniqueLabel('detailAnnotation', uuid)}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={detail?.annotation ?? ''}
             onChange={(event) => updateDetail({ annotation: event.target.value })} />
@@ -145,18 +149,18 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, on
       </div>
       <div className='flex gap-4'>
         <div className='basis-full'>
-          <label htmlFor="detailDate">Datum:</label>
+          <label htmlFor={getUniqueLabel('detailDate', uuid)}>Datum:</label>
           <InputGhost
             type='date'
-            id='detailDate'
+            id={getUniqueLabel('detailDate', uuid)}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={detail?.detailDate}
             onChange={(event) => updateDetail({ detailDate: dateIsValid(event.target.value) ? new Date(new Date(event.target.value).toUTCString()).toISOString() : undefined })} />
         </div>
         <div className='basis-full'>
-          <label htmlFor="detailSource">Quelle:</label>
+          <label htmlFor={getUniqueLabel('detailSource', uuid)}>Quelle:</label>
           <InputGhost
-            id='detailSource'
+            id={getUniqueLabel('detailSource', uuid)}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={detail?.source ?? ''}
             onChange={(event) => updateDetail({ source: event.target.value })} />
