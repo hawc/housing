@@ -2,6 +2,7 @@
 
 import { Loader2Icon, PlusIcon } from 'lucide-react';
 import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 import { ImageResponse } from '@/app/api/upload/route';
 
@@ -34,6 +35,8 @@ function UploadInputLabel({ uploadImages }: { uploadImages: File[] }) {
 export default function Upload({ onUpload, category, id, multiple = false, className = '', ...rest }: UploadProps) {
   const [uploadImages, setUploadImages] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
+  const uuid = uuidv4();
+
   const updateSelectedImages = async (e: React.ChangeEvent<HTMLInputElement>) => {
     onUpload([]);
     if (e.target.files) {
@@ -64,7 +67,7 @@ export default function Upload({ onUpload, category, id, multiple = false, class
 
   return (
     <form className={`flex flex-row ${className}`} {...rest}>
-      <label className='flex-grow border-2 py-1 px-3 border-highlight max-w-full' htmlFor={id}>
+      <label className='flex-grow border-2 py-1 px-3 border-highlight max-w-full' htmlFor={`${id}-${uuid}`}>
         {uploading ? (
           <div className='flex justify-between'>
             <span>Lädt...</span><span className='flex items-center'><Loader2Icon className='animate-spin' /></span>
@@ -74,7 +77,7 @@ export default function Upload({ onUpload, category, id, multiple = false, class
         )}
       </label>
       <input
-        id={id}
+        id={`${id}-${uuid}`}
         title="auswählen"
         disabled={uploading}
         type='file'
