@@ -1,15 +1,18 @@
+import { Metadata } from 'next';
 import * as React from 'react';
 
 import { Box, Container } from '@/components/blocks/Box';
 import { Link } from '@/components/blocks/Link';
 import { Headline } from '@/components/Headline';
 import Layout from '@/components/layout/Layout';
-import Seo from '@/components/Seo';
+
+export const metadata: Metadata = {
+  title: 'Impressum',
+}
 
 export default function Impressum() {
   return (
     <Layout>
-      <Seo templateTitle='Impressum' />
       <section>
         <Container>
           <Box>
