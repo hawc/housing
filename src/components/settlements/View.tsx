@@ -117,13 +117,14 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
                       <img src={resource.url} alt={resource.description} loading='lazy' className='min-w-full' />
                     </div>
                     <div className='md:px-5 pt-2 md:pt-4 md:pb-4'>
-                      {resource.name}{(resource.name && resource.description ? ', ' : '')}{resource.description}
+                      <Headline type='h6'>{resource.name}</Headline>
+                      {resource.description}
                     </div>
                   </div>
                   <div>
                     {resource.source && (
                       <div className='md:px-5 pt-2 md:pt-0 md:pb-4'>
-                        Quelle: {resource.source}
+                        Quelle: <LinkElement className='inline-block' href={resource.source} />
                       </div>
                     )}
                     <div className='md:px-5 pt-2 md:pt-0 md:pb-4'>
