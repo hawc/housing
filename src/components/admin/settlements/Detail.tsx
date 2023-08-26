@@ -107,14 +107,6 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, on
     <div {...rest}>
       <div className='flex gap-4'>
         <div className='basis-full'>
-          <label htmlFor="detailName">Name:</label>
-          <InputGhost
-            id='detailName'
-            className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
-            value={detail?.name ?? ''}
-            onChange={(event) => updateDetail({ name: event.target.value })} />
-        </div>
-        <div className='basis-full'>
           <label htmlFor="detailType">Typ:</label>
           <Select<DetailType>
             id='detailType'
@@ -122,6 +114,14 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, on
             value={detail?.detailType?.id ?? ''}
             options={availableDetailTypes}
             onChange={(detail) => setDetailTypeId(detail.target.value)} />
+        </div>
+        <div className='basis-full'>
+          <label htmlFor="detailName">Name:</label>
+          <InputGhost
+            id='detailName'
+            className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
+            value={detail?.name ?? ''}
+            onChange={(event) => updateDetail({ name: event.target.value })} />
         </div>
       </div>
       <div className='flex gap-4'>

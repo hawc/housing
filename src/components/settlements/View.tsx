@@ -112,8 +112,8 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
             <>
               {photoResources.map((resource) => (
                 <Box key={resource.id} className='py-3 md:p-0 h-60 lg:h-96 justify-between'>
-                  <div className='bg-grey-light grow flex items-center overflow-hidden mb-1 md:mb-0'>
-                    <img src={resource.url} alt={resource.description} loading='lazy' />
+                  <div className='grow flex mb-1 md:mb-0 items-center overflow-hidden bg-grey-light'>
+                    <img src={resource.url} alt={resource.description} loading='lazy' className='min-w-full' />
                   </div>
                   <div className='md:px-5 pt-2 md:pt-4 md:pb-4'>
                     {resource.name}{(resource.name && resource.description ? ', ' : '')}{resource.description}
@@ -121,6 +121,11 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
                   {resource.source && (
                     <div className='md:px-5 pt-2 md:pt-0 md:pb-4'>
                       Quelle: {resource.source}
+                    </div>
+                  )}
+                  {resource.copyright && (
+                    <div className='md:px-5 pt-2 md:pt-0 md:pb-4'>
+                      © {resource.copyright}
                     </div>
                   )}
                   {resource.license && (

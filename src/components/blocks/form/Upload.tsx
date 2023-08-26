@@ -1,8 +1,7 @@
 'use client';
 
+import { Loader2Icon, PlusIcon } from 'lucide-react';
 import { useState } from 'react';
-
-import { Button } from '@/components/blocks/form/Button';
 
 import { ImageResponse } from '@/app/api/upload/route';
 
@@ -12,24 +11,45 @@ interface UploadProps extends React.HTMLAttributes<HTMLElement> {
   multiple?: boolean;
 }
 
+function UploadInputLabel({ uploadImages }: { uploadImages: File[] }) {
+  return (
+    <>
+      {uploadImages.length ? (
+        <div className='block whitespace-nowrap text-ellipsis overflow-hidden'>
+          {uploadImages.length === 1 ? (
+            uploadImages[0].name
+          ) : (
+            `${uploadImages.length} Dateien`
+          )}
+        </div>
+      ) : (
+        <div className='flex justify-between '>
+          <span>auswählen</span><span className='flex items-center'><PlusIcon /></span>
+        </div>
+      )}
+    </>
+  );
+}
+
 export default function Upload({ onUpload, category, id, multiple = false, className = '', ...rest }: UploadProps) {
   const [uploadImages, setUploadImages] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
-  const updateSelectedImages = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const updateSelectedImages = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    onUpload([]);
     if (e.target.files) {
       const files = Array.from(e.target.files);
       setUploadImages(files);
+      handleSubmit(files);
+    } else {
+      setUploadImages([]);
     }
   };
 
-  const handleSubmit = async () => {
-    if (uploadImages.length < 1) {
-      return;
-    }
+  const handleSubmit = async (files) => {
     setUploading(true);
 
     const formData = new FormData();
-    uploadImages.forEach((image) => {
+    files.forEach((image) => {
       formData.append('image', image);
     });
     formData.append('category', category);
@@ -43,20 +63,25 @@ export default function Upload({ onUpload, category, id, multiple = false, class
   };
 
   return (
-    <form className={`flex flex-row gap-4 ${className}`} {...rest}>
-      <label className='flex-grow border-2 py-1 px-3 border-highlight' htmlFor={id}>
-        {multiple ? 'Fotos auswählen' : 'Foto auswählen'} {uploadImages.length ? `(${uploadImages.length})` : ''}
+    <form className={`flex flex-row ${className}`} {...rest}>
+      <label className='flex-grow border-2 py-1 px-3 border-highlight max-w-full' htmlFor={id}>
+        {uploading ? (
+          <div className='flex justify-between'>
+            <span>Lädt...</span><span className='flex items-center'><Loader2Icon className='animate-spin' /></span>
+          </div>
+        ) : (
+          <UploadInputLabel uploadImages={uploadImages} />
+        )}
       </label>
       <input
         id={id}
-        title={multiple ? 'Fotos auswählen' : 'Foto auswählen'}
+        title="auswählen"
         disabled={uploading}
         type='file'
         accept='image/png, image/jpeg'
         multiple={multiple}
         hidden
         onChange={updateSelectedImages} />
-      <Button disabled={uploading || uploadImages.length < 1} type='button' onClick={handleSubmit}>Hochladen</Button>
     </form>
   );
 }

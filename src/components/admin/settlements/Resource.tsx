@@ -98,25 +98,20 @@ export function EditResource({ resourceInput, availableResourceTypes, settlement
 
   const imageUploadCallback = (images: ImageResponse[]) => {
     if (images.length !== 1) {
+      updateResource({
+        url: undefined
+      });
       return;
     }
     const image = images[0];
     updateResource({
       url: image.url
-    })
+    });
   }
 
   return (
     <div {...rest}>
       <div className='flex gap-4'>
-        <div className='basis-full'>
-          <label htmlFor="resourceName">Name:</label>
-          <InputGhost
-            id='resourceName'
-            className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
-            value={resource?.name ?? ''}
-            onChange={(event) => updateResource({ name: event.target.value })} />
-        </div>
         <div className='basis-full'>
           <label htmlFor="resourceType">Typ:</label>
           <Select<ResourceType>
@@ -126,16 +121,23 @@ export function EditResource({ resourceInput, availableResourceTypes, settlement
             options={availableResourceTypes}
             onChange={(event) => setResourceType(availableResourceTypes.find(resourceType => resourceType.id === event.target.value))} />
         </div>
+        <div className='basis-full'>
+          <label htmlFor="resourceName">Name:</label>
+          <InputGhost
+            id='resourceName'
+            className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
+            value={resource?.name ?? ''}
+            onChange={(event) => updateResource({ name: event.target.value })} />
+        </div>
       </div>
       <div className='flex gap-4'>
         <div className='basis-full'>
-          <label htmlFor="resourceUrl">URL:</label>
+          <label htmlFor="resourceCopyright">Copyright:</label>
           <InputGhost
-            key={resource?.url}
-            id='resourceUrl'
+            id='resourceCopyright'
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
-            value={resource?.url ?? ''}
-            onChange={(event) => updateResource({ url: event.target.value })} />
+            value={resource?.copyright ?? ''}
+            onChange={(event) => updateResource({ copyright: event.target.value })} />
         </div>
         <div className='basis-full'>
           <label htmlFor="resourceSource">Quelle:</label>
@@ -164,9 +166,18 @@ export function EditResource({ resourceInput, availableResourceTypes, settlement
             onChange={(event) => updateResource({ license: event.target.value })} />
         </div>
       </div>
-      {resourceType?.name === 'Foto' &&
-        <div className='flex gap-4'>
-          <div className='basis-full'>
+      <div className='flex gap-4'>
+        <div className='basis-full'>
+          <label htmlFor="resourceUrl">URL:</label>
+          <InputGhost
+            key={resource?.url}
+            id='resourceUrl'
+            className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
+            value={resource?.url ?? ''}
+            onChange={(event) => updateResource({ url: event.target.value })} />
+        </div>
+        {resourceType?.name === 'Foto' &&
+          <div className='basis-full overflow-hidden'>
             <label htmlFor='resourceImage'>Foto:</label>
             <Upload
               className='mt-1 mb-2'
@@ -174,13 +185,13 @@ export function EditResource({ resourceInput, availableResourceTypes, settlement
               onUpload={imageUploadCallback}
               category={settlementSlug} />
           </div>
-        </div>
-      }
+        }
+      </div>
       <div className='flex gap-4 flex-col lg:flex-row mt-2 mb-1'>
         <Button
           className='w-full'
           onClick={() => resource && submitResource(resource, resource?.id)}
-          disabled={loading || !(resource?.name)}><>{resource?.id ? 'Speichern' : 'Hinzufügen'}
+          disabled={loading || !(resource?.name) || (resourceType?.name === 'Foto' && !resource.url)}><>{resource?.id ? 'Speichern' : 'Hinzufügen'}
             {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
         </Button>
         {resource?.id && (
