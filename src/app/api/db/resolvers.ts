@@ -2,7 +2,7 @@ import { Prisma } from '@prisma/client';
 
 import { addSettlementOnArchitect, addSettlementOnTag, createArchitect, createDetail, createEvent, createLocation, createResource, createSettlement, createTag, deleteArchitect, deleteSettlement, deleteTag, findArchitect, findArchitects, findDetail, findDetails, findDetailTypes, findEvent, findEvents, findEventTypes, findResource, findResources, findResourceTypes, findSettlement, findSettlements, findTags, flushCache, updateArchitect, updateDetail, updateEvent, updateLocation, updateResource, updateSettlement, updateTag } from '@/lib/db';
 
-import { Architect, BaseArchitect, BaseDetail, BaseEvent, BaseLocation, BaseResource, BaseSettlement, BaseSettlementOnArchitect, BaseSettlementOnTag, BaseTag, Detail, DetailType, EventType, Resource, ResourceType, Tag } from '@/app/admin/page';
+import { Architect, BaseArchitect, BaseDetail, BaseEvent, BaseLocation, BaseResource, BaseSettlement, BaseSettlementOnArchitect, BaseSettlementOnTag, BaseTag, Detail, DetailType, Event, EventType, Resource, ResourceType, Tag } from '@/app/admin/page';
 import { baseTransformers, transformers } from '@/app/api/db/transformers';
 
 export const resolvers = {
@@ -21,7 +21,7 @@ export const resolvers = {
   deleteSettlement: async (payload: Prisma.SettlementsDeleteArgs): Promise<BaseSettlement> => {
     return baseTransformers.settlement(await deleteSettlement(payload));
   },
-  getSettlement: async (payload: Prisma.SettlementsFindUniqueArgs): Promise<BaseSettlement> => {
+  getSettlement: async (payload: Prisma.SettlementsFindUniqueArgs): Promise<BaseSettlement | null> => {
     const settlement = await findSettlement(payload);
     if (!settlement) return null;
     return baseTransformers.settlement(settlement);
@@ -34,10 +34,9 @@ export const resolvers = {
   },
   getSettlements: async (): Promise<BaseSettlement[]> => {
     const settlements = await findSettlements();
-    if (!settlements || settlements.length === 0) return null;
     return settlements.map(baseTransformers.settlement);
   },
-  addSettlementOnTag: async (payload: Prisma.SettlementsOnTagsCreateArgs): Promise<BaseSettlementOnTag> => {
+  addSettlementOnTag: async (payload: { data: Prisma.SettlementsOnTagsUncheckedCreateInput }): Promise<BaseSettlementOnTag> => {
     return baseTransformers.settlementOnTag(await addSettlementOnTag(payload));
   },
   addLocation: async (payload: Prisma.LocationsCreateArgs): Promise<BaseLocation> => {
@@ -49,15 +48,14 @@ export const resolvers = {
   addArchitect: async (payload: Prisma.ArchitectsCreateArgs): Promise<BaseArchitect> => {
     return baseTransformers.architect(await createArchitect(payload));
   },
-  addSettlementOnArchitect: async (payload: Prisma.SettlementsOnArchitectsCreateArgs): Promise<BaseSettlementOnArchitect> => {
+  addSettlementOnArchitect: async (payload: { data: Prisma.SettlementsOnArchitectsUncheckedCreateInput }): Promise<BaseSettlementOnArchitect> => {
     return baseTransformers.settlementOnArchitect(await addSettlementOnArchitect(payload));
   },
   getArchitects: async (payload?: Prisma.ArchitectsFindManyArgs): Promise<BaseArchitect[]> => {
     const architects = await (payload ? findArchitects(payload) : findArchitects());
-    if (!architects || architects.length === 0) return null;
     return architects.map(baseTransformers.architect);
   },
-  getArchitect: async (payload: Prisma.ArchitectsFindUniqueArgs): Promise<Architect> => {
+  getArchitect: async (payload: Prisma.ArchitectsFindUniqueArgs): Promise<Architect | null> => {
     const architect = await findArchitect(payload);
     if (!architect) return null;
     return baseTransformers.architect(architect);
@@ -68,7 +66,7 @@ export const resolvers = {
   updateTag: async (payload: Prisma.TagsUpdateArgs): Promise<BaseTag> => {
     return baseTransformers.tag(await updateTag(payload));
   },
-  addEvent: async (payload: Prisma.EventsCreateArgs): Promise<Event> => {
+  addEvent: async (payload: { data: Prisma.EventsUncheckedCreateInput }): Promise<Event> => {
     return baseTransformers.event(await createEvent(payload));
   },
   updateEvent: async (payload: Prisma.EventsUpdateArgs): Promise<BaseEvent> => {
@@ -83,7 +81,7 @@ export const resolvers = {
     const events = await findEvents(payload);
     return events.map(baseTransformers.event);
   },
-  addResource: async (payload: Prisma.ResourcesCreateArgs): Promise<Resource> => {
+  addResource: async (payload: { data: Prisma.ResourcesUncheckedCreateInput }): Promise<Resource> => {
     return baseTransformers.resource(await createResource(payload));
   },
   updateResource: async (payload: Prisma.ResourcesUpdateArgs): Promise<BaseResource> => {
@@ -102,7 +100,7 @@ export const resolvers = {
     const resourceTypes = await (payload ? findResourceTypes(payload) : findResourceTypes());
     return resourceTypes.map(transformers.resourceType);
   },
-  addDetail: async (payload: Prisma.DetailsCreateArgs): Promise<Detail> => {
+  addDetail: async (payload: { data: Prisma.DetailsUncheckedCreateInput }): Promise<Detail> => {
     return baseTransformers.detail(await createDetail(payload));
   },
   updateDetail: async (payload: Prisma.DetailsUpdateArgs): Promise<BaseDetail> => {

@@ -390,7 +390,7 @@ export type SettlementsOnTagsFull = Prisma.SettlementsOnTagsGetPayload<{
 }>;
 
 export async function addSettlementOnTag(
-  data: Prisma.SettlementsOnTagsCreateArgs
+  data: { data: Prisma.SettlementsOnTagsUncheckedCreateInput }
 ) {
   const updateData = data.data;
   return await prisma.settlementsOnTags.create({
@@ -403,7 +403,7 @@ export async function addSettlementOnTag(
 }
 
 export async function addSettlementOnArchitect(
-  data: Prisma.SettlementsOnArchitectsCreateArgs
+  data: { data: Prisma.SettlementsOnArchitectsUncheckedCreateInput }
 ) {
   const updateData = data.data;
   return await prisma.settlementsOnArchitects.create({
@@ -558,7 +558,7 @@ export async function findEvents(
 }
 
 export async function createEvent(
-  data: Prisma.EventsCreateArgs
+  data: { data: Prisma.EventsUncheckedCreateInput }
 ) {
   const updateData = data.data;
   return await prisma.events.create({
@@ -634,7 +634,7 @@ export async function findResources(
 }
 
 export async function createResource(
-  data: Prisma.ResourcesCreateArgs
+  data: { data: Prisma.ResourcesUncheckedCreateInput }
 ) {
   const updateData = data.data;
   return await prisma.resources.create({
@@ -734,7 +734,7 @@ export async function findDetailTypes(
 }
 
 export async function createDetail(
-  data: Prisma.DetailsCreateArgs
+  data: { data: Prisma.DetailsUncheckedCreateInput }
 ) {
   const updateData = data.data;
   return await prisma.details.create({
