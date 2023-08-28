@@ -6,7 +6,7 @@ import prisma from '@/lib/prisma';
 
 import { baseTransformers } from '@/app/api/db/transformers';
 
-export async function findArchitect(
+async function findArchitect(
   where: Prisma.ArchitectsWhereUniqueInput
 ) {
   return await prisma.architects.findUnique({

@@ -5,7 +5,7 @@ import prisma from '@/lib/prisma';
 
 import { baseTransformers } from '@/app/api/db/transformers';
 
-export async function findArchitects() {
+async function findArchitects() {
   return await prisma.architects.findMany({
     where: {
       published: true

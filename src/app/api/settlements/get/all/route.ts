@@ -5,7 +5,7 @@ import prisma from '@/lib/prisma';
 
 import { baseTransformers } from '@/app/api/db/transformers';
 
-export async function findSettlements() {
+async function findSettlements() {
   return await prisma.settlements.findMany({
     where: {
       published: true

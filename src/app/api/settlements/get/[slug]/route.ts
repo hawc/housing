@@ -6,7 +6,7 @@ import prisma from '@/lib/prisma';
 
 import { baseTransformers } from '@/app/api/db/transformers';
 
-export async function findSettlement(
+async function findSettlement(
   where: Prisma.SettlementsWhereUniqueInput
 ) {
   return await prisma.settlements.findUnique({
