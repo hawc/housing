@@ -1,19 +1,17 @@
 import { Metadata } from 'next';
 
-import { findArchitects } from '@/lib/db';
-
 import { ListArchitects } from '@/components/architects/List';
 import Layout from '@/components/layout/Layout';
 
 import { BaseArchitect } from '@/app/admin/page';
-import { baseTransformers } from '@/app/api/db/transformers';
 
 export const metadata: Metadata = {
   title: 'Architekten',
 }
 
 async function getArchitects() {
-  const architects: BaseArchitect[] = (await findArchitects()).map(baseTransformers.architect);
+  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/architects/get/all`);
+  const architects: BaseArchitect[] = await response.json();
 
   return architects;
 }

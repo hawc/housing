@@ -1,13 +1,10 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { findArchitect, findArchitects } from '@/lib/db';
-
 import { Architect } from '@/components/architects/View';
 import Layout from '@/components/layout/Layout';
 
 import type { BaseArchitect } from '@/app/admin/page';
-import { baseTransformers } from '@/app/api/db/transformers';
 
 export async function generateMetadata(
   { params },
@@ -20,16 +17,19 @@ export async function generateMetadata(
 }
 
 export async function generateStaticParams() {
-  const architects: BaseArchitect[] = (await findArchitects()).map(baseTransformers.architect);
+  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/architects/get/all`);
+  const architects: BaseArchitect[] = await response.json();
 
-  return architects ? architects.map(architect => (
+  const slugs = architects.map(architect => (
     { slug: architect.slug }
-  )) : [];
+  ));
+
+  return slugs;
 }
 
 async function getArchitect(slug: string) {
-  const response = await findArchitect({ where: { slug: slug } });
-  const architect = response ? baseTransformers.architect(response) : null;
+  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/architects/get/${slug}`);
+  const architect: BaseArchitect = await response.json();
 
   return architect;
 }

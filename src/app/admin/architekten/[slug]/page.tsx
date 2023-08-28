@@ -1,13 +1,10 @@
 import { Metadata } from 'next';
 
-import { findArchitect, findArchitects } from '@/lib/db';
-
 import { ArchitectEdit } from '@/components/admin/architects/Edit';
 import LoginPageFrame from '@/components/admin/LoginPageFrame';
 import Layout from '@/components/layout/Layout';
 
 import type { BaseArchitect } from '@/app/admin/page';
-import { baseTransformers } from '@/app/api/db/transformers';
 
 export async function generateMetadata(
   { params },
@@ -20,21 +17,26 @@ export async function generateMetadata(
 }
 
 export async function generateStaticParams() {
-  const architects: BaseArchitect[] = (await findArchitects()).map(baseTransformers.architect);
-  return architects ? architects.map(architect => (
+  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/architects/get/all`);
+  const architects: BaseArchitect[] = await response.json();
+
+  const slugs = architects.map(architect => (
     { slug: architect.slug }
-  )) : [];
+  ));
+
+  return slugs;
 }
 
 async function getArchitect(slug: string) {
-  const response = await findArchitect({ where: { slug: slug } });
-  const architect = response ? baseTransformers.architect(response) : null;
+  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/architects/get/${slug}`);
+  const architect: BaseArchitect = await response.json();
 
-  return architect;
+  return architect || undefined;
 }
 
 export default async function ArchitectPage({ params }) {
-  const architect = await getArchitect(params.slug)
+  const architect = await getArchitect(params.slug);
+
   return (
     <Layout>
       <LoginPageFrame>

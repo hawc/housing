@@ -1,0 +1,25 @@
+import { Prisma } from '@prisma/client';
+import { NextRequest, NextResponse } from 'next/server';
+
+import { architectsInclude } from '@/lib/db';
+import prisma from '@/lib/prisma';
+
+import { baseTransformers } from '@/app/api/db/transformers';
+
+export async function findArchitect(
+  where: Prisma.ArchitectsWhereUniqueInput
+) {
+  return await prisma.architects.findUnique({
+    where,
+    include: architectsInclude
+  });
+}
+
+export async function GET(_req: NextRequest, { params }) {
+  const architect = await findArchitect({ slug: params.slug });
+  if (!architect) {
+    return NextResponse.json('');
+  }
+  const responseData = baseTransformers.architect(architect);
+  return NextResponse.json(responseData);
+}

@@ -169,7 +169,7 @@ const eventTypesInclude = Prisma.validator<Prisma.EventTypesInclude>()({});
 const detailTypesInclude = Prisma.validator<Prisma.DetailTypesInclude>()({});
 const resourceTypesInclude = Prisma.validator<Prisma.ResourceTypesInclude>()({});
 
-const architectsInclude = Prisma.validator<Prisma.ArchitectsInclude>()({
+export const architectsInclude = Prisma.validator<Prisma.ArchitectsInclude>()({
   settlements: {
     select: {
       settlement: {
@@ -179,7 +179,7 @@ const architectsInclude = Prisma.validator<Prisma.ArchitectsInclude>()({
   },
 });
 
-const locationsInclude = Prisma.validator<Prisma.LocationsInclude>()({
+export const locationsInclude = Prisma.validator<Prisma.LocationsInclude>()({
   settlement: {
     select: settlementsSelect
   },
@@ -203,7 +203,7 @@ const settlementsOnArchitectsInclude = Prisma.validator<Prisma.SettlementsOnArch
   },
 });
 
-const settlementsInclude = Prisma.validator<Prisma.SettlementsInclude>()({
+export const settlementsInclude = Prisma.validator<Prisma.SettlementsInclude>()({
   architects: {
     select: settlementsOnArchitectsSelect
   },
@@ -418,91 +418,6 @@ export async function addSettlementOnArchitect(
 export type SettlementsFull = Prisma.SettlementsGetPayload<{
   include: typeof settlementsInclude;
 }>;
-
-export async function findArchitect(
-  data: Prisma.ArchitectsFindUniqueArgs
-) {
-  if (data.where.slug) {
-    return await prisma.architects.findUnique({
-      where: {
-        slug: data.where.slug
-      },
-      include: architectsInclude
-    });
-  }
-  return await prisma.architects.findUnique({
-    where: {
-      id: data.where.id
-    },
-    include: architectsInclude
-  });
-}
-
-export async function findArchitects(
-  data?: Prisma.ArchitectsFindManyArgs
-) {
-  if (data && data.where) {
-    if (data.where.slug) {
-      return await prisma.architects.findMany({
-        where: {
-          slug: data.where.slug,
-          published: true
-        },
-        include: architectsInclude
-      });
-    }
-    return await prisma.architects.findMany({
-      where: {
-        id: data.where.id,
-        published: true
-      },
-      include: architectsInclude
-    });
-  }
-  return await prisma.architects.findMany({
-    where: {
-      published: true
-    },
-    include: architectsInclude
-  });
-}
-
-export async function findSettlement(
-  data: Prisma.SettlementsFindUniqueArgs
-) {
-  if (data.where.slug) {
-    return await prisma.settlements.findUnique({
-      where: {
-        slug: data.where.slug,
-      },
-      include: settlementsInclude
-    });
-  }
-  return await prisma.settlements.findUnique({
-    where: {
-      id: data.where.id,
-    },
-    include: settlementsInclude
-  });
-}
-
-export async function findSettlements() {
-  return await prisma.settlements.findMany({
-    where: {
-      published: true
-    },
-    include: settlementsInclude
-  });
-}
-
-export async function findLocations() {
-  return await prisma.locations.findMany({
-    where: {
-      published: true
-    },
-    include: locationsInclude
-  });
-}
 
 export async function createTag(
   data: Prisma.TagsCreateArgs

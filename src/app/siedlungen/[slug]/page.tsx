@@ -1,13 +1,10 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { findSettlement, findSettlements } from '@/lib/db';
-
 import Layout from '@/components/layout/Layout';
 import { Settlement } from '@/components/settlements/View';
 
 import type { BaseSettlement } from '@/app/admin/page';
-import { baseTransformers } from '@/app/api/db/transformers';
 
 export async function generateMetadata(
   { params },
@@ -20,16 +17,19 @@ export async function generateMetadata(
 }
 
 export async function generateStaticParams() {
-  const settlements: BaseSettlement[] = (await findSettlements()).map(baseTransformers.settlement);
+  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/settlements/get/all`);
+  const settlements: BaseSettlement[] = await response.json();
 
-  return settlements ? settlements.map(settlement => (
+  const slugs = settlements.map(settlement => (
     { slug: settlement.slug }
-  )) : [];
+  ));
+
+  return slugs;
 }
 
 async function getSettlement(slug: string) {
-  const response = await findSettlement({ where: { slug: slug } });
-  const settlement = response ? baseTransformers.settlement(response) : undefined;
+  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/settlements/get/${slug}`);
+  const settlement: BaseSettlement = await response.json();
 
   return settlement;
 }
