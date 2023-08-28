@@ -17,17 +17,6 @@ export async function generateMetadata(
   }
 }
 
-export async function generateStaticParams() {
-  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/settlements/get/all`);
-  const settlements: BaseSettlement[] = await response.json();
-
-  const slugs = settlements.map(settlement => (
-    { slug: settlement.slug }
-  ));
-
-  return slugs;
-}
-
 async function getSettlement(slug: string) {
   const response = await fetch(`${process.env.BASE_URL ?? ''}/api/settlements/get/${slug}`);
   const settlement: BaseSettlement = await response.json();

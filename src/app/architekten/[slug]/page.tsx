@@ -16,17 +16,6 @@ export async function generateMetadata(
   }
 }
 
-export async function generateStaticParams() {
-  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/architects/get/all`);
-  const architects: BaseArchitect[] = await response.json();
-
-  const slugs = architects.map(architect => (
-    { slug: architect.slug }
-  ));
-
-  return slugs;
-}
-
 async function getArchitect(slug: string) {
   const response = await fetch(`${process.env.BASE_URL ?? ''}/api/architects/get/${slug}`);
   const architect: BaseArchitect = await response.json();
