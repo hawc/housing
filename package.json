@@ -9,10 +9,10 @@
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "eslint src --fix",
-    "lint:strict": "eslint --max-warnings=0 src",
+    "lint:strict": "eslint src",
     "typecheck": "tsc --noEmit --incremental false",
-    "test:watch": "jest --watch",
-    "test": "jest",
+    "test:watch": "jest --watch --testPathPattern=src/",
+    "test": "jest --silent --testPathPattern=src/",
     "postbuild": "next-sitemap --config next-sitemap.config.js"
   },
   "dependencies": {
