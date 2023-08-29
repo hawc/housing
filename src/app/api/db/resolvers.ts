@@ -1,8 +1,8 @@
 import { Prisma } from '@prisma/client';
 
-import { addSettlementOnArchitect, addSettlementOnTag, createArchitect, createDetail, createEvent, createLocation, createResource, createSettlement, createTag, deleteArchitect, deleteSettlement, deleteTag, findDetail, findDetails, findDetailTypes, findEvent, findEvents, findEventTypes, findResource, findResources, findResourceTypes, findTags, flushCache, updateArchitect, updateDetail, updateEvent, updateLocation, updateResource, updateSettlement, updateTag } from '@/lib/db';
+import { addSettlementOnArchitect, addSettlementOnTag, createDetail, createEvent, createLocation, createResource, createTag, deleteTag, findDetail, findDetails, findDetailTypes, findEvent, findEvents, findEventTypes, findResource, findResources, findResourceTypes, findTags, flushCache, updateArchitect, updateDetail, updateEvent, updateLocation, updateResource, updateTag } from '@/lib/db';
 
-import { BaseArchitect, BaseDetail, BaseEvent, BaseLocation, BaseResource, BaseSettlement, BaseSettlementOnArchitect, BaseSettlementOnTag, BaseTag, Detail, DetailType, Event, EventType, Resource, ResourceType, Tag } from '@/app/admin/page';
+import { BaseArchitect, BaseDetail, BaseEvent, BaseLocation, BaseResource, BaseSettlementOnArchitect, BaseSettlementOnTag, BaseTag, Detail, DetailType, Event, EventType, Resource, ResourceType, Tag } from '@/app/admin/page';
 import { baseTransformers, transformers } from '@/app/api/db/transformers';
 
 export const resolvers = {
@@ -12,20 +12,8 @@ export const resolvers = {
   addTag: async (payload: Prisma.TagsCreateArgs): Promise<Tag> => {
     return transformers.tag(await createTag(payload));
   },
-  deleteArchitect: async (payload: Prisma.ArchitectsDeleteArgs): Promise<BaseArchitect> => {
-    return baseTransformers.architect(await deleteArchitect(payload));
-  },
   deleteTag: async (payload: Prisma.TagsDeleteArgs): Promise<Tag> => {
     return transformers.tag(await deleteTag(payload));
-  },
-  deleteSettlement: async (payload: Prisma.SettlementsDeleteArgs): Promise<BaseSettlement> => {
-    return baseTransformers.settlement(await deleteSettlement(payload));
-  },
-  addSettlement: async (payload: Prisma.SettlementsCreateArgs): Promise<BaseSettlement> => {
-    return baseTransformers.settlement(await createSettlement(payload));
-  },
-  updateSettlement: async (payload: Prisma.SettlementsUpdateArgs): Promise<BaseSettlement> => {
-    return baseTransformers.settlement(await updateSettlement(payload));
   },
   addSettlementOnTag: async (payload: { data: Prisma.SettlementsOnTagsUncheckedCreateInput }): Promise<BaseSettlementOnTag> => {
     return baseTransformers.settlementOnTag(await addSettlementOnTag(payload));
@@ -35,9 +23,6 @@ export const resolvers = {
   },
   updateLocation: async (payload: Prisma.LocationsUpdateArgs): Promise<BaseLocation> => {
     return baseTransformers.location(await updateLocation(payload));
-  },
-  addArchitect: async (payload: Prisma.ArchitectsCreateArgs): Promise<BaseArchitect> => {
-    return baseTransformers.architect(await createArchitect(payload));
   },
   addSettlementOnArchitect: async (payload: { data: Prisma.SettlementsOnArchitectsUncheckedCreateInput }): Promise<BaseSettlementOnArchitect> => {
     return baseTransformers.settlementOnArchitect(await addSettlementOnArchitect(payload));

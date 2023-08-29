@@ -287,18 +287,6 @@ export async function updateLocation(
   });
 }
 
-export async function createArchitect(
-  data: Prisma.ArchitectsCreateArgs
-) {
-  return await prisma.architects.create({
-    data: {
-      name: data.data.name,
-      slug: data.data.slug
-    },
-    include: architectsInclude
-  });
-}
-
 export async function updateArchitect(
   data: Prisma.ArchitectsUpdateArgs
 ) {
@@ -311,62 +299,6 @@ export async function updateArchitect(
       ...updateData
     },
     include: architectsInclude
-  });
-}
-
-export async function deleteArchitect(
-  data: Prisma.ArchitectsDeleteArgs
-) {
-  return await prisma.architects.update({
-    where: {
-      id: data.where.id
-    },
-    data: {
-      published: false
-    },
-    include: architectsInclude
-  });
-}
-
-export async function createSettlement(
-  data: Prisma.SettlementsCreateArgs
-) {
-  return await prisma.settlements.create({
-    data: {
-      name: data.data.name,
-      description: data.data.description ?? '',
-      slug: data.data.slug
-    },
-    include: settlementsInclude
-  });
-}
-
-export async function deleteSettlement(
-  data: Prisma.SettlementsDeleteArgs
-) {
-  return await prisma.settlements.update({
-    where: {
-      id: data.where.id
-    },
-    data: {
-      published: false
-    },
-    include: settlementsInclude
-  });
-}
-
-export async function updateSettlement(
-  data: Prisma.SettlementsUpdateArgs
-) {
-  const updateData = data.data;
-  return await prisma.settlements.update({
-    where: {
-      id: data.where.id
-    },
-    data: {
-      ...updateData
-    },
-    include: settlementsInclude
   });
 }
 

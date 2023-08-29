@@ -5,9 +5,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-import { callAPI } from '@/lib/api';
-import { slugify } from '@/lib/utils';
-
 import { Box, Container } from '@/components/blocks/Box';
 import { Button } from '@/components/blocks/form/Button';
 import { InputGhost } from '@/components/blocks/form/Input';
@@ -31,46 +28,29 @@ export function ArchitectEdit({ architectInput }: { architectInput: Architect | 
     } as Architect)
   }
 
-  const deleteArchitect = async (id: string) => {
+  const deleteArchitect = async (slug: string) => {
     setLoading(true);
-    await callAPI({ type: 'deleteArchitect', payload: { where: { id } } });
+    await fetch(`${process.env.BASE_URL ?? ''}/api/architects/delete/${slug}`);
     router.push('/admin/architekten');
+    setLoading(false);
   };
 
   const submitData = async (architect) => {
     setLoading(true);
-    if (architect?.id) {
-      await callAPI({
-        type: 'updateArchitect',
-        payload: {
-          data: {
-            name: architect.name,
-            description: architect.description,
-          },
-          where: { id: architect.id }
-        }
-      });
-      await getArchitect(architect.id);
+    const data = {
+      name: architect.name,
+      description: architect.description,
+    };
+    if (architect?.slug) {
+      const response = await fetch(`/api/architects/update/${architect.slug}`, { method: 'POST', body: JSON.stringify(data) })
+      const responseArchitect = await response.json();
+      await setArchitect(responseArchitect);
     } else {
-      const response = await callAPI({
-        type: 'addArchitect',
-        payload: {
-          data: {
-            name: architect.name,
-            description: architect.description,
-          },
-        }
-      });
-      await getArchitect(response?.id);
-      router.push(`/admin/architekten/${slugify(architect.name)}`)
-    }
-    setLoading(false);
-  }
-
-  const getArchitect = async (id: string) => {
-    setLoading(true);
-    if (architect?.id) {
-      setArchitect(await callAPI({ type: 'getArchitect', payload: { where: { id } } }));
+      const response = await fetch('/api/architects/add', { method: 'POST', body: JSON.stringify(data) });
+      const responseArchitect = await response.json();
+      if (responseArchitect?.slug) {
+        router.push(`/admin/architekten/${responseArchitect.slug}`)
+      }
     }
     setLoading(false);
   }
@@ -115,7 +95,7 @@ export function ArchitectEdit({ architectInput }: { architectInput: Architect | 
           <Box>
             <Button
               className='bg-text text-bg border border-text'
-              onClick={() => architect && deleteArchitect(architect.id)} disabled={loading || !(architect?.id)}>
+              onClick={() => architect && deleteArchitect(architect.slug)} disabled={loading || !(architect?.id)}>
               <>
                 Löschen {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}
               </>

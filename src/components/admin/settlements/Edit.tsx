@@ -6,9 +6,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-import { callAPI } from '@/lib/api';
-import { slugify } from '@/lib/utils';
-
 import { ArchitectsList } from '@/components/admin/settlements/Architects';
 import { DetailsList } from '@/components/admin/settlements/Details';
 import { Location } from '@/components/admin/settlements/Location';
@@ -41,52 +38,40 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
     } as BaseSettlement)
   }
 
-  const submitData = async () => {
+  const submitData = async (settlement) => {
     setLoading(true);
-    if (settlement?.id) {
-      await callAPI({
-        type: 'updateSettlement',
-        payload: {
-          data: {
-            name: settlement.name,
-            description: settlement.description,
-          },
-          where: { id: settlement.id }
-        }
-      });
-      await getSettlement(settlement.id);
+    const data = {
+      name: settlement.name,
+      description: settlement.description,
+    };
+    if (settlement?.slug) {
+      const response = await fetch(`/api/settlements/update/${settlement.slug}`, { method: 'POST', body: JSON.stringify(data) })
+      const responseSettlement = await response.json();
+      await setSettlement(responseSettlement);
     } else {
-      if (settlement?.name) {
-        const response = await (callAPI({
-          type: 'addSettlement',
-          payload: {
-            data: {
-              name: settlement.name,
-              description: settlement?.description ?? '',
-            },
-          }
-        }) as Promise<BaseSettlement>);
-        await getSettlement(response?.id);
-        router.push(`/admin/siedlungen/${slugify(settlement.name)}`)
+      const response = await fetch('/api/settlements/add', { method: 'POST', body: JSON.stringify(data) });
+      const responseSettlement = await response.json();
+      if (responseSettlement?.slug) {
+        router.push(`/admin/siedlungen/${responseSettlement.slug}`)
       }
     }
     setLoading(false);
   }
 
-  const getSettlement = async (id: string) => {
+  async function getSettlement(slug: string) {
     setLoading(true);
-    if (id || settlement?.id) {
-      setSettlement(await callAPI({ type: 'getSettlement', payload: { where: { id } } }));
-    }
+    const response = await fetch(`${process.env.BASE_URL ?? ''}/api/settlements/get/${slug}`);
+    const settlement: BaseSettlement = await response.json();
+    setSettlement(settlement);
     setLoading(false);
   }
 
-  const deleteSettlement = async (id: string) => {
+  async function deleteSettlement(slug: string) {
     setLoading(true);
-    await callAPI({ type: 'deleteSettlement', payload: { where: { id } } });
+    await fetch(`${process.env.BASE_URL ?? ''}/api/settlements/delete/${slug}`);
     router.push('/siedlungen');
     setLoading(false);
-  };
+  }
 
   return (
     <>
@@ -114,7 +99,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
                   <TagList
                     key={Object.keys(settlement.tags).length}
                     className='ml-2'
-                    getSettlement={() => getSettlement(settlement.id)}
+                    getSettlement={() => getSettlement(settlement.slug)}
                     existingTags={settlement.tags}
                     settlementId={settlement?.id} />
                 )
@@ -153,7 +138,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
                   </Headline>
                   <ArchitectsList
                     key={Object.keys(settlement?.architects ?? {}).length}
-                    getSettlement={() => getSettlement(settlement.id)}
+                    getSettlement={() => getSettlement(settlement.slug)}
                     architects={settlement?.architects}
                     settlementId={settlement?.id} />
                 </>
@@ -182,7 +167,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
                 </Container>
               )}
               <Box>
-                <Location settlementId={settlement?.id} locationInput={settlement?.location ?? undefined} onUpdate={() => getSettlement(settlement.id)} />
+                <Location settlementId={settlement?.id} locationInput={settlement?.location ?? undefined} onUpdate={() => getSettlement(settlement.slug)} />
               </Box>
             </>
           </>
