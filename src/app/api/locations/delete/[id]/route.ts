@@ -17,7 +17,7 @@ async function deleteLocation(
   });
 }
 
-export async function POST(_req: NextRequest, { params }) {
+export async function GET(_req: NextRequest, { params }) {
   await deleteLocation({ id: params.id });
 
   return NextResponse.json('');

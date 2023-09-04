@@ -14,13 +14,6 @@ import { Headline } from '@/components/Headline';
 
 import { BaseTag, Tag } from '@/app/admin/page';
 
-async function getTags() {
-  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/tags/get/all`);
-  const tags: BaseTag[] = await response.json();
-
-  return tags;
-}
-
 async function addTag(data) {
   const response = await fetch(`${process.env.BASE_URL ?? ''}/api/tags/add`, { method: 'POST', body: JSON.stringify(data) });
   const responseTag = await response.json();
@@ -77,7 +70,7 @@ export function EditTag({ tag, getTags }: { tag: BaseTag, getTags: () => Promise
 
   const deleteTag = async (id: string) => {
     setLoading(true);
-    await fetch(`${process.env.BASE_URL ?? ''}/api/locations/delete/${id}`);
+    await fetch(`${process.env.BASE_URL ?? ''}/api/locations/delete/${id}`, { method: 'GET' });
     await getTags();
     setLoading(false);
   };
@@ -104,7 +97,8 @@ export function ListTags({ tagsInput }: { tagsInput: BaseTag[] }) {
   const loadTags = async () => {
     setLoading(true);
     await callAPI({ type: 'clearCache' });
-    const tags = await getTags();
+    const response = await fetch(`${process.env.BASE_URL ?? ''}/api/tags/get/all`, { method: 'GET' });
+    const tags: BaseTag[] = await response.json();
     setTags(tags);
     setLoading(false);
   };

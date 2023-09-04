@@ -4,7 +4,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { tagsInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
 
-
 async function deleteTag(
   where: Prisma.TagsWhereUniqueInput
 ) {
@@ -17,7 +16,7 @@ async function deleteTag(
   });
 }
 
-export async function POST(_req: NextRequest, { params }) {
+export async function GET(_req: NextRequest, { params }) {
   await deleteTag({ id: params.id });
 
   return NextResponse.json('');
