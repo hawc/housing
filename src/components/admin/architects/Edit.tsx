@@ -42,7 +42,7 @@ export function ArchitectEdit({ architectInput }: { architectInput: Architect | 
       description: architect.description,
     };
     if (architect?.slug) {
-      const response = await fetch(`/api/architects/update/${architect.slug}`, { method: 'POST', body: JSON.stringify(data) })
+      const response = await fetch(`/api/architects/update/${architect.slug}`, { method: 'POST', body: JSON.stringify(data) });
       const responseArchitect = await response.json();
       await setArchitect(responseArchitect);
     } else {

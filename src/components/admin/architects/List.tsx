@@ -13,15 +13,22 @@ import { Headline } from '@/components/Headline';
 
 import { Architect, BaseArchitect } from '@/app/admin/page';
 
+async function getArchitects() {
+  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/architects/get/all`);
+  const architects: BaseArchitect[] = await response.json();
+
+  return architects;
+}
+
 export function ListArchitects({ architectsInput }: { architectsInput: BaseArchitect[] }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [architects, setArchitects] = useState<Architect[]>(architectsInput);
   const [loading, setLoading] = useState(false);
 
-  const getArchitects = async () => {
+  const reloadArchitects = async () => {
     setLoading(true);
     await callAPI({ type: 'clearCache' });
-    const architects = await callAPI({ type: 'getArchitects' });
+    const architects = await getArchitects();
     setArchitects(architects);
     setLoading(false);
   };
@@ -32,7 +39,7 @@ export function ListArchitects({ architectsInput }: { architectsInput: BaseArchi
         <div className='flex mt-6'>
           <Headline type='h1' className='mb-0 inline-block'>Architekten</Headline>
           <div>
-            <Button className='ml-3 p-2 rounded-full' onClick={() => getArchitects()}>
+            <Button className='ml-3 p-2 rounded-full' onClick={() => reloadArchitects()}>
               <RotateCwIcon className={`align-text-bottom ${loading && 'animate-spin'}`} size={15} />
             </Button>
           </div>

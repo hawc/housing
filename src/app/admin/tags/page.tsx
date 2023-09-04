@@ -1,19 +1,17 @@
-import { findTags } from '@/lib/db';
-
 import LoginPageFrame from '@/components/admin/LoginPageFrame';
 import { ListTags } from '@/components/admin/tags/List';
 import Layout from '@/components/layout/Layout';
 
 import { BaseTag } from '@/app/admin/page';
-import { baseTransformers } from '@/app/api/db/transformers';
 
 async function getTags() {
-  const tags: BaseTag[] = (await findTags()).map(baseTransformers.tag);
+  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/tags/get/all`);
+  const tags: BaseTag[] = await response.json();
 
   return tags;
 }
 
-export default async function Admin() {
+export default async function Tags() {
   const tags = await getTags();
 
   return (

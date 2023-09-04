@@ -11,6 +11,13 @@ import { Select } from '@/components/blocks/form/Select';
 
 import { BaseTag, Tag } from '@/app/admin/page';
 
+async function getTags() {
+  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/tags/get/all`);
+  const tags: BaseTag[] = await response.json();
+
+  return tags;
+}
+
 function TagItem({ tag, onClick }: { tag: Tag, onClick: (...args: any[]) => void | Promise<void>; }) {
   return (
     <li className="flex mr-1 mb-1 py-1.5 px-2 italic text-xs font-semibold border-2 border-text rounded-full items-center">
@@ -93,7 +100,7 @@ export function TagList({ existingTags, settlementId, className = '', getSettlem
 
   const getAvailableTags = async () => {
     setLoading(true);
-    const tags: BaseTag[] = await callAPI({ type: 'getTags' });
+    const tags: BaseTag[] = await getTags();
     if (tags?.length) {
       const filteredTags = tags.filter((tag: Tag) => !existingTags.map(existingTag => existingTag.id).includes(tag.id));
       setAvailableTags(filteredTags ?? []);

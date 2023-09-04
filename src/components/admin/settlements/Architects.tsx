@@ -23,6 +23,13 @@ interface ArchitectsListProps extends React.HTMLAttributes<HTMLElement> {
   getSettlement: () => Promise<void>;
 }
 
+async function getArchitects() {
+  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/architects/get/all`);
+  const architects: BaseArchitect[] = await response.json();
+
+  return architects;
+}
+
 export function ArchitectsItem({ architect, settlementId, removeArchitect, ...rest }: ArchitectsItemProps) {
   return <div {...rest}>
     {architect.name} <Button onClick={() => removeArchitect(architect.id, settlementId)} className='p-0.5 rounded-full'><XIcon size={15} /></Button>
@@ -36,7 +43,7 @@ export function ArchitectsList({ architects, settlementId, getSettlement }: Arch
 
   const getAvailableArchitects = async () => {
     setLoading(true);
-    const responseArchitects: BaseArchitect[] = await callAPI({ type: 'getArchitects' });
+    const responseArchitects = await getArchitects();
     if (responseArchitects) {
       const filteredArchitects = responseArchitects.filter(responseArchitect => !architects?.map(architect => architect.id).includes(responseArchitect.id));
       setAvailableArchitects(filteredArchitects ?? []);
@@ -44,31 +51,13 @@ export function ArchitectsList({ architects, settlementId, getSettlement }: Arch
     setLoading(false);
   }
 
-  const removeArchitect = async (id, settlementId) => {
+  const removeArchitect = async (architectId, settlementId) => {
     setLoading(true);
-    const submitData = {
-      type: 'updateArchitect',
-      payload: {
-        data: {
-          settlements: {
-            delete: {
-              settlementId_architectId: {
-                architectId: id,
-                settlementId: settlementId,
-              }
-            }
-          }
-        },
-        where: { id }
-      }
-    };
-    const response = await callAPI(submitData);
-    if (response?.id) {
-      setCurrentArchitect(undefined);
-    }
+    await fetch(`/api/architects/removeSettlement/${architectId}/${settlementId}`, { method: 'GET' });
+    setCurrentArchitect(undefined);
     await getSettlement();
     setLoading(false);
-  }
+  };
 
   const addArchitect = async (architect) => {
     setLoading(true);

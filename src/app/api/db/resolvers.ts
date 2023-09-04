@@ -1,8 +1,8 @@
 import { Prisma } from '@prisma/client';
 
-import { addSettlementOnArchitect, addSettlementOnTag, createDetail, createEvent, createLocation, createResource, createTag, deleteTag, findDetail, findDetails, findDetailTypes, findEvent, findEvents, findEventTypes, findResource, findResources, findResourceTypes, findTags, flushCache, updateArchitect, updateDetail, updateEvent, updateLocation, updateResource, updateTag } from '@/lib/db';
+import { addSettlementOnArchitect, addSettlementOnTag, createDetail, createEvent, createLocation, createResource, createTag, deleteTag, findDetail, findDetails, findDetailTypes, findEvent, findEvents, findEventTypes, findResource, findResources, findResourceTypes, flushCache, updateDetail, updateEvent, updateLocation, updateResource, updateTag } from '@/lib/db';
 
-import { BaseArchitect, BaseDetail, BaseEvent, BaseLocation, BaseResource, BaseSettlementOnArchitect, BaseSettlementOnTag, BaseTag, Detail, DetailType, Event, EventType, Resource, ResourceType, Tag } from '@/app/admin/page';
+import { BaseDetail, BaseEvent, BaseLocation, BaseResource, BaseSettlementOnArchitect, BaseSettlementOnTag, BaseTag, Detail, DetailType, Event, EventType, Resource, ResourceType, Tag } from '@/app/admin/page';
 import { baseTransformers, transformers } from '@/app/api/db/transformers';
 
 export const resolvers = {
@@ -26,9 +26,6 @@ export const resolvers = {
   },
   addSettlementOnArchitect: async (payload: { data: Prisma.SettlementsOnArchitectsUncheckedCreateInput }): Promise<BaseSettlementOnArchitect> => {
     return baseTransformers.settlementOnArchitect(await addSettlementOnArchitect(payload));
-  },
-  updateArchitect: async (payload: Prisma.ArchitectsUpdateArgs): Promise<BaseArchitect> => {
-    return baseTransformers.architect(await updateArchitect(payload));
   },
   updateTag: async (payload: Prisma.TagsUpdateArgs): Promise<BaseTag> => {
     return baseTransformers.tag(await updateTag(payload));
@@ -81,10 +78,6 @@ export const resolvers = {
   getDetails: async (payload: Prisma.DetailsFindManyArgs): Promise<BaseDetail[]> => {
     const details = await findDetails(payload);
     return details.map(baseTransformers.detail);
-  },
-  getTags: async (): Promise<Tag[]> => {
-    const tags = await findTags();
-    return tags.map(baseTransformers.tag);
   },
   getEventTypes: async (): Promise<EventType[]> => {
     const eventTypes = await findEventTypes();

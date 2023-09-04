@@ -22,7 +22,7 @@ export default async function Architects() {
   return (
     <Layout>
       <section>
-        <ListArchitects architectsInput={architects} />
+        <ListArchitects architects={architects} />
       </section>
     </Layout>
   );

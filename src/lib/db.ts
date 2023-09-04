@@ -143,19 +143,19 @@ export type SettlementTypesSelect = Prisma.SettlementTypesGetPayload<{ select: t
 export type SettlementsOnSettlementTypesSelect = Prisma.SettlementsOnSettlementTypesGetPayload<{ select: typeof settlementsOnSettlementTypesSelect }>
 export type LocationsSelect = Prisma.LocationsGetPayload<{ select: typeof locationsSelect }>
 
-const eventsInclude = Prisma.validator<Prisma.EventsInclude>()({
+export const eventsInclude = Prisma.validator<Prisma.EventsInclude>()({
   eventType: true
 });
 
-const detailsInclude = Prisma.validator<Prisma.DetailsInclude>()({
+export const detailsInclude = Prisma.validator<Prisma.DetailsInclude>()({
   detailType: true
 });
 
-const resourcesInclude = Prisma.validator<Prisma.ResourcesInclude>()({
+export const resourcesInclude = Prisma.validator<Prisma.ResourcesInclude>()({
   resourceType: true
 });
 
-const tagsInclude = Prisma.validator<Prisma.TagsInclude>()({
+export const tagsInclude = Prisma.validator<Prisma.TagsInclude>()({
   settlements: {
     select: {
       settlement: {
@@ -165,9 +165,9 @@ const tagsInclude = Prisma.validator<Prisma.TagsInclude>()({
   },
 });
 
-const eventTypesInclude = Prisma.validator<Prisma.EventTypesInclude>()({});
-const detailTypesInclude = Prisma.validator<Prisma.DetailTypesInclude>()({});
-const resourceTypesInclude = Prisma.validator<Prisma.ResourceTypesInclude>()({});
+export const eventTypesInclude = Prisma.validator<Prisma.EventTypesInclude>()({});
+export const detailTypesInclude = Prisma.validator<Prisma.DetailTypesInclude>()({});
+export const resourceTypesInclude = Prisma.validator<Prisma.ResourceTypesInclude>()({});
 
 export const architectsInclude = Prisma.validator<Prisma.ArchitectsInclude>()({
   settlements: {
@@ -284,21 +284,6 @@ export async function updateLocation(
       ...updateData
     },
     include: locationsInclude
-  });
-}
-
-export async function updateArchitect(
-  data: Prisma.ArchitectsUpdateArgs
-) {
-  const updateData = data.data;
-  return await prisma.architects.update({
-    where: {
-      id: data.where.id
-    },
-    data: {
-      ...updateData
-    },
-    include: architectsInclude
   });
 }
 
@@ -610,15 +595,6 @@ export async function updateDetail(
       ...updateData
     },
     include: detailsInclude
-  });
-}
-
-export async function findTags() {
-  return await prisma.tags.findMany({
-    where: {
-      published: true
-    },
-    include: tagsInclude
   });
 }
 

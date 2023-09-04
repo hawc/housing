@@ -14,6 +14,13 @@ import { Headline } from '@/components/Headline';
 
 import { BaseTag, Tag } from '@/app/admin/page';
 
+async function getTags() {
+  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/tags/get/all`);
+  const tags: BaseTag[] = await response.json();
+
+  return tags;
+}
+
 function AddTag({ getTags }: { getTags: () => Promise<void> }) {
   const [currentTag, setCurrentTag] = useState<Partial<Tag>>({
     name: '',
@@ -87,10 +94,10 @@ export function ListTags({ tagsInput }: { tagsInput: BaseTag[] }) {
   const [tags, setTags] = useState<BaseTag[]>(tagsInput);
   const [loading, setLoading] = useState(false);
 
-  const getTags = async () => {
+  const loadTags = async () => {
     setLoading(true);
     await callAPI({ type: 'clearCache' });
-    const tags = await callAPI({ type: 'getTags' });
+    const tags = await getTags();
     setTags(tags);
     setLoading(false);
   };
@@ -101,7 +108,7 @@ export function ListTags({ tagsInput }: { tagsInput: BaseTag[] }) {
         <div className='flex mt-6'>
           <Headline type='h1' className='mb-0 inline-block'>Tags</Headline>
           <div>
-            <Button className='ml-3 p-2 rounded-full' onClick={() => getTags()}>
+            <Button className='ml-3 p-2 rounded-full' onClick={() => loadTags()}>
               <RotateCwIcon className={`align-text-bottom ${loading && 'animate-spin'}`} size={15} />
             </Button>
           </div>
@@ -111,12 +118,12 @@ export function ListTags({ tagsInput }: { tagsInput: BaseTag[] }) {
         <>
           {sortAlphabetically(tags).map((tag: BaseTag) => (
             <Box key={tag.id}>
-              <EditTag tag={tag} getTags={getTags} />
+              <EditTag tag={tag} getTags={loadTags} />
             </Box>
           ))}
         </>
         <Box>
-          <AddTag key={tags.length} getTags={getTags} />
+          <AddTag key={tags.length} getTags={loadTags} />
         </Box>
       </Container>
     </>
