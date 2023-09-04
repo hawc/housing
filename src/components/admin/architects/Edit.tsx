@@ -16,12 +16,26 @@ import type { Architect, BaseArchitect } from '@/app/admin/page';
 
 export type Partial<T> = { [P in keyof T]?: T[P] };
 
+async function updateArchitect(slug, data) {
+  const response = await fetch(`${process.env.BASE_URL ?? ''}architects/update/${slug}`, { method: 'POST', body: JSON.stringify(data) });
+  const responseArchitect = await response.json();
+
+  return responseArchitect;
+}
+
+async function addArchitect(data) {
+  const response = await fetch(`${process.env.BASE_URL ?? ''}architects/add`, { method: 'POST', body: JSON.stringify(data) });
+  const responseArchitect = await response.json();
+
+  return responseArchitect;
+}
+
 export function ArchitectEdit({ architectInput }: { architectInput: Architect | undefined }) {
   const router = useRouter();
   const [architect, setArchitect] = useState<BaseArchitect | Architect | undefined>(architectInput);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const updateArchitect = (input: Partial<BaseArchitect>) => {
+  const updateArchitectData = (input: Partial<BaseArchitect>) => {
     setArchitect({
       ...architect,
       ...input,
@@ -42,12 +56,10 @@ export function ArchitectEdit({ architectInput }: { architectInput: Architect | 
       description: architect.description,
     };
     if (architect?.slug) {
-      const response = await fetch(`/api/architects/update/${architect.slug}`, { method: 'POST', body: JSON.stringify(data) });
-      const responseArchitect = await response.json();
+      const responseArchitect = await updateArchitect(architect.slug, data);
       await setArchitect(responseArchitect);
     } else {
-      const response = await fetch('/api/architects/add', { method: 'POST', body: JSON.stringify(data) });
-      const responseArchitect = await response.json();
+      const responseArchitect = await addArchitect(data);
       if (responseArchitect?.slug) {
         router.push(`/admin/architekten/${responseArchitect.slug}`)
       }
@@ -62,7 +74,7 @@ export function ArchitectEdit({ architectInput }: { architectInput: Architect | 
           <Headline type='h1' className='grow'>
             <InputGhost
               className='text-inherit'
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => updateArchitect({ name: event.target.value })}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => updateArchitectData({ name: event.target.value })}
               value={architect?.name ?? ''} />
           </Headline>
           <div>
@@ -77,7 +89,7 @@ export function ArchitectEdit({ architectInput }: { architectInput: Architect | 
           <Box>
             <div>
               <TextareaGhost
-                onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => updateArchitect({ description: event.target.value })}
+                onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => updateArchitectData({ description: event.target.value })}
                 value={architect?.description ?? ''} />
             </div>
           </Box>

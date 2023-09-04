@@ -45,11 +45,11 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
       description: settlement.description,
     };
     if (settlement?.slug) {
-      const response = await fetch(`/api/settlements/update/${settlement.slug}`, { method: 'POST', body: JSON.stringify(data) })
+      const response = await fetch(`${process.env.BASE_URL ?? ''}/api/settlements/update/${settlement.slug}`, { method: 'POST', body: JSON.stringify(data) })
       const responseSettlement = await response.json();
       await setSettlement(responseSettlement);
     } else {
-      const response = await fetch('/api/settlements/add', { method: 'POST', body: JSON.stringify(data) });
+      const response = await fetch(`${process.env.BASE_URL ?? ''}/api/settlements/add`, { method: 'POST', body: JSON.stringify(data) });
       const responseSettlement = await response.json();
       if (responseSettlement?.slug) {
         router.push(`/admin/siedlungen/${responseSettlement.slug}`)

@@ -21,6 +21,13 @@ async function getTags() {
   return tags;
 }
 
+async function addTag(data) {
+  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/tags/add`, { method: 'POST', body: JSON.stringify(data) });
+  const responseTag = await response.json();
+
+  return responseTag;
+}
+
 function AddTag({ getTags }: { getTags: () => Promise<void> }) {
   const [currentTag, setCurrentTag] = useState<Partial<Tag>>({
     name: '',
@@ -37,7 +44,7 @@ function AddTag({ getTags }: { getTags: () => Promise<void> }) {
 
   const submitTag = async (tag: Partial<Tag>) => {
     setLoading(true);
-    await callAPI({ type: 'addTag', payload: { data: tag } });
+    await addTag(tag);
     await getTags();
     setLoading(false);
   };
@@ -70,7 +77,7 @@ export function EditTag({ tag, getTags }: { tag: BaseTag, getTags: () => Promise
 
   const deleteTag = async (id: string) => {
     setLoading(true);
-    await callAPI({ type: 'deleteTag', payload: { where: { id } } });
+    await fetch(`${process.env.BASE_URL ?? ''}/api/locations/delete/${id}`);
     await getTags();
     setLoading(false);
   };

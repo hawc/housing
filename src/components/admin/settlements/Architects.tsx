@@ -53,7 +53,7 @@ export function ArchitectsList({ architects, settlementId, getSettlement }: Arch
 
   const removeArchitect = async (architectId, settlementId) => {
     setLoading(true);
-    await fetch(`/api/architects/removeSettlement/${architectId}/${settlementId}`, { method: 'GET' });
+    await fetch(`${process.env.BASE_URL ?? ''}/api/architects/removeSettlement/${architectId}/${settlementId}`, { method: 'GET' });
     setCurrentArchitect(undefined);
     await getSettlement();
     setLoading(false);

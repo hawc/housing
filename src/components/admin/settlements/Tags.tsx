@@ -61,24 +61,9 @@ export function TagList({ existingTags, settlementId, className = '', getSettlem
   const [loading, setLoading] = useState<boolean>(false);
   const [availableTags, setAvailableTags] = useState<Tag[]>([]);
 
-  const removeTag = async (tag: Tag) => {
+  const removeTag = async (tagId) => {
     setLoading(true);
-    await callAPI({
-      type: 'updateTag',
-      payload: {
-        data: {
-          settlements: {
-            delete: {
-              settlementId_tagId: {
-                tagId: tag.id,
-                settlementId: settlementId,
-              }
-            }
-          }
-        },
-        where: { id: tag.id }
-      }
-    });
+    await fetch(`${process.env.BASE_URL ?? ''}/api/tags/removeSettlement/${tagId}/${settlementId}`, { method: 'GET' });
     await getSettlement();
     setLoading(false);
   }
@@ -115,12 +100,11 @@ export function TagList({ existingTags, settlementId, className = '', getSettlem
   return (
     <ul className={`inline-flex ${className}`}>
       {sortAlphabetically(existingTags).map((tag: Tag) => (
-        <TagItem onClick={() => removeTag(tag)} key={tag.id} tag={tag} />
+        <TagItem onClick={() => removeTag(tag.id)} key={tag.id} tag={tag} />
       ))}
       {!loading && availableTags.length > 0 && (
         <NewTagItem onAdd={addTag} availableTags={availableTags} />
       )}
     </ul>
-
   );
 }

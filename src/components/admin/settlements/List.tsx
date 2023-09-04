@@ -13,15 +13,22 @@ import { Headline } from '@/components/Headline';
 
 import { BaseSettlement, Settlement } from '@/app/admin/page';
 
+async function getSettlements() {
+  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/settlements/get/all`);
+  const settlements: BaseSettlement[] = await response.json();
+
+  return settlements;
+}
+
 export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSettlement[] }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [settlements, setSettlements] = useState<Settlement[]>(settlementsInput);
   const [loading, setLoading] = useState(false);
 
-  const getSettlements = async () => {
+  const getSettlementsData = async () => {
     setLoading(true);
     await callAPI({ type: 'clearCache' });
-    const settlements = await callAPI({ type: 'getSettlements' });
+    const settlements = await getSettlements();
     setSettlements(settlements);
     setLoading(false);
   };
@@ -32,7 +39,7 @@ export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSe
         <div className='flex mt-6'>
           <Headline type='h1' className='mb-0 inline-block'>Siedlungen</Headline>
           <div>
-            <Button className='ml-3 p-2 rounded-full' onClick={() => getSettlements()}>
+            <Button className='ml-3 p-2 rounded-full' onClick={() => getSettlementsData()}>
               <RotateCwIcon className={`align-text-bottom ${loading && 'animate-spin'}`} size={15} />
             </Button>
           </div>

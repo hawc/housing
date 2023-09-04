@@ -249,59 +249,6 @@ export type EventTypesInclude = Prisma.EventTypesGetPayload<{ include: typeof ev
 export type DetailTypesInclude = Prisma.DetailTypesGetPayload<{ include: typeof detailTypesInclude }>
 export type ResourceTypesInclude = Prisma.ResourceTypesGetPayload<{ include: typeof resourceTypesInclude }>
 
-export async function createLocation(
-  data: Prisma.LocationsCreateArgs
-) {
-  const updateData = data.data;
-  return await prisma.locations.create({
-    data: {
-      lat: updateData.lat,
-      lng: updateData.lng,
-      name: updateData.name,
-      address: updateData.address,
-      district: updateData.district,
-      zipCode: updateData.zipCode,
-      city: updateData.city,
-      settlement: {
-        connect: {
-          id: updateData.settlementId
-        }
-      }
-    },
-    include: locationsInclude
-  });
-}
-
-export async function updateLocation(
-  data: Prisma.LocationsUpdateArgs
-) {
-  const updateData = data.data;
-  return await prisma.locations.update({
-    where: {
-      id: data.where.id
-    },
-    data: {
-      ...updateData
-    },
-    include: locationsInclude
-  });
-}
-
-export async function updateTag(
-  data: Prisma.TagsUpdateArgs
-) {
-  const updateData = data.data;
-  return await prisma.tags.update({
-    where: {
-      id: data.where.id
-    },
-    data: {
-      ...updateData
-    },
-    include: tagsInclude
-  });
-}
-
 export type SettlementsOnTagsFull = Prisma.SettlementsOnTagsGetPayload<{
   include: typeof settlementsOnTagsInclude;
 }>;
@@ -329,32 +276,6 @@ export async function addSettlementOnArchitect(
       settlementId: updateData.settlementId
     },
     include: settlementsOnArchitectsInclude
-  });
-}
-
-export type SettlementsFull = Prisma.SettlementsGetPayload<{
-  include: typeof settlementsInclude;
-}>;
-
-export async function createTag(
-  data: Prisma.TagsCreateArgs
-) {
-  const updateData = data.data;
-  return await prisma.tags.create({
-    data: {
-      name: updateData.name,
-      description: updateData.description
-    },
-  });
-}
-
-export async function deleteTag(
-  data: Prisma.TagsDeleteArgs
-) {
-  return await prisma.tags.delete({
-    where: {
-      id: data.where.id
-    }
   });
 }
 

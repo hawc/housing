@@ -4,13 +4,26 @@ import { Loader2Icon } from 'lucide-react';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-import { callAPI } from '@/lib/api';
 import { getUniqueLabel } from '@/lib/utils';
 
 import { Button } from '@/components/blocks/form/Button';
 import { InputGhost } from '@/components/blocks/form/Input';
 
 import { Location } from '@/app/admin/page';
+
+async function updateLocation(id, data) {
+  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/locations/update/${id}`, { method: 'POST', body: JSON.stringify(data) });
+  const responseLocation = await response.json();
+
+  return responseLocation;
+}
+
+async function addLocation(data) {
+  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/locations/add`, { method: 'POST', body: JSON.stringify(data) });
+  const responseLocation = await response.json();
+
+  return responseLocation;
+}
 
 export function Location({ locationInput, settlementId, onUpdate, className = '' }: { locationInput: Location | undefined, settlementId: string | undefined, onUpdate: () => any; className?: string }) {
   const [location, setLocation] = useState<Partial<Location> | undefined>(locationInput);
@@ -20,51 +33,43 @@ export function Location({ locationInput, settlementId, onUpdate, className = ''
 
   const submitLocation = async () => {
     setLoading(true);
-    let submitData;
+    let responseLocation;
     if (location?.id) {
-      submitData = {
-        type: 'updateLocation',
-        payload: {
-          where: {
-            id: location.id
-          },
-          data: {
-            lat: location.lat,
-            lng: location.lng,
-            name: location.name,
-            address: location.address,
-            district: location.district,
-            zipCode: location.zipCode,
-            city: location.city,
-          }
-        }
+      const data = {
+        lat: location.lat,
+        lng: location.lng,
+        name: location.name,
+        address: location.address,
+        district: location.district,
+        zipCode: location.zipCode,
+        city: location.city,
       };
+      responseLocation = await updateLocation(location.id, data);
     } else {
-      submitData = {
-        type: 'addLocation',
-        payload: {
-          data: {
-            lat: location?.lat ?? undefined,
-            lng: location?.lng ?? undefined,
-            name: location?.name ?? undefined,
-            address: location?.address ?? undefined,
-            district: location?.district ?? undefined,
-            zipCode: location?.zipCode ?? undefined,
-            city: location?.city ?? undefined,
-            settlementId: settlementId
+      const data = {
+        lat: location?.lat ?? undefined,
+        lng: location?.lng ?? undefined,
+        name: location?.name ?? undefined,
+        address: location?.address ?? undefined,
+        district: location?.district ?? undefined,
+        zipCode: location?.zipCode ?? undefined,
+        city: location?.city ?? undefined,
+        settlement: {
+          connect: {
+            id: settlementId
           }
         }
       };
+      responseLocation = await addLocation(data);
     }
-    const locationResponse = await callAPI(submitData);
     setLoading(false);
-    if (locationResponse?.id) {
-      setLocation(locationResponse);
+    if (responseLocation?.id) {
+      setLocation(responseLocation);
       await onUpdate();
     }
   }
 
-  const updateLocation = async (input: Partial<Location>) => {
+  const updateLocationData = async (input: Partial<Location>) => {
     setLocation({
       ...location,
       ...input,
@@ -75,31 +80,31 @@ export function Location({ locationInput, settlementId, onUpdate, className = ''
     <div className={`columns-2 ${className}`}>
       <div>
         <label htmlFor={getUniqueLabel('lat', uuid)}>Lat:</label>
-        <InputGhost value={location?.lat ?? ''} step="0.01" disabled={loading} type='number' id={getUniqueLabel('lat', uuid)} className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocation({ lat: Number(event.target.value) })} />
+        <InputGhost value={location?.lat ?? ''} step="0.01" disabled={loading} type='number' id={getUniqueLabel('lat', uuid)} className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocationData({ lat: Number(event.target.value) })} />
       </div>
       <div>
         <label htmlFor={getUniqueLabel('lng', uuid)}>Lng:</label>
-        <InputGhost value={location?.lng ?? ''} step="0.01" disabled={loading} type='number' id={getUniqueLabel('lng', uuid)} className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocation({ lng: Number(event.target.value) })} />
+        <InputGhost value={location?.lng ?? ''} step="0.01" disabled={loading} type='number' id={getUniqueLabel('lng', uuid)} className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocationData({ lng: Number(event.target.value) })} />
       </div>
       <div>
         <label htmlFor={getUniqueLabel('name', uuid)}>Volle Adresse:</label>
-        <InputGhost value={location?.name ?? ''} disabled={loading} id={getUniqueLabel('name', uuid)} className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocation({ name: event.target.value })} />
+        <InputGhost value={location?.name ?? ''} disabled={loading} id={getUniqueLabel('name', uuid)} className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocationData({ name: event.target.value })} />
       </div>
       <div>
         <label htmlFor={getUniqueLabel('address', uuid)}>Straße:</label>
-        <InputGhost value={location?.address ?? ''} disabled={loading} id={getUniqueLabel('address', uuid)} className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocation({ address: event.target.value })} />
+        <InputGhost value={location?.address ?? ''} disabled={loading} id={getUniqueLabel('address', uuid)} className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocationData({ address: event.target.value })} />
       </div>
       <div>
         <label htmlFor={getUniqueLabel('district', uuid)}>Stadtteil:</label>
-        <InputGhost value={location?.district ?? ''} disabled={loading} id={getUniqueLabel('district', uuid)} className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocation({ district: event.target.value })} />
+        <InputGhost value={location?.district ?? ''} disabled={loading} id={getUniqueLabel('district', uuid)} className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocationData({ district: event.target.value })} />
       </div>
       <div>
         <label htmlFor={getUniqueLabel('zipCode', uuid)}>PLZ:</label>
-        <InputGhost value={location?.zipCode ?? ''} disabled={loading} type='number' id={getUniqueLabel('zipCode', uuid)} className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocation({ zipCode: event.target.value })} />
+        <InputGhost value={location?.zipCode ?? ''} disabled={loading} type='number' id={getUniqueLabel('zipCode', uuid)} className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocationData({ zipCode: event.target.value })} />
       </div>
       <div>
         <label htmlFor={getUniqueLabel('city', uuid)}>Stadt:</label>
-        <InputGhost value={location?.city ?? ''} disabled={loading} id={getUniqueLabel('city', uuid)} className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocation({ city: event.target.value })} />
+        <InputGhost value={location?.city ?? ''} disabled={loading} id={getUniqueLabel('city', uuid)} className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocationData({ city: event.target.value })} />
       </div>
       <div className='pt-7'>
         <Button

@@ -29,7 +29,7 @@ export default async function Settlements() {
   return (
     <Layout>
       <section>
-        <ListSettlements settlementsInput={settlements} locationsInput={locations} />
+        <ListSettlements settlements={settlements} locations={locations} />
       </section>
     </Layout>
   );
