@@ -44,7 +44,7 @@ export function ArchitectEdit({ architectInput }: { architectInput: Architect | 
 
   const deleteArchitect = async (slug: string) => {
     setLoading(true);
-    await fetch(`${process.env.BASE_URL ?? ''}/api/architects/delete/${slug}`);
+    await fetch(`${process.env.BASE_URL ?? ''}/api/architects/delete/${slug}`, { method: 'GET' });
     router.push('/admin/architekten');
     setLoading(false);
   };

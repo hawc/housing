@@ -17,7 +17,7 @@ async function deleteArchitect(
   });
 }
 
-export async function POST(_req: NextRequest, { params }) {
+export async function GET(_req: NextRequest, { params }) {
   await deleteArchitect({ slug: params.slug });
 
   return NextResponse.json('');
