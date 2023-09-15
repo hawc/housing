@@ -1,5 +1,7 @@
 import { Metadata } from 'next';
 
+import { fetchData } from '@/lib/fetch';
+
 import { ArchitectEdit } from '@/components/admin/architects/Edit';
 import LoginPageFrame from '@/components/admin/LoginPageFrame';
 import Layout from '@/components/layout/Layout';
@@ -17,8 +19,7 @@ export async function generateMetadata(
 }
 
 export async function generateStaticParams() {
-  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/architects/get/all`);
-  const architects: BaseArchitect[] = await response.json();
+  const architects = await fetchData<BaseArchitect[], BaseArchitect[]>('/api/architects/get/all', undefined, []);
 
   const slugs = architects.map(architect => (
     { slug: architect.slug }
@@ -28,8 +29,7 @@ export async function generateStaticParams() {
 }
 
 async function getArchitect(slug: string) {
-  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/architects/get/${slug}`);
-  const architect: BaseArchitect | undefined = response ? await response.json() : undefined;
+  const architect = await fetchData<BaseArchitect>(`/api/architects/get/${slug}`);
 
   return architect;
 }

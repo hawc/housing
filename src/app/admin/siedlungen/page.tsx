@@ -1,4 +1,6 @@
 
+import { fetchData } from '@/lib/fetch';
+
 import LoginPageFrame from '@/components/admin/LoginPageFrame';
 import { ListSettlements } from '@/components/admin/settlements/List';
 import Layout from '@/components/layout/Layout';
@@ -6,8 +8,7 @@ import Layout from '@/components/layout/Layout';
 import { BaseSettlement } from '@/app/admin/page';
 
 async function getSettlements() {
-  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/settlements/get/all`);
-  const settlements: BaseSettlement[] = await response.json();
+  const settlements = await fetchData<BaseSettlement[], BaseSettlement[]>('/api/settlements/get/all', undefined, []);
 
   return settlements;
 }

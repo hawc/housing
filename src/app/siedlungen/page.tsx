@@ -1,5 +1,7 @@
 import { Metadata } from 'next';
 
+import { fetchData } from '@/lib/fetch';
+
 import Layout from '@/components/layout/Layout';
 import { ListSettlements } from '@/components/settlements/List';
 
@@ -10,15 +12,13 @@ export const metadata: Metadata = {
 }
 
 async function getSettlements() {
-  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/settlements/get/all`);
-  const settlements: BaseSettlement[] = await response.json();
+  const settlements = await fetchData<BaseSettlement[], BaseSettlement[]>('/api/settlements/get/all', undefined, []);
 
   return settlements;
 }
 
 async function getLocations() {
-  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/locations/get/all`);
-  const locations: BaseLocation[] = await response.json();
+  const locations = await fetchData<BaseLocation[], BaseLocation[]>('/api/locations/get/all', undefined, []);
 
   return locations;
 }

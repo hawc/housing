@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
+import { fetchData } from '@/lib/fetch';
+
 import { Box, Container } from '@/components/blocks/Box';
 import { Button } from '@/components/blocks/form/Button';
 import { InputGhost } from '@/components/blocks/form/Input';
@@ -17,17 +19,15 @@ import type { Architect, BaseArchitect } from '@/app/admin/page';
 export type Partial<T> = { [P in keyof T]?: T[P] };
 
 async function updateArchitect(slug: string, data: Partial<BaseArchitect>) {
-  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/architects/update/${slug}`, { method: 'POST', body: JSON.stringify(data) });
-  const responseArchitect = await response.json();
+  const response = await fetchData<BaseArchitect>(`/api/architects/update/${slug}`, { method: 'POST', body: JSON.stringify(data) });
 
-  return responseArchitect;
+  return response;
 }
 
 async function addArchitect(data: Partial<BaseArchitect>) {
-  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/architects/add`, { method: 'POST', body: JSON.stringify(data) });
-  const responseArchitect = await response.json();
+  const response = await fetchData<BaseArchitect>('/api/architects/add', { method: 'POST', body: JSON.stringify(data) });
 
-  return responseArchitect;
+  return response;
 }
 
 export function ArchitectEdit({ architectInput }: { architectInput: Architect | undefined }) {

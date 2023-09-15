@@ -3,6 +3,8 @@
 import { RotateCwIcon } from 'lucide-react';
 import { useState } from 'react';
 
+import { fetchData } from '@/lib/fetch';
+
 import { Box, Container } from '@/components/blocks/Box';
 import { Button } from '@/components/blocks/form/Button';
 import { Link } from '@/components/blocks/Link';
@@ -12,8 +14,7 @@ import { Headline } from '@/components/Headline';
 import { Architect, BaseArchitect } from '@/app/admin/page';
 
 async function getArchitects() {
-  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/architects/get/all`);
-  const architects: BaseArchitect[] = await response.json();
+  const architects = await fetchData<BaseArchitect[], BaseArchitect[]>('/api/architects/get/all', undefined, []);
 
   return architects;
 }

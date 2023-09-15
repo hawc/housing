@@ -3,6 +3,7 @@
 import { XIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
+import { fetchData } from '@/lib/fetch';
 import { sortAlphabetically } from '@/lib/utils';
 
 import { Button } from '@/components/blocks/form/Button';
@@ -23,8 +24,7 @@ interface ArchitectsListProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 async function getArchitects() {
-  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/architects/get/all`);
-  const architects: BaseArchitect[] = await response.json();
+  const architects = await fetchData<BaseArchitect[]>('/api/architects/get/all');
 
   return architects;
 }

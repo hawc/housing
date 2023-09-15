@@ -25,7 +25,7 @@ export function dateIsValid(date) {
   return !Number.isNaN(new Date(date).getTime());
 }
 
-const IconComponent = ({ type, className }: { type: string, className: string }): JSX.Element => {
+function IconComponent({ type, className }: { type: string, className: string }): JSX.Element {
   switch (type) {
     case 'Planung': return <CircleDotDashedIcon className={className} />;
     case 'Fertigstellung': return <BuildingIcon className={className} />;

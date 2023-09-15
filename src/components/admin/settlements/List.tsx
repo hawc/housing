@@ -3,6 +3,8 @@
 import { RotateCwIcon } from 'lucide-react';
 import { useState } from 'react';
 
+import { fetchData } from '@/lib/fetch';
+
 import { Box } from '@/components/blocks/Box';
 import { Button } from '@/components/blocks/form/Button';
 import { Link } from '@/components/blocks/Link';
@@ -12,8 +14,7 @@ import { Headline } from '@/components/Headline';
 import { BaseSettlement, Settlement } from '@/app/admin/page';
 
 async function getSettlements() {
-  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/settlements/get/all`);
-  const settlements: BaseSettlement[] = await response.json();
+  const settlements = await fetchData<BaseSettlement[], BaseSettlement[]>('/api/settlements/get/all', undefined, []);
 
   return settlements;
 }

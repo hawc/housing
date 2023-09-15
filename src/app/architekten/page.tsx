@@ -1,5 +1,7 @@
 import { Metadata } from 'next';
 
+import { fetchData } from '@/lib/fetch';
+
 import { ListArchitects } from '@/components/architects/List';
 import Layout from '@/components/layout/Layout';
 
@@ -10,8 +12,7 @@ export const metadata: Metadata = {
 }
 
 async function getArchitects() {
-  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/architects/get/all`);
-  const architects: BaseArchitect[] = await response.json();
+  const architects = await fetchData<BaseArchitect[], BaseArchitect[]>('/api/architects/get/all', undefined, []);
 
   return architects;
 }

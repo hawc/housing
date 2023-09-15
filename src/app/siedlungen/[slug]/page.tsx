@@ -1,6 +1,8 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
+import { fetchData } from '@/lib/fetch';
+
 import Layout from '@/components/layout/Layout';
 import { Settlement } from '@/components/settlements/View';
 
@@ -17,8 +19,7 @@ export async function generateMetadata(
 }
 
 export async function generateStaticParams() {
-  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/settlements/get/all`);
-  const settlements: BaseSettlement[] = await response.json();
+  const settlements = await fetchData<BaseSettlement[], BaseSettlement[]>('/api/settlements/get/all', undefined, []);
 
   const slugs = settlements.map(settlement => (
     { slug: settlement.slug }
@@ -28,8 +29,7 @@ export async function generateStaticParams() {
 }
 
 async function getSettlement(slug: string) {
-  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/settlements/get/${slug}`);
-  const settlement: BaseSettlement | undefined = response ? await response.json() : undefined;
+  const settlement = await fetchData<BaseSettlement>(`/api/settlements/get/${slug}`);
 
   return settlement;
 }
