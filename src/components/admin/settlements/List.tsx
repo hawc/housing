@@ -3,8 +3,6 @@
 import { RotateCwIcon } from 'lucide-react';
 import { useState } from 'react';
 
-import { callAPI } from '@/lib/api';
-
 import { Box } from '@/components/blocks/Box';
 import { Button } from '@/components/blocks/form/Button';
 import { Link } from '@/components/blocks/Link';
@@ -25,13 +23,13 @@ export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSe
   const [settlements, setSettlements] = useState<Settlement[]>(settlementsInput);
   const [loading, setLoading] = useState(false);
 
-  const getSettlementsData = async () => {
+  async function getSettlementsData() {
     setLoading(true);
-    await callAPI({ type: 'clearCache' });
+    await fetch(`${process.env.BASE_URL ?? ''}/api/cache/clear`);
     const settlements = await getSettlements();
     setSettlements(settlements);
     setLoading(false);
-  };
+  }
 
   return (
     <>

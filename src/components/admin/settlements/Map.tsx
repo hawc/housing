@@ -8,8 +8,21 @@ import { isSettlementFound } from '@/components/blocks/SearchList';
 
 import { BaseLocation, Location } from '@/app/admin/page';
 
-export default function Map({ markers, center, zoom = 12, searchTerm = '' }: { markers: (BaseLocation | Location)[], center: { lat: number, lng: number }, zoom?: number, searchTerm?: string }) {
+interface Coordinates {
+  lat: number;
+  lng: number;
+}
+
+interface MapProps {
+  markers: (BaseLocation | Location)[];
+  center: Coordinates;
+  zoom?: number;
+  searchTerm?: string;
+}
+
+export default function Map({ markers, center, zoom = 12, searchTerm = '' }: MapProps) {
   const router = useRouter();
+
   return (
     <>
       <ReactMapGL

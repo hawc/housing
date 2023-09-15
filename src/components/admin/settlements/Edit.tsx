@@ -31,14 +31,14 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
     ssr: false
   });
 
-  const updateSettlement = (input: Partial<BaseSettlement>) => {
+  function updateSettlement(input: Partial<BaseSettlement>) {
     setSettlement({
       ...settlement,
       ...input,
     } as BaseSettlement)
   }
 
-  const submitData = async (settlement) => {
+  async function submitData(settlement: BaseSettlement) {
     setLoading(true);
     const data = {
       name: settlement.name,
@@ -122,12 +122,12 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
               <Box>
                 <Headline className='inline-block' tag='h2' type='h3'>Historie</Headline>
                 <Timeline
-                  settlementId={settlement?.id}
+                  settlementId={settlement.id}
                   eventsInput={settlement?.events ?? []} />
               </Box>
               <Box>
                 <Headline className='inline-block' tag='h2' type='h3'>Details</Headline>
-                <DetailsList detailsInput={settlement?.details ?? []} settlementId={settlement?.id} />
+                <DetailsList detailsInput={settlement?.details ?? []} settlementId={settlement.id} />
               </Box>
             </Container>
             <Container className='md:grid-cols-2'>
@@ -140,7 +140,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
                     key={Object.keys(settlement?.architects ?? {}).length}
                     getSettlement={() => getSettlement(settlement.slug)}
                     architects={settlement?.architects}
-                    settlementId={settlement?.id} />
+                    settlementId={settlement.id} />
                 </>
               </Box>
               <>
@@ -167,7 +167,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
                 </Container>
               )}
               <Box>
-                <Location settlementId={settlement?.id} locationInput={settlement?.location ?? undefined} onUpdate={() => getSettlement(settlement.slug)} />
+                <Location settlementId={settlement.id} locationInput={settlement?.location ?? undefined} onUpdate={() => getSettlement(settlement.slug)} />
               </Box>
             </>
           </>
@@ -187,7 +187,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
           </Box>
           <Box>
             <Button className='bg-text text-bg border border-text'
-              onClick={() => settlement && deleteSettlement(settlement?.id)}
+              onClick={settlement?.id ? () => deleteSettlement(settlement.id) : () => { return }}
               disabled={loading || !(settlement?.id)}>
               <>
                 Löschen

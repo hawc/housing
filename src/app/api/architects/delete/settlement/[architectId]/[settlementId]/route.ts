@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import prisma from '@/lib/prisma';
 
-
 async function updateArchitect(
   where: Prisma.ArchitectsWhereUniqueInput,
   data: Prisma.ArchitectsUpdateInput

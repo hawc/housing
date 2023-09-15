@@ -20,11 +20,13 @@ export async function saveToCloudinary(image: UploadImage, category: string): Pr
     cloudinaryInit = initCloudinary();
   }
 
-  return await cloudinary.uploader.upload(image.src,
+  const apiResponse = await cloudinary.uploader.upload(image.src,
     { filename_override: image.name, use_filename: true, folder: category, resource_type: 'image' },
     (error, _result) => {
       if (error) {
         console.error(error);
       }
     });
+
+  return apiResponse;
 }

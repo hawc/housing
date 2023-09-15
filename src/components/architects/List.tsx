@@ -9,7 +9,7 @@ import { Headline } from '@/components/Headline';
 import { BaseArchitect } from '@/app/admin/page';
 
 export function ListArchitects({ architects }: { architects: BaseArchitect[] }) {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
   return (
     <>

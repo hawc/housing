@@ -2,7 +2,6 @@
 
 import { Loader2Icon, PlusIcon } from 'lucide-react';
 import { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 
 import { ImageResponse } from '@/app/api/upload/route';
 
@@ -35,24 +34,23 @@ function UploadInputLabel({ uploadImages }: { uploadImages: File[] }) {
 export default function Upload({ onUpload, category, id, multiple = false, className = '', ...rest }: UploadProps) {
   const [uploadImages, setUploadImages] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
-  const uuid = uuidv4();
 
-  const updateSelectedImages = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  async function updateSelectedImages(event: React.ChangeEvent<HTMLInputElement>) {
     onUpload([]);
-    if (e.target.files) {
-      const files = Array.from(e.target.files);
+    if (event.target.files) {
+      const files = Array.from(event.target.files);
       setUploadImages(files);
       handleSubmit(files);
     } else {
       setUploadImages([]);
     }
-  };
+  }
 
-  const handleSubmit = async (files) => {
+  async function handleSubmit(files: File[]) {
     setUploading(true);
 
     const formData = new FormData();
-    files.forEach((image) => {
+    files.forEach((image: File) => {
       formData.append('image', image);
     });
     formData.append('category', category);
@@ -63,11 +61,11 @@ export default function Upload({ onUpload, category, id, multiple = false, class
       onUpload(result.images);
     }
     setUploading(false);
-  };
+  }
 
   return (
     <form className={`flex flex-row ${className}`} {...rest}>
-      <label className='flex-grow border-2 py-1 px-3 border-highlight max-w-full' htmlFor={`${id}-${uuid}`}>
+      <div className='flex-grow border-2 py-1 px-3 border-highlight max-w-full'>
         {uploading ? (
           <div className='flex justify-between'>
             <span>Lädt...</span><span className='flex items-center'><Loader2Icon className='animate-spin' /></span>
@@ -75,10 +73,10 @@ export default function Upload({ onUpload, category, id, multiple = false, class
         ) : (
           <UploadInputLabel uploadImages={uploadImages} />
         )}
-      </label>
+      </div>
       <input
-        id={`${id}-${uuid}`}
-        title="auswählen"
+        id={id}
+        title='auswählen'
         disabled={uploading}
         type='file'
         accept='image/png, image/jpeg'

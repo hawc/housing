@@ -20,15 +20,16 @@ interface SearchInputProps extends React.HTMLAttributes<HTMLElement> {
   searchTerm?: string;
   placeholder?: string;
   loading?: boolean;
-  onChange?: (event: any) => void;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getListOrNull(list: any[]) {
   return list.length > 0 ? list : null;
 }
 
 
-export function SearchInput({ className = '', searchTerm = '', placeholder = 'Suchbegriff eingeben.', loading = false, onChange = () => { return }, ...rest }: SearchInputProps): React.ReactElement {
+export function SearchInput({ className = '', searchTerm = '', placeholder = 'Suchbegriff eingeben', loading = false, onChange = () => { return }, ...rest }: SearchInputProps): React.ReactElement {
   return (
     <InputGhost
       placeholder={placeholder}

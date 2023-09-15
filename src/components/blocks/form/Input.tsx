@@ -6,7 +6,7 @@ interface InputProps extends React.HTMLAttributes<HTMLInputElement> {
   className?: string;
   disabled?: boolean;
   step?: string;
-  onChange: (event) => void;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
 }
 
 const removeTimezoneOffset = (date) => new Date(date).getTime() - (new Date(date).getTimezoneOffset() * 60000);

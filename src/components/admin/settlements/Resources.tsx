@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from 'react';
 
-import { callAPI } from '@/lib/api';
-
 import { EditResource } from '@/components/admin/settlements/Resource';
 
 import { Resource, ResourceType } from '@/app/admin/page';
@@ -19,16 +17,18 @@ export function ResourcesList({ resourcesInput, settlementId, settlementSlug }: 
   const [availableResourceTypes, setAvailableResourceTypes] = useState<ResourceType[]>([]);
   const [resources, setResources] = useState<Resource[]>(resourcesInput);
 
-  const getAvailableResourceTypes = async () => {
+  async function getAvailableResourceTypes() {
     setLoading(true);
-    const resourceTypes = (await callAPI({ type: 'getResourceTypes' }));
+    const response = await fetch(`${process.env.BASE_URL ?? ''}/api/resourceTypes/get/all`);
+    const resourceTypes = await response.json();
     setAvailableResourceTypes(resourceTypes);
     setLoading(false);
   }
 
-  const getResources = async () => {
+  async function getResources(settlementId: string) {
     setLoading(true);
-    const resources = (await callAPI({ type: 'getResources', payload: { where: { settlementId } } }));
+    const response = await fetch(`${process.env.BASE_URL ?? ''}/api/resources/get/${settlementId}/all`);
+    const resources = await response.json();
     setResources(resources);
     setLoading(false);
   }
@@ -43,7 +43,7 @@ export function ResourcesList({ resourcesInput, settlementId, settlementSlug }: 
         <div
           key={resource.id}>
           <EditResource
-            onUpdate={getResources}
+            onUpdate={() => getResources(settlementId)}
             settlementSlug={settlementSlug}
             className='mb-4'
             resourceInput={resource}
@@ -54,7 +54,7 @@ export function ResourcesList({ resourcesInput, settlementId, settlementSlug }: 
       ))}
       <EditResource
         key={resources.length}
-        onUpdate={getResources}
+        onUpdate={() => getResources(settlementId)}
         settlementSlug={settlementSlug}
         resourceInput={undefined} availableResourceTypes={availableResourceTypes} settlementId={settlementId} />
     </div>

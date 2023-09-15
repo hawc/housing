@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from 'react';
 
-import { callAPI } from '@/lib/api';
-
 import { EditDetail } from '@/components/admin/settlements/Detail';
 
 import { Detail, DetailType } from '@/app/admin/page';
@@ -18,16 +16,18 @@ export function DetailsList({ detailsInput, settlementId }: DetailsListProps) {
   const [availableDetailTypes, setAvailableDetailTypes] = useState<DetailType[]>([]);
   const [details, setDetails] = useState<Detail[]>(detailsInput);
 
-  const getAvailableDetailTypes = async () => {
+  async function getAvailableDetailTypes() {
     setLoading(true);
-    const detailTypes = (await callAPI({ type: 'getDetailTypes' }));
+    const response = await fetch(`${process.env.BASE_URL ?? ''}/api/detailTypes/get/all`);
+    const detailTypes = await response.json();
     setAvailableDetailTypes(detailTypes);
     setLoading(false);
   }
 
-  const getDetails = async () => {
+  async function getDetails(settlementId: string) {
     setLoading(true);
-    const details = (await callAPI({ type: 'getDetails', payload: { where: { settlementId } } }));
+    const response = await fetch(`${process.env.BASE_URL ?? ''}/api/details/get/${settlementId}/all`);
+    const details = await response.json();
     setDetails(details);
     setLoading(false);
   }
@@ -41,7 +41,7 @@ export function DetailsList({ detailsInput, settlementId }: DetailsListProps) {
       {details?.map((detail: Detail) => (
         <div key={detail.id}>
           <EditDetail
-            onUpdate={getDetails}
+            onUpdate={() => getDetails(settlementId)}
             className='mb-4'
             detailInput={detail}
             availableDetailTypes={availableDetailTypes}
@@ -51,7 +51,7 @@ export function DetailsList({ detailsInput, settlementId }: DetailsListProps) {
       ))}
       <EditDetail
         key={details.length}
-        onUpdate={getDetails}
+        onUpdate={() => getDetails(settlementId)}
         detailInput={undefined} availableDetailTypes={availableDetailTypes} settlementId={settlementId} />
     </div>
   );

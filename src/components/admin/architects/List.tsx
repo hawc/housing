@@ -3,8 +3,6 @@
 import { RotateCwIcon } from 'lucide-react';
 import { useState } from 'react';
 
-import { callAPI } from '@/lib/api';
-
 import { Box, Container } from '@/components/blocks/Box';
 import { Button } from '@/components/blocks/form/Button';
 import { Link } from '@/components/blocks/Link';
@@ -27,7 +25,7 @@ export function ListArchitects({ architectsInput }: { architectsInput: BaseArchi
 
   const reloadArchitects = async () => {
     setLoading(true);
-    await callAPI({ type: 'clearCache' });
+    await fetch(`${process.env.BASE_URL ?? ''}/api/cache/clear`);
     const architects = await getArchitects();
     setArchitects(architects);
     setLoading(false);

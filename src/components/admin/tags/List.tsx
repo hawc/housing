@@ -3,7 +3,6 @@
 import { Loader2Icon, RotateCwIcon, XIcon } from 'lucide-react';
 import { useState } from 'react';
 
-import { callAPI } from '@/lib/api';
 import { sortAlphabetically } from '@/lib/utils';
 
 import { Box, Container } from '@/components/blocks/Box';
@@ -14,7 +13,7 @@ import { Headline } from '@/components/Headline';
 
 import { BaseTag, Tag } from '@/app/admin/page';
 
-async function addTag(data) {
+async function addTag(data: Partial<Tag>) {
   const response = await fetch(`${process.env.BASE_URL ?? ''}/api/tags/add`, { method: 'POST', body: JSON.stringify(data) });
   const responseTag = await response.json();
 
@@ -28,19 +27,19 @@ function AddTag({ getTags }: { getTags: () => Promise<void> }) {
   });
   const [loading, setLoading] = useState<boolean>(false);
 
-  const setTag = (newTag: Partial<Tag>) => {
+  function setTag(newTag: Partial<Tag>) {
     setCurrentTag({
       ...currentTag,
       ...newTag
     });
   }
 
-  const submitTag = async (tag: Partial<Tag>) => {
+  async function submitTag(tag: Partial<Tag>) {
     setLoading(true);
     await addTag(tag);
     await getTags();
     setLoading(false);
-  };
+  }
 
   return (
     <>
@@ -61,25 +60,25 @@ export function EditTag({ tag, getTags }: { tag: BaseTag, getTags: () => Promise
   const [currentTag, setCurrentTag] = useState<BaseTag>(tag);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const updateTag = (updatedTag) => {
+  function updateTag(updatedTag: Partial<Tag>) {
     setCurrentTag({
       ...currentTag,
       ...updatedTag
     });
   }
 
-  const deleteTag = async (id: string) => {
+  async function deleteTag(id: string) {
     setLoading(true);
     await fetch(`${process.env.BASE_URL ?? ''}/api/locations/delete/${id}`, { method: 'GET' });
     await getTags();
     setLoading(false);
-  };
+  }
 
   return (
     <>
       <div className='flex'>
         <Headline type='h6' tag='h2' className='grow'>
-          <InputGhost value={tag.name} onChange={(e) => updateTag({ name: e.name })} className='mb-1' />
+          <InputGhost value={tag.name} onChange={(event) => updateTag({ name: event.name })} className='mb-1' />
         </Headline>
         <Button disabled={loading} onClick={() => deleteTag(tag.id)} className='ml-3 p-2 rounded-full'>
           <>{loading ? <Loader2Icon size={15} className='animate-spin' /> : <XIcon size={15} />}</>
@@ -96,7 +95,7 @@ export function ListTags({ tagsInput }: { tagsInput: BaseTag[] }) {
 
   const loadTags = async () => {
     setLoading(true);
-    await callAPI({ type: 'clearCache' });
+    await fetch(`${process.env.BASE_URL ?? ''}/api/cache/clear`);
     const response = await fetch(`${process.env.BASE_URL ?? ''}/api/tags/get/all`, { method: 'GET' });
     const tags: BaseTag[] = await response.json();
     setTags(tags);

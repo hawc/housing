@@ -16,15 +16,15 @@ import type { Architect, BaseArchitect } from '@/app/admin/page';
 
 export type Partial<T> = { [P in keyof T]?: T[P] };
 
-async function updateArchitect(slug, data) {
-  const response = await fetch(`${process.env.BASE_URL ?? ''}architects/update/${slug}`, { method: 'POST', body: JSON.stringify(data) });
+async function updateArchitect(slug: string, data: Partial<BaseArchitect>) {
+  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/architects/update/${slug}`, { method: 'POST', body: JSON.stringify(data) });
   const responseArchitect = await response.json();
 
   return responseArchitect;
 }
 
-async function addArchitect(data) {
-  const response = await fetch(`${process.env.BASE_URL ?? ''}architects/add`, { method: 'POST', body: JSON.stringify(data) });
+async function addArchitect(data: Partial<BaseArchitect>) {
+  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/architects/add`, { method: 'POST', body: JSON.stringify(data) });
   const responseArchitect = await response.json();
 
   return responseArchitect;
@@ -35,21 +35,21 @@ export function ArchitectEdit({ architectInput }: { architectInput: Architect | 
   const [architect, setArchitect] = useState<BaseArchitect | Architect | undefined>(architectInput);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const updateArchitectData = (input: Partial<BaseArchitect>) => {
+  function updateArchitectData(input: Partial<BaseArchitect>) {
     setArchitect({
       ...architect,
       ...input,
     } as Architect)
   }
 
-  const deleteArchitect = async (slug: string) => {
+  async function deleteArchitect(slug: string) {
     setLoading(true);
     await fetch(`${process.env.BASE_URL ?? ''}/api/architects/delete/${slug}`, { method: 'GET' });
     router.push('/admin/architekten');
     setLoading(false);
-  };
+  }
 
-  const submitData = async (architect) => {
+  async function submitData(architect) {
     setLoading(true);
     const data = {
       name: architect.name,
@@ -79,7 +79,7 @@ export function ArchitectEdit({ architectInput }: { architectInput: Architect | 
           </Headline>
           <div>
             <Link className='block ml-3 p-2 rounded-full bg-highlight' href='/admin/architekten'>
-              <ArrowLeftIcon className="align-text-bottom" size={15} />
+              <ArrowLeftIcon className='align-text-bottom' size={15} />
             </Link>
           </div>
         </div>

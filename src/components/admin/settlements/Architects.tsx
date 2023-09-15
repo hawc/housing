@@ -3,7 +3,6 @@
 import { XIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-import { callAPI } from '@/lib/api';
 import { sortAlphabetically } from '@/lib/utils';
 
 import { Button } from '@/components/blocks/form/Button';
@@ -41,7 +40,7 @@ export function ArchitectsList({ architects, settlementId, getSettlement }: Arch
   const [availableArchitects, setAvailableArchitects] = useState<Architect[]>([]);
   const [currentArchitect, setCurrentArchitect] = useState<Architect | undefined>(undefined);
 
-  const getAvailableArchitects = async () => {
+  async function getAvailableArchitects() {
     setLoading(true);
     const responseArchitects = await getArchitects();
     if (responseArchitects) {
@@ -51,31 +50,24 @@ export function ArchitectsList({ architects, settlementId, getSettlement }: Arch
     setLoading(false);
   }
 
-  const removeArchitect = async (architectId, settlementId) => {
+  async function removeArchitect(architectId: string, settlementId: string) {
     setLoading(true);
-    await fetch(`${process.env.BASE_URL ?? ''}/api/architects/removeSettlement/${architectId}/${settlementId}`, { method: 'GET' });
+    await fetch(`${process.env.BASE_URL ?? ''}/api/architects/delete/settlement/${architectId}/${settlementId}`, { method: 'GET' });
     setCurrentArchitect(undefined);
     await getSettlement();
     setLoading(false);
-  };
+  }
 
-  const addArchitect = async (architect) => {
+  async function addArchitect(architectId: string, settlementId: string) {
     setLoading(true);
-    await callAPI({
-      type: 'addSettlementOnArchitect',
-      payload: {
-        data: {
-          architectId: architect.id,
-          settlementId: settlementId,
-        }
-      }
-    });
+    await fetch(`${process.env.BASE_URL ?? ''}/api/settlements/add/tag/${settlementId}/${architectId}`, { method: 'GET' });
     await getSettlement();
     setLoading(false);
   }
 
   useEffect(() => {
     getAvailableArchitects();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -105,7 +97,7 @@ export function ArchitectsList({ architects, settlementId, getSettlement }: Arch
             <Button
               className='border-highlight border-2 border-solid w-full'
               disabled={!currentArchitect}
-              onClick={() => addArchitect(currentArchitect)}>
+              onClick={currentArchitect?.id ? () => addArchitect(currentArchitect.id, settlementId) : () => { return }}>
               Hinzufügen
             </Button>
           </div>

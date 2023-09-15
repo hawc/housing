@@ -3,7 +3,6 @@
 import { PlusIcon, XIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-import { callAPI } from '@/lib/api';
 import { sortAlphabetically } from '@/lib/utils';
 
 import { Button } from '@/components/blocks/form/Button';
@@ -18,7 +17,12 @@ async function getTags() {
   return tags;
 }
 
-function TagItem({ tag, onClick }: { tag: Tag, onClick: (...args: any[]) => void | Promise<void>; }) {
+interface TagItemProps {
+  tag: Tag;
+  onClick: (...args: unknown[]) => void | Promise<void>;
+}
+
+function TagItem({ tag, onClick }: TagItemProps) {
   return (
     <li className="flex mr-1 mb-1 py-1.5 px-2 italic text-xs font-semibold border-2 border-text rounded-full items-center">
       {tag.name}
@@ -27,17 +31,22 @@ function TagItem({ tag, onClick }: { tag: Tag, onClick: (...args: any[]) => void
   );
 }
 
-function NewTagItem({ availableTags, onAdd }: { availableTags: Tag[], onAdd: (tag: Partial<Tag>) => void | Promise<void> }) {
-  const [currentTag, setCurrentTag] = useState<Partial<Tag> | undefined>();
+interface NewTagItemProps {
+  availableTags: Tag[];
+  onAdd: (tagId: string) => void | Promise<void>;
+}
+
+function NewTagItem({ availableTags, onAdd }: NewTagItemProps) {
+  const [currentTag, setCurrentTag] = useState<Tag | undefined>();
   const [loading, setLoading] = useState<boolean>(false);
 
   const setTag = (id: string) => {
-    setCurrentTag(id ? availableTags.find(availableTag => availableTag.id === id) : undefined);
+    setCurrentTag(availableTags.find(availableTag => availableTag.id === id));
   }
 
-  const addTag = async (tag: Partial<Tag>) => {
+  async function addTag(tagId: string) {
     setLoading(true);
-    await onAdd(tag);
+    await onAdd(tagId);
     setLoading(false);
   }
 
@@ -45,45 +54,44 @@ function NewTagItem({ availableTags, onAdd }: { availableTags: Tag[], onAdd: (ta
     <li className="flex mr-1 mb-1 py-1.5 px-2 italic text-xs font-semibold border-2 border-text rounded-full items-center">
       <Select<Tag>
         options={availableTags}
-        onChange={(e) => setTag(e.target.value)}
+        onChange={(event) => event.target.value ?? setTag(event.target.value)}
         className='italic leading-none'
         disabled={loading} />
       <Button
         ghost
         className='pl-2'
-        onClick={() => currentTag && addTag(currentTag)}
+        onClick={() => currentTag && addTag(currentTag.id)}
         disabled={!currentTag?.name?.length || loading}><PlusIcon size={15} /></Button>
     </li>
   );
 }
 
-export function TagList({ existingTags, settlementId, className = '', getSettlement }: { existingTags: Tag[], settlementId: string, className?: string, getSettlement: () => Promise<void> }) {
+interface TagListProps {
+  existingTags: Tag[];
+  settlementId: string;
+  className?: string;
+  getSettlement: () => Promise<void>;
+}
+
+export function TagList({ existingTags, settlementId, className = '', getSettlement }: TagListProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [availableTags, setAvailableTags] = useState<Tag[]>([]);
 
-  const removeTag = async (tagId) => {
+  async function removeTag(tagId: string) {
     setLoading(true);
-    await fetch(`${process.env.BASE_URL ?? ''}/api/tags/removeSettlement/${tagId}/${settlementId}`, { method: 'GET' });
+    await fetch(`${process.env.BASE_URL ?? ''}/api/tags/delete/settlement/${tagId}/${settlementId}`, { method: 'GET' });
     await getSettlement();
     setLoading(false);
   }
 
-  const addTag = async (tag: Tag) => {
+  async function addTag(tagId: string, settlementId: string) {
     setLoading(true);
-    await callAPI({
-      type: 'addSettlementOnTag',
-      payload: {
-        data: {
-          tagId: tag.id,
-          settlementId: settlementId,
-        }
-      }
-    });
+    await fetch(`${process.env.BASE_URL ?? ''}/api/settlements/add/tag/${settlementId}/${tagId}`, { method: 'GET' });
     await getSettlement();
     setLoading(false);
   }
 
-  const getAvailableTags = async () => {
+  async function getAvailableTags() {
     setLoading(true);
     const tags: BaseTag[] = await getTags();
     if (tags?.length) {
@@ -95,6 +103,7 @@ export function TagList({ existingTags, settlementId, className = '', getSettlem
 
   useEffect(() => {
     getAvailableTags();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -103,7 +112,7 @@ export function TagList({ existingTags, settlementId, className = '', getSettlem
         <TagItem onClick={() => removeTag(tag.id)} key={tag.id} tag={tag} />
       ))}
       {!loading && availableTags.length > 0 && (
-        <NewTagItem onAdd={addTag} availableTags={availableTags} />
+        <NewTagItem onAdd={(tagId) => addTag(tagId, settlementId)} availableTags={availableTags} />
       )}
     </ul>
   );

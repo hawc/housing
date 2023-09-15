@@ -11,27 +11,33 @@ import { InputGhost } from '@/components/blocks/form/Input';
 
 import { Location } from '@/app/admin/page';
 
-async function updateLocation(id, data) {
+async function updateLocation(id: string, data: Partial<Location>) {
   const response = await fetch(`${process.env.BASE_URL ?? ''}/api/locations/update/${id}`, { method: 'POST', body: JSON.stringify(data) });
   const responseLocation = await response.json();
 
   return responseLocation;
 }
 
-async function addLocation(data) {
+async function addLocation(data: Partial<Location>) {
   const response = await fetch(`${process.env.BASE_URL ?? ''}/api/locations/add`, { method: 'POST', body: JSON.stringify(data) });
   const responseLocation = await response.json();
 
   return responseLocation;
 }
 
-export function Location({ locationInput, settlementId, onUpdate, className = '' }: { locationInput: Location | undefined, settlementId: string | undefined, onUpdate: () => any; className?: string }) {
+interface LocationProps {
+  locationInput: Location | undefined;
+  settlementId: string | undefined;
+  onUpdate: () => unknown;
+  className?: string
+}
+
+export function Location({ locationInput, settlementId, onUpdate, className = '' }: LocationProps) {
   const [location, setLocation] = useState<Partial<Location> | undefined>(locationInput);
   const [loading, setLoading] = useState<boolean>(false);
+  const [uuid] = useState<string>(uuidv4());
 
-  const uuid = uuidv4();
-
-  const submitLocation = async () => {
+  async function submitLocation(location: Partial<Location>) {
     setLoading(true);
     let responseLocation;
     if (location?.id) {
@@ -47,13 +53,13 @@ export function Location({ locationInput, settlementId, onUpdate, className = ''
       responseLocation = await updateLocation(location.id, data);
     } else {
       const data = {
-        lat: location?.lat ?? undefined,
-        lng: location?.lng ?? undefined,
-        name: location?.name ?? undefined,
-        address: location?.address ?? undefined,
-        district: location?.district ?? undefined,
-        zipCode: location?.zipCode ?? undefined,
-        city: location?.city ?? undefined,
+        lat: location.lat,
+        lng: location.lng,
+        name: location.name,
+        address: location.address,
+        district: location.district,
+        zipCode: location.zipCode,
+        city: location.city,
         settlement: {
           connect: {
             id: settlementId
@@ -69,7 +75,7 @@ export function Location({ locationInput, settlementId, onUpdate, className = ''
     }
   }
 
-  const updateLocationData = async (input: Partial<Location>) => {
+  async function updateLocationData(input: Partial<Location>) {
     setLocation({
       ...location,
       ...input,
@@ -108,7 +114,7 @@ export function Location({ locationInput, settlementId, onUpdate, className = ''
       </div>
       <div className='pt-7'>
         <Button
-          onClick={submitLocation}
+          onClick={location ? () => submitLocation(location) : () => { return }}
           className='w-full'
           disabled={loading || !location?.lat || !location?.lng}>
           <>Speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>

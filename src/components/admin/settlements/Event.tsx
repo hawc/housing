@@ -1,10 +1,10 @@
 'use client';
 
+import { Prisma } from '@prisma/client';
 import { BuildingIcon, CircleDotDashedIcon, HomeIcon, Loader2Icon } from 'lucide-react';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-import { callAPI } from '@/lib/api';
 import { getUniqueLabel } from '@/lib/utils';
 
 import { Button } from '@/components/blocks/form/Button';
@@ -17,7 +17,7 @@ import { Event, EventType } from '@/app/admin/page';
 interface EditEventProps extends React.HTMLAttributes<HTMLElement> {
   eventInput: Event | undefined;
   availableEventTypes: EventType[];
-  settlementId: string | null;
+  settlementId: string;
   onUpdate: (detailId: string | undefined) => void;
 }
 
@@ -66,74 +66,64 @@ function TimelineBody({ children }: React.HTMLAttributes<HTMLElement>) {
 
 export function Event({ eventInput, availableEventTypes, settlementId, onUpdate }: EditEventProps) {
   const [event, setCurrentEvent] = useState<Event | undefined>(eventInput);
-  const [eventTypeId, setEventTypeId] = useState<string | undefined>(event?.eventType?.id ?? '');
+  const [eventTypeId, setEventTypeId] = useState<string>(event?.eventType?.id ?? '');
   const [loading, setLoading] = useState<boolean>(false);
+  const [uuid] = useState<string>(uuidv4());
 
-  const uuid = uuidv4();
-
-  const updateEvent = (input: Partial<Event>) => {
+  function setEvent(input: Partial<Event>) {
     setCurrentEvent({
       ...event,
       ...input,
     } as Event)
   }
 
-  const deleteEvent = async (id: string) => {
+  async function deleteEvent(id: string) {
     setLoading(true);
-    const submitData = {
-      type: 'updateEvent',
-      payload: {
-        data: {
-          published: false
-        },
-        where: { id }
-      }
-    };
-    const response = await callAPI(submitData);
-    if (response?.id) {
-      setCurrentEvent(undefined);
-    }
+    await fetch(`${process.env.BASE_URL ?? ''}/api/events/delete/${id}`, { method: 'GET' });
+    setCurrentEvent(undefined); // todo: check if deletion is successful
     onUpdate(id);
     setLoading(false);
   }
 
-  const submitEvent = async (event: Event, id: string | undefined) => {
+  async function updateEvent(id: string, data: Prisma.EventsUncheckedUpdateInput) {
+    const response = await fetch(`${process.env.BASE_URL ?? ''}/api/events/update/${id}`, { method: 'POST', body: JSON.stringify(data) });
+    const event = await response.json();
+
+    return event;
+  }
+
+  async function addEvent(data: Prisma.EventsUncheckedCreateInput) {
+    const response = await fetch(`${process.env.BASE_URL ?? ''}/api/events/add`, { method: 'POST', body: JSON.stringify(data) });
+    const event = await response.json();
+
+    return event;
+  }
+
+  async function submitData(event, eventTypeId: string, settlementId: string) {
     setLoading(true);
-    let submitData;
-    if (id) {
-      submitData = {
-        type: 'updateEvent',
-        payload: {
-          data: {
-            name: event.name,
-            description: event.description,
-            source: event.source,
-            eventDate: event.eventDate ? new Date(event.eventDate) : null,
-            eventTypeId: eventTypeId,
-          },
-          where: { id: event.id }
-        }
+    let response;
+    if (event?.id) {
+      const data: Prisma.EventsUncheckedUpdateInput = {
+        name: event.name,
+        description: event.description,
+        source: event.source,
+        eventDate: event.eventDate ? new Date(event.eventDate) : null,
+        eventTypeId: eventTypeId,
       };
+      response = await updateEvent(event.id, data);
     } else {
-      submitData = {
-        type: 'addEvent',
-        payload: {
-          data: {
-            name: event.name,
-            description: event.description,
-            source: event.source,
-            eventDate: event.eventDate ? new Date(event.eventDate) : null,
-            eventTypeId: eventTypeId,
-            settlementId: settlementId,
-          },
-        }
+      const data: Prisma.EventsUncheckedCreateInput = {
+        name: event.name,
+        description: event.description,
+        source: event.source,
+        eventDate: event.eventDate ? new Date(event.eventDate) : null,
+        eventTypeId: eventTypeId,
+        settlementId: settlementId,
       };
+      response = await addEvent(data);
     }
-    const response = await callAPI(submitData);
-    if (response?.id) {
-      setCurrentEvent(response);
-    }
-    onUpdate(id);
+    setCurrentEvent(response);
+    onUpdate(response.id);
     setLoading(false);
   }
 
@@ -151,7 +141,7 @@ export function Event({ eventInput, availableEventTypes, settlementId, onUpdate 
                 className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
                 value={event?.name ?? ''}
                 id={getUniqueLabel('eventName', uuid)}
-                onChange={(event) => updateEvent({ name: event.target.value })} />
+                onChange={(event) => setEvent({ name: event.target.value })} />
             </div>
             <div className='basis-full'>
               <label htmlFor={getUniqueLabel('eventType', uuid)}>Typ:</label>
@@ -173,7 +163,7 @@ export function Event({ eventInput, availableEventTypes, settlementId, onUpdate 
                 type='date'
                 value={event?.eventDate}
                 id={getUniqueLabel('eventDate', uuid)}
-                onChange={(event) => updateEvent({ eventDate: dateIsValid(event.target.value) ? new Date(new Date(event.target.value).toUTCString()).toISOString() : undefined })} />
+                onChange={(event) => setEvent({ eventDate: dateIsValid(event.target.value) ? new Date(new Date(event.target.value).toUTCString()).toISOString() : undefined })} />
             </div>
             <div className='basis-full'>
               <label htmlFor={getUniqueLabel('eventSource', uuid)}>Quelle:</label>
@@ -181,7 +171,7 @@ export function Event({ eventInput, availableEventTypes, settlementId, onUpdate 
                 className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
                 value={event?.source ?? ''}
                 id={getUniqueLabel('eventSource', uuid)}
-                onChange={(event) => updateEvent({ source: event.target.value })} />
+                onChange={(event) => setEvent({ source: event.target.value })} />
             </div>
           </div>
           <div className='basis-full'>
@@ -190,12 +180,12 @@ export function Event({ eventInput, availableEventTypes, settlementId, onUpdate 
               className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
               value={event?.description ?? ''}
               id={getUniqueLabel('eventDescription', uuid)}
-              onChange={(event) => updateEvent({ description: event.target.value })} />
+              onChange={(event) => setEvent({ description: event.target.value })} />
           </div>
           <div className='flex gap-4 flex-col lg:flex-row mt-2'>
             <Button
               className='w-full'
-              onClick={() => event && submitEvent(event, event?.id)}
+              onClick={event ? () => submitData(event, eventTypeId, settlementId) : () => { return }}
               disabled={loading || !(event?.name)}><>{event?.id ? 'Speichern' : 'Hinzufügen'}
                 {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
             </Button>

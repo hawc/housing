@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-import { callAPI } from '@/lib/api';
 import { sortByDate } from '@/lib/utils';
 
 import { Event as EventComponent } from '@/components/admin/settlements/Event';
@@ -19,21 +18,23 @@ function TimelineWrapper({ children, className = '' }: React.HTMLAttributes<HTML
   )
 }
 
-export function Timeline({ eventsInput, settlementId }: { eventsInput: Event[], settlementId: string | null }) {
+export function Timeline({ eventsInput, settlementId }: { eventsInput: Event[], settlementId: string }) {
   const [loading, setLoading] = useState<boolean>(false);
   const [availableEventTypes, setAvailableEventTypes] = useState<EventType[]>([]);
   const [events, setEvents] = useState<Event[]>(eventsInput);
 
-  const getAvailableEventTypes = async () => {
+  async function getAvailableEventTypes() {
     setLoading(true);
-    const eventTypes = (await callAPI({ type: 'getEventTypes' }));
+    const response = await fetch(`${process.env.BASE_URL ?? ''}/api/eventTypes/get/all`);
+    const eventTypes = await response.json();
     setAvailableEventTypes(eventTypes);
     setLoading(false);
   }
 
-  const getEvents = async () => {
+  async function getEvents(settlementId: string) {
     setLoading(true);
-    const events = (await callAPI({ type: 'getEvents', payload: { where: { settlementId } } }));
+    const response = await fetch(`${process.env.BASE_URL ?? ''}/api/events/get/${settlementId}/all`);
+    const events = await response.json();
     setEvents(events);
     setLoading(false);
   }
@@ -50,7 +51,7 @@ export function Timeline({ eventsInput, settlementId }: { eventsInput: Event[], 
             settlementId={settlementId}
             availableEventTypes={availableEventTypes}
             eventInput={event}
-            onUpdate={getEvents} />
+            onUpdate={() => getEvents(settlementId)} />
           <hr className='mb-4 mt-6 border' />
         </div>
       ))}
@@ -59,7 +60,7 @@ export function Timeline({ eventsInput, settlementId }: { eventsInput: Event[], 
         settlementId={settlementId}
         availableEventTypes={availableEventTypes}
         eventInput={undefined}
-        onUpdate={getEvents} />
+        onUpdate={() => getEvents(settlementId)} />
     </TimelineWrapper>
   );
 }
