@@ -45,10 +45,10 @@ function AddTag({ getTags }: { getTags: () => Promise<void> }) {
     <>
       <div className='flex'>
         <Headline type='h6' tag='h2' className='grow'>
-          <InputGhost placeholder='Neuer Tag' value={currentTag.name} onChange={(e) => setTag({ name: e.target.value })} className='mb-1' />
+          <InputGhost placeholder='Neuer Tag' value={currentTag.name} onChange={(event) => setTag({ name: event.target.value })} className='mb-1' />
         </Headline>
       </div>
-      <TextareaGhost placeholder='Beschreibung' value={currentTag.description} onChange={(e) => setTag({ description: e.target.value })} />
+      <TextareaGhost placeholder='Beschreibung' value={currentTag.description} onChange={(event) => setTag({ description: event.target.value })} />
       <Button disabled={loading} onClick={() => submitTag(currentTag)}>
         <>Tag hinzufügen {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
       </Button>
@@ -56,7 +56,12 @@ function AddTag({ getTags }: { getTags: () => Promise<void> }) {
   );
 }
 
-export function EditTag({ tag, getTags }: { tag: BaseTag, getTags: () => Promise<void> }) {
+interface EditTagProps {
+  tag: BaseTag;
+  getTags: () => Promise<void>;
+}
+
+export function EditTag({ tag, getTags }: EditTagProps) {
   const [currentTag, setCurrentTag] = useState<BaseTag>(tag);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -78,29 +83,33 @@ export function EditTag({ tag, getTags }: { tag: BaseTag, getTags: () => Promise
     <>
       <div className='flex'>
         <Headline type='h6' tag='h2' className='grow'>
-          <InputGhost value={tag.name} onChange={(event) => updateTag({ name: event.name })} className='mb-1' />
+          <InputGhost value={tag.name} onChange={(event) => updateTag({ name: event.target.value })} className='mb-1' />
         </Headline>
         <Button disabled={loading} onClick={() => deleteTag(tag.id)} className='ml-3 p-2 rounded-full'>
           <>{loading ? <Loader2Icon size={15} className='animate-spin' /> : <XIcon size={15} />}</>
         </Button>
       </div>
-      <TextareaGhost value={tag.description} onChange={(e) => updateTag({ description: e.description })} />
+      <TextareaGhost value={tag.description} onChange={(event) => updateTag({ description: event.target.value })} />
     </>
   );
 }
 
-export function ListTags({ tagsInput }: { tagsInput: BaseTag[] }) {
+interface ListTagsProps {
+  tagsInput: BaseTag[]
+}
+
+export function ListTags({ tagsInput }: ListTagsProps) {
   const [tags, setTags] = useState<BaseTag[]>(tagsInput);
   const [loading, setLoading] = useState(false);
 
-  const loadTags = async () => {
+  async function getTags() {
     setLoading(true);
     await fetch(`${process.env.BASE_URL ?? ''}/api/cache/clear`);
     const response = await fetch(`${process.env.BASE_URL ?? ''}/api/tags/get/all`, { method: 'GET' });
     const tags: BaseTag[] = await response.json();
     setTags(tags);
     setLoading(false);
-  };
+  }
 
   return (
     <>
@@ -108,7 +117,7 @@ export function ListTags({ tagsInput }: { tagsInput: BaseTag[] }) {
         <div className='flex mt-6'>
           <Headline type='h1' className='mb-0 inline-block'>Tags</Headline>
           <div>
-            <Button className='ml-3 p-2 rounded-full' onClick={() => loadTags()}>
+            <Button className='ml-3 p-2 rounded-full' onClick={getTags}>
               <RotateCwIcon className={`align-text-bottom ${loading && 'animate-spin'}`} size={15} />
             </Button>
           </div>
@@ -118,12 +127,12 @@ export function ListTags({ tagsInput }: { tagsInput: BaseTag[] }) {
         <>
           {sortAlphabetically(tags).map((tag: BaseTag) => (
             <Box key={tag.id}>
-              <EditTag tag={tag} getTags={loadTags} />
+              <EditTag tag={tag} getTags={getTags} />
             </Box>
           ))}
         </>
         <Box>
-          <AddTag key={tags.length} getTags={loadTags} />
+          <AddTag key={tags.length} getTags={getTags} />
         </Box>
       </Container>
     </>

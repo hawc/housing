@@ -3,7 +3,7 @@ import { twMerge } from 'tailwind-merge';
 interface TextareaProps extends React.HTMLAttributes<HTMLTextAreaElement> {
   value?: string | number | undefined;
   className?: string;
-  onChange: (event) => void;
+  onChange: React.ChangeEventHandler<HTMLTextAreaElement>;
 }
 
 export function TextareaGhost({ className = '', value = '', onChange, ...rest }: TextareaProps) {
