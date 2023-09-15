@@ -9,9 +9,7 @@ export default function LoginPageFrame({ children }: { children: React.ReactNode
 
   if (isLoading) return <div>Loading...</div>;
   if (!user) {
-    if (typeof window !== 'undefined') {
-      router.push('/');
-    }
+    router.push('/');
     return <>Bitte einloggen.</>;
   }
   return (
