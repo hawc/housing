@@ -18,8 +18,9 @@ export function DetailsList({ detailsInput, settlementId }: DetailsListProps) {
 
   async function getAvailableDetailTypes() {
     setLoading(true);
-    const response = await fetch(`${process.env.BASE_URL ?? ''}/api/detailTypes/get/all`);
-    const detailTypes = await response.json();
+    // const response = await fetch(`${process.env.BASE_URL ?? ''}/api/detailTypes/get/all`);
+    // const detailTypes = await response.json();
+    const detailTypes = [];
     setAvailableDetailTypes(detailTypes);
     setLoading(false);
   }

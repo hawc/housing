@@ -19,8 +19,9 @@ export function ResourcesList({ resourcesInput, settlementId, settlementSlug }: 
 
   async function getAvailableResourceTypes() {
     setLoading(true);
-    const response = await fetch(`${process.env.BASE_URL ?? ''}/api/resourceTypes/get/all`);
-    const resourceTypes = await response.json();
+    // const response = await fetch(`${process.env.BASE_URL ?? ''}/api/resourceTypes/get/all`);
+    // const resourceTypes = await response.json();
+    const resourceTypes = [];
     setAvailableResourceTypes(resourceTypes);
     setLoading(false);
   }
