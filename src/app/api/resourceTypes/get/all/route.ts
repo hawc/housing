@@ -2,8 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { resourceTypesInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
-
-import { baseTransformers } from '@/app/api/db/transformers';
+import { baseTransformers } from '@/lib/transformers';
 
 async function findResourceTypes() {
   return await prisma.resourceTypes.findMany({

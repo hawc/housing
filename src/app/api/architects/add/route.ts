@@ -5,7 +5,7 @@ import { architectsInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
 import { slugify } from '@/lib/utils';
 
-import { baseTransformers } from '@/app/api/db/transformers';
+import { baseTransformers } from '@/lib/transformers';
 
 async function createArchitect(
   data: Prisma.ArchitectsCreateInput

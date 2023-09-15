@@ -2,8 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { detailTypesInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
-
-import { baseTransformers } from '@/app/api/db/transformers';
+import { baseTransformers } from '@/lib/transformers';
 
 async function findDetailTypes() {
   return await prisma.detailTypes.findMany({

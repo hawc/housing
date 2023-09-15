@@ -3,8 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { settlementsInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
-
-import { baseTransformers } from '@/app/api/db/transformers';
+import { baseTransformers } from '@/lib/transformers';
 
 async function findSettlement(
   where: Prisma.SettlementsWhereUniqueInput

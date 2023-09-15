@@ -3,9 +3,8 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { settlementsInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
+import { baseTransformers } from '@/lib/transformers';
 import { slugify } from '@/lib/utils';
-
-import { baseTransformers } from '@/app/api/db/transformers';
 
 async function createSettlement(
   data: Prisma.SettlementsCreateInput

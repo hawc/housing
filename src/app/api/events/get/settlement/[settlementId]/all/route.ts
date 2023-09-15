@@ -3,8 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { eventsInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
-
-import { baseTransformers } from '@/app/api/db/transformers';
+import { baseTransformers } from '@/lib/transformers';
 
 async function findEvents(
   where: Prisma.EventsWhereInput

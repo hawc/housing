@@ -2,8 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { architectsInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
-
-import { baseTransformers } from '@/app/api/db/transformers';
+import { baseTransformers } from '@/lib/transformers';
 
 async function findArchitects() {
   return await prisma.architects.findMany({
