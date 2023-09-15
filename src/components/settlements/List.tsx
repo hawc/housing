@@ -33,7 +33,7 @@ export function ListSettlements({ settlements, locations }: { settlements: BaseS
                 className="transition-filter"
                 searchTerm={searchTerm}
                 path='/siedlungen/'
-                loading={Boolean(settlements)}
+                loading={settlements.length === 0}
                 items={settlements} />
             </>
           )}

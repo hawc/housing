@@ -48,7 +48,7 @@ export function ListArchitects({ architectsInput }: { architectsInput: BaseArchi
           <div className="flex flex-col transition-filter">
             <SearchInput
               searchTerm={searchTerm}
-              loading={Boolean(loading && architects)}
+              loading={loading && architects.length > 0}
               onChange={(event) => setSearchTerm(event.target.value)}
               placeholder='Nach Architekten suchen' />
             {!loading && !architects ? (
@@ -57,7 +57,7 @@ export function ListArchitects({ architectsInput }: { architectsInput: BaseArchi
               <SearchList
                 className={`transition-filter ${loading ? 'blur-sm' : 'blur-none'}`}
                 path='/admin/architekten/'
-                loading={Boolean(loading && architects)}
+                loading={loading && architects.length > 0}
                 searchTerm={searchTerm}
                 items={architects} />
             )}
