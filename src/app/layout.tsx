@@ -52,17 +52,17 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang='en'>
-      <head>
-        <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css' rel='stylesheet' />
-      </head>
-      <body>
-        <UserProvider>
+    <UserProvider>
+      <html lang='en'>
+        <head>
+          <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css' rel='stylesheet' />
+        </head>
+        <body>
           <div className={`${space_mono.variable} font-primary`}>
             {children}
           </div>
-        </UserProvider>
-      </body>
-    </html>
+        </body>
+      </html>
+    </UserProvider>
   )
 }

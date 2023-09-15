@@ -17,7 +17,6 @@ export default function HomePage() {
     <Layout>
       <section>
         <Container>
-          {/* <button onClick={async () => }>test</button> */}
           <Box className='p-0 md:p-0'>
             <Image src='/images/header-01.png' alt='header' width={1280} height={400} priority />
           </Box>
