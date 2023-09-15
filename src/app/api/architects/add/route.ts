@@ -3,8 +3,9 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { architectsInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
-import { baseTransformers } from '@/lib/transformers';
 import { slugify } from '@/lib/utils';
+
+import { baseTransformers } from '@/lib/transformers';
 
 async function createArchitect(
   data: Prisma.ArchitectsCreateInput

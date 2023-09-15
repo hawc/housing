@@ -25,9 +25,8 @@ export function Timeline({ eventsInput, settlementId }: { eventsInput: Event[], 
 
   async function getAvailableEventTypes() {
     setLoading(true);
-    // const response = await fetch(`${process.env.BASE_URL ?? ''}/api/eventTypes/get/all`);
-    // const eventTypes = await response.json();
-    const eventTypes = [];
+    const response = await fetch(`${process.env.BASE_URL ?? ''}/api/eventTypes/get/all`);
+    const eventTypes = await response.json();
     setAvailableEventTypes(eventTypes);
     setLoading(false);
   }
