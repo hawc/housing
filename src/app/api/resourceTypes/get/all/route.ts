@@ -16,7 +16,7 @@ async function findResourceTypes() {
 export async function GET(_req: NextRequest) {
   const resourceTypes = await findResourceTypes();
   if (!resourceTypes.length) {
-    return NextResponse.json('');
+    return NextResponse.json([]);
   }
 
   const responseData = resourceTypes.map(baseTransformers.resourceType);

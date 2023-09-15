@@ -16,7 +16,7 @@ async function findArchitects() {
 export async function GET(_req: NextRequest) {
   const architects = await findArchitects();
   if (!architects.length) {
-    return NextResponse.json('');
+    return NextResponse.json([]);
   }
 
   const responseData = architects.map(baseTransformers.architect);

@@ -17,7 +17,7 @@ async function findDetails(
 export async function GET(_req: NextRequest, { params }) {
   const details = await findDetails({ settlementId: params.settlementId });
   if (!details) {
-    return NextResponse.json('');
+    return NextResponse.json([]);
   }
 
   const responseData = details.map(baseTransformers.detail);

@@ -17,7 +17,7 @@ async function findEvents(
 export async function GET(_req: NextRequest, { params }) {
   const events = await findEvents({ settlementId: params.settlementId });
   if (!events) {
-    return NextResponse.json('');
+    return NextResponse.json([]);
   }
 
   const responseData = events.map(baseTransformers.event);

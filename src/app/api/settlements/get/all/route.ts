@@ -16,7 +16,7 @@ async function findSettlements() {
 export async function GET(_req: NextRequest) {
   const settlements = await findSettlements();
   if (!settlements.length) {
-    return NextResponse.json('');
+    return NextResponse.json([]);
   }
 
   const responseData = settlements.map(baseTransformers.settlement);

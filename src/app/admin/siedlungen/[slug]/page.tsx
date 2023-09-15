@@ -30,9 +30,9 @@ export async function generateStaticParams() {
 
 async function getSettlement(slug: string) {
   const response = await fetch(`${process.env.BASE_URL ?? ''}/api/settlements/get/${slug}`);
-  const settlement: BaseSettlement = await response.json();
+  const settlement: BaseSettlement | undefined = response ? await response.json() : undefined;
 
-  return settlement || '';
+  return settlement;
 }
 
 export default async function SettlementPage({ params }) {
@@ -42,7 +42,7 @@ export default async function SettlementPage({ params }) {
     <Layout>
       <LoginPageFrame>
         <section>
-          <SettlementEdit settlementInput={settlement || undefined} />
+          <SettlementEdit settlementInput={settlement} />
         </section>
       </LoginPageFrame>
     </Layout>

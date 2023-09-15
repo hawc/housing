@@ -29,9 +29,9 @@ export async function generateStaticParams() {
 
 async function getArchitect(slug: string) {
   const response = await fetch(`${process.env.BASE_URL ?? ''}/api/architects/get/${slug}`);
-  const architect: BaseArchitect = await response.json();
+  const architect: BaseArchitect | undefined = response ? await response.json() : undefined;
 
-  return architect || undefined;
+  return architect;
 }
 
 export default async function ArchitectPage({ params }) {
@@ -41,7 +41,7 @@ export default async function ArchitectPage({ params }) {
     <Layout>
       <LoginPageFrame>
         <section>
-          <ArchitectEdit architectInput={architect || undefined} />
+          <ArchitectEdit architectInput={architect} />
         </section>
       </LoginPageFrame>
     </Layout>

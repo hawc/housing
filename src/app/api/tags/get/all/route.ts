@@ -16,7 +16,7 @@ async function findTags() {
 export async function GET(_req: NextRequest) {
   const tags = await findTags();
   if (!tags.length) {
-    return NextResponse.json('');
+    return NextResponse.json([]);
   }
 
   const responseData = tags.map(baseTransformers.tag);

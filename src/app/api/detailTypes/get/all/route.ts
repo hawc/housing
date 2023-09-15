@@ -16,7 +16,7 @@ async function findDetailTypes() {
 export async function GET(_req: NextRequest) {
   const detailTypes = await findDetailTypes();
   if (!detailTypes.length) {
-    return NextResponse.json('');
+    return NextResponse.json([]);
   }
 
   const responseData = detailTypes.map(baseTransformers.detailType);

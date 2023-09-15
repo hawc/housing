@@ -16,7 +16,7 @@ async function findLocations() {
 export async function GET(_req: NextRequest) {
   const locations = await findLocations();
   if (!locations.length) {
-    return NextResponse.json('');
+    return NextResponse.json([]);
   }
 
   const responseData = locations.map(baseTransformers.location);

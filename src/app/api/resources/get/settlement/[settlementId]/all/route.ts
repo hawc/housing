@@ -17,7 +17,7 @@ async function findResources(
 export async function GET(_req: NextRequest, { params }) {
   const resources = await findResources({ settlementId: params.settlementId });
   if (!resources) {
-    return NextResponse.json('');
+    return NextResponse.json([]);
   }
 
   const responseData = resources.map(baseTransformers.resource);

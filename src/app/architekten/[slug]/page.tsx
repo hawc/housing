@@ -29,7 +29,7 @@ export async function generateStaticParams() {
 
 async function getArchitect(slug: string) {
   const response = await fetch(`${process.env.BASE_URL ?? ''}/api/architects/get/${slug}`);
-  const architect: BaseArchitect = await response.json();
+  const architect: BaseArchitect | undefined = response ? await response.json() : undefined;
 
   return architect;
 }

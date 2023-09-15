@@ -16,7 +16,7 @@ async function findEventTypes() {
 export async function GET(_req: NextRequest) {
   const eventTypes = await findEventTypes();
   if (!eventTypes.length) {
-    return NextResponse.json('');
+    return NextResponse.json([]);
   }
 
   const responseData = eventTypes.map(baseTransformers.eventType);

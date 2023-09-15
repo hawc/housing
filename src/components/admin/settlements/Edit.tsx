@@ -61,7 +61,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
   async function getSettlement(slug: string) {
     setLoading(true);
     const response = await fetch(`${process.env.BASE_URL ?? ''}/api/settlements/get/${slug}`);
-    const settlement: BaseSettlement = await response.json();
+    const settlement: BaseSettlement | undefined = response ? await response.json() : undefined;
     setSettlement(settlement);
     setLoading(false);
   }
