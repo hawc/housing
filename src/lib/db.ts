@@ -164,9 +164,15 @@ export const tagsInclude = Prisma.validator<Prisma.TagsInclude>()({
   },
 });
 
-export const eventTypesInclude = Prisma.validator<Prisma.EventTypesInclude>()({});
-export const detailTypesInclude = Prisma.validator<Prisma.DetailTypesInclude>()({});
-export const resourceTypesInclude = Prisma.validator<Prisma.ResourceTypesInclude>()({});
+export const eventTypesInclude = Prisma.validator<Prisma.EventTypesInclude>()({
+  events: true
+});
+export const detailTypesInclude = Prisma.validator<Prisma.DetailTypesInclude>()({
+  details: true
+});
+export const resourceTypesInclude = Prisma.validator<Prisma.ResourceTypesInclude>()({
+  resources: true
+});
 
 export const architectsInclude = Prisma.validator<Prisma.ArchitectsInclude>()({
   settlements: {
