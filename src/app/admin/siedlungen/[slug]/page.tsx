@@ -20,7 +20,7 @@ export async function generateMetadata(
 }
 
 export async function generateStaticParams() {
-  const settlements = await fetchData<BaseSettlement[], BaseSettlement[]>('/api/settlements/get/all', undefined, []);
+  const settlements = await fetchData<BaseSettlement[], BaseSettlement[]>('/api/settlements/get/all', []);
 
   const slugs = settlements.map(settlement => (
     { slug: settlement.slug }

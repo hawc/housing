@@ -7,7 +7,7 @@ import Layout from '@/components/layout/Layout';
 import { BaseArchitect } from '@/app/admin/page';
 
 async function getArchitects() {
-  const architects = await fetchData<BaseArchitect[], BaseArchitect[]>('/api/architects/get/all', undefined, []);
+  const architects = await fetchData<BaseArchitect[], BaseArchitect[]>('/api/architects/get/all', []);
 
   return architects;
 }

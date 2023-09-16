@@ -5,6 +5,7 @@ import { Loader2Icon } from 'lucide-react';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
+import { fetchData } from '@/lib/fetch';
 import { getUniqueLabel } from '@/lib/utils';
 
 import { dateIsValid } from '@/components/admin/settlements/Event';
@@ -32,6 +33,14 @@ function getDescriptionInputType(detailType) {
   }
 }
 
+async function updateDetail(id: string, data: Prisma.DetailsUncheckedUpdateInput) {
+  return await fetchData<Detail>(`/api/details/update/${id}`, undefined, { method: 'POST', body: JSON.stringify(data) });
+}
+
+async function addDetail(data: Prisma.DetailsUncheckedCreateInput) {
+  return await fetchData<Detail>('/api/details/add', undefined, { method: 'POST', body: JSON.stringify(data) });
+}
+
 export function EditDetail({ detailInput, availableDetailTypes, settlementId, onUpdate, ...rest }: EditDetailProps) {
   const [detail, setCurrentDetail] = useState<Detail | undefined>(detailInput);
   const [detailTypeId, setDetailTypeId] = useState<string>(detail?.detailType?.id ?? '');
@@ -47,24 +56,10 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, on
 
   async function deleteDetail(id: string) {
     setLoading(true);
-    await fetch(`${process.env.BASE_URL ?? ''}/api/details/delete/${id}`, { method: 'GET' });
+    await fetchData(`/api/details/delete/${id}`);
     setCurrentDetail(undefined); // todo: check if deletion is successful
     onUpdate(id);
     setLoading(false);
-  }
-
-  async function updateDetail(id: string, data: Prisma.DetailsUncheckedUpdateInput) {
-    const response = await fetch(`${process.env.BASE_URL ?? ''}/api/details/update/${id}`, { method: 'POST', body: JSON.stringify(data) });
-    const detail = await response.json();
-
-    return detail;
-  }
-
-  async function addDetail(data: Prisma.DetailsUncheckedCreateInput) {
-    const response = await fetch(`${process.env.BASE_URL ?? ''}/api/details/add`, { method: 'POST', body: JSON.stringify(data) });
-    const detail = await response.json();
-
-    return detail;
   }
 
   async function submitData(detail, detailTypeId: string, settlementId: string) {

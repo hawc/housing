@@ -13,12 +13,6 @@ import { Headline } from '@/components/Headline';
 
 import { Architect, BaseArchitect } from '@/app/admin/page';
 
-async function getArchitects() {
-  const architects = await fetchData<BaseArchitect[], BaseArchitect[]>('/api/architects/get/all', undefined, []);
-
-  return architects;
-}
-
 export function ListArchitects({ architectsInput }: { architectsInput: BaseArchitect[] }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [architects, setArchitects] = useState<Architect[]>(architectsInput);
@@ -26,8 +20,8 @@ export function ListArchitects({ architectsInput }: { architectsInput: BaseArchi
 
   const reloadArchitects = async () => {
     setLoading(true);
-    await fetch(`${process.env.BASE_URL ?? ''}/api/cache/clear`);
-    const architects = await getArchitects();
+    await fetchData('/api/cache/clear');
+    const architects = await fetchData<BaseArchitect[], BaseArchitect[]>('/api/architects/get/all', []);
     setArchitects(architects);
     setLoading(false);
   };

@@ -19,7 +19,7 @@ export async function generateMetadata(
 }
 
 export async function generateStaticParams() {
-  const architects = await fetchData<BaseArchitect[], BaseArchitect[]>('/api/architects/get/all', undefined, []);
+  const architects = await fetchData<BaseArchitect[], BaseArchitect[]>('/api/architects/get/all', []);
 
   const slugs = architects.map(architect => (
     { slug: architect.slug }

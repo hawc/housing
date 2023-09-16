@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 
+import { fetchData } from '@/lib/fetch';
+
 import { EditDetail } from '@/components/admin/settlements/Detail';
 
 import { Detail, DetailType } from '@/app/admin/page';
@@ -18,16 +20,14 @@ export function DetailsList({ detailsInput, settlementId }: DetailsListProps) {
 
   async function getAvailableDetailTypes() {
     setLoading(true);
-    const response = await fetch(`${process.env.BASE_URL ?? ''}/api/detailTypes/get/all`);
-    const detailTypes = await response.json();
+    const detailTypes = await fetchData<DetailType[], DetailType[]>('/api/detailTypes/get/all', []);
     setAvailableDetailTypes(detailTypes);
     setLoading(false);
   }
 
   async function getDetails(settlementId: string) {
     setLoading(true);
-    const response = await fetch(`${process.env.BASE_URL ?? ''}/api/details/get/${settlementId}/all`);
-    const details = await response.json();
+    const details = await fetchData<Detail[], Detail[]>(`/api/details/get/${settlementId}/all`, []);
     setDetails(details);
     setLoading(false);
   }

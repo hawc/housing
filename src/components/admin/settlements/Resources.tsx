@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 
+import { fetchData } from '@/lib/fetch';
+
 import { EditResource } from '@/components/admin/settlements/Resource';
 
 import { Resource, ResourceType } from '@/app/admin/page';
@@ -19,16 +21,14 @@ export function ResourcesList({ resourcesInput, settlementId, settlementSlug }: 
 
   async function getAvailableResourceTypes() {
     setLoading(true);
-    const response = await fetch(`${process.env.BASE_URL ?? ''}/api/resourceTypes/get/all`);
-    const resourceTypes = await response.json();
+    const resourceTypes = await fetchData<ResourceType[], ResourceType[]>('/api/resourceTypes/get/all', []);
     setAvailableResourceTypes(resourceTypes);
     setLoading(false);
   }
 
   async function getResources(settlementId: string) {
     setLoading(true);
-    const response = await fetch(`${process.env.BASE_URL ?? ''}/api/resources/get/${settlementId}/all`);
-    const resources = await response.json();
+    const resources = await fetchData<Resource[], Resource[]>(`/api/resources/get/${settlementId}/all`, []);
     setResources(resources);
     setLoading(false);
   }

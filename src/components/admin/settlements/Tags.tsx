@@ -3,19 +3,13 @@
 import { PlusIcon, XIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
+import { fetchData } from '@/lib/fetch';
 import { sortAlphabetically } from '@/lib/utils';
 
 import { Button } from '@/components/blocks/form/Button';
 import { Select } from '@/components/blocks/form/Select';
 
 import { BaseTag, Tag } from '@/app/admin/page';
-
-async function getTags() {
-  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/tags/get/all`, { method: 'GET' });
-  const tags: BaseTag[] = await response.json();
-
-  return tags;
-}
 
 interface TagItemProps {
   tag: Tag;
@@ -79,24 +73,24 @@ export function TagList({ existingTags, settlementId, className = '', getSettlem
 
   async function removeTag(tagId: string) {
     setLoading(true);
-    await fetch(`${process.env.BASE_URL ?? ''}/api/tags/delete/settlement/${tagId}/${settlementId}`, { method: 'GET' });
+    await fetchData(`/api/tags/delete/settlement/${tagId}/${settlementId}`);
     await getSettlement();
     setLoading(false);
   }
 
   async function addTag(tagId: string, settlementId: string) {
     setLoading(true);
-    await fetch(`${process.env.BASE_URL ?? ''}/api/settlements/add/tag/${settlementId}/${tagId}`, { method: 'GET' });
+    await fetchData(`/api/settlements/add/tag/${settlementId}/${tagId}`);
     await getSettlement();
     setLoading(false);
   }
 
   async function getAvailableTags() {
     setLoading(true);
-    const tags: BaseTag[] = await getTags();
-    if (tags?.length) {
+    const tags = await fetchData<BaseTag[], BaseTag[]>('/api/tags/get/all', []);
+    if (tags.length > 0) {
       const filteredTags = tags.filter((tag: Tag) => !existingTags.map(existingTag => existingTag.id).includes(tag.id));
-      setAvailableTags(filteredTags ?? []);
+      setAvailableTags(filteredTags);
     }
     setLoading(false);
   }

@@ -13,12 +13,6 @@ import { Headline } from '@/components/Headline';
 
 import { BaseSettlement, Settlement } from '@/app/admin/page';
 
-async function getSettlements() {
-  const settlements = await fetchData<BaseSettlement[], BaseSettlement[]>('/api/settlements/get/all', undefined, []);
-
-  return settlements;
-}
-
 export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSettlement[] }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [settlements, setSettlements] = useState<Settlement[]>(settlementsInput);
@@ -26,8 +20,8 @@ export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSe
 
   async function getSettlementsData() {
     setLoading(true);
-    await fetch(`${process.env.BASE_URL ?? ''}/api/cache/clear`);
-    const settlements = await getSettlements();
+    await fetchData('/api/cache/clear');
+    const settlements = await fetchData<BaseSettlement[], BaseSettlement[]>('/api/settlements/get/all', []);
     setSettlements(settlements);
     setLoading(false);
   }

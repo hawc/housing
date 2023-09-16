@@ -5,6 +5,7 @@ import { BuildingIcon, CircleDotDashedIcon, HomeIcon, Loader2Icon } from 'lucide
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
+import { fetchData } from '@/lib/fetch';
 import { getUniqueLabel } from '@/lib/utils';
 
 import { Button } from '@/components/blocks/form/Button';
@@ -35,29 +36,29 @@ function IconComponent({ type, className }: { type: string, className: string })
 
 function TimelineItem({ children }: React.HTMLAttributes<HTMLElement>) {
   return (
-    <li className="flex relative flex-col">
+    <li className='flex relative flex-col'>
       {children}
     </li>)
 }
 
 function TimelineIcon({ children }: React.HTMLAttributes<HTMLElement>) {
   return (
-    <span className="w-max relative z-[2] flex-shrink-0 rounded-full overflow-hidden bg-bg text-grey-light p-2 self-start">
+    <span className='w-max relative z-[2] flex-shrink-0 rounded-full overflow-hidden bg-bg text-grey-light p-2 self-start'>
       {children}
     </span>)
 }
 
 function TimelineHeader({ children }: React.HTMLAttributes<HTMLElement>) {
   return (
-    <div className="flex items-center gap-4">
+    <div className='flex items-center gap-4'>
       {children}
     </div>)
 }
 
 function TimelineBody({ children }: React.HTMLAttributes<HTMLElement>) {
   return (
-    <div className="flex gap-4">
-      <span className="pointer-events-none invisible h-full flex-shrink-0" style={{ width: '40px' }}></span>
+    <div className='flex gap-4'>
+      <span className='pointer-events-none invisible h-full flex-shrink-0' style={{ width: '40px' }}></span>
       <div className='grow'>
         {children}
       </div>
@@ -79,29 +80,23 @@ export function Event({ eventInput, availableEventTypes, settlementId, onUpdate 
 
   async function deleteEvent(id: string) {
     setLoading(true);
-    await fetch(`${process.env.BASE_URL ?? ''}/api/events/delete/${id}`, { method: 'GET' });
+    await fetchData(`/api/events/delete/${id}`);
     setCurrentEvent(undefined); // todo: check if deletion is successful
     onUpdate(id);
     setLoading(false);
   }
 
   async function updateEvent(id: string, data: Prisma.EventsUncheckedUpdateInput) {
-    const response = await fetch(`${process.env.BASE_URL ?? ''}/api/events/update/${id}`, { method: 'POST', body: JSON.stringify(data) });
-    const event = await response.json();
-
-    return event;
+    return await fetchData<Event>(`/api/events/update/${id}`, undefined, { method: 'POST', body: JSON.stringify(data) });
   }
 
   async function addEvent(data: Prisma.EventsUncheckedCreateInput) {
-    const response = await fetch(`${process.env.BASE_URL ?? ''}/api/events/add`, { method: 'POST', body: JSON.stringify(data) });
-    const event = await response.json();
-
-    return event;
+    return await fetchData<Event>('/api/events/add', undefined, { method: 'POST', body: JSON.stringify(data) });
   }
 
   async function submitData(event, eventTypeId: string, settlementId: string) {
     setLoading(true);
-    let response;
+    let response: Event | undefined;
     if (event?.id) {
       const data: Prisma.EventsUncheckedUpdateInput = {
         name: event.name,
@@ -122,8 +117,10 @@ export function Event({ eventInput, availableEventTypes, settlementId, onUpdate 
       };
       response = await addEvent(data);
     }
-    setCurrentEvent(response);
-    onUpdate(response.id);
+    if (response) {
+      setCurrentEvent(response);
+      onUpdate(response.id);
+    }
     setLoading(false);
   }
 
@@ -132,7 +129,7 @@ export function Event({ eventInput, availableEventTypes, settlementId, onUpdate 
       <TimelineItem>
         <TimelineHeader>
           <TimelineIcon>
-            <IconComponent className="h-4 w-4" type={eventTypeId ? (availableEventTypes.find(type => type.id === eventTypeId)?.name || '') : ''} />
+            <IconComponent className='h-4 w-4' type={eventTypeId ? (availableEventTypes.find(type => type.id === eventTypeId)?.name || '') : ''} />
           </TimelineIcon>
           <div className='flex gap-4'>
             <div className='basis-full'>

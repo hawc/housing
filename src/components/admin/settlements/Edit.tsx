@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
+import { fetchData } from '@/lib/fetch';
+
 import { ArchitectsList } from '@/components/admin/settlements/Architects';
 import { DetailsList } from '@/components/admin/settlements/Details';
 import { Location } from '@/components/admin/settlements/Location';
@@ -45,12 +47,10 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
       description: settlement.description,
     };
     if (settlement?.slug) {
-      const response = await fetch(`${process.env.BASE_URL ?? ''}/api/settlements/update/${settlement.slug}`, { method: 'POST', body: JSON.stringify(data) })
-      const responseSettlement = await response.json();
-      await setSettlement(responseSettlement);
+      const responseSettlement = await fetchData<BaseSettlement>(`/api/settlements/update/${settlement.slug}`, undefined, { method: 'POST', body: JSON.stringify(data) })
+      setSettlement(responseSettlement);
     } else {
-      const response = await fetch(`${process.env.BASE_URL ?? ''}/api/settlements/add`, { method: 'POST', body: JSON.stringify(data) });
-      const responseSettlement = await response.json();
+      const responseSettlement = await fetchData<BaseSettlement>('/api/settlements/add', undefined, { method: 'POST', body: JSON.stringify(data) });
       if (responseSettlement?.slug) {
         router.push(`/admin/siedlungen/${responseSettlement.slug}`)
       }
@@ -60,15 +60,14 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
 
   async function getSettlement(slug: string) {
     setLoading(true);
-    const response = await fetch(`${process.env.BASE_URL ?? ''}/api/settlements/get/${slug}`);
-    const settlement: BaseSettlement | undefined = response ? await response.json() : undefined;
+    const settlement = await fetchData<BaseSettlement>(`/api/settlements/get/${slug}`);
     setSettlement(settlement);
     setLoading(false);
   }
 
   async function deleteSettlement(slug: string) {
     setLoading(true);
-    await fetch(`${process.env.BASE_URL ?? ''}/api/settlements/delete/${slug}`);
+    await fetchData(`/api/settlements/delete/${slug}`);
     router.push('/siedlungen');
     setLoading(false);
   }

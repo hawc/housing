@@ -3,6 +3,7 @@
 import { Loader2Icon, RotateCwIcon, XIcon } from 'lucide-react';
 import { useState } from 'react';
 
+import { fetchData } from '@/lib/fetch';
 import { sortAlphabetically } from '@/lib/utils';
 
 import { Box, Container } from '@/components/blocks/Box';
@@ -12,13 +13,6 @@ import { TextareaGhost } from '@/components/blocks/form/Textarea';
 import { Headline } from '@/components/Headline';
 
 import { BaseTag, Tag } from '@/app/admin/page';
-
-async function addTag(data: Partial<Tag>) {
-  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/tags/add`, { method: 'POST', body: JSON.stringify(data) });
-  const responseTag = await response.json();
-
-  return responseTag;
-}
 
 function AddTag({ getTags }: { getTags: () => Promise<void> }) {
   const [currentTag, setCurrentTag] = useState<Partial<Tag>>({
@@ -36,7 +30,7 @@ function AddTag({ getTags }: { getTags: () => Promise<void> }) {
 
   async function submitTag(tag: Partial<Tag>) {
     setLoading(true);
-    await addTag(tag);
+    await fetchData('/api/tags/add', undefined, { method: 'POST', body: JSON.stringify(tag) });
     await getTags();
     setLoading(false);
   }
@@ -74,7 +68,7 @@ export function EditTag({ tag, getTags }: EditTagProps) {
 
   async function deleteTag(id: string) {
     setLoading(true);
-    await fetch(`${process.env.BASE_URL ?? ''}/api/locations/delete/${id}`, { method: 'GET' });
+    await fetchData(`/api/locations/delete/${id}`);
     await getTags();
     setLoading(false);
   }
@@ -104,9 +98,8 @@ export function ListTags({ tagsInput }: ListTagsProps) {
 
   async function getTags() {
     setLoading(true);
-    await fetch(`${process.env.BASE_URL ?? ''}/api/cache/clear`);
-    const response = await fetch(`${process.env.BASE_URL ?? ''}/api/tags/get/all`, { method: 'GET' });
-    const tags: BaseTag[] = await response.json();
+    await fetchData('/api/cache/clear');
+    const tags = await fetchData<BaseTag[], BaseTag[]>('/api/tags/get/all', []);
     setTags(tags);
     setLoading(false);
   }

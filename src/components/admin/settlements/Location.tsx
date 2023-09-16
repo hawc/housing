@@ -4,6 +4,7 @@ import { Loader2Icon } from 'lucide-react';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
+import { fetchData } from '@/lib/fetch';
 import { getUniqueLabel } from '@/lib/utils';
 
 import { Button } from '@/components/blocks/form/Button';
@@ -12,17 +13,11 @@ import { InputGhost } from '@/components/blocks/form/Input';
 import { Location } from '@/app/admin/page';
 
 async function updateLocation(id: string, data: Partial<Location>) {
-  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/locations/update/${id}`, { method: 'POST', body: JSON.stringify(data) });
-  const responseLocation = await response.json();
-
-  return responseLocation;
+  return await fetchData<Location>(`/api/locations/update/${id}`, undefined, { method: 'POST', body: JSON.stringify(data) });
 }
 
 async function addLocation(data: Partial<Location>) {
-  const response = await fetch(`${process.env.BASE_URL ?? ''}/api/locations/add`, { method: 'POST', body: JSON.stringify(data) });
-  const responseLocation = await response.json();
-
-  return responseLocation;
+  return await fetchData<Location>('/api/locations/add', undefined, { method: 'POST', body: JSON.stringify(data) });
 }
 
 interface LocationProps {

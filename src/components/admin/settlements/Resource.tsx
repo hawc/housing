@@ -1,10 +1,10 @@
 'use client';
 
-import { Prisma } from '@prisma/client';
 import { Loader2Icon } from 'lucide-react';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
+import { fetchData } from '@/lib/fetch';
 import { getUniqueLabel } from '@/lib/utils';
 
 import { Button } from '@/components/blocks/form/Button';
@@ -23,6 +23,14 @@ interface EditResourceProps extends React.HTMLAttributes<HTMLElement> {
   onUpdate: (resourceId: string | undefined) => void;
 }
 
+async function updateResource(id: string, data) {
+  return await fetchData<Resource>(`/api/resources/update/${id}`, undefined, { method: 'POST', body: JSON.stringify(data) });
+}
+
+async function addResource(data) {
+  return await fetchData<Resource>('/api/resources/add', undefined, { method: 'POST', body: JSON.stringify(data) });
+}
+
 export function EditResource({ resourceInput, availableResourceTypes, settlementId, settlementSlug, onUpdate, ...rest }: EditResourceProps) {
   const [resource, setCurrentResource] = useState<Resource | undefined>(resourceInput);
   const [resourceType, setResourceType] = useState<ResourceType>(resource?.resourceType ?? availableResourceTypes[0]);
@@ -38,31 +46,17 @@ export function EditResource({ resourceInput, availableResourceTypes, settlement
 
   async function deleteResource(id: string) {
     setLoading(true);
-    await fetch(`${process.env.BASE_URL ?? ''}/api/resources/delete/${id}`, { method: 'GET' });
+    await fetchData(`/api/resources/delete/${id}`);
     setCurrentResource(undefined); // todo: check if deletion is successful
     onUpdate(id);
     setLoading(false);
-  }
-
-  async function updateResource(id: string, data: Prisma.ResourcesUncheckedUpdateInput) {
-    const response = await fetch(`${process.env.BASE_URL ?? ''}/api/resources/update/${id}`, { method: 'POST', body: JSON.stringify(data) });
-    const resource = await response.json();
-
-    return resource;
-  }
-
-  async function addResource(data: Prisma.ResourcesUncheckedCreateInput) {
-    const response = await fetch(`${process.env.BASE_URL ?? ''}/api/resources/add`, { method: 'POST', body: JSON.stringify(data) });
-    const resource = await response.json();
-
-    return resource;
   }
 
   async function submitData(resource, resourceTypeId: string, settlementId: string) {
     setLoading(true);
     let response;
     if (resource?.id) {
-      const data: Prisma.ResourcesUncheckedUpdateInput = {
+      const data = {
         name: resource.name,
         description: resource.description,
         source: resource.source,
@@ -73,7 +67,7 @@ export function EditResource({ resourceInput, availableResourceTypes, settlement
       };
       response = await updateResource(resource.id, data);
     } else {
-      const data: Prisma.ResourcesUncheckedCreateInput = {
+      const data = {
         name: resource.name,
         description: resource.description,
         source: resource.source,

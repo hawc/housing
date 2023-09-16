@@ -3,7 +3,15 @@
 import { Loader2Icon, PlusIcon } from 'lucide-react';
 import { useState } from 'react';
 
+import { fetchData } from '@/lib/fetch';
+
 import { ImageResponse } from '@/app/api/upload/route';
+
+
+interface UploadResponse {
+  success: boolean;
+  images: ImageResponse[];
+}
 
 interface UploadProps extends React.HTMLAttributes<HTMLElement> {
   onUpload: (images: ImageResponse[]) => void;
@@ -54,8 +62,7 @@ export default function Upload({ onUpload, category, id, multiple = false, class
       formData.append('image', image);
     });
     formData.append('category', category);
-    const response = await fetch(`${process.env.BASE_URL ?? ''}/api/upload`, { method: 'POST', body: formData });
-    const result = await response.json();
+    const result = await fetchData<UploadResponse, UploadResponse>('/api/upload', { success: false, images: [] }, { method: 'POST', body: formData });
 
     if (result.success) {
       onUpload(result.images);

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
+import { fetchData } from '@/lib/fetch';
 import { sortByDate } from '@/lib/utils';
 
 import { Event as EventComponent } from '@/components/admin/settlements/Event';
@@ -25,16 +26,14 @@ export function Timeline({ eventsInput, settlementId }: { eventsInput: Event[], 
 
   async function getAvailableEventTypes() {
     setLoading(true);
-    const response = await fetch(`${process.env.BASE_URL ?? ''}/api/eventTypes/get/all`);
-    const eventTypes = await response.json();
+    const eventTypes = await fetchData<EventType[], EventType[]>('/api/eventTypes/get/all', []);
     setAvailableEventTypes(eventTypes);
     setLoading(false);
   }
 
   async function getEvents(settlementId: string) {
     setLoading(true);
-    const response = await fetch(`${process.env.BASE_URL ?? ''}/api/events/get/${settlementId}/all`);
-    const events = await response.json();
+    const events = await fetchData<Event[], Event[]>(`/api/events/get/${settlementId}/all`, []);
     setEvents(events);
     setLoading(false);
   }

@@ -52,7 +52,7 @@ export function ArchitectsList({ architects, settlementId, getSettlement }: Arch
 
   async function removeArchitect(architectId: string, settlementId: string) {
     setLoading(true);
-    await fetch(`${process.env.BASE_URL ?? ''}/api/architects/delete/settlement/${architectId}/${settlementId}`, { method: 'GET' });
+    await fetchData(`/api/architects/delete/settlement/${architectId}/${settlementId}`);
     setCurrentArchitect(undefined);
     await getSettlement();
     setLoading(false);
@@ -60,7 +60,7 @@ export function ArchitectsList({ architects, settlementId, getSettlement }: Arch
 
   async function addArchitect(architectId: string, settlementId: string) {
     setLoading(true);
-    await fetch(`${process.env.BASE_URL ?? ''}/api/settlements/add/tag/${settlementId}/${architectId}`, { method: 'GET' });
+    await fetchData(`/api/settlements/add/tag/${settlementId}/${architectId}`);
     await getSettlement();
     setLoading(false);
   }

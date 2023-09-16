@@ -12,13 +12,13 @@ export const metadata: Metadata = {
 }
 
 async function getSettlements() {
-  const settlements = await fetchData<BaseSettlement[], BaseSettlement[]>('/api/settlements/get/all', undefined, []);
+  const settlements = await fetchData<BaseSettlement[], BaseSettlement[]>('/api/settlements/get/all', []);
 
   return settlements;
 }
 
 async function getLocations() {
-  const locations = await fetchData<BaseLocation[], BaseLocation[]>('/api/locations/get/all', undefined, []);
+  const locations = await fetchData<BaseLocation[], BaseLocation[]>('/api/locations/get/all', []);
 
   return locations;
 }

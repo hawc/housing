@@ -19,13 +19,13 @@ import type { Architect, BaseArchitect } from '@/app/admin/page';
 export type Partial<T> = { [P in keyof T]?: T[P] };
 
 async function updateArchitect(slug: string, data: Partial<BaseArchitect>) {
-  const response = await fetchData<BaseArchitect>(`/api/architects/update/${slug}`, { method: 'POST', body: JSON.stringify(data) });
+  const response = await fetchData<BaseArchitect>(`/api/architects/update/${slug}`, undefined, { method: 'POST', body: JSON.stringify(data) });
 
   return response;
 }
 
 async function addArchitect(data: Partial<BaseArchitect>) {
-  const response = await fetchData<BaseArchitect>('/api/architects/add', { method: 'POST', body: JSON.stringify(data) });
+  const response = await fetchData<BaseArchitect>('/api/architects/add', undefined, { method: 'POST', body: JSON.stringify(data) });
 
   return response;
 }
@@ -44,7 +44,7 @@ export function ArchitectEdit({ architectInput }: { architectInput: Architect | 
 
   async function deleteArchitect(slug: string) {
     setLoading(true);
-    await fetch(`${process.env.BASE_URL ?? ''}/api/architects/delete/${slug}`, { method: 'GET' });
+    await fetchData(`/api/architects/delete/${slug}`);
     router.push('/admin/architekten');
     setLoading(false);
   }
