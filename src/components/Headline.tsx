@@ -1,6 +1,13 @@
 import { twMerge } from 'tailwind-merge';
 
-export function Headline({ children, type, tag = type, className = '' }: { children: React.ReactNode, type: string, tag?: string, className?: string }) {
+interface HeadlineProps {
+  children: React.ReactNode;
+  type: string;
+  tag?: string;
+  className?: string
+}
+
+export function Headline({ children, type, tag = type, className = '' }: HeadlineProps) {
   const Tag = tag as keyof JSX.IntrinsicElements;
   const headlineStyles: { [key: string]: string } = {
     'h1': 'font-light text-2xl md:text-5xl leading-normal tracking-tight',
