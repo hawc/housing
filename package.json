@@ -29,6 +29,7 @@
     "react-icons": "^4.8.0",
     "react-map-gl": "^7.1.2",
     "slugify": "^1.6.6",
+    "styled-jsx": "^5.1.2",
     "tailwind-merge": "^1.13.2",
     "uuid": "^9.0.0"
   },
