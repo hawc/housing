@@ -52,8 +52,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <UserProvider>
-      <html lang='en'>
+    <html lang='en'>
+      <UserProvider>
         <head>
           <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css' rel='stylesheet' />
         </head>
@@ -62,7 +62,7 @@ export default function RootLayout({
             {children}
           </div>
         </body>
-      </html>
-    </UserProvider>
+      </UserProvider>
+    </html>
   )
 }
