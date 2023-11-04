@@ -30,6 +30,7 @@
   background-color: var(--text);
   height: 15px;
   width: 15px;
+  margin-left: 5px;
   border-radius: 100%;
   background-size: 100%;
   background-blend-mode: exclusion;
@@ -39,22 +40,28 @@
   background-image: url("data:image/svg+xml;utf8,<svg style='height: 0.66rem; fill: white;' viewBox='0 0 73.082 74.219' xmlns='http://www.w3.org/2000/svg'><path d='M 73.082 37.109 L 35.973 74.219 L 26.811 65.128 L 48.153 43.786 L 0 43.786 L 0 30.433 L 48.153 30.433 L 26.811 9.126 L 35.973 0 L 73.082 37.109 Z' /></svg>");
 }
 
-.linkArrow:hover + span {
+.linkArrow:hover + span,
+a:has(.linkArrow):hover .linkArrow + span {
   transform: translateX(6px) scale(2, 2);
-  background-size: 50%; 
+  background-size: 50%;
   background-position-x: 50%;
 }
 
-.externalLink:hover + span {
+.externalLink:hover + span,
+a:has(.externalLink):hover .externalLink + span {
   transform: scale(2, 2) translateX(6px) rotate(-45deg);
 }
 
 .linkArrowBack + span {
+  margin-left: 25px;
   transform: rotate(180deg);
 }
 
-.linkArrowBack:hover + span {
-  transform: rotate(180deg) translateX(3px);
+.linkArrowBack:hover + span,
+a:has(.linkArrowBack):hover .linkArrowBack + span {
+  background-size: 50%;
+  background-position-x: 50%;
+  transform: rotate(180deg) translateX(-5px) scale(2, 2);
 }
 
 .link:hover::before,
@@ -62,11 +69,18 @@
 .link:active::before,
 .link:active::after,
 .link:focus::before,
-.link:focus::after {
+.link:focus::after,
+a:has(.link):hover .link::before,
+a:has(.link):hover .link::after,
+a:has(.link):active .link::before,
+a:has(.link):active .link::after,
+a:has(.link):focus .link::before,
+a:has(.link):focus .link::after {
   transform: scaleX(1);
   transform-origin: bottom left;
   transition: 0.25s transform 0.25s ease-out;
 }
+
 .link:hover::before,
 .link:active::before,
 .link:focus::before {
