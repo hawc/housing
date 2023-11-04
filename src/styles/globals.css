@@ -1,10 +1,25 @@
-
 @tailwind base;
 @tailwind components;
-[type='text'], [type='email'], [type='url'], [type='password'], [type='number'], [type='date'], [type='datetime-local'], [type='month'], [type='search'], [type='tel'], [type='time'], [type='week'], [multiple], textarea, select {
+
+[type='text'],
+[type='email'],
+[type='url'],
+[type='password'],
+[type='number'],
+[type='date'],
+[type='datetime-local'],
+[type='month'],
+[type='search'],
+[type='tel'],
+[type='time'],
+[type='week'],
+[multiple],
+textarea,
+select {
   background-color: var(--form-bg);
   font-variant-ligatures: no-contextual;
 }
+
 @tailwind utilities;
 
 @layer base {
@@ -22,15 +37,14 @@
 @layer utilities {
   .animated-underline {
     background-image: linear-gradient(rgba(51, 51, 51, 0), rgba(51, 51, 51, 0)),
-      linear-gradient(
-        to right,
+      linear-gradient(to right,
         var(--color-primary-400),
-        var(--color-primary-500)
-      );
+        var(--color-primary-500));
     background-size: 100% 2px, 0 2px;
     background-position: 100% 100%, 0 100%;
     background-repeat: no-repeat;
   }
+
   @media (prefers-reduced-motion: no-preference) {
     .animated-underline {
       transition: 0.3s ease;
@@ -38,6 +52,7 @@
         border-color;
     }
   }
+
   .animated-underline:hover,
   .animated-underline:focus-visible {
     background-size: 0 2px, 100% 2px;
@@ -50,7 +65,7 @@
   --white: #ededed;
   --black: #121212;
   --orange: #ff4d00;
-  --form-bg: rgba(0,0,0,.2);
+  --form-bg: rgba(0, 0, 0, .2);
   --bg: var(--white);
   --bg-inv: var(--black);
   --text: var(--black);
@@ -69,10 +84,10 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-  --form-bg: rgba(0,0,0,.5);
-  --bg: var(--black);
-  --bg-inv: var(--white);
-  --text: var(--white);
+    --form-bg: rgba(0, 0, 0, .5);
+    --bg: var(--black);
+    --bg-inv: var(--white);
+    --text: var(--white);
   }
 }
 
@@ -99,6 +114,12 @@ p + p {
   margin-top: 1rem;
 }
 
+/* todo: add via tailwind config */
+.text-xxs {
+  font-size: 0.65rem;
+  line-height: 0.75rem;
+}
+
 .leading-negative {
   line-height: 0.9;
 }
@@ -106,22 +127,28 @@ p + p {
 .bg-highlight {
   background-color: var(--highlight);
 }
+
 .text-inherit {
   font-size: inherit;
 }
+
 .transition-filter {
   transition: filter 0.3s;
 }
+
 .box {
   margin-top: -1px;
   margin-right: -1px;
 }
+
 .mapbox-improve-map {
   display: none;
 }
+
 .mapboxgl-ctrl-attrib.mapboxgl-compact {
   min-height: 24px;
 }
+
 .mapboxgl-ctrl-attrib-button {
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg' fill-rule='evenodd'%3E%3Cpath d='M4 10a6 6 0 1 0 12 0 6 6 0 1 0-12 0m5-3a1 1 0 1 0 2 0 1 1 0 1 0-2 0m0 3a1 1 0 1 1 2 0v3a1 1 0 1 1-2 0'/%3E%3C/svg%3E");
 }
