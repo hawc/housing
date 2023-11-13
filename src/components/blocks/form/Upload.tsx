@@ -1,7 +1,7 @@
 'use client';
 
 import { Loader2Icon, PlusIcon } from 'lucide-react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { fetchData } from '@/lib/fetch';
 
@@ -20,28 +20,21 @@ interface UploadProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 function UploadInputLabel({ uploadImages }: { uploadImages: File[] }) {
-  return (
-    <>
-      {uploadImages.length ? (
-        <div className='block whitespace-nowrap text-ellipsis overflow-hidden'>
-          {uploadImages.length === 1 ? (
-            uploadImages[0].name
-          ) : (
-            `${uploadImages.length} Dateien`
-          )}
-        </div>
-      ) : (
-        <div className='flex justify-between '>
-          <span>auswählen</span><span className='flex items-center'><PlusIcon /></span>
-        </div>
-      )}
-    </>
-  );
+  return uploadImages.length ? (
+    <div className='block whitespace-nowrap text-ellipsis overflow-hidden'>
+      {uploadImages.length === 1 ? uploadImages[0].name : `${uploadImages.length} Dateien`}
+    </div>
+  ) : (
+    <div className='flex justify-between'>
+      <span>auswählen</span><span className='flex items-center'><PlusIcon /></span>
+    </div>
+  )
 }
 
 export default function Upload({ onUpload, category, id, multiple = false, className = '', ...rest }: UploadProps) {
   const [uploadImages, setUploadImages] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
+  const input = useRef<HTMLInputElement>(null);
 
   async function updateSelectedImages(event: React.ChangeEvent<HTMLInputElement>) {
     onUpload([]);
@@ -71,7 +64,7 @@ export default function Upload({ onUpload, category, id, multiple = false, class
   }
 
   return (
-    <form className={`flex flex-row ${className}`} {...rest}>
+    <div onClick={() => input.current?.click()} className={`flex flex-row cursor-default ${className}`} {...rest}>
       <div className='flex-grow border-2 py-1 px-3 border-highlight max-w-full'>
         {uploading ? (
           <div className='flex justify-between'>
@@ -82,6 +75,7 @@ export default function Upload({ onUpload, category, id, multiple = false, class
         )}
       </div>
       <input
+        ref={input}
         id={id}
         title='auswählen'
         disabled={uploading}
@@ -90,6 +84,6 @@ export default function Upload({ onUpload, category, id, multiple = false, class
         multiple={multiple}
         hidden
         onChange={updateSelectedImages} />
-    </form>
+    </div>
   );
 }
