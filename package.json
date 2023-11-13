@@ -16,14 +16,14 @@
     "postbuild": "next-sitemap --config next-sitemap.config.js"
   },
   "dependencies": {
-    "@auth0/nextjs-auth0": "^3.2.0",
+    "@auth0/nextjs-auth0": "^3.3.0",
     "@prisma/client": "^4.13.0",
     "cached-prisma": "^1.2.1",
     "cloudinary": "^1.40.0",
     "clsx": "^1.2.1",
     "lucide-react": "^0.257.0",
     "mapbox-gl": "^2.15.0",
-    "next": "^14.0.0",
+    "next": "^14.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
