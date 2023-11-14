@@ -60,7 +60,7 @@ export function ArchitectsList({ architects, settlementId, getSettlement }: Arch
 
   async function addArchitect(architectId: string, settlementId: string) {
     setLoading(true);
-    await fetchData(`/api/settlements/add/tag/${settlementId}/${architectId}`);
+    await fetchData(`/api/settlements/add/architect/${settlementId}/${architectId}`);
     await getSettlement();
     setLoading(false);
   }

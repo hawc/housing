@@ -1,0 +1,32 @@
+import { Prisma } from '@prisma/client';
+import { NextRequest, NextResponse } from 'next/server';
+
+import { detailsInclude } from '@/lib/db';
+import prisma from '@/lib/prisma';
+import { baseTransformers } from '@/lib/transformers';
+
+async function addDetail(
+  data: Prisma.DetailsUncheckedCreateInput
+) {
+  return await prisma.details.create({
+    data: {
+      name: data.name,
+      description: data.description,
+      source: data.source,
+      settlementId: data.settlementId,
+      detailTypeId: data.detailTypeId,
+      detailDate: data.detailDate
+    },
+    include: detailsInclude
+  });
+}
+
+export async function POST(req: NextRequest) {
+  const detail = await addDetail(await req.json());
+
+  if (!detail) {
+    return NextResponse.json('');
+  }
+  const responseData = baseTransformers.detail(detail);
+  return NextResponse.json(responseData);
+}
