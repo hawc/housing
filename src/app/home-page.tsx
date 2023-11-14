@@ -9,6 +9,7 @@ import { Link as StyledLink } from '@/components/blocks/Link';
 import { List, ListItem } from '@/components/blocks/List';
 import { Headline } from '@/components/Headline';
 import Layout from '@/components/layout/Layout';
+import { Scene } from '@/components/scene/Scene';
 
 export default function HomePage() {
   const { user } = useUser();
@@ -55,6 +56,7 @@ export default function HomePage() {
             </Box>
           )}
         </Container>
+        <Scene fileUrl='/models/PH16/PH16.stl' />
       </section>
     </Layout>
   );
