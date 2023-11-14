@@ -10,7 +10,7 @@ import { BaseArchitect } from '@/app/admin/page';
 
 export const metadata: Metadata = {
   title: 'Architekten',
-}
+};
 
 async function getArchitects() {
   const architects = await fetchData<BaseArchitect[], BaseArchitect[]>('/api/architects/get/all', []);

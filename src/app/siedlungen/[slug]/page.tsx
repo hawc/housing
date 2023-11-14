@@ -11,11 +11,11 @@ import type { BaseSettlement } from '@/app/admin/page';
 export async function generateMetadata(
   { params },
 ): Promise<Metadata> {
-  const settlement = await getSettlement(params.slug)
+  const settlement = await getSettlement(params.slug);
 
   return {
     title: settlement?.name,
-  }
+  };
 }
 
 export async function generateStaticParams() {

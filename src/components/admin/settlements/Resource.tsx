@@ -41,7 +41,7 @@ export function EditResource({ resourceInput, availableResourceTypes, settlement
     setCurrentResource({
       ...resource,
       ...input,
-    } as Resource)
+    } as Resource);
   }
 
   async function deleteResource(id: string) {
@@ -179,7 +179,7 @@ export function EditResource({ resourceInput, availableResourceTypes, settlement
       <div className='flex gap-4 flex-col lg:flex-row mt-2 mb-1'>
         <Button
           className='w-full'
-          onClick={resource ? () => submitData(resource, resourceType.id, settlementId) : () => { return }}
+          onClick={resource ? () => submitData(resource, resourceType.id, settlementId) : () => { return; }}
           disabled={loading || !(resource?.name) || (resourceType?.name === 'Foto' && !resource.url)}>
           <>
             {resource?.id ? 'Speichern' : 'Hinzufügen'}

@@ -9,7 +9,7 @@ import { BaseLocation, BaseSettlement } from '@/app/admin/page';
 
 export const metadata: Metadata = {
   title: 'Siedlungen',
-}
+};
 
 async function getSettlements() {
   const settlements = await fetchData<BaseSettlement[], BaseSettlement[]>('/api/settlements/get/all', []);

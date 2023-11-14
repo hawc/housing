@@ -114,7 +114,7 @@ const settlementsOnSettlementTypesSelect = Prisma.validator<Prisma.SettlementsOn
   settlementType: {
     select: settlementTypesSelect
   }
-})
+});
 
 const locationsSelect = Prisma.validator<Prisma.LocationsSelect>()({
   id: true,

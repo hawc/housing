@@ -12,27 +12,27 @@ const IconComponent = ({ type, className }: { type: string, className: string })
     case 'Fertigstellung': return <BuildingIcon className={className} />;
     default: return <HomeIcon className={className} />;
   }
-}
+};
 
 function TimelineItem({ children }: React.HTMLAttributes<HTMLElement>) {
   return (
     <li className="flex relative flex-col pb-3 last:pb-0">
       {children}
-    </li>)
+    </li>);
 }
 
 function TimelineIcon({ children }: React.HTMLAttributes<HTMLElement>) {
   return (
     <span className="w-max relative z-[2] flex-shrink-0 rounded-full overflow-hidden bg-bg text-grey-light p-2 self-start">
       {children}
-    </span>)
+    </span>);
 }
 
 function TimelineHeader({ children }: React.HTMLAttributes<HTMLElement>) {
   return (
     <div className="flex items-center gap-4">
       {children}
-    </div>)
+    </div>);
 }
 
 function TimelineBody({ children }: React.HTMLAttributes<HTMLElement>) {
@@ -42,7 +42,7 @@ function TimelineBody({ children }: React.HTMLAttributes<HTMLElement>) {
       <div>
         {children}
       </div>
-    </div>)
+    </div>);
 }
 
 function TimelineWrapper({ children }: React.HTMLAttributes<HTMLElement>) {
@@ -50,7 +50,7 @@ function TimelineWrapper({ children }: React.HTMLAttributes<HTMLElement>) {
     <ul className="w-full flex flex-col">
       {children}
     </ul>
-  )
+  );
 }
 
 function TimelineConnector() {
@@ -58,7 +58,7 @@ function TimelineConnector() {
     <span className="absolute left-0 grid justify-center bg-transparent" style={{ top: '45px', width: '40px', height: 'calc(100% - 50px)' }}>
       <span className="w-0.5 h-full bg-highlight rounded-sm"></span>
     </span>
-  )
+  );
 }
 
 export function Timeline({ events }: { events: Event[] }) {

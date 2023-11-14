@@ -37,7 +37,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
     setSettlement({
       ...settlement,
       ...input,
-    } as BaseSettlement)
+    } as BaseSettlement);
   }
 
   async function submitData(settlement: BaseSettlement) {
@@ -47,12 +47,12 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
       description: settlement.description,
     };
     if (settlement?.slug) {
-      const responseSettlement = await fetchData<BaseSettlement>(`/api/settlements/update/${settlement.slug}`, undefined, { method: 'POST', body: JSON.stringify(data) })
+      const responseSettlement = await fetchData<BaseSettlement>(`/api/settlements/update/${settlement.slug}`, undefined, { method: 'POST', body: JSON.stringify(data) });
       setSettlement(responseSettlement);
     } else {
       const responseSettlement = await fetchData<BaseSettlement>('/api/settlements/add', undefined, { method: 'POST', body: JSON.stringify(data) });
       if (responseSettlement?.slug) {
-        router.push(`/admin/siedlungen/${responseSettlement.slug}`)
+        router.push(`/admin/siedlungen/${responseSettlement.slug}`);
       }
     }
     setLoading(false);
@@ -186,7 +186,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
           </Box>
           <Box>
             <Button className='bg-text text-bg border border-text'
-              onClick={settlement?.id ? () => deleteSettlement(settlement.id) : () => { return }}
+              onClick={settlement?.id ? () => deleteSettlement(settlement.id) : () => { return; }}
               disabled={loading || !(settlement?.id)}>
               <>
                 Löschen

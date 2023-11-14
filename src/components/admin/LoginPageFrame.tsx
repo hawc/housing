@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 
 export default function LoginPageFrame({ children }: { children: React.ReactNode }) {
   const { user, isLoading } = useUser();
-  const router = useRouter()
+  const router = useRouter();
 
   if (isLoading) return <div>Loading...</div>;
   if (!user) {

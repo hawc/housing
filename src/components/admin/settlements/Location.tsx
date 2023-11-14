@@ -109,7 +109,7 @@ export function Location({ locationInput, settlementId, onUpdate, className = ''
       </div>
       <div className='pt-7'>
         <Button
-          onClick={location ? () => submitLocation(location) : () => { return }}
+          onClick={location ? () => submitLocation(location) : () => { return; }}
           className='w-full'
           disabled={loading || !location?.lat || !location?.lng}>
           <>Speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>

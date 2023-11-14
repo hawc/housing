@@ -11,11 +11,11 @@ import type { BaseArchitect } from '@/app/admin/page';
 export async function generateMetadata(
   { params },
 ): Promise<Metadata> {
-  const architect = await getArchitect(params.slug)
+  const architect = await getArchitect(params.slug);
 
   return {
     title: architect?.name,
-  }
+  };
 }
 
 export async function generateStaticParams() {

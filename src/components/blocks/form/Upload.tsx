@@ -28,7 +28,7 @@ function UploadInputLabel({ uploadImages }: { uploadImages: File[] }) {
     <div className='flex justify-between'>
       <span>auswählen</span><span className='flex items-center'><PlusIcon /></span>
     </div>
-  )
+  );
 }
 
 export default function Upload({ onUpload, category, id, multiple = false, className = '', ...rest }: UploadProps) {

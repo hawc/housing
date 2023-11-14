@@ -97,7 +97,7 @@ export function ArchitectsList({ architects, settlementId, getSettlement }: Arch
             <Button
               className='border-highlight border-2 border-solid w-full'
               disabled={!currentArchitect}
-              onClick={currentArchitect?.id ? () => addArchitect(currentArchitect.id, settlementId) : () => { return }}>
+              onClick={currentArchitect?.id ? () => addArchitect(currentArchitect.id, settlementId) : () => { return; }}>
               Hinzufügen
             </Button>
           </div>

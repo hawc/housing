@@ -36,7 +36,7 @@ function NewTagItem({ availableTags, onAdd }: NewTagItemProps) {
 
   const setTag = (id: string) => {
     setCurrentTag(availableTags.find(availableTag => availableTag.id === id));
-  }
+  };
 
   async function addTag(tagId: string) {
     setLoading(true);

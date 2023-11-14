@@ -19,13 +19,13 @@ interface SelectProps<T> extends React.HTMLAttributes<HTMLSelectElement> {
   options: (Option & T)[];
 }
 
-export function Select<T>({ value = '', className = '', disabled = false, options, onChange = () => { return }, ...rest }: SelectProps<T>) {
+export function Select<T>({ value = '', className = '', disabled = false, options, onChange = () => { return; }, ...rest }: SelectProps<T>) {
   const [currentValue, setCurrentValue] = useState<string>(value);
 
   const onSelectChange = (event) => {
     setCurrentValue(event.target.value);
     onChange(event);
-  }
+  };
 
   return (
     <select

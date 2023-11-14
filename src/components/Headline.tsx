@@ -8,7 +8,7 @@ interface HeadlineProps {
 }
 
 export function Headline({ children, type, tag = type, className = '' }: HeadlineProps) {
-  const Tag = tag as keyof JSX.IntrinsicElements;
+  const Tag = tag as 'span' | 'div' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   const headlineStyles: { [key: string]: string } = {
     'h1': 'font-light text-2xl md:text-5xl leading-normal tracking-tight',
     'h2': 'text-xl md:text-3xl',

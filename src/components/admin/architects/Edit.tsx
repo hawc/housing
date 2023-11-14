@@ -39,7 +39,7 @@ export function ArchitectEdit({ architectInput }: { architectInput: Architect | 
     setArchitect({
       ...architect,
       ...input,
-    } as Architect)
+    } as Architect);
   }
 
   async function deleteArchitect(slug: string) {
@@ -61,7 +61,7 @@ export function ArchitectEdit({ architectInput }: { architectInput: Architect | 
     } else {
       const responseArchitect = await addArchitect(data);
       if (responseArchitect?.slug) {
-        router.push(`/admin/architekten/${responseArchitect.slug}`)
+        router.push(`/admin/architekten/${responseArchitect.slug}`);
       }
     }
     setLoading(false);

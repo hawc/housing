@@ -29,7 +29,7 @@ function getListOrNull(list: any[]) {
 }
 
 
-export function SearchInput({ className = '', searchTerm = '', placeholder = 'Suchbegriff eingeben', loading = false, onChange = () => { return }, ...rest }: SearchInputProps): React.ReactElement {
+export function SearchInput({ className = '', searchTerm = '', placeholder = 'Suchbegriff eingeben', loading = false, onChange = () => { return; }, ...rest }: SearchInputProps): React.ReactElement {
   return (
     <InputGhost
       placeholder={placeholder}
@@ -38,7 +38,7 @@ export function SearchInput({ className = '', searchTerm = '', placeholder = 'Su
       style={{ outlineOffset: '-2px' }}
       className={twMerge(`w-auto -mx-3 -mt-2 md:-mx-5 md:-mt-4 mb-4 px-5 py-4 font-normal border-0 border-b border-text border-solid ${loading ? 'pointer-events-none' : ''} ${className}`)}
       {...rest} />
-  )
+  );
 }
 
 export function SearchList({ items, path, className = '', searchTerm = '', loading = false, ...rest }: SearchListProps): React.ReactElement {

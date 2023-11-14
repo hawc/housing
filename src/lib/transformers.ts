@@ -20,13 +20,13 @@ export const baseTransformers = {
     return {
       tag: transformers.tag(settlementOnTag.tag),
       settlement: transformers.settlement(settlementOnTag.settlement),
-    }
+    };
   },
   settlementOnArchitect: (settlementOnArchitect: SettlementsOnArchitectsInclude): BaseSettlementOnArchitect => {
     return {
       architect: transformers.architect(settlementOnArchitect.architect),
       settlement: transformers.settlement(settlementOnArchitect.settlement),
-    }
+    };
   },
   settlement: (settlement: SettlementsInclude): BaseSettlement => {
     return {
@@ -115,7 +115,7 @@ export const baseTransformers = {
       resourceType: transformers.resourceType(resource.resourceType)
     };
   },
-}
+};
 
 export const transformers = {
   settlement: (settlement: SettlementsSelect): Settlement => {
@@ -219,4 +219,4 @@ export const transformers = {
       description: eventType.description ?? '',
     };
   },
-}
+};

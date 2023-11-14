@@ -51,7 +51,7 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, on
     setCurrentDetail({
       ...detail,
       ...input,
-    } as Detail)
+    } as Detail);
   }
 
   async function deleteDetail(id: string) {

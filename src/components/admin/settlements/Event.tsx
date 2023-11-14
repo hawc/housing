@@ -38,21 +38,21 @@ function TimelineItem({ children }: React.HTMLAttributes<HTMLElement>) {
   return (
     <li className='flex relative flex-col'>
       {children}
-    </li>)
+    </li>);
 }
 
 function TimelineIcon({ children }: React.HTMLAttributes<HTMLElement>) {
   return (
     <span className='w-max relative z-[2] flex-shrink-0 rounded-full overflow-hidden bg-bg text-grey-light p-2 self-start'>
       {children}
-    </span>)
+    </span>);
 }
 
 function TimelineHeader({ children }: React.HTMLAttributes<HTMLElement>) {
   return (
     <div className='flex items-center gap-4'>
       {children}
-    </div>)
+    </div>);
 }
 
 function TimelineBody({ children }: React.HTMLAttributes<HTMLElement>) {
@@ -62,7 +62,7 @@ function TimelineBody({ children }: React.HTMLAttributes<HTMLElement>) {
       <div className='grow'>
         {children}
       </div>
-    </div>)
+    </div>);
 }
 
 export function Event({ eventInput, availableEventTypes, settlementId, onUpdate }: EditEventProps) {
@@ -75,7 +75,7 @@ export function Event({ eventInput, availableEventTypes, settlementId, onUpdate 
     setCurrentEvent({
       ...event,
       ...input,
-    } as Event)
+    } as Event);
   }
 
   async function deleteEvent(id: string) {
@@ -182,7 +182,7 @@ export function Event({ eventInput, availableEventTypes, settlementId, onUpdate 
           <div className='flex gap-4 flex-col lg:flex-row mt-2'>
             <Button
               className='w-full'
-              onClick={event ? () => submitData(event, eventTypeId, settlementId) : () => { return }}
+              onClick={event ? () => submitData(event, eventTypeId, settlementId) : () => { return; }}
               disabled={loading || !(event?.name)}><>{event?.id ? 'Speichern' : 'Hinzufügen'}
                 {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
             </Button>

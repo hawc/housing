@@ -16,7 +16,7 @@ function TimelineWrapper({ children, className = '' }: React.HTMLAttributes<HTML
     <ul className={twMerge(`w-full flex flex-col ${className}`)}>
       {children}
     </ul>
-  )
+  );
 }
 
 export function Timeline({ eventsInput, settlementId }: { eventsInput: Event[], settlementId: string }) {

@@ -9,7 +9,7 @@ const space_mono = Space_Mono({
   display: 'swap',
   variable: '--font-space-mono',
   weight: ['400', '700']
-})
+});
 
 export const metadata: Metadata = {
   title: {
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     locale: 'de_DE',
     type: 'website',
   },
-}
+};
 
 export default function RootLayout({
   children,
@@ -64,5 +64,5 @@ export default function RootLayout({
         </body>
       </html>
     </UserProvider>
-  )
+  );
 }
