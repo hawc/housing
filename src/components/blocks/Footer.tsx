@@ -9,6 +9,7 @@ export function Footer() {
           <div className="flex justify-between text-white leading-normal">
             <Link href="https://github.com/hawc/housing">Github</Link>
             <Link href="/impressum">Impressum</Link>
+            <Link href="/datenschutz">Datenschutz</Link>
           </div>
         </Box>
       </Container>

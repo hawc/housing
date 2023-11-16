@@ -1,4 +1,5 @@
 import { UserProvider } from '@auth0/nextjs-auth0/client';
+import PiwikProProvider from '@piwikpro/next-piwik-pro';
 import type { Metadata } from 'next';
 import { Space_Mono } from 'next/font/google';
 
@@ -58,9 +59,14 @@ export default function RootLayout({
           <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css' rel='stylesheet' />
         </head>
         <body>
-          <div className={`${space_mono.variable} font-primary`}>
-            {children}
-          </div>
+          <PiwikProProvider
+            containerUrl={process.env.NEXT_PUBLIC_CONTAINER_URL}
+            containerId={process.env.NEXT_PUBLIC_CONTAINER_ID}
+          >
+            <div className={`${space_mono.variable} font-primary`}>
+              {children}
+            </div>
+          </PiwikProProvider>
         </body>
       </html>
     </UserProvider>
