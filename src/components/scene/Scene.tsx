@@ -1,12 +1,15 @@
 'use client';
 
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { useEffect, useRef, useState } from 'react';
 import { BufferGeometry, InstancedMesh, MathUtils } from 'three';
+import { EXRLoader } from 'three/examples/jsm/loaders/EXRLoader';
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
 
-interface SceneProps {
+interface SceneProps extends React.HTMLAttributes<HTMLElement> {
   fileUrl: string;
+  height?: string;
+  width?: string;
 }
 
 function Mesh({ geometry, scrollPosition }) {
@@ -21,16 +24,21 @@ function Mesh({ geometry, scrollPosition }) {
     }
   });
 
+  const colorMap = useLoader(EXRLoader, '/images/040full.exr');
+
+
   return (
-    <mesh ref={meshRef} rotation={[MathUtils.degToRad(-90), 0, rotation]} position={[0, -100, 0]} geometry={geometry}>
-      <meshStandardMaterial color="#fff" />
+    <mesh
+      receiveShadow
+      castShadow ref={meshRef} rotation={[MathUtils.degToRad(-90), 0, rotation]} position={[0, -100, 0]} geometry={geometry}>
+      <meshMatcapMaterial color="#ff4d00" matcap={colorMap} />
     </mesh>
   );
 }
 
-export function Scene({ fileUrl }: SceneProps) {
+export function Scene({ fileUrl, height, width, ...rest }: SceneProps) {
   const [geometry, setGeometry] = useState<BufferGeometry>();
-  const [scrollPosition, setScrollPosition] = useState(window?.scrollY ?? 0);
+  const [scrollPosition, setScrollPosition] = useState(typeof window !== 'undefined' ? window.scrollY : 0);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -49,16 +57,16 @@ export function Scene({ fileUrl }: SceneProps) {
   useEffect(() => {
     const stlLoader = new STLLoader();
     stlLoader.load(fileUrl, geo => {
+      geo.computeVertexNormals();
       setGeometry(geo);
     });
   }, []);
 
   return (
-    <Canvas camera={{ position: [0, 20, -200] }} style={{ width: '100%', height: '600px' }}>
-      {/* <ambientLight position={[0, 20, -200]} castShadow /> */}
-      {/* <pointLight position={[0, 20, -200]} color="#fff" castShadow /> */}
-      <directionalLight position={[0, 20, -200]} color="#fff" castShadow intensity={1.5} />
-      <Mesh geometry={geometry} scrollPosition={scrollPosition} />
-    </Canvas>
+    <div {...rest}>
+      <Canvas orthographic camera={{ position: [0, 20, -200], zoom: 3 }} style={{ width: width ?? '100%', height: height ?? '600px' }}>
+        <Mesh geometry={geometry} scrollPosition={scrollPosition} />
+      </Canvas>
+    </div>
   );
 }

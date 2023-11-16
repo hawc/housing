@@ -55,7 +55,7 @@ export default function HomePage() {
             </Box>
           )}
         </Container>
-        {/* <Scene fileUrl='/models/PH16/PH16.stl' /> */}
+        {/* <Scene fileUrl='/models/PH16/PH16.stl' className='absolute top-20 -z-10' height="1200px" width="1200px" /> */}
       </section>
     </Layout>
   );
