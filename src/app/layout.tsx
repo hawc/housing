@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   description: 'Archiv deutscher Großwohnsiedlungen nach 1945.',
   keywords: ['Architektur', 'Großwohnsiedlungen', 'Plattenbau'],
   referrer: 'origin-when-cross-origin',
-  robots: 'nofollow, noindex',
+  robots: 'follow, index',
   authors: [{ name: 'Hendrik Wichern', url: 'https://hendrikwichern.de' }],
   creator: 'Hendrik Wichern',
   metadataBase: new URL(process.env.BASE_URL ?? ''),
