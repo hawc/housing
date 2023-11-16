@@ -1,7 +1,5 @@
 'use client';
 
-import { ArrowLeftIcon } from 'lucide-react';
-import Link from 'next/link';
 
 import { Box, Container } from '@/components/blocks/Box';
 import { Link as LinkElement } from '@/components/blocks/Link';
@@ -14,11 +12,6 @@ export function Architect({ architect }: { architect: BaseArchitect }) {
     <>
       <div className='flex mt-6'>
         <Headline type='h1' className='inline-block'>{architect.name}</Headline>
-        <div>
-          <Link className='block ml-3 p-2 rounded-full bg-highlight' href='/architekten'>
-            <ArrowLeftIcon className='align-text-bottom' size={15} />
-          </Link>
-        </div>
       </div>
       <Container>
         {architect.description && (

@@ -19,7 +19,7 @@ export function ListArchitects({ architects }: { architects: BaseArchitect[] }) 
         </div>
       </Box>
       <Box>
-        <div className="flex flex-col transition-filter">
+        <div className='flex flex-col transition-filter'>
           <SearchInput
             searchTerm={searchTerm}
             onChange={(event) => setSearchTerm(event.target.value)}
@@ -28,7 +28,7 @@ export function ListArchitects({ architects }: { architects: BaseArchitect[] }) 
             <>Keine Architekten gefunden.</>
           ) : (
             <SearchList
-              className="transition-filter"
+              className='transition-filter'
               path='/architekten/'
               searchTerm={searchTerm}
               items={architects} />

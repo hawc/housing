@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 
 import { fetchData } from '@/lib/fetch';
 
+import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcrumbs';
 import Layout from '@/components/layout/Layout';
 import { ListSettlements } from '@/components/settlements/List';
 
@@ -27,7 +28,12 @@ export default async function Settlements() {
   const settlements = await getSettlements();
   const locations = await getLocations();
   return (
-    <Layout>
+    <Layout breadcrumbs={
+      <Breadcrumbs>
+        <Breadcrumb href="/">Startseite</Breadcrumb>
+        <Breadcrumb>Siedlungen</Breadcrumb>
+      </Breadcrumbs>
+    }>
       <section>
         <ListSettlements settlements={settlements} locations={locations} />
       </section>

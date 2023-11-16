@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 
 import { fetchData } from '@/lib/fetch';
 
+import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcrumbs';
 import Layout from '@/components/layout/Layout';
 import { Settlement } from '@/components/settlements/View';
 
@@ -42,7 +43,13 @@ export default async function SettlementPage({ params }) {
   }
 
   return (
-    <Layout>
+    <Layout breadcrumbs={
+      <Breadcrumbs>
+        <Breadcrumb href="/">Startseite</Breadcrumb>
+        <Breadcrumb href="/siedlungen">Siedlungen</Breadcrumb>
+        <Breadcrumb>{settlement.name}</Breadcrumb>
+      </Breadcrumbs>
+    }>
       <section>
         <Settlement settlement={settlement} />
       </section>

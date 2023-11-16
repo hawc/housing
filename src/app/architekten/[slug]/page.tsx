@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { fetchData } from '@/lib/fetch';
 
 import { Architect } from '@/components/architects/View';
+import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcrumbs';
 import Layout from '@/components/layout/Layout';
 
 import type { BaseArchitect } from '@/app/admin/page';
@@ -42,7 +43,13 @@ export default async function ArchitectPage({ params }) {
   }
 
   return (
-    <Layout>
+    <Layout breadcrumbs={
+      <Breadcrumbs>
+        <Breadcrumb href="/">Startseite</Breadcrumb>
+        <Breadcrumb href="/architekten">Architekten</Breadcrumb>
+        <Breadcrumb>{architect.name}</Breadcrumb>
+      </Breadcrumbs>
+    }>
       <section>
         <Architect architect={architect} />
       </section>

@@ -5,6 +5,7 @@ import { fetchData } from '@/lib/fetch';
 
 import LoginPageFrame from '@/components/admin/LoginPageFrame';
 import { SettlementEdit } from '@/components/admin/settlements/Edit';
+import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcrumbs';
 import Layout from '@/components/layout/Layout';
 
 import type { BaseSettlement } from '@/app/admin/page';
@@ -39,7 +40,13 @@ export default async function SettlementPage({ params }) {
   const settlement = await getSettlement(params.slug);
 
   return (
-    <Layout>
+    <Layout breadcrumbs={
+      <Breadcrumbs>
+        <Breadcrumb href="/">Startseite</Breadcrumb>
+        <Breadcrumb href="/admin/siedlungen">Siedlungen</Breadcrumb>
+        <Breadcrumb>{settlement?.name ?? 'Neu'}</Breadcrumb>
+      </Breadcrumbs>
+    }>
       <LoginPageFrame>
         <section>
           <SettlementEdit settlementInput={settlement} />

@@ -7,7 +7,6 @@ import { fetchData } from '@/lib/fetch';
 
 import { ImageResponse } from '@/app/api/upload/route';
 
-
 interface UploadResponse {
   success: boolean;
   images: ImageResponse[];

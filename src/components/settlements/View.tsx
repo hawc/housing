@@ -1,6 +1,5 @@
-import { ArrowLeftIcon, CopyrightIcon } from 'lucide-react';
+import { CopyrightIcon } from 'lucide-react';
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
 
 import { sortAlphabetically } from '@/lib/utils';
 
@@ -30,9 +29,6 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
             {settlement.tags.length > 0 && (
               <TagList className='ml-2' tags={settlement.tags} />
             )}
-            <Link className='block ml-2 p-2 rounded-full bg-highlight' href='/siedlungen'>
-              <ArrowLeftIcon className='align-text-bottom' size={15} />
-            </Link>
           </div>
         </div>
       </Box>
@@ -46,21 +42,19 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
         )}
         {(settlement.events.length > 0 || settlement.details.length > 0) && (
           <Container className='grid-cols-1 md:grid-cols-2'>
-            <>
-              {settlement.events.length > 0 && (
-                <Box>
-                  <Headline className='inline-block' tag='h2' type='h3'>Historie</Headline>
-                  <Timeline
-                    events={settlement.events} />
-                </Box>
-              )}
-              {settlement.details.length > 0 && (
-                <Box>
-                  <Headline className='inline-block' tag='h2' type='h3'>Details</Headline>
-                  <DetailsList details={settlement.details} />
-                </Box>
-              )}
-            </>
+            {settlement.events.length > 0 && (
+              <Box>
+                <Headline className='inline-block' tag='h2' type='h3'>Historie</Headline>
+                <Timeline
+                  events={settlement.events} />
+              </Box>
+            )}
+            {settlement.details.length > 0 && (
+              <Box>
+                <Headline className='inline-block' tag='h2' type='h3'>Details</Headline>
+                <DetailsList details={settlement.details} />
+              </Box>
+            )}
           </Container>
         )}
         {settlement.architects.length > 0 && (
@@ -75,7 +69,7 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
                     {architect.description.length > 0 ? (
                       <LinkElement href={`/architekten/${architect.slug}`} arrow>{architect.name}</LinkElement>
                     ) : (
-                      <>{architect.name}</>
+                      architect.name
                     )}
                   </div>
                 ))}
@@ -85,74 +79,68 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
         )}
         {otherResources?.length > 0 && (
           <Container>
-            <>
-              {otherResources.map((resource) => (
-                <Box key={resource.id} className='py-3'>
-                  <Headline className='inline-block' tag='h2' type='h3'>
-                    {resource.name}
-                  </Headline>
-                  <div>
-                    {resource.description}
-                  </div>
-                  {resource.url && (
-                    <LinkElement href={resource.url}>
-                      {resource.url}
-                    </LinkElement>
-                  )}
-                  {resource.source && (
-                    <>Quelle: {resource.source}</>
-                  )}
-                </Box>
-              ))}
-            </>
+            {otherResources.map((resource) => (
+              <Box key={resource.id} className='py-3'>
+                <Headline className='inline-block' tag='h2' type='h3'>
+                  {resource.name}
+                </Headline>
+                <div>
+                  {resource.description}
+                </div>
+                {resource.url && (
+                  <LinkElement href={resource.url}>
+                    {resource.url}
+                  </LinkElement>
+                )}
+                {resource.source && (
+                  <>Quelle: {resource.source}</>
+                )}
+              </Box>
+            ))}
           </Container>
         )}
         {photoResources?.length > 0 && (
           <Container className='md:grid-cols-2'>
-            <>
-              {photoResources.map((resource) => (
-                <Box key={resource.id} className='py-3 md:p-0 justify-between'>
-                  <div>
-                    <div className='flex mb-1 md:mb-0 items-center overflow-hidden bg-grey-light'>
-                      <img src={resource.url} alt={resource.description} loading='lazy' className='min-w-full' />
-                    </div>
-                    <div className='md:px-5 pt-2 md:pt-4 md:pb-4'>
-                      <Headline type='h6'>{resource.name}</Headline>
-                      {resource.description}
-                    </div>
+            {photoResources.map((resource) => (
+              <Box key={resource.id} className='py-3 md:p-0 justify-between'>
+                <div>
+                  <div className='flex mb-1 md:mb-0 items-center overflow-hidden bg-grey-light'>
+                    <img src={resource.url} alt={resource.description} loading='lazy' className='min-w-full' />
                   </div>
-                  <div>
-                    {resource.source && (
-                      <div className='md:px-5 pt-2 md:pt-0 md:pb-4'>
-                        Quelle: <LinkElement className='inline-block' href={resource.source} />
-                      </div>
-                    )}
+                  <div className='md:px-5 pt-2 md:pt-4 md:pb-4'>
+                    <Headline type='h6'>{resource.name}</Headline>
+                    {resource.description}
+                  </div>
+                </div>
+                <div>
+                  {resource.source && (
                     <div className='md:px-5 pt-2 md:pt-0 md:pb-4'>
-                      {resource.license && resource.copyright && (
-                        <><CopyrightIcon className='inline-block mb-1' size={17} /> {resource.copyright}, {resource.license}</>
-                      ) || resource.license && (
-                        <>{resource.license}</>
-                      ) || resource.copyright && (
-                        <>© {resource.copyright}</>
-                      )}
+                      Quelle: <LinkElement className='inline-block' href={resource.source} />
                     </div>
+                  )}
+                  <div className='md:px-5 pt-2 md:pt-0 md:pb-4'>
+                    {resource.license && resource.copyright && (
+                      <><CopyrightIcon className='inline-block mb-1' size={17} /> {resource.copyright}, {resource.license}</>
+                    ) || resource.license && (
+                      <>{resource.license}</>
+                    ) || resource.copyright && (
+                      <>© {resource.copyright}</>
+                    )}
                   </div>
-                </Box>
-              ))}
-            </>
+                </div>
+              </Box>
+            ))}
           </Container>
         )}
-        <>
-          {settlement.location && settlement.location.lat > 0 && settlement.location.lng > 0 && (
-            <Container>
-              <Box className='p-0 md:p-0'>
-                <Map
-                  markers={[settlement.location]}
-                  center={{ lat: settlement.location.lat, lng: settlement.location.lng }} />
-              </Box>
-            </Container>
-          )}
-        </>
+        {settlement.location && settlement.location.lat > 0 && settlement.location.lng > 0 && (
+          <Container>
+            <Box className='p-0 md:p-0'>
+              <Map
+                markers={[settlement.location]}
+                center={{ lat: settlement.location.lat, lng: settlement.location.lng }} />
+            </Box>
+          </Container>
+        )}
       </Container>
     </>
   );
