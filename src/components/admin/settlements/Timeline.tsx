@@ -33,7 +33,9 @@ export function Timeline({ eventsInput, settlementId }: { eventsInput: Event[], 
 
   async function getEvents(settlementId: string) {
     setLoading(true);
-    const events = await fetchData<Event[], Event[]>(`/api/events/get/${settlementId}/all`, []);
+    const events = await fetchData<Event[], Event[]>(`/api/events/get/settlement/${settlementId}/all`, [], {
+      cache: 'no-cache'
+    });
     setEvents(events);
     setLoading(false);
   }

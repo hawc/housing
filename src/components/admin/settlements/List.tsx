@@ -21,7 +21,9 @@ export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSe
   async function getSettlementsData() {
     setLoading(true);
     await fetchData('/api/cache/clear');
-    const settlements = await fetchData<BaseSettlement[], BaseSettlement[]>('/api/settlements/get/all', []);
+    const settlements = await fetchData<BaseSettlement[], BaseSettlement[]>('/api/settlements/get/all', [], {
+      cache: 'no-cache'
+    });
     setSettlements(settlements);
     setLoading(false);
   }

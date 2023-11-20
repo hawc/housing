@@ -159,7 +159,6 @@ export function EditResource({ resourceInput, availableResourceTypes, settlement
         <div className='basis-full'>
           <label htmlFor={getUniqueLabel('resourceUrl', uuid)}>URL:</label>
           <InputGhost
-            key={resource?.url}
             id={getUniqueLabel('resourceUrl', uuid)}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={resource?.url ?? ''}

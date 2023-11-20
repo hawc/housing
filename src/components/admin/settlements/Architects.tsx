@@ -24,7 +24,9 @@ interface ArchitectsListProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 async function getArchitects() {
-  const architects = await fetchData<BaseArchitect[]>('/api/architects/get/all');
+  const architects = await fetchData<BaseArchitect[]>('/api/architects/get/all', undefined, {
+    cache: 'no-cache'
+  });
 
   return architects;
 }
