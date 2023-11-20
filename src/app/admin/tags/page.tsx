@@ -8,7 +8,9 @@ import Layout from '@/components/layout/Layout';
 import { BaseTag } from '@/app/admin/page';
 
 async function getTags() {
-  const tags = await fetchData<BaseTag[], BaseTag[]>('/api/tags/get/all', []);
+  const tags = await fetchData<BaseTag[], BaseTag[]>('/api/tags/get/all', [], {
+    cache: 'no-cache'
+  });
 
   return tags;
 }

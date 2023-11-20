@@ -31,7 +31,9 @@ export async function generateStaticParams() {
 }
 
 async function getSettlement(slug: string) {
-  const settlement = await fetchData<BaseSettlement>(`/api/settlements/get/${slug}`);
+  const settlement = await fetchData<BaseSettlement>(`/api/settlements/get/${slug}`, undefined, {
+    cache: 'no-cache'
+  });
 
   return settlement;
 }

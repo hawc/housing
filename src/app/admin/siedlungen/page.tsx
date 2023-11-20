@@ -9,7 +9,9 @@ import Layout from '@/components/layout/Layout';
 import { BaseSettlement } from '@/app/admin/page';
 
 async function getSettlements() {
-  const settlements = await fetchData<BaseSettlement[], BaseSettlement[]>('/api/settlements/get/all', []);
+  const settlements = await fetchData<BaseSettlement[], BaseSettlement[]>('/api/settlements/get/all', [], {
+    cache: 'no-cache'
+  });
 
   return settlements;
 }

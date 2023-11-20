@@ -23,6 +23,7 @@ export async function saveToCloudinary(image: UploadImage, category: string): Pr
   const apiResponse = await cloudinary.uploader.upload(image.src,
     { filename_override: image.name, use_filename: true, folder: category, resource_type: 'image' },
     (error, _result) => {
+      // todo: throw error
       if (error) {
         console.error(error);
       }

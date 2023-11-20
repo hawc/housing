@@ -30,7 +30,9 @@ export async function generateStaticParams() {
 }
 
 async function getArchitect(slug: string) {
-  const architect = await fetchData<BaseArchitect>(`/api/architects/get/${slug}`);
+  const architect = await fetchData<BaseArchitect>(`/api/architects/get/${slug}`, undefined, {
+    cache: 'no-cache'
+  });
 
   return architect;
 }
