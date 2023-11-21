@@ -156,23 +156,25 @@ export function EditResource({ resourceInput, availableResourceTypes, settlement
         </div>
       </div>
       <div className='flex gap-4'>
-        <div className='basis-full'>
-          <label htmlFor={getUniqueLabel('resourceUrl', uuid)}>URL:</label>
-          <InputGhost
-            id={getUniqueLabel('resourceUrl', uuid)}
-            className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
-            value={resource?.url ?? ''}
-            onChange={(event) => setResource({ url: event.target.value })} />
-        </div>
-        {resourceType?.name === 'Foto' &&
-          <div className='basis-full overflow-hidden'>
-            <label htmlFor={getUniqueLabel('resourceImage', uuid)}>Foto:</label>
-            <Upload
-              className='mt-1 mb-2'
-              id={getUniqueLabel('resourceImage', uuid)}
-              onUpload={imageUploadCallback}
-              category={settlementSlug} />
-          </div>
+        {resourceType?.name === 'Foto' ?
+          (
+            <div className='basis-full overflow-hidden'>
+              <label htmlFor={getUniqueLabel('resourceImage', uuid)}>Foto:</label>
+              <Upload
+                className='mt-1 mb-2'
+                id={getUniqueLabel('resourceImage', uuid)}
+                onUpload={imageUploadCallback}
+                category={settlementSlug} />
+            </div>
+          ) : (
+            <div className='basis-full'>
+              <label htmlFor={getUniqueLabel('resourceUrl', uuid)}>URL:</label>
+              <InputGhost
+                id={getUniqueLabel('resourceUrl', uuid)}
+                className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
+                value={resource?.url ?? ''}
+                onChange={(event) => setResource({ url: event.target.value })} />
+            </div>)
         }
       </div>
       <div className='flex gap-4 flex-col lg:flex-row mt-2 mb-1'>

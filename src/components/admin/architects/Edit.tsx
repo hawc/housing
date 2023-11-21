@@ -1,7 +1,6 @@
 'use client';
 
-import { ArrowLeftIcon, Loader2Icon } from 'lucide-react';
-import Link from 'next/link';
+import { Loader2Icon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -77,11 +76,6 @@ export function ArchitectEdit({ architectInput }: { architectInput: Architect | 
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => updateArchitectData({ name: event.target.value })}
               value={architect?.name ?? ''} />
           </Headline>
-          <div>
-            <Link className='block ml-3 p-2 rounded-full bg-highlight' href='/admin/architekten'>
-              <ArrowLeftIcon className='align-text-bottom' size={15} />
-            </Link>
-          </div>
         </div>
       </Box>
       <Container>
@@ -97,9 +91,7 @@ export function ArchitectEdit({ architectInput }: { architectInput: Architect | 
         <Container className='md:grid-cols-3'>
           <Box>
             <Button onClick={() => submitData(architect)} disabled={loading || !architect?.name}>
-              <>
-                Speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}
-              </>
+              Speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}
             </Button>
           </Box>
           <Box>
@@ -108,9 +100,7 @@ export function ArchitectEdit({ architectInput }: { architectInput: Architect | 
             <Button
               className='bg-text text-bg border border-text'
               onClick={() => architect && deleteArchitect(architect.slug)} disabled={loading || !(architect?.id)}>
-              <>
-                Löschen {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}
-              </>
+              Löschen {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}
             </Button>
           </Box>
         </Container>

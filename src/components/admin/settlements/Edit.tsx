@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowLeftIcon, Loader2Icon } from 'lucide-react';
+import { Loader2Icon } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -82,11 +82,6 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => updateSettlement({ name: event.target.value })}
               value={settlement?.name ?? ''} />
           </Headline>
-          <div>
-            <Link className='block ml-3 p-2 rounded-full bg-highlight' href='/admin/siedlungen'>
-              <ArrowLeftIcon className="align-text-bottom" size={15} />
-            </Link>
-          </div>
           {settlement?.id && (
             <div>
               {loading ? (
