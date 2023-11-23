@@ -29,7 +29,7 @@ function getDescriptionInputType(detailType) {
     case 'Wohneinheiten':
       return 'number';
     default:
-      return 'string';
+      return 'text';
   }
 }
 
