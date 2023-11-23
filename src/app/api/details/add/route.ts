@@ -12,6 +12,7 @@ async function addDetail(
     data: {
       name: data.name,
       description: data.description,
+      annotation: data.annotation,
       source: data.source,
       settlementId: data.settlementId,
       detailTypeId: data.detailTypeId,
