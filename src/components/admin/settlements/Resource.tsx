@@ -52,7 +52,7 @@ export function EditResource({ resourceInput, availableResourceTypes, settlement
     setLoading(false);
   }
 
-  async function submitData(resource, resourceTypeId: string, settlementId: string) {
+  async function submitData(resource: Resource, resourceTypeId: string, settlementId: string) {
     setLoading(true);
     let response;
     if (resource?.id) {
@@ -86,9 +86,11 @@ export function EditResource({ resourceInput, availableResourceTypes, settlement
 
   function imageUploadCallback(images: ImageResponse[]) {
     if (images.length !== 1) {
-      return setResource({
+      setResource({
         url: undefined
       });
+
+      return;
     }
     const image = images[0];
     setResource({
@@ -182,20 +184,16 @@ export function EditResource({ resourceInput, availableResourceTypes, settlement
           className='w-full'
           onClick={resource ? () => submitData(resource, resourceType.id, settlementId) : () => { return; }}
           disabled={loading || !(resource?.name) || (resourceType?.name === 'Foto' && !resource.url)}>
-          <>
-            {resource?.id ? 'Speichern' : 'Hinzufügen'}
-            {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}
-          </>
+          {resource?.id ? 'Speichern' : 'Hinzufügen'}
+          {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}
         </Button>
         {resource?.id && (
           <Button
             className='w-full bg-text text-bg border border-text'
             onClick={() => deleteResource(resource.id)}
             disabled={loading || !(resource?.name)}>
-            <>
-              Löschen
-              {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}
-            </>
+            Löschen
+            {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}
           </Button>
         )}
       </div>
