@@ -32,9 +32,11 @@ async function getArchitects() {
 }
 
 export function ArchitectsItem({ architect, settlementId, removeArchitect, ...rest }: ArchitectsItemProps) {
-  return <div {...rest}>
-    {architect.name} <Button onClick={() => removeArchitect(architect.id, settlementId)} className='p-0.5 rounded-full'><XIcon size={15} /></Button>
-  </div>;
+  return (
+    <div {...rest}>
+      {architect.name} <Button onClick={() => removeArchitect(architect.id, settlementId)} className='p-0.5 rounded-full'><XIcon size={15} /></Button>
+    </div>
+  );
 }
 
 export function ArchitectsList({ architects, settlementId, getSettlement }: ArchitectsListProps) {

@@ -112,7 +112,7 @@ export function Location({ locationInput, settlementId, onUpdate, className = ''
           onClick={location ? () => submitLocation(location) : () => { return; }}
           className='w-full'
           disabled={loading || !location?.lat || !location?.lng}>
-          <>Speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
+          Speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}
         </Button>
       </div>
     </div>

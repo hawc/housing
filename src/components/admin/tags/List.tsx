@@ -80,7 +80,7 @@ export function EditTag({ tag, getTags }: EditTagProps) {
           <InputGhost value={tag.name} onChange={(event) => updateTag({ name: event.target.value })} className='mb-1' />
         </Headline>
         <Button disabled={loading} onClick={() => deleteTag(tag.id)} className='ml-3 p-2 rounded-full'>
-          <>{loading ? <Loader2Icon size={15} className='animate-spin' /> : <XIcon size={15} />}</>
+          {loading ? <Loader2Icon size={15} className='animate-spin' /> : <XIcon size={15} />}
         </Button>
       </div>
       <TextareaGhost value={tag.description} onChange={(event) => updateTag({ description: event.target.value })} />
@@ -117,13 +117,11 @@ export function ListTags({ tagsInput }: ListTagsProps) {
         </div>
       </Box>
       <Container className='grid-cols-2'>
-        <>
-          {sortAlphabetically(tags).map((tag: BaseTag) => (
-            <Box key={tag.id}>
-              <EditTag tag={tag} getTags={getTags} />
-            </Box>
-          ))}
-        </>
+        {sortAlphabetically(tags).map((tag: BaseTag) => (
+          <Box key={tag.id}>
+            <EditTag tag={tag} getTags={getTags} />
+          </Box>
+        ))}
         <Box>
           <AddTag key={tags.length} getTags={getTags} />
         </Box>

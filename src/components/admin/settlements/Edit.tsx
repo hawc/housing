@@ -46,7 +46,6 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
       name: settlement.name,
       description: settlement.description,
     };
-    console.log(data);
     if (settlement?.slug) {
       const responseSettlement = await fetchData<BaseSettlement>(`/api/settlements/update/${settlement.slug}`, undefined, { method: 'POST', body: JSON.stringify(data) });
       setSettlement(responseSettlement);
