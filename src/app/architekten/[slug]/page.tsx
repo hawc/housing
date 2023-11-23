@@ -46,7 +46,7 @@ export default async function ArchitectPage({ params }) {
     <Layout breadcrumbs={
       <Breadcrumbs>
         <Breadcrumb href="/">Startseite</Breadcrumb>
-        <Breadcrumb href="/architekten">Architekten</Breadcrumb>
+        <Breadcrumb href="/architekten">Architekt*innen</Breadcrumb>
         <Breadcrumb>{architect.name}</Breadcrumb>
       </Breadcrumbs>
     }>

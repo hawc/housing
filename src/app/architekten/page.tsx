@@ -9,7 +9,7 @@ import Layout from '@/components/layout/Layout';
 import { BaseArchitect } from '@/app/admin/page';
 
 export const metadata: Metadata = {
-  title: 'Architekten',
+  title: 'Architekt*innen',
 };
 
 async function getArchitects() {
@@ -25,7 +25,7 @@ export default async function Architects() {
     <Layout breadcrumbs={
       <Breadcrumbs>
         <Breadcrumb href="/">Startseite</Breadcrumb>
-        <Breadcrumb>Architekten</Breadcrumb>
+        <Breadcrumb>Architekt*innen</Breadcrumb>
       </Breadcrumbs>
     }>
       <section>

@@ -180,7 +180,7 @@ export default function Admin() {
           <List>
             <ListItem>
               <Link href="/admin/architekten">
-                Architekten
+                Architekt*innen
               </Link>
             </ListItem>
             <ListItem>

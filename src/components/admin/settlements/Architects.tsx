@@ -85,7 +85,7 @@ export function ArchitectsList({ architects, settlementId, getSettlement }: Arch
       </div>
       <div>
         <label htmlFor="settlementArchitectSelect"
-          className='mb-1 block'>Architekt hinzufügen:</label>
+          className='mb-1 block'>Architekt*in hinzufügen:</label>
         <div className='flex gap-4'>
           <div className='basis-full'>
             <Select

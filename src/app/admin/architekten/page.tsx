@@ -22,7 +22,7 @@ export default async function Architects() {
     <Layout breadcrumbs={
       <Breadcrumbs>
         <Breadcrumb href="/">Startseite</Breadcrumb>
-        <Breadcrumb>Architekten</Breadcrumb>
+        <Breadcrumb>Architekt*innen</Breadcrumb>
       </Breadcrumbs>
     }>
       <LoginPageFrame>

@@ -15,7 +15,7 @@ export function ListArchitects({ architects }: { architects: BaseArchitect[] }) 
     <>
       <Box ghost>
         <div className='flex mt-6'>
-          <Headline type='h1' className='mb-0 inline-block'>Architekten</Headline>
+          <Headline type='h1' className='mb-0 inline-block'>Architekt*innen</Headline>
         </div>
       </Box>
       <Box>
@@ -23,9 +23,9 @@ export function ListArchitects({ architects }: { architects: BaseArchitect[] }) 
           <SearchInput
             searchTerm={searchTerm}
             onChange={(event) => setSearchTerm(event.target.value)}
-            placeholder='Nach Architekten suchen' />
+            placeholder='Nach Architekt*innen suchen' />
           {!architects ? (
-            <>Keine Architekten gefunden.</>
+            <>Keine Architekt*innen gefunden.</>
           ) : (
             <SearchList
               className='transition-filter'

@@ -30,7 +30,7 @@ export function ListArchitects({ architectsInput }: { architectsInput: BaseArchi
     <>
       <Box ghost>
         <div className='flex mt-6'>
-          <Headline type='h1' className='mb-0 inline-block'>Architekten</Headline>
+          <Headline type='h1' className='mb-0 inline-block'>Architekt*innen</Headline>
           <div>
             <Button className='ml-3 p-2 rounded-full' onClick={() => reloadArchitects()}>
               <RotateCwIcon className={`align-text-bottom ${loading && 'animate-spin'}`} size={15} />
@@ -45,9 +45,9 @@ export function ListArchitects({ architectsInput }: { architectsInput: BaseArchi
               searchTerm={searchTerm}
               loading={loading && architects.length > 0}
               onChange={(event) => setSearchTerm(event.target.value)}
-              placeholder='Nach Architekten suchen' />
+              placeholder='Nach Architekt*innen suchen' />
             {!loading && !architects ? (
-              <>Keine Architekten gefunden.</>
+              <>Keine Architekt*innen gefunden.</>
             ) : (
               <SearchList
                 className={`transition-filter ${loading ? 'blur-sm' : 'blur-none'}`}
@@ -59,7 +59,7 @@ export function ListArchitects({ architectsInput }: { architectsInput: BaseArchi
           </div>
         </Box>
         <Box>
-          <Link arrow href="/admin/architekten/neu">Neuer Architekt</Link>
+          <Link arrow href="/admin/architekten/neu">Neue*r Architekt*in</Link>
         </Box>
       </Container>
     </>

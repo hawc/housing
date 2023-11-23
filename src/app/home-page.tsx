@@ -44,13 +44,13 @@ export default function HomePage() {
             <StyledLink href='/siedlungen' arrow>Zum Archiv</StyledLink>
           </Box>
           <Box>
-            <StyledLink href='/architekten' arrow>Architekten</StyledLink>
+            <StyledLink href='/architekten' arrow>Architekt*innen</StyledLink>
           </Box>
           {user && (
             <Box>
               <Headline type='h3' tag='h2' className='mb-2'>Administration</Headline>
               <StyledLink href='/admin/siedlungen' arrow>Siedlungen</StyledLink>
-              <StyledLink href='/admin/architekten' arrow>Architekten</StyledLink>
+              <StyledLink href='/admin/architekten' arrow>Architekt*innen</StyledLink>
               <StyledLink href='/admin/tags' arrow>Tags</StyledLink>
             </Box>
           )}

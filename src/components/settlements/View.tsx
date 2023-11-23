@@ -60,25 +60,25 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
         {settlement.architects.length > 0 && (
           <Container>
             <Box>
-              <>
-                <Headline className='inline-block' tag='h2' type='h3'>
-                  {settlement.architects.length > 1 ? 'Architekten' : 'Architekt'}
-                </Headline>
+              <Headline className='inline-block' tag='h2' type='h3'>
+                {settlement.architects.length > 1 ? 'Architekt*innen' : 'Architekt*in'}
+              </Headline>
+              <div className={settlement.architects.length > 3 ? 'md:columns-2' : 'md:columns-1'}>
                 {sortAlphabetically(settlement.architects).map((architect: Architect) => (
                   <div key={architect.id}>
                     {architect.description.length > 0 ? (
-                      <LinkElement href={`/architekten/${architect.slug}`} arrow>{architect.name}</LinkElement>
+                      <LinkElement href={`/architekten/${architect.slug}`}>{architect.name}</LinkElement>
                     ) : (
                       architect.name
                     )}
                   </div>
                 ))}
-              </>
+              </div>
             </Box>
           </Container>
         )}
         {otherResources?.length > 0 && (
-          <Container>
+          <Container className='grid-cols-1 md:grid-cols-2'>
             {otherResources.map((resource) => (
               <Box key={resource.id} className='py-3'>
                 <Headline className='inline-block' tag='h2' type='h3'>
@@ -88,7 +88,7 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
                   {resource.description}
                 </div>
                 {resource.url && (
-                  <LinkElement href={resource.url}>
+                  <LinkElement href={resource.url} className='break-all'>
                     {resource.url}
                   </LinkElement>
                 )}
@@ -102,23 +102,23 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
         {photoResources?.length > 0 && (
           <Container className='md:grid-cols-2'>
             {photoResources.map((resource) => (
-              <Box key={resource.id} className='py-3 md:p-0 justify-between'>
+              <Box key={resource.id} className='p-0 md:p-0 justify-between'>
                 <div>
-                  <div className='flex mb-1 md:mb-0 items-center overflow-hidden bg-grey-light'>
+                  <div className='flex items-center overflow-hidden bg-grey-light'>
                     <img src={resource.url} alt={resource.description} loading='lazy' className='min-w-full' />
                   </div>
-                  <div className='md:px-5 pt-2 md:pt-4 md:pb-4'>
+                </div>
+                <div className='px-3 py-2 md:px-5 md:py-4'>
+                  <div>
                     <Headline type='h6'>{resource.name}</Headline>
                     {resource.description}
                   </div>
-                </div>
-                <div>
                   {resource.source && (
-                    <div className='md:px-5 pt-2 md:pt-0 md:pb-4'>
+                    <div className='pt-2'>
                       Quelle: <LinkElement className='inline-block' href={resource.source} />
                     </div>
                   )}
-                  <div className='md:px-5 pt-2 md:pt-0 md:pb-4'>
+                  <div className='pt-2'>
                     {resource.license && resource.copyright && (
                       <><CopyrightIcon className='inline-block mb-1' size={17} /> {resource.copyright}, {resource.license}</>
                     ) || resource.license && (

@@ -40,12 +40,13 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
     } as BaseSettlement);
   }
 
-  async function submitData(settlement: BaseSettlement) {
+  async function submitData(settlement: Partial<BaseSettlement>) {
     setLoading(true);
     const data = {
       name: settlement.name,
       description: settlement.description,
     };
+    console.log(data);
     if (settlement?.slug) {
       const responseSettlement = await fetchData<BaseSettlement>(`/api/settlements/update/${settlement.slug}`, undefined, { method: 'POST', body: JSON.stringify(data) });
       setSettlement(responseSettlement);
@@ -128,7 +129,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
               <Box>
                 <>
                   <Headline className='inline-block' tag='h2' type='h3'>
-                    Architekten
+                    Architekt*innen
                   </Headline>
                   <ArchitectsList
                     key={Object.keys(settlement?.architects ?? {}).length}
@@ -168,10 +169,8 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
         )}
         <Container className='md:grid-cols-3'>
           <Box>
-            <Button onClick={submitData} disabled={loading || !(settlement?.name)}>
-              <>
-                Speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}
-              </>
+            <Button onClick={settlement ? () => submitData(settlement) : () => { return; }} disabled={loading || !(settlement?.name)}>
+              Speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}
             </Button>
           </Box>
           <Box>
@@ -183,10 +182,8 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
             <Button className='bg-text text-bg border border-text'
               onClick={settlement?.id ? () => deleteSettlement(settlement.id) : () => { return; }}
               disabled={loading || !(settlement?.id)}>
-              <>
-                Löschen
-                {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}
-              </>
+              Löschen
+              {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}
             </Button>
           </Box>
         </Container>
