@@ -16,7 +16,7 @@
     "postbuild": "next-sitemap --config next-sitemap.config.js"
   },
   "dependencies": {
-    "@auth0/nextjs-auth0": "^3.3.0",
+    "@auth0/nextjs-auth0": "^3.5.0",
     "@formspree/react": "^2.5.1",
     "@piwikpro/next-piwik-pro": "^2.0.0",
     "@prisma/client": "^4.13.0",
@@ -26,7 +26,7 @@
     "clsx": "^2.0.0",
     "lucide-react": "^0.257.0",
     "mapbox-gl": "^2.15.0",
-    "next": "^14.0.3",
+    "next": "^14.0.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.12.0",
