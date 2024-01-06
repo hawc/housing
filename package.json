@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^3.3.0",
+    "@formspree/react": "^2.5.1",
     "@piwikpro/next-piwik-pro": "^2.0.0",
     "@prisma/client": "^4.13.0",
     "@react-three/fiber": "^8.15.11",
