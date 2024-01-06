@@ -1,5 +1,11 @@
+'use client';
+
 import { useForm, ValidationError } from '@formspree/react';
 import React from 'react';
+
+import { Button } from '@/components/blocks/form/Button';
+import { InputGhost } from '@/components/blocks/form/Input';
+import { TextareaGhost } from '@/components/blocks/form/Textarea';
 
 export function ContactForm() {
   const [state, handleSubmit] = useForm('mwkgkydb');
@@ -13,7 +19,8 @@ export function ContactForm() {
       <label htmlFor="email">
         E-Mail-Adresse
       </label>
-      <input
+      <InputGhost
+        className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
         id="email"
         type="email"
         name="email"
@@ -23,7 +30,11 @@ export function ContactForm() {
         field="email"
         errors={state.errors}
       />
-      <textarea
+      <label htmlFor="message">
+        Nachricht
+      </label>
+      <TextareaGhost
+        className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
         id="message"
         name="message"
       />
@@ -32,9 +43,9 @@ export function ContactForm() {
         field="message"
         errors={state.errors}
       />
-      <button type="submit" disabled={state.submitting}>
+      <Button type="submit" disabled={state.submitting}>
         Absenden
-      </button>
+      </Button>
     </form>
   );
 }

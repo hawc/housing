@@ -17,7 +17,7 @@ export function Button({ children, className = '', type = 'button', onClick = ()
       onClick={onClick}
       disabled={disabled}
       {...rest}>
-      <>{children}</>
+      {children}
     </button>
   );
 }
