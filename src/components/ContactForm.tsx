@@ -13,7 +13,7 @@ const errorMessages = {
   EMPTY: 'Das Formular darf nicht leer sein.',
   PROJECT_NOT_FOUND: 'Das Formular ist zurzeit nicht verfügbar.',
   FORM_NOT_FOUND: 'Das Formular ist zurzeit nicht verfügbar.',
-  NO_FILE_UPLOADS: 'Upload nicht verfügbar',
+  NO_FILE_UPLOADS: 'Upload nicht verfügbar.',
   TOO_MANY_FILES: 'Zu viele Dateien.',
   FILES_TOO_BIG: 'Eine oder mehrere Dateien sind zu groß.',
   REQUIRED_FIELD_MISSING: 'Das Pflichtfeld darf nicht leer sein.',
