@@ -1,12 +1,11 @@
 # Housing
 
-This is going to be a database for large panel system-buildings (Plattenbauten) in Germany, currently work-in-progress (or rather under construction).
+Grosswohnsiedlungen.de is a database for large housing estates in Germany, currently work-in-progress.
 
 It is based on the following technologies:
 
-- Next.js 13
-- React 18
+- Next.js
+- React
 - TypeScript
-- Tailwind CSS 3
-- Github Actions
+- Tailwind
 - Prisma & PostgreSQL
