@@ -1,15 +1,14 @@
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import PiwikProProvider from '@piwikpro/next-piwik-pro';
 import type { Metadata } from 'next';
-import { Space_Mono } from 'next/font/google';
+import localFont from 'next/font/local';
 
 import '@/styles/globals.css';
 
-const space_mono = Space_Mono({
-  subsets: ['latin'],
+const Bricolage = localFont({
+  src: '../../public/fonts/BricolageGrotesque.ttf',
   display: 'swap',
-  variable: '--font-space-mono',
-  weight: ['400', '700']
+  variable: '--font-bricolage'
 });
 
 export const metadata: Metadata = {
@@ -63,7 +62,7 @@ export default function RootLayout({
             containerUrl={process.env.NEXT_PUBLIC_CONTAINER_URL}
             containerId={process.env.NEXT_PUBLIC_CONTAINER_ID}
           >
-            <div className={`${space_mono.variable} font-primary`}>
+            <div className={`${Bricolage.variable} font-primary`}>
               {children}
             </div>
           </PiwikProProvider>

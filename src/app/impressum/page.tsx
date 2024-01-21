@@ -1,3 +1,4 @@
+import { AtSign } from 'lucide-react';
 import { Metadata } from 'next';
 import * as React from 'react';
 
@@ -30,8 +31,11 @@ export default function Impressum() {
             Angaben nach § 5 TMG, sowie verantwortlich für den Inhalt nach § 55 Abs. 2 RStV
           </Headline>
           <div>Hendrik Wichern</div>
+          <div>
+            E-Mail: <span>web<AtSign className='inline' size={20} />hendrikwichern.de</span>
+          </div>
           <div className="mb-4">
-            E-Mail: <span>web@hendrikwichern.de</span>
+            <Link href="/kontakt">Zum Kontaktformular</Link>
           </div>
           <Headline type='h3' tag='h2'>Disclaimer</Headline>
           <Headline type='h5' tag='h3' className='mt-3'>Haftung für Inhalte</Headline>

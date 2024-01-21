@@ -44,14 +44,14 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
           <Container className='grid-cols-1 md:grid-cols-2'>
             {settlement.events.length > 0 && (
               <Box>
-                <Headline className='inline-block' tag='h2' type='h3'>Historie</Headline>
+                <Headline className='inline-block' type='h2'>Historie</Headline>
                 <Timeline
                   events={settlement.events} />
               </Box>
             )}
             {settlement.details.length > 0 && (
               <Box>
-                <Headline className='inline-block' tag='h2' type='h3'>Details</Headline>
+                <Headline className='inline-block' type='h2'>Details</Headline>
                 <DetailsList details={settlement.details} />
               </Box>
             )}
@@ -60,17 +60,13 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
         {settlement.architects.length > 0 && (
           <Container>
             <Box>
-              <Headline className='inline-block' tag='h2' type='h3'>
+              <Headline className='inline-block' type='h2'>
                 {settlement.architects.length > 1 ? 'Architekt*innen' : 'Architekt*in'}
               </Headline>
               <div className={settlement.architects.length > 3 ? 'md:columns-2' : 'md:columns-1'}>
                 {sortAlphabetically(settlement.architects).map((architect: Architect) => (
                   <div key={architect.id}>
-                    {architect.description.length > 0 ? (
-                      <LinkElement href={`/architekten/${architect.slug}`}>{architect.name}</LinkElement>
-                    ) : (
-                      architect.name
-                    )}
+                    <LinkElement href={`/architekten/${architect.slug}`}>{architect.name}</LinkElement>
                   </div>
                 ))}
               </div>
@@ -81,7 +77,7 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
           <Container className='grid-cols-1 md:grid-cols-2'>
             {otherResources.map((resource) => (
               <Box key={resource.id} className='py-3'>
-                <Headline className='inline-block' tag='h2' type='h3'>
+                <Headline className='inline-block' type='h2'>
                   {resource.name}
                 </Headline>
                 <div>

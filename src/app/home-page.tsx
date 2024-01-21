@@ -17,6 +17,7 @@ export default function HomePage() {
     <Layout>
       <section>
         <Container>
+          <Headline type='h1' className='mt-8'>Großwohn­siedlungen</Headline>
           <Box className='p-0 md:p-0'>
             <Image src='/images/header-01.png' alt='header' width={1280} height={400} priority />
           </Box>
@@ -41,18 +42,20 @@ export default function HomePage() {
             </p>
           </Box>
           <Box>
-            <StyledLink href='/siedlungen' arrow>Zum Archiv</StyledLink>
+            <StyledLink href='/siedlungen' className='text-xl' arrow>Zum Archiv</StyledLink>
           </Box>
           <Box>
-            <StyledLink href='/architekten' arrow>Architekt*innen</StyledLink>
+            <StyledLink href='/architekten' className='text-xl' arrow>Architekt*innen</StyledLink>
           </Box>
           {user && (
-            <Box>
-              <Headline type='h3' tag='h2' className='mb-2'>Administration</Headline>
-              <StyledLink href='/admin/siedlungen' arrow>Siedlungen</StyledLink>
-              <StyledLink href='/admin/architekten' arrow>Architekt*innen</StyledLink>
-              <StyledLink href='/admin/tags' arrow>Tags</StyledLink>
-            </Box>
+            <>
+              <Headline type='h1' className='mt-6'>Administration</Headline>
+              <Box>
+                <StyledLink href='/admin/siedlungen' arrow>Siedlungen</StyledLink>
+                <StyledLink href='/admin/architekten' arrow>Architekt*innen</StyledLink>
+                <StyledLink href='/admin/tags' arrow>Tags</StyledLink>
+              </Box>
+            </>
           )}
         </Container>
         {/* <Scene fileUrl='/models/PH16/PH16.stl' className='absolute top-20 -z-10' height="1200px" width="1200px" /> */}

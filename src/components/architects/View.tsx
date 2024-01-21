@@ -2,7 +2,7 @@
 
 
 import { Box, Container } from '@/components/blocks/Box';
-import { Link as LinkElement } from '@/components/blocks/Link';
+import { Link } from '@/components/blocks/Link';
 import { Headline } from '@/components/Headline';
 
 import type { BaseArchitect } from '@/app/admin/page';
@@ -20,12 +20,12 @@ export function Architect({ architect }: { architect: BaseArchitect }) {
           </Box>
         )}
         <Box>
-          <Headline type='h3' tag='h2'>Siedlungen</Headline>
+          <Headline type='h2'>Siedlungen</Headline>
           <>
             {architect.settlements.map(settlement => (
-              <LinkElement key={settlement.slug} href={`/siedlungen/${settlement.slug}`} arrow>
+              <Link key={settlement.slug} href={`/siedlungen/${settlement.slug}`}>
                 {settlement.name}
-              </LinkElement>
+              </Link>
             ))}
           </>
         </Box>

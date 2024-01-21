@@ -12,7 +12,7 @@ interface BreadcrumbProps extends LinkWithChildren {
 
 export function Breadcrumbs({ children }: BreadcrumbsProps) {
   return (
-    <div className='my-4 flex text-xxs gap-2'>{children}</div>
+    <div className='my-4 flex text-xs gap-2'>{children}</div>
   );
 }
 

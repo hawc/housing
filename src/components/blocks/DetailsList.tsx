@@ -19,14 +19,16 @@ function formatDetail(detailText: string, type: string): string {
 export function DetailsList({ details }: DetailsListProps) {
   return (
     <div>
-      <table>
-        <tbody>
-          <thead className='sr-only'>
+      <table className='table-auto w-full'>
+        <thead className='sr-only'>
+          <tr>
             <th>Details</th>
-          </thead>
+          </tr>
+        </thead>
+        <tbody>
           {details.map((detail: Detail) => (
             <tr key={detail.id}>
-              <td>{detail.name} {detail.detailDate ? `(${new Date(detail.detailDate).getFullYear()})` : ''}:</td>
+              <td className='w-0 pr-4'>{detail.name}{detail.detailDate ? ` (${new Date(detail.detailDate).getFullYear()})` : ''}:</td>
               <td>{formatDetail(detail.description, detail.detailType?.name)} {detail.annotation && <>({detail.annotation})</>}</td>
             </tr>
           ))}

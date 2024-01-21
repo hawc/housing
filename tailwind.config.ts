@@ -1,12 +1,11 @@
 import { Config } from 'tailwindcss';
-import defaultTheme from 'tailwindcss/defaultTheme';
 
 export default {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
       fontFamily: {
-        primary: ['var(--font-space-mono)', ...defaultTheme.fontFamily.mono],
+        primary: ['var(--font-bricolage)'],
       },
       colors: {
         'grey-light': 'var(--grey-light)',
@@ -19,11 +18,11 @@ export default {
       },
       fontSize: {
         'xl': '1.25rem',
-        '2xl': '1.75rem',
-        '3xl': '2rem',
-        '4xl': '2.4rem',
-        '5xl': '2.8rem',
-        '6xl': '4rem',
+        '2xl': '2rem',
+        '3xl': '2.5rem',
+        '4xl': '3rem',
+        '5xl': '4rem',
+        '6xl': '5rem',
         'text-base': '1.25rem',
       },
       gridTemplateColumns: {

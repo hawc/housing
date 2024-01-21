@@ -1,16 +1,18 @@
 import { Box, Container } from '@/components/blocks/Box';
 import { Link } from '@/components/blocks/Link';
+import { LoginButton } from '@/components/LoginButton';
 
 export function Footer() {
   return (
     <footer>
       <Container>
         <Box className='bg-black'>
-          <div className="flex justify-between text-white leading-normal">
+          <div className="flex md:justify-between text-white flex-col md:flex-row items-center">
             <Link href="https://github.com/hawc/housing">Github</Link>
             <Link href="/kontakt">Kontakt</Link>
             <Link href="/impressum">Impressum</Link>
             <Link href="/datenschutz">Datenschutz</Link>
+            <LoginButton />
           </div>
         </Box>
       </Container>

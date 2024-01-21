@@ -92,8 +92,12 @@ select {
 }
 
 html {
-  font-size: 20px;
+  font-size: 18px;
   font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+  @media (min-width: 1024px) {
+    font-size: 20px;
+  }
 }
 
 body {

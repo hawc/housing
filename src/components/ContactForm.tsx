@@ -1,7 +1,8 @@
 'use client';
 
 import { useForm } from '@formspree/react';
-import React from 'react';
+import { InfoIcon } from 'lucide-react';
+import React, { useState } from 'react';
 
 import { Button } from '@/components/blocks/form/Button';
 import { InputGhost } from '@/components/blocks/form/Input';
@@ -24,6 +25,9 @@ const errorMessages = {
 };
 
 export function ContactForm() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
   const [state, handleSubmit] = useForm('mwkgkydb', {
     data: {
       subject: 'Neue Kontaktanfrage auf grosswohnsiedlungen.de',
@@ -67,35 +71,44 @@ export function ContactForm() {
         E-Mail-Adresse
       </label>
       <InputGhost
-        className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
+        className='mt-1 border-white border-solid border-2 mb-2 p-1'
         id="email"
         type="email"
         name="email"
+        value={email}
+        onChange={e => setEmail(e.target.value)}
       />
       {getFieldErrors('email')}
       <label htmlFor="name">
         Name
       </label>
       <InputGhost
-        className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
+        className='mt-1 border-white border-solid border-2 mb-2 p-1'
         id="name"
         type="name"
         name="name"
+        value={name}
+        onChange={e => setName(e.target.value)}
       />
       {getFieldErrors('name')}
       <label htmlFor="message">
         Nachricht
       </label>
       <TextareaGhost
-        className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
+        className='mt-1 border-white border-solid border-2 mb-2 p-1'
         id="message"
         name="message"
+        value={message}
+        onChange={e => setMessage(e.target.value)}
       />
       {getFieldErrors('message')}
       {getFormErrors()}
-      <Button type="submit" disabled={state.submitting}>
+      <Button type="submit" className='w-full md:w-auto' disabled={state.submitting || !name || !email || !message}>
         Absenden
       </Button>
+      {(!name || !email || !message) && (
+        <span className='pt-2 md:pt-0 md:pl-4 block md:inline'><InfoIcon size={22} className='inline mr-2' />Bitte füllen Sie alle Felder aus.</span>
+      )}
     </form>
   );
 }

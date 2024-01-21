@@ -80,9 +80,9 @@ export function SettlementsSearchList({ items, path, className = '', searchTerm 
             <ListItem plain key={item.slug}>
               <Link className='inline-block mr-2' href={`${path}${item.slug}`}>
                 {item.name}
-              </Link>
+              </Link><span className='sr-only'>, </span>
               {'location' in item && (
-                <span className='font-light tracking-wide'>{item.location?.city}</span>
+                <span className='font-thin tracking-wide'>{item.location?.city}</span>
               )}
             </ListItem>
           )

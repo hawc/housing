@@ -7,15 +7,18 @@ import Link from 'next/link';
 export function LoginButton({ className = '' }: { className?: string }) {
   const { user, error, isLoading } = useUser();
 
+  if (error) {
+    return <></>;
+  }
+
   return (
-    <span className={`bg-text p-1 md:p-2 ${className}`}>
+    <span className={`p-1 md:p-2 ${className}`}>
       {isLoading ? <><Loader2Icon className='animate-spin' /></> :
-        error ? <>Login-Fehler 😔</> :
-          user ? (
-            <Link href="/api/auth/logout"><LogOutIcon /></Link>
-          ) : (
-            <Link href="/api/auth/login"><LogInIcon /></Link>
-          )
+        user ? (
+          <Link href="/api/auth/logout"><LogOutIcon /></Link>
+        ) : (
+          <Link href="/api/auth/login"><LogInIcon /></Link>
+        )
       }
     </span>
   );
