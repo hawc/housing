@@ -6,7 +6,43 @@ import localFont from 'next/font/local';
 import '@/styles/globals.css';
 
 const Bricolage = localFont({
-  src: '../../public/fonts/BricolageGrotesque.ttf',
+  src: [
+    {
+      path: '../../public/fonts/BricolageGrotesque/BricolageGrotesque-ExtraLight.ttf',
+      weight: '100',
+      style: 'normal'
+    },
+    {
+      path: '../../public/fonts/BricolageGrotesque/BricolageGrotesque-Light.ttf',
+      weight: '200',
+      style: 'normal'
+    },
+    {
+      path: '../../public/fonts/BricolageGrotesque/BricolageGrotesque-Regular.ttf',
+      weight: '400',
+      style: 'normal'
+    },
+    {
+      path: '../../public/fonts/BricolageGrotesque/BricolageGrotesque-Medium.ttf',
+      weight: '500',
+      style: 'normal'
+    },
+    {
+      path: '../../public/fonts/BricolageGrotesque/BricolageGrotesque-SemiBold.ttf',
+      weight: '700',
+      style: 'normal'
+    },
+    {
+      path: '../../public/fonts/BricolageGrotesque/BricolageGrotesque-Bold.ttf',
+      weight: '800',
+      style: 'normal'
+    },
+    {
+      path: '../../public/fonts/BricolageGrotesque/BricolageGrotesque-ExtraBold.ttf',
+      weight: '900',
+      style: 'normal'
+    },
+  ],
   display: 'swap',
   variable: '--font-bricolage'
 });

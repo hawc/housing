@@ -5,8 +5,8 @@ export function Header() {
     <header
       className='sticky top-0 z-10 text-bg border-b border-text'
       style={{ backdropFilter: 'invert(1) grayscale(1)', WebkitBackdropFilter: 'invert(1) grayscale(1)' }}>
-      <div className="container xl:max-w-full mx-auto px-1 md:px-3 items-center justify-between flex">
-        <div className="my-4 md:mv-6 text-xl leading-tight md:leading-normal">
+      <div className="container xl:max-w-full mx-auto px-1 md:px-3">
+        <div className="py-4 md:pv-6 text-xl leading-tight md:leading-normal">
           <Link className="inline-block font-bold bg-text px-2 tracking-normal" href="/">
             <>Großwohn&shy;<span className='whitespace-nowrap'>siedlungen<span className='text-highlight'>
               <svg
