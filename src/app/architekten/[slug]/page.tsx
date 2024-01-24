@@ -15,7 +15,7 @@ export async function generateMetadata(
   const architect = await getArchitect(params.slug);
 
   return {
-    title: architect?.name,
+    title: `${architect?.name} | Architekt*innen`,
   };
 }
 
