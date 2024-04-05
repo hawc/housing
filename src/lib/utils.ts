@@ -17,3 +17,7 @@ export function slugify(string: string) {
 export function getUniqueLabel(label: string, uuid: string) {
   return `${label}-${uuid}`;
 }
+
+export function dateIsValid(date) {
+  return !Number.isNaN(new Date(date).getTime());
+}

@@ -6,9 +6,8 @@ import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { fetchData } from '@/lib/fetch';
-import { getUniqueLabel } from '@/lib/utils';
+import { dateIsValid, getUniqueLabel } from '@/lib/utils';
 
-import { dateIsValid } from '@/components/admin/settlements/Event';
 import { Button } from '@/components/blocks/form/Button';
 import { InputGhost } from '@/components/blocks/form/Input';
 import { Select } from '@/components/blocks/form/Select';

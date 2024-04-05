@@ -1,6 +1,6 @@
 import { BuildingIcon, CircleDotDashedIcon, HomeIcon } from 'lucide-react';
 
-import { sortByDate } from '@/lib/utils';
+import { dateIsValid, sortByDate } from '@/lib/utils';
 
 import { Headline } from '@/components/Headline';
 
@@ -64,7 +64,7 @@ function TimelineConnector() {
 export function Timeline({ events }: { events: Event[] }) {
   return (
     <TimelineWrapper>
-      {sortByDate(events, 'eventDate').map((event: Event, index: number) => (
+      {sortByDate(events, 'eventDate').filter(event => dateIsValid(event.eventDate)).map((event: Event, index: number) => (
         <TimelineItem key={index}>
           {index < events.length - 1 && (
             <TimelineConnector />

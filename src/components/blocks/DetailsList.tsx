@@ -1,3 +1,5 @@
+import { Link } from '@/components/blocks/Link';
+
 import { Detail } from '@/app/admin/page';
 
 interface DetailsListProps extends React.HTMLAttributes<HTMLElement> {
@@ -28,8 +30,16 @@ export function DetailsList({ details }: DetailsListProps) {
         <tbody>
           {details.map((detail: Detail) => (
             <tr key={detail.id}>
-              <td className='w-0 pr-4'>{detail.name}{detail.detailDate ? ` (${new Date(detail.detailDate).getFullYear()})` : ''}:</td>
-              <td>{formatDetail(detail.description, detail.detailType?.name)} {detail.annotation && <>({detail.annotation})</>}</td>
+              <td className='pr-4'>{detail.name}{detail.detailDate ? ` (${new Date(detail.detailDate).getFullYear()})` : ''}:</td>
+              <td>
+                {formatDetail(detail.description, detail.detailType?.name)}{' '}
+                {detail.annotation && <>({detail.annotation})</>}{' '}
+              </td>
+              {detail.source &&
+                <td className='pl-4'>
+                  <Link href={detail.source} title={detail.source}>Quelle</Link>
+                </td>
+              }
             </tr>
           ))}
         </tbody>

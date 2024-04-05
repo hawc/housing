@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { fetchData } from '@/lib/fetch';
-import { getUniqueLabel } from '@/lib/utils';
+import { dateIsValid, getUniqueLabel } from '@/lib/utils';
 
 import { Button } from '@/components/blocks/form/Button';
 import { InputGhost } from '@/components/blocks/form/Input';
@@ -20,10 +20,6 @@ interface EditEventProps extends React.HTMLAttributes<HTMLElement> {
   availableEventTypes: EventType[];
   settlementId: string;
   onUpdate: (detailId: string | undefined) => void;
-}
-
-export function dateIsValid(date) {
-  return !Number.isNaN(new Date(date).getTime());
 }
 
 function IconComponent({ type, className }: { type: string, className: string }): JSX.Element {

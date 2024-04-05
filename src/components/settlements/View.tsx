@@ -12,13 +12,16 @@ import { Headline } from '@/components/Headline';
 
 import type { Architect, BaseSettlement, Settlement } from '@/app/admin/page';
 
+const isPhoto = (resource) => resource.resourceType.name === 'Foto';
+const isNotPhoto = (resource) => resource.resourceType.name !== 'Foto';
+
 export function Settlement({ settlement }: { settlement: BaseSettlement }) {
   const Map = dynamic(() => import('@/components/admin/settlements/Map'), {
     ssr: false
   });
 
-  const photoResources = settlement?.resources?.filter(resource => resource.resourceType.name === 'Foto');
-  const otherResources = settlement?.resources?.filter(resource => resource.resourceType.name !== 'Foto');
+  const photoResources = settlement?.resources?.filter(isPhoto);
+  const otherResources = settlement?.resources?.filter(isNotPhoto);
 
   return (
     <>
@@ -74,25 +77,31 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
           </Container>
         )}
         {otherResources?.length > 0 && (
-          <Container className='grid-cols-1 md:grid-cols-2'>
-            {otherResources.map((resource) => (
-              <Box key={resource.id} className='py-3'>
-                <Headline className='inline-block' type='h2'>
-                  {resource.name}
-                </Headline>
-                <div>
-                  {resource.description}
+          <Container className='grid-cols-1 lg:grid-cols-2'>
+            <Box className='py-3'>
+              <Headline className='inline-block' type='h2'>
+                Weiterführende Links
+              </Headline>
+              {otherResources.map((resource) => (
+                <div key={resource.id}>
+                  {resource.url && (
+                    <div>
+                      <LinkElement href={resource.url} title={resource.url} className='break-all'>
+                        {resource.name}
+                      </LinkElement>
+                    </div>
+                  )}
+                  {resource.description && (
+                    <p className={!resource.source ? 'mb-2' : ''}>
+                      {resource.description}
+                    </p>
+                  )}
+                  {resource.source && (
+                    <div className='mb-2'>Quelle: {resource.source}</div>
+                  )}
                 </div>
-                {resource.url && (
-                  <LinkElement href={resource.url} className='break-all'>
-                    {resource.url}
-                  </LinkElement>
-                )}
-                {resource.source && (
-                  <>Quelle: {resource.source}</>
-                )}
-              </Box>
-            ))}
+              ))}
+            </Box>
           </Container>
         )}
         {photoResources?.length > 0 && (
