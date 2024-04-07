@@ -88,6 +88,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   const isProd = process.env.NODE_ENV === 'production';
+
+  const content = (
+    <div className={`${Bricolage.variable} font-primary`}>
+      {children}
+    </div>
+  );
+
   return (
     <UserProvider>
       <html lang='en'>
@@ -97,12 +104,9 @@ export default function RootLayout({
               containerUrl={process.env.NEXT_PUBLIC_CONTAINER_URL}
               containerId={process.env.NEXT_PUBLIC_CONTAINER_ID}
             >
+              {content}
             </PiwikProProvider>
-          ) : (
-            <div className={`${Bricolage.variable} font-primary`}>
-              {children}
-            </div>
-          )}
+          ) : content}
         </body>
       </html>
     </UserProvider>
