@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import * as React from 'react';
+import { Suspense } from 'react';
 
 import { Box } from '@/components/blocks/Box';
 import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcrumbs';
@@ -26,7 +26,17 @@ export default function Kontakt() {
           </div>
         </Box>
         <Box>
-          <ContactForm />
+          <p>
+            Willkommen auf unserer Kontaktseite!
+          </p>
+          <p>
+            Hier haben Sie die Möglichkeit, uns Fragen zu stellen, Feedback zu geben oder sich aktiv am Projekt zu beteiligen.
+          </p>
+        </Box>
+        <Box>
+          <Suspense>
+            <ContactForm />
+          </Suspense>
         </Box>
       </section>
     </Layout>

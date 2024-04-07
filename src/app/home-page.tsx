@@ -2,7 +2,6 @@
 
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Image from 'next/legacy/image';
-import * as React from 'react';
 
 import { Box, Container } from '@/components/blocks/Box';
 import { Link as StyledLink } from '@/components/blocks/Link';

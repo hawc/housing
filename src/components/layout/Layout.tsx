@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 import { Footer } from '@/components/blocks/Footer';
 import { Header } from '@/components/blocks/Header';
 

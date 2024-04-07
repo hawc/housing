@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import * as React from 'react';
 
 import { Box } from '@/components/blocks/Box';
 import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcrumbs';
