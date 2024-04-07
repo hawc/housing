@@ -6,11 +6,11 @@ import { Box } from '@/components/blocks/Box';
 import { Link } from '@/components/blocks/Link';
 import { Headline } from '@/components/Headline';
 
-export default function AdminLinks() {
+export function AdminLinks() {
   const { user, isLoading } = useUser();
 
   if (isLoading || !user) {
-    return;
+    return <></>;
   }
 
   return (

@@ -4,10 +4,11 @@ interface TextareaProps extends React.HTMLAttributes<HTMLTextAreaElement> {
   className?: string;
   value?: string;
   name?: string;
+  maxLength?: number;
   onChange?: React.ChangeEventHandler<HTMLTextAreaElement>;
 }
 
-export function TextareaGhost({ className = '', value = '', name = '', onChange, ...rest }: TextareaProps) {
+export function TextareaGhost({ className = '', value = '', name = '', onChange, maxLength = 5000, ...rest }: TextareaProps) {
   return (
     <textarea
       rows={5}
@@ -15,6 +16,7 @@ export function TextareaGhost({ className = '', value = '', name = '', onChange,
       defaultValue={value}
       name={name}
       onChange={onChange}
+      maxLength={maxLength}
       {...rest} />
   );
 }

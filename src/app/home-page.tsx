@@ -1,6 +1,6 @@
 import Image from 'next/legacy/image';
 
-import AdminLinks from '@/components/admin/AdminLinks';
+import { AdminLinks } from '@/components/admin/AdminLinks';
 import { Box, Container } from '@/components/blocks/Box';
 import { Link as StyledLink } from '@/components/blocks/Link';
 import { List, ListItem } from '@/components/blocks/List';
@@ -14,7 +14,7 @@ export default function HomePage() {
         <Container>
           <Headline type='h1' className='mt-8'>Großwohn­siedlungen</Headline>
           <Box className='p-0 md:p-0'>
-            <Image src='/images/header-01.png' alt='header' width={1280} height={400} priority />
+            <Image src='/images/header-01.png' alt='Header image' width={1280} height={400} priority />
           </Box>
           <Box>
             <p>
