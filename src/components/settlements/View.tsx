@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 import { sortAlphabetically } from '@/lib/utils';
 
 import { Box, Container } from '@/components/blocks/Box';
+import { ContactLink } from '@/components/blocks/ContactLink';
 import { DetailsList } from '@/components/blocks/DetailsList';
 import { Link as LinkElement } from '@/components/blocks/Link';
 import { TagList } from '@/components/blocks/Tags';
@@ -146,6 +147,9 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
             </Box>
           </Container>
         )}
+        <Container>
+          <ContactLink />
+        </Container>
       </Container>
     </>
   );

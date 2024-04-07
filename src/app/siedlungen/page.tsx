@@ -2,7 +2,9 @@ import { Metadata } from 'next';
 
 import { fetchData } from '@/lib/fetch';
 
+import { Container } from '@/components/blocks/Box';
 import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcrumbs';
+import { ContactLink } from '@/components/blocks/ContactLink';
 import Layout from '@/components/layout/Layout';
 import { ListSettlements } from '@/components/settlements/List';
 
@@ -37,6 +39,9 @@ export default async function Settlements() {
       <section>
         <ListSettlements settlements={settlements} locations={locations} />
       </section>
+      <Container>
+        <ContactLink />
+      </Container>
     </Layout>
   );
 }

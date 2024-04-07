@@ -2,11 +2,13 @@
 
 import { useForm } from '@formspree/react';
 import { InfoIcon } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
 import React, { useState } from 'react';
 
 import { Button } from '@/components/blocks/form/Button';
 import { InputGhost } from '@/components/blocks/form/Input';
 import { TextareaGhost } from '@/components/blocks/form/Textarea';
+import { Link } from '@/components/blocks/Link';
 
 const errorMessages = {
   INACTIVE: 'Das Formular ist zurzeit nicht verfügbar.',
@@ -28,12 +30,15 @@ export function ContactForm() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  const searchParams = useSearchParams();
+  const from = searchParams.get('from') ?? '';
   const [state, handleSubmit] = useForm('mwkgkydb', {
     data: {
       subject: 'Neue Kontaktanfrage auf grosswohnsiedlungen.de',
       pageTitle: function () {
         return document.title;
-      }
+      },
+      from
     }
   });
 
@@ -62,7 +67,19 @@ export function ContactForm() {
   }
 
   if (state.succeeded) {
-    return <p>Danke für Ihre Nachricht!</p>;
+    return (
+      <div>
+        <p>Danke für Ihre Nachricht!</p>
+        <p>
+          {from && (
+            <Link arrow back href={from}>Zurück zur vorherigen Seite</Link>
+          )}
+        </p>
+        <p>
+          <Link arrow back href="/">Zurück zur Startseite</Link>
+        </p>
+      </div>
+    );
   }
 
   return (

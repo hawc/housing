@@ -1,0 +1,18 @@
+'use client';
+
+import { usePathname } from 'next/navigation';
+
+import { Box } from '@/components/blocks/Box';
+import { Link } from '@/components/blocks/Link';
+
+export function ContactLink() {
+  const pathname = usePathname();
+
+  return (
+    <Box className='bg-white text-black'>
+      <div className='flex flex-row justify-between'>
+        <div>Informationen sind falsch oder unvollständig? Bitte schreib uns über das <Link href={`/kontakt?from=${pathname}`}>Kontaktformular</Link>!</div>
+      </div>
+    </Box>
+  );
+}

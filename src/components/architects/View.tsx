@@ -1,7 +1,5 @@
-'use client';
-
-
 import { Box, Container } from '@/components/blocks/Box';
+import { ContactLink } from '@/components/blocks/ContactLink';
 import { Link } from '@/components/blocks/Link';
 import { Headline } from '@/components/Headline';
 
@@ -29,6 +27,9 @@ export function Architect({ architect }: { architect: BaseArchitect }) {
             ))}
           </>
         </Box>
+      </Container>
+      <Container>
+        <ContactLink />
       </Container>
     </>
   );
