@@ -1,1 +1,42 @@
 @import url("https://api.tiles.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css");
+
+.marker::before {
+  content: '';
+  position: relative;
+  width: 0.75rem;
+  height: 0.75rem;
+  left: 50%;
+  top: 50%;
+  background-color: var(--highlight);
+  border: 1px solid var(--black);
+  opacity: 1;
+  transition: 0.2s transform;
+  transform: translate(-50%, -50%);
+}
+
+.marker-disabled {
+  background-color: var(--black);
+  border: 1px solid var(--highlight);
+}
+
+.mapboxgl-marker:hover {
+  z-index: 1;
+}
+
+.marker:hover::before {
+  border-color: var(--white);
+  transform: translate(-50%, -50%) scale(1.5);
+}
+
+.marker:hover .tooltip {
+  display: block;
+}
+
+.tooltip {
+  left: 50%;
+  bottom: 1rem;
+  padding: 0.15rem 0.3rem;
+  background-color: var(--black);
+  border: 1px solid var(--white);
+  transform: translate(-50%);
+}

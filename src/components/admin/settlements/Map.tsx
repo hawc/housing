@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import { useState } from 'react';
 import ReactMapGL, { Marker } from 'react-map-gl';
 
 import './map.css';
@@ -22,8 +22,17 @@ interface MapProps {
   searchTerm?: string;
 }
 
+function Tooltip({ title = '' }: { title: string }) {
+  return (
+    <div
+      className='tooltip absolute hidden text-center leading-tight text-white text-sm tracking-wide font-primary whitespace-nowrap'
+      dangerouslySetInnerHTML={{ __html: title.replace(', ', ', <br />') }}></div>
+  );
+}
+
 export default function Map({ markers, center, zoom = 12, searchTerm = '' }: MapProps) {
   const router = useRouter();
+  const [hasClickedMarker, setHasClickedMarker] = useState(false);
 
   return (
     <>
@@ -42,20 +51,35 @@ export default function Map({ markers, center, zoom = 12, searchTerm = '' }: Map
             key={`${marker.lat}-${marker.lng}`}
             latitude={marker.lat}
             longitude={marker.lng}
-            style={{ cursor: 'pointer' }}
             onClick={() => router.push(`/siedlungen/${marker.settlement.slug}`)}
           >
-            <div title={marker.settlement.name} style={isSettlementFound(marker.settlement.name, marker.city, searchTerm) ?
-              { background: 'var(--highlight)', width: '16px', height: '16px', border: '1px solid var(--black)', opacity: '1' } :
-              { background: 'var(--black)', width: '16px', height: '16px', border: '1px solid var(--highlight)', opacity: '1' }}></div>
+            <div
+              className={`relative h-4 w-4 flex items-center cursor-pointer marker ${!isSettlementFound(marker.settlement.name, marker.city, searchTerm) && 'marker-disabled'}`}>
+              <Tooltip title={marker.settlement.name} />
+            </div>
           </Marker>
         ) : (
           <Marker
             key={`${marker.lat}-${marker.lng}`}
             latitude={marker.lat}
             longitude={marker.lng}
+            onClick={() => {
+              if (hasClickedMarker) {
+                setHasClickedMarker(false);
+
+                return;
+              }
+              setHasClickedMarker(true);
+              navigator.clipboard.writeText(marker.name);
+
+              setTimeout(() => {
+                setHasClickedMarker(false);
+              }, 2000);
+            }}
           >
-            <div style={{ background: 'var(--highlight)', width: '16px', height: '16px', border: '1px solid var(--black)' }}></div>
+            <div className='relative h-4 w-4 flex items-center cursor-pointer marker'>
+              {marker.name && <Tooltip title={hasClickedMarker ? 'Adresse kopiert' : marker.name} />}
+            </div>
           </Marker>
         ))}
       </ReactMapGL>

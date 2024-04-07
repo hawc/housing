@@ -3,7 +3,7 @@
 import { useForm } from '@formspree/react';
 import { InfoIcon } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { Button } from '@/components/blocks/form/Button';
 import { InputGhost } from '@/components/blocks/form/Input';
@@ -88,7 +88,7 @@ export function ContactForm() {
         E-Mail-Adresse
       </label>
       <InputGhost
-        className='mt-1 border-white border-solid border-2 mb-2 p-1'
+        className='mt-1 border-text border-solid border-2 mb-2 p-1'
         id="email"
         type="email"
         name="email"
@@ -100,7 +100,7 @@ export function ContactForm() {
         Name
       </label>
       <InputGhost
-        className='mt-1 border-white border-solid border-2 mb-2 p-1'
+        className='mt-1 border-text border-solid border-2 mb-2 p-1'
         id="name"
         type="name"
         name="name"
@@ -112,7 +112,7 @@ export function ContactForm() {
         Nachricht
       </label>
       <TextareaGhost
-        className='mt-1 border-white border-solid border-2 mb-2 p-1'
+        className='mt-1 border-text border-solid border-2 mb-2 p-1'
         id="message"
         name="message"
         value={message}

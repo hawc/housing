@@ -15,9 +15,15 @@ export function LoginButton({ className = '' }: { className?: string }) {
     <span className={`p-1 md:p-2 ${className}`}>
       {isLoading ? <><Loader2Icon className='animate-spin' /></> :
         user ? (
-          <Link href="/api/auth/logout"><LogOutIcon /></Link>
+          <Link href="/api/auth/logout">
+            <LogOutIcon />
+            <span className='sr-only'>Logout</span>
+          </Link>
         ) : (
-          <Link href="/api/auth/login"><LogInIcon /></Link>
+          <Link href="/api/auth/login">
+            <LogInIcon />
+            <span className='sr-only'>Login</span>
+          </Link>
         )
       }
     </span>
