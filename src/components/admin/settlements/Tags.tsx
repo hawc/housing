@@ -18,7 +18,7 @@ interface TagItemProps {
 
 function TagItem({ tag, onClick }: TagItemProps) {
   return (
-    <li className="flex mr-1 mb-1 py-1.5 px-2 italic text-xs font-semibold border-2 border-text rounded-full items-center">
+    <li className="flex mr-1 mb-1 py-1.5 px-2 italic text-xs font-bold border-2 border-text rounded-full items-center">
       {tag.name}
       <Button ghost className='pl-2 border-0' onClick={onClick}><XIcon size={15} /></Button>
     </li>
@@ -45,7 +45,7 @@ function NewTagItem({ availableTags, onAdd }: NewTagItemProps) {
   }
 
   return (
-    <li className="flex mr-1 mb-1 py-1.5 px-2 italic text-xs font-semibold border-2 border-text rounded-full items-center">
+    <li className="flex mr-1 mb-1 py-1.5 px-2 italic text-xs font-bold border-2 border-text rounded-full items-center">
       <Select<Tag>
         options={availableTags}
         onChange={(event) => {

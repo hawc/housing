@@ -7,7 +7,7 @@ export function Footer() {
     <footer>
       <Container>
         <Box className='bg-black'>
-          <div className="flex md:justify-between text-white flex-col md:flex-row items-center">
+          <div className="flex md:justify-between text-white flex-col md:flex-row items-center leading-loose md:leading-normal">
             <Link href="https://github.com/hawc/housing">Github</Link>
             <Link href="/kontakt">Kontakt</Link>
             <Link href="/impressum">Impressum</Link>

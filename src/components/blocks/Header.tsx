@@ -7,7 +7,7 @@ export function Header() {
       style={{ backdropFilter: 'invert(1) grayscale(1)', WebkitBackdropFilter: 'invert(1) grayscale(1)' }}>
       <div className="container xl:max-w-full mx-auto px-1 md:px-3">
         <div className="py-4 md:pv-6 text-xl leading-tight md:leading-normal">
-          <Link className="inline-block font-bold bg-text px-2 tracking-normal" href="/">
+          <Link className="inline-block font-semibold bg-text px-2 tracking-normal" href="/">
             <>Großwohn&shy;<span className='whitespace-nowrap'>siedlungen<span className='text-highlight'>
               <svg
                 className='inline align-baseline ml-0.5 text-highlight'

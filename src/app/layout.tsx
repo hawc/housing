@@ -9,37 +9,22 @@ const Bricolage = localFont({
   src: [
     {
       path: '../../public/fonts/BricolageGrotesque/BricolageGrotesque-ExtraLight.ttf',
-      weight: '100',
-      style: 'normal'
-    },
-    {
-      path: '../../public/fonts/BricolageGrotesque/BricolageGrotesque-Light.ttf',
-      weight: '200',
+      weight: '100', // thin
       style: 'normal'
     },
     {
       path: '../../public/fonts/BricolageGrotesque/BricolageGrotesque-Regular.ttf',
-      weight: '400',
-      style: 'normal'
-    },
-    {
-      path: '../../public/fonts/BricolageGrotesque/BricolageGrotesque-Medium.ttf',
-      weight: '500',
+      weight: '400', // normal
       style: 'normal'
     },
     {
       path: '../../public/fonts/BricolageGrotesque/BricolageGrotesque-SemiBold.ttf',
-      weight: '700',
+      weight: '600', // semibold
       style: 'normal'
     },
     {
       path: '../../public/fonts/BricolageGrotesque/BricolageGrotesque-Bold.ttf',
-      weight: '800',
-      style: 'normal'
-    },
-    {
-      path: '../../public/fonts/BricolageGrotesque/BricolageGrotesque-ExtraBold.ttf',
-      weight: '900',
+      weight: '700', // bold
       style: 'normal'
     },
   ],

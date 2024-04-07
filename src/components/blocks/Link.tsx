@@ -28,7 +28,7 @@ export function Link({ href, children, arrow = false, back = false, ...rest }: L
       {...rest}
       target={isExternal ? '_blank' : '_self'}
       rel={isExternal ? 'noopener' : undefined}
-      className={twMerge(`font-extrabold tracking-wide inline-flex place-content-start ${(arrow && back) ? 'flex-row-reverse' : ''} ${rest.className}`)}
+      className={twMerge(`font-bold tracking-wide inline-flex place-content-start ${(arrow && back) ? 'flex-row-reverse' : ''} ${rest.className}`)}
       href={href}>
       <><span className={`${styles.link} ${back ? styles.linkArrowBack : isExternal ? `${styles.linkArrow} ${styles.externalLink}` : styles.linkArrow}`}>{content}</span>{(arrow || back) && (<span></span>)}</>
     </NextLink>
