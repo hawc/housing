@@ -87,21 +87,22 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const isProd = process.env.NODE_ENV === 'production';
   return (
     <UserProvider>
       <html lang='en'>
-        <head>
-          <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css' rel='stylesheet' />
-        </head>
         <body>
-          <PiwikProProvider
-            containerUrl={process.env.NEXT_PUBLIC_CONTAINER_URL}
-            containerId={process.env.NEXT_PUBLIC_CONTAINER_ID}
-          >
+          {isProd ? (
+            <PiwikProProvider
+              containerUrl={process.env.NEXT_PUBLIC_CONTAINER_URL}
+              containerId={process.env.NEXT_PUBLIC_CONTAINER_ID}
+            >
+            </PiwikProProvider>
+          ) : (
             <div className={`${Bricolage.variable} font-primary`}>
               {children}
             </div>
-          </PiwikProProvider>
+          )}
         </body>
       </html>
     </UserProvider>

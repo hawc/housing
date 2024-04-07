@@ -27,10 +27,7 @@ export default function Kontakt() {
         </Box>
         <Box>
           <p>
-            Willkommen auf unserer Kontaktseite!
-          </p>
-          <p>
-            Hier haben Sie die Möglichkeit, uns Fragen zu stellen, Feedback zu geben oder sich aktiv am Projekt zu beteiligen.
+            Willkommen auf unserer Kontaktseite. Hier hast du die Möglichkeit, uns Fragen zu stellen, Feedback zu geben oder dich aktiv am Projekt zu beteiligen. Wir freuen uns über jede Nachricht, und versuchen sie schnellstmöglich zu beantworten.
           </p>
         </Box>
         <Box>

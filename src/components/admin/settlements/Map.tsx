@@ -4,6 +4,8 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 import ReactMapGL, { Marker } from 'react-map-gl';
 
+import './map.css';
+
 import { isSettlementFound } from '@/components/blocks/SearchList';
 
 import { BaseLocation, Location } from '@/app/admin/page';

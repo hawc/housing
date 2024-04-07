@@ -1,8 +1,6 @@
-'use client';
-
-import { useUser } from '@auth0/nextjs-auth0/client';
 import Image from 'next/legacy/image';
 
+import AdminLinks from '@/components/admin/AdminLinks';
 import { Box, Container } from '@/components/blocks/Box';
 import { Link as StyledLink } from '@/components/blocks/Link';
 import { List, ListItem } from '@/components/blocks/List';
@@ -10,8 +8,6 @@ import { Headline } from '@/components/Headline';
 import Layout from '@/components/layout/Layout';
 
 export default function HomePage() {
-  const { user } = useUser();
-
   return (
     <Layout>
       <section>
@@ -46,16 +42,7 @@ export default function HomePage() {
           <Box>
             <StyledLink href='/architekten' className='text-xl' arrow>Architekt*innen</StyledLink>
           </Box>
-          {user && (
-            <>
-              <Headline type='h1' className='mt-6'>Administration</Headline>
-              <Box>
-                <StyledLink href='/admin/siedlungen' arrow>Siedlungen</StyledLink>
-                <StyledLink href='/admin/architekten' arrow>Architekt*innen</StyledLink>
-                <StyledLink href='/admin/tags' arrow>Tags</StyledLink>
-              </Box>
-            </>
-          )}
+          <AdminLinks />
         </Container>
         {/* <Scene fileUrl='/models/PH16/PH16.stl' className='absolute top-20 -z-10' height="1200px" width="1200px" /> */}
       </section>
