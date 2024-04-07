@@ -21,6 +21,7 @@ export function InputGhost({ className = '', value = '', name = '', type = 'text
       defaultValue={type === 'date' && value ? formatDate(value) : value}
       type={type}
       name={name}
+      lang="de-DE"
       onChange={onChange}
       {...rest} />
   );
