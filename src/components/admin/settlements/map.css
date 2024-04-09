@@ -14,7 +14,7 @@
   transform: translate(-50%, -50%);
 }
 
-.marker-disabled {
+.marker-disabled::before {
   background-color: var(--black);
   border: 1px solid var(--highlight);
 }

@@ -26,7 +26,7 @@ function Tooltip({ title = '' }: { title: string }) {
   return (
     <div
       className='tooltip absolute hidden text-center leading-tight text-white text-sm tracking-wide font-primary whitespace-nowrap'
-      dangerouslySetInnerHTML={{ __html: title.replace(', ', ', <br />') }}></div>
+      dangerouslySetInnerHTML={{ __html: title.replaceAll(', ', '<br />') }}></div>
   );
 }
 
