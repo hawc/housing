@@ -2,6 +2,7 @@ import { BuildingIcon, CircleDotDashedIcon, HomeIcon } from 'lucide-react';
 
 import { dateIsValid, sortByDate } from '@/lib/utils';
 
+import { Link } from '@/components/blocks/Link';
 import { Headline } from '@/components/Headline';
 
 import { Event } from '@/app/admin/page';
@@ -74,11 +75,12 @@ export function Timeline({ events }: { events: Event[] }) {
               <IconComponent className="h-4 w-4" type={event.eventType.name} />
             </TimelineIcon>
             <Headline type='h5'>
-              <>{new Date(event.eventDate ?? 0).getFullYear()}: {event.name}</>
+              {new Date(event.eventDate ?? 0).getFullYear()}: {event.name}
             </Headline>
           </TimelineHeader>
           <TimelineBody>
             {event.description}
+            {event.source && (<Link href={event.source}>Quelle</Link>)}
           </TimelineBody>
         </TimelineItem>
       ))}

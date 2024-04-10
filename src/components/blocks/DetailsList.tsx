@@ -1,3 +1,4 @@
+'use client';
 import { Link } from '@/components/blocks/Link';
 
 import { Detail } from '@/app/admin/page';
@@ -10,12 +11,17 @@ function formatDetail(detailText: string, type: string): string {
   switch (type) {
     case 'Fläche (in km²)':
       return `${parseFloat(detailText).toLocaleString('de-DE')} km²`;
-    case 'Einwohner':
+    case 'Einwohner*innen':
     case 'Wohneinheiten':
+    case 'Gebäudezahl':
       return parseInt(detailText).toLocaleString('de-DE');
     default:
       return detailText;
   }
+}
+
+function sortByTypeAndDate(a, b) {
+  return a.detailType.name.localeCompare(b.detailType.name) || new Date(a.detailDate).getFullYear() - new Date(b.detailDate).getFullYear();
 }
 
 export function DetailsList({ details }: DetailsListProps) {
@@ -28,7 +34,7 @@ export function DetailsList({ details }: DetailsListProps) {
           </tr>
         </thead>
         <tbody>
-          {details.map((detail: Detail) => (
+          {details.sort(sortByTypeAndDate).map((detail: Detail) => (
             <tr key={detail.id}>
               <td className='pr-4'>{detail.name}{detail.detailDate ? ` (${new Date(detail.detailDate).getFullYear()})` : ''}:</td>
               <td>
