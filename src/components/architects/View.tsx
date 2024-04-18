@@ -12,9 +12,15 @@ export function Architect({ architect }: { architect: BaseArchitect }) {
         <Headline type='h1' className='inline-block'>{architect.name}</Headline>
       </div>
       <Container>
-        {architect.description && (
+        {architect.description ? (
           <Box>
             <p>{architect.description}</p>
+          </Box>
+        ) : (
+          <Box>
+            <p>
+              Für diese*n Architekt*in haben wir bisher keine Beschreibung.
+            </p>
           </Box>
         )}
         <Box>
