@@ -27,13 +27,13 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
   return (
     <>
       <Box ghost>
-        <div className='flex mt-6'>
+        <div className='md:flex mt-6'>
           <Headline type='h1' className='inline-block'>{settlement.name}</Headline>
-          <div className='flex items-start'>
+          <div className='md:flex md:items-start'>
             {/* {settlement.tags.length > 0 && (
               <TagList className='ml-2' tags={settlement.tags} />
             )} */}
-            {settlement.location?.city && (<TagList className='ml-2' tags={[{ name: settlement.location.city }] as Tag[]} />)}
+            {settlement.location?.city && (<TagList className='mb-3 md:ml-2' tags={[{ name: settlement.location.city }] as Tag[]} />)}
           </div>
         </div>
       </Box>
