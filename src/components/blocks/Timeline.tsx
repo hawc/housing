@@ -80,7 +80,11 @@ export function Timeline({ events }: { events: Event[] }) {
           </TimelineHeader>
           <TimelineBody>
             {event.description}
-            {event.source && (<Link href={event.source}>Quelle</Link>)}
+            {event.source && (
+              <div>
+                <Link href={event.source}>Quelle</Link>
+              </div>
+            )}
           </TimelineBody>
         </TimelineItem>
       ))}
