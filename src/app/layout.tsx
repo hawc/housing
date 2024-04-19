@@ -35,10 +35,10 @@ const Bricolage = localFont({
 export const metadata: Metadata = {
   title: {
     template: '%s | Großwohnsiedlungen',
-    default: 'Großwohnsiedlungen'
+    default: 'Archiv deutscher Großwohnsiedlungen'
   },
   description: 'Archiv deutscher Großwohnsiedlungen nach 1945.',
-  keywords: ['Architektur', 'Großwohnsiedlungen', 'Plattenbau'],
+  keywords: ['Architektur', 'Großwohnsiedlungen', 'Plattenbau', 'Großsiedlung'],
   referrer: 'origin-when-cross-origin',
   robots: 'follow, index',
   authors: [{ name: 'Hendrik Wichern', url: 'https://hendrikwichern.de' }],
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: {
       template: '%s | Großwohnsiedlungen',
-      default: 'Großwohnsiedlungen'
+      default: 'Archiv deutscher Großwohnsiedlungen'
     },
     description: 'Archiv deutscher Großwohnsiedlungen nach 1945.',
     url: new URL(process.env.BASE_URL ?? ''),
