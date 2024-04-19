@@ -11,7 +11,7 @@ import { TagList } from '@/components/blocks/Tags';
 import { Timeline } from '@/components/blocks/Timeline';
 import { Headline } from '@/components/Headline';
 
-import type { Architect, BaseSettlement, Settlement } from '@/app/admin/page';
+import type { Architect, BaseSettlement, Settlement, Tag } from '@/app/admin/page';
 
 const isPhoto = (resource) => resource.resourceType.name === 'Foto';
 const isNotPhoto = (resource) => resource.resourceType.name !== 'Foto';
@@ -30,9 +30,10 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
         <div className='flex mt-6'>
           <Headline type='h1' className='inline-block'>{settlement.name}</Headline>
           <div className='flex items-start'>
-            {settlement.tags.length > 0 && (
+            {/* {settlement.tags.length > 0 && (
               <TagList className='ml-2' tags={settlement.tags} />
-            )}
+            )} */}
+            {settlement.location?.city && (<TagList className='ml-2' tags={[{ name: settlement.location.city }] as Tag[]} />)}
           </div>
         </div>
       </Box>
