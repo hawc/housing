@@ -15,12 +15,13 @@ function formatDetail(detailText: string, type: string): string {
     case 'Wohneinheiten':
     case 'Gebäudezahl':
       return parseInt(detailText).toLocaleString('de-DE');
+    case 'Bauträger':
     default:
       return detailText;
   }
 }
 
-function sortByTypeAndDate(a, b) {
+function sortByTypeAndDate(a: Detail, b: Detail) {
   return a.detailType.name.localeCompare(b.detailType.name) || new Date(a.detailDate).getFullYear() - new Date(b.detailDate).getFullYear();
 }
 

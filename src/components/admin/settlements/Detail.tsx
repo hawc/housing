@@ -28,6 +28,7 @@ function getDescriptionInputType(detailType) {
     case 'Fläche (in km²)':
     case 'Wohneinheiten':
       return 'number';
+    case 'Bauträger':
     default:
       return 'text';
   }

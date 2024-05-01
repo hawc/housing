@@ -84,35 +84,41 @@ export function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor="email">
-        E-Mail-Adresse
-      </label>
-      <InputGhost
-        className='mt-1 border-text border-solid border-2 mb-2 p-1'
-        id="email"
-        type="email"
-        name="email"
-        value={email}
-        onChange={e => setEmail(e.target.value)}
-      />
-      {getFieldErrors('email')}
-      <label htmlFor="name">
-        Name
-      </label>
-      <InputGhost
-        className='mt-1 border-text border-solid border-2 mb-2 p-1'
-        id="name"
-        type="name"
-        name="name"
-        value={name}
-        onChange={e => setName(e.target.value)}
-      />
-      {getFieldErrors('name')}
+      <div className='md:flex md:gap-4'>
+        <div className='basis-full'>
+          <label htmlFor="name">
+            Name
+          </label>
+          <InputGhost
+            className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
+            id="name"
+            type="name"
+            name="name"
+            value={name}
+            onChange={e => setName(e.target.value)}
+          />
+          {getFieldErrors('name')}
+        </div>
+        <div className='basis-full'>
+          <label htmlFor="email">
+            E-Mail-Adresse
+          </label>
+          <InputGhost
+            className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
+            id="email"
+            type="email"
+            name="email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+          />
+          {getFieldErrors('email')}
+        </div>
+      </div>
       <label htmlFor="message">
         Nachricht
       </label>
       <TextareaGhost
-        className='mt-1 border-text border-solid border-2 mb-2 p-1'
+        className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
         id="message"
         name="message"
         value={message}
@@ -124,7 +130,7 @@ export function ContactForm() {
         Absenden
       </Button>
       {(!name || !email || !message) && (
-        <span className='pt-2 md:pt-0 md:pl-4 block md:inline'><InfoIcon size={22} className='inline mr-2' />Bitte füllen Sie alle Felder aus.</span>
+        <span className='pt-2 md:pt-0 md:pl-4 block md:inline'><InfoIcon size={22} className='inline mr-2' />Bitte fülle alle Felder aus.</span>
       )}
     </form>
   );

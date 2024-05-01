@@ -1,0 +1,4 @@
+.has-arrow::after {
+  content: '➔';
+  padding-left: 0.5rem;
+}

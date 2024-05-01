@@ -2,6 +2,10 @@ import { Url } from 'next/dist/shared/lib/router/router';
 import { default as NextLink, LinkProps } from 'next/link';
 import { PropsWithChildren } from 'react';
 
+import styles from './Breadcrumbs.module.css';
+
+import { CurrentPage } from '@/components/blocks/breadcrumbs/CurrentPage';
+
 type BreadcrumbsProps = PropsWithChildren;
 
 type LinkWithChildren = Omit<LinkProps, 'href'> & PropsWithChildren;
@@ -12,14 +16,14 @@ interface BreadcrumbProps extends LinkWithChildren {
 
 export function Breadcrumbs({ children }: BreadcrumbsProps) {
   return (
-    <div className='my-4 flex text-xs gap-2'>{children}</div>
+    <nav aria-label="Breadcrumb"><ol className='my-4 flex text-xs gap-2'>{children}</ol></nav>
   );
 }
 
 export function Breadcrumb({ children, href, ...rest }: BreadcrumbProps) {
   if (href) {
-    return <><NextLink className='underline underline-offset-4' href={href} {...rest}>{children}</NextLink> ➔</>;
+    return <li><NextLink className={styles['has-arrow']} href={href} {...rest}><span className='underline underline-offset-4'>{children}</span></NextLink></li>;
   }
 
-  return <span>{children}</span>;
+  return <CurrentPage>{children}</CurrentPage>;
 }
