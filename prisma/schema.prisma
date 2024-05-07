@@ -183,6 +183,7 @@ model SettlementTypesOnTags {
 model SettlementsOnArchitects {
   settlementId String      @db.Uuid
   architectId  String      @db.Uuid
+  role         String?
   architect    Architects  @relation(fields: [architectId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   settlement   Settlements @relation(fields: [settlementId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
