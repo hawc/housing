@@ -40,9 +40,8 @@ export function Architect({ architect }: { architect: BaseArchitect }) {
                   <div key={settlement.slug}>
                     <Link className='inline-block mr-2' href={`/siedlungen/${settlement.slug}`}>
                       {settlement.name}
-                    </Link><span className='sr-only'>, </span>
-                    {'location' in settlement && (
-                      <span className='font-thin tracking-wide'>{settlement.location?.city}</span>
+                    </Link>{'location' in settlement && settlement.location && (
+                      <><span className='sr-only'>, </span><span className='font-thin tracking-wide'>{settlement.location.city}</span></>
                     )}
                   </div>
                 ))}
