@@ -1,6 +1,17 @@
 import { Prisma } from '@prisma/client';
 
 
+const locationsSelect = Prisma.validator<Prisma.LocationsSelect>()({
+  id: true,
+  name: true,
+  address: true,
+  district: true,
+  zipCode: true,
+  city: true,
+  lat: true,
+  lng: true,
+});
+
 const tagsSelect = Prisma.validator<Prisma.TagsSelect>()({
   id: true,
   name: true,
@@ -20,6 +31,13 @@ const settlementsSelect = Prisma.validator<Prisma.SettlementsSelect>()({
   description: true,
   tags: {
     select: settlementsOnTagsSelect
+  },
+});
+
+const settlementsSelectWithLocations = Prisma.validator<Prisma.SettlementsSelect>()({
+  ...settlementsSelect,
+  location: {
+    select: locationsSelect
   }
 });
 
@@ -34,7 +52,8 @@ const architectsSelect = Prisma.validator<Prisma.ArchitectsSelect>()({
 const settlementsOnArchitectsSelect = Prisma.validator<Prisma.SettlementsOnArchitectsSelect>()({
   architect: {
     select: architectsSelect
-  }
+  },
+  role: true
 });
 
 const detailTypesSelect = Prisma.validator<Prisma.DetailTypesSelect>()({
@@ -116,19 +135,8 @@ const settlementsOnSettlementTypesSelect = Prisma.validator<Prisma.SettlementsOn
   }
 });
 
-const locationsSelect = Prisma.validator<Prisma.LocationsSelect>()({
-  id: true,
-  name: true,
-  address: true,
-  district: true,
-  zipCode: true,
-  city: true,
-  lat: true,
-  lng: true,
-});
-
 export type SettlementsOnTagsSelect = Prisma.SettlementsOnTagsGetPayload<{ select: typeof settlementsOnTagsSelect }>
-export type SettlementsSelect = Prisma.SettlementsGetPayload<{ select: typeof settlementsSelect }>
+export type SettlementsSelect = Prisma.SettlementsGetPayload<{ select: typeof settlementsSelect | typeof settlementsSelectWithLocations }>
 export type ArchitectsSelect = Prisma.ArchitectsGetPayload<{ select: typeof architectsSelect }>
 export type SettlementsOnArchitectsSelect = Prisma.SettlementsOnArchitectsGetPayload<{ select: typeof settlementsOnArchitectsSelect }>
 export type TagsSelect = Prisma.TagsGetPayload<{ select: typeof tagsSelect }>
@@ -178,15 +186,16 @@ export const architectsInclude = Prisma.validator<Prisma.ArchitectsInclude>()({
   settlements: {
     select: {
       settlement: {
-        select: settlementsSelect
-      }
+        select: settlementsSelectWithLocations
+      },
+      role: true
     },
   },
 });
 
 export const locationsInclude = Prisma.validator<Prisma.LocationsInclude>()({
   settlement: {
-    select: settlementsSelect
+    select: settlementsSelectWithLocations
   },
 });
 
@@ -205,7 +214,7 @@ export const settlementsOnArchitectsInclude = Prisma.validator<Prisma.Settlement
   },
   settlement: {
     select: settlementsSelect
-  },
+  }
 });
 
 export const settlementsInclude = Prisma.validator<Prisma.SettlementsInclude>()({
@@ -253,7 +262,3 @@ export type TagsInclude = Prisma.TagsGetPayload<{ include: typeof tagsInclude }>
 export type EventTypesInclude = Prisma.EventTypesGetPayload<{ include: typeof eventTypesInclude }>
 export type DetailTypesInclude = Prisma.DetailTypesGetPayload<{ include: typeof detailTypesInclude }>
 export type ResourceTypesInclude = Prisma.ResourceTypesGetPayload<{ include: typeof resourceTypesInclude }>
-
-export type SettlementsOnTagsFull = Prisma.SettlementsOnTagsGetPayload<{
-  include: typeof settlementsOnTagsInclude;
-}>;

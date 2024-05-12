@@ -1,6 +1,7 @@
 'use client';
 
 import { Loader2Icon } from 'lucide-react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -10,7 +11,6 @@ import { Box, Container } from '@/components/blocks/Box';
 import { Button } from '@/components/blocks/form/Button';
 import { InputGhost } from '@/components/blocks/form/Input';
 import { TextareaGhost } from '@/components/blocks/form/Textarea';
-import { Link as LinkElement } from '@/components/blocks/Link';
 import { Headline } from '@/components/Headline';
 
 import type { Architect, BaseArchitect } from '@/app/admin/page';
@@ -95,7 +95,8 @@ export function ArchitectEdit({ architectInput }: { architectInput: Architect | 
             </Button>
           </Box>
           <Box>
-            <LinkElement href='/admin/architekten' className='inline-block py-1 px-3 text-center border border-text'>Abbrechen</LinkElement>          </Box>
+            <Link href='/admin/architekten' className='inline-block py-1 px-3 text-center border border-text'>Abbrechen</Link>
+          </Box>
           <Box>
             <Button
               className='bg-text text-bg border border-text'

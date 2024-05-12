@@ -125,6 +125,7 @@ export interface Architect {
   slug: string;
   description: string;
   url: string;
+  role?: string;
 }
 export interface BaseArchitect {
   id: string;
@@ -148,6 +149,7 @@ export interface Settlement {
   slug: string;
   description: string;
   tags: Tag[];
+  location: Location | null;
 }
 export interface BaseSettlement {
   id: string;
@@ -169,6 +171,7 @@ export interface BaseSettlementOnTag {
 export interface BaseSettlementOnArchitect {
   settlement: Settlement;
   architect: Architect;
+  role: string;
 }
 
 export default function Admin() {

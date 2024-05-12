@@ -26,6 +26,7 @@ export const baseTransformers = {
     return {
       architect: transformers.architect(settlementOnArchitect.architect),
       settlement: transformers.settlement(settlementOnArchitect.settlement),
+      role: settlementOnArchitect.role ?? '',
     };
   },
   settlement: (settlement: SettlementsInclude): BaseSettlement => {
@@ -36,7 +37,7 @@ export const baseTransformers = {
       description: settlement.description ?? '',
       details: settlement.details.map(transformers.detail),
       types: settlement.settlementTypes.map(settlementsOnSettlementType => transformers.settlementType(settlementsOnSettlementType.settlementType)),
-      architects: settlement.architects.map((settlementsOnArchitect) => transformers.architect(settlementsOnArchitect.architect)),
+      architects: settlement.architects.map(settlementsOnArchitect => transformers.architect(settlementsOnArchitect.architect, settlementsOnArchitect.role)),
       resources: settlement.resources.map(transformers.resource),
       tags: settlement.tags.map(tagRelation => transformers.tag(tagRelation.tag)),
       events: settlement.events.map(transformers.event),
@@ -125,15 +126,17 @@ export const transformers = {
       slug: settlement.slug,
       description: settlement.description ?? '',
       tags: settlement.tags.map(settlementsOnTag => transformers.tag(settlementsOnTag.tag)),
+      location: 'location' in settlement && settlement.location ? transformers.location(settlement.location) : null,
     };
   },
-  architect: (architect: ArchitectsSelect): Architect => {
+  architect: (architect: ArchitectsSelect, role?: string | null): Architect => {
     return {
       id: architect.id,
       name: architect.name,
       slug: architect.slug,
       description: architect.description ?? '',
       url: architect.url ?? '',
+      role: role ?? '',
     };
   },
   tag: (tag: TagsSelect): Tag => {
