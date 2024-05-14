@@ -7,9 +7,15 @@ import { ContactForm } from '@/components/ContactForm';
 import { Headline } from '@/components/Headline';
 import Layout from '@/components/layout/Layout';
 
-export const metadata: Metadata = {
-  title: 'Kontakt',
-};
+export async function generateMetadata(
+  { searchParams }
+): Promise<Metadata> {
+  return {
+    title: 'Kontakt',
+    alternates: searchParams.from ? { canonical: `${process.env.BASE_URL}/kontakt` } : undefined
+  };
+}
+
 
 export default function Kontakt() {
   return (
