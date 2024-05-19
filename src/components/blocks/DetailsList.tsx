@@ -44,7 +44,11 @@ export function DetailsList({ details }: DetailsListProps) {
               </td>
               {detail.source &&
                 <td className='pl-4'>
-                  <Link href={detail.source} title={detail.source}>Quelle</Link>
+                  {detail.source.includes('http') ? (
+                    <Link href={detail.source} title={detail.source}>Quelle</Link>
+                  ) : (
+                    <>Quelle: {detail.source}</>
+                  )}
                 </td>
               }
             </tr>
