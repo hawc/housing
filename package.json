@@ -13,7 +13,10 @@
     "typecheck": "tsc --noEmit --incremental false",
     "test:watch": "jest --watch --testPathPattern=src/",
     "test": "jest --silent --testPathPattern=src/",
-    "postbuild": "next-sitemap --config next-sitemap.config.js"
+    "postbuild": "next-sitemap --config next-sitemap.config.js",
+    "studio": "prisma studio",
+    "generate": "prisma generate",
+    "migrate": "prisma migrate dev"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^3.5.0",

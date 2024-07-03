@@ -119,12 +119,26 @@ export interface BaseTag {
   description: string;
   settlements: Settlement[];
 }
+export interface Platform {
+  id: string;
+  name: string;
+  slug: string;
+  description?: string;
+  url?: string;
+}
+export interface ExternalLink {
+  id: string;
+  name?: string;
+  description?: string;
+  url: string;
+  platform?: Platform;
+}
 export interface Architect {
   id: string;
   name: string;
   slug: string;
   description: string;
-  url: string;
+  urls: ExternalLink[];
   role?: string;
 }
 export interface BaseArchitect {
@@ -132,7 +146,7 @@ export interface BaseArchitect {
   name: string;
   slug: string;
   description: string;
-  url: string;
+  urls: ExternalLink[];
   settlements: Settlement[];
 }
 export interface SettlementType {

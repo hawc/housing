@@ -1,6 +1,6 @@
-import { ArchitectsInclude, ArchitectsSelect, DetailsInclude, DetailsSelect, DetailsTypesSelect, DetailTypesInclude, EventsInclude, EventsSelect, EventTypesInclude, EventTypesSelect, LocationsInclude, LocationsSelect, ResourcesInclude, ResourcesSelect, ResourceTypesInclude, ResourceTypesSelect, SettlementsInclude, SettlementsOnArchitectsInclude, SettlementsOnTagsInclude, SettlementsSelect, SettlementTypesSelect, TagsInclude, TagsSelect } from '@/lib/db';
+import { ArchitectsInclude, ArchitectsSelect, DetailsInclude, DetailsSelect, DetailsTypesSelect, DetailTypesInclude, EventsInclude, EventsSelect, EventTypesInclude, EventTypesSelect, ExternalLinksSelect, LocationsInclude, LocationsSelect, PlatformsSelect, ResourcesInclude, ResourcesSelect, ResourceTypesInclude, ResourceTypesSelect, SettlementsInclude, SettlementsOnArchitectsInclude, SettlementsOnTagsInclude, SettlementsSelect, SettlementTypesSelect, TagsInclude, TagsSelect } from '@/lib/db';
 
-import { Architect, BaseArchitect, BaseDetail, BaseDetailType, BaseEvent, BaseEventType, BaseLocation, BaseResource, BaseResourceType, BaseSettlement, BaseSettlementOnArchitect, BaseSettlementOnTag, BaseTag, Detail, DetailType, Event, EventType, Location, Resource, ResourceType, Settlement, SettlementType, Tag } from '@/app/admin/page';
+import { Architect, BaseArchitect, BaseDetail, BaseDetailType, BaseEvent, BaseEventType, BaseLocation, BaseResource, BaseResourceType, BaseSettlement, BaseSettlementOnArchitect, BaseSettlementOnTag, BaseTag, Detail, DetailType, Event, EventType, ExternalLink, Location, Platform, Resource, ResourceType, Settlement, SettlementType, Tag } from '@/app/admin/page';
 
 export const baseTransformers = {
   location: (location: LocationsInclude): BaseLocation => {
@@ -50,7 +50,7 @@ export const baseTransformers = {
       name: architect.name,
       slug: architect.slug,
       description: architect.description ?? '',
-      url: architect.url ?? '',
+      urls: architect.urls.map(transformers.externalLink),
       settlements: architect.settlements.map((settlementsOnArchitect) => transformers.settlement(settlementsOnArchitect.settlement)),
     };
   },
@@ -135,7 +135,7 @@ export const transformers = {
       name: architect.name,
       slug: architect.slug,
       description: architect.description ?? '',
-      url: architect.url ?? '',
+      urls: architect.urls.map(transformers.externalLink),
       role: role ?? '',
     };
   },
@@ -154,6 +154,24 @@ export const transformers = {
       description: settlementType.description ?? '',
       resources: settlementType.resources.map(transformers.resource),
       details: settlementType.details.map(transformers.detail),
+    };
+  },
+  platform: (platform: PlatformsSelect): Platform => {
+    return {
+      id: platform.id,
+      name: platform.name,
+      slug: platform.slug,
+      description: platform.description ?? '',
+      url: platform.url ?? '',
+    };
+  },
+  externalLink: (externalLink: ExternalLinksSelect): ExternalLink => {
+    return {
+      id: externalLink.id,
+      name: externalLink.name ?? '',
+      description: externalLink.description ?? '',
+      url: externalLink.url ?? '',
+      platform: externalLink.platform ? transformers.platform(externalLink.platform) : undefined,
     };
   },
   location: (location: LocationsSelect): Location => {

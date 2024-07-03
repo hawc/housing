@@ -41,12 +41,32 @@ const settlementsSelectWithLocations = Prisma.validator<Prisma.SettlementsSelect
   }
 });
 
-const architectsSelect = Prisma.validator<Prisma.ArchitectsSelect>()({
+const platformsSelect = Prisma.validator<Prisma.PlatformsSelect>()({
+  id: true,
+  name: true,
+  slug: true,
+  description: true,
+  url: true,
+});
+
+const externalLinksSelect = Prisma.validator<Prisma.ExternalLinksSelect>()({
   id: true,
   name: true,
   description: true,
   url: true,
-  slug: true
+  platform: {
+    select: platformsSelect
+  },
+});
+
+const architectsSelect = Prisma.validator<Prisma.ArchitectsSelect>()({
+  id: true,
+  name: true,
+  description: true,
+  slug: true,
+  urls: {
+    select: externalLinksSelect
+  }
 });
 
 const settlementsOnArchitectsSelect = Prisma.validator<Prisma.SettlementsOnArchitectsSelect>()({
@@ -138,6 +158,8 @@ const settlementsOnSettlementTypesSelect = Prisma.validator<Prisma.SettlementsOn
 export type SettlementsOnTagsSelect = Prisma.SettlementsOnTagsGetPayload<{ select: typeof settlementsOnTagsSelect }>
 export type SettlementsSelect = Prisma.SettlementsGetPayload<{ select: typeof settlementsSelect | typeof settlementsSelectWithLocations }>
 export type ArchitectsSelect = Prisma.ArchitectsGetPayload<{ select: typeof architectsSelect }>
+export type ExternalLinksSelect = Prisma.ExternalLinksGetPayload<{ select: typeof externalLinksSelect }>
+export type PlatformsSelect = Prisma.PlatformsGetPayload<{ select: typeof platformsSelect }>
 export type SettlementsOnArchitectsSelect = Prisma.SettlementsOnArchitectsGetPayload<{ select: typeof settlementsOnArchitectsSelect }>
 export type TagsSelect = Prisma.TagsGetPayload<{ select: typeof tagsSelect }>
 export type DetailsTypesSelect = Prisma.DetailTypesGetPayload<{ select: typeof detailTypesSelect }>
@@ -156,6 +178,13 @@ export const eventsInclude = Prisma.validator<Prisma.EventsInclude>()({
 
 export const detailsInclude = Prisma.validator<Prisma.DetailsInclude>()({
   detailType: true
+});
+export const externalLinksInclude = Prisma.validator<Prisma.ExternalLinksInclude>()({
+  platform: true
+});
+
+export const platformsInclude = Prisma.validator<Prisma.PlatformsInclude>()({
+  externalLinks: true
 });
 
 export const resourcesInclude = Prisma.validator<Prisma.ResourcesInclude>()({
@@ -183,6 +212,9 @@ export const resourceTypesInclude = Prisma.validator<Prisma.ResourceTypesInclude
 });
 
 export const architectsInclude = Prisma.validator<Prisma.ArchitectsInclude>()({
+  urls: {
+    select: externalLinksSelect
+  },
   settlements: {
     select: {
       settlement: {
@@ -255,6 +287,8 @@ export type EventsInclude = Prisma.EventsGetPayload<{ include: typeof eventsIncl
 export type DetailsInclude = Prisma.DetailsGetPayload<{ include: typeof detailsInclude }>
 export type ResourcesInclude = Prisma.ResourcesGetPayload<{ include: typeof resourcesInclude }>
 export type ArchitectsInclude = Prisma.ArchitectsGetPayload<{ include: typeof architectsInclude }>
+export type ExternalLinksInclude = Prisma.ExternalLinksGetPayload<{ include: typeof externalLinksInclude }>
+export type PlatformsInclude = Prisma.PlatformsGetPayload<{ include: typeof platformsInclude }>
 export type SettlementsInclude = Prisma.SettlementsGetPayload<{ include: typeof settlementsInclude }>
 export type SettlementsOnTagsInclude = Prisma.SettlementsOnTagsGetPayload<{ include: typeof settlementsOnTagsInclude }>
 export type SettlementsOnArchitectsInclude = Prisma.SettlementsOnArchitectsGetPayload<{ include: typeof settlementsOnArchitectsInclude }>
