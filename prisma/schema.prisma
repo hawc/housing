@@ -40,17 +40,43 @@ model SettlementTypes {
   settlements SettlementsOnSettlementTypes[]
 }
 
+model Platforms {
+  id            String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name          String          @unique
+  slug          String          @unique
+  description   String?
+  url           String?
+  published     Boolean         @default(true)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  ExternalLinks ExternalLinks[]
+}
+
+model ExternalLinks {
+  id           String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name         String?
+  description  String?
+  url          String
+  platform     Platforms?  @relation(fields: [platformsId], references: [id])
+  published    Boolean     @default(true)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  architects   Architects? @relation(fields: [architectsId], references: [id])
+  architectsId String?     @db.Uuid
+  platformsId  String?     @db.Uuid
+}
+
 model Architects {
   id              String                        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name            String                        @unique
   slug            String                        @unique
   description     String?
-  url             String?
   published       Boolean                       @default(true)
   createdAt       DateTime                      @default(now())
   updatedAt       DateTime                      @updatedAt
   settlementTypes SettlementTypesOnArchitects[]
   settlements     SettlementsOnArchitects[]
+  urls            ExternalLinks[]
 }
 
 model Details {
