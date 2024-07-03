@@ -10,7 +10,8 @@ export function Architect({ architect }: { architect: BaseArchitect }) {
   const locations = architect.settlements.flatMap(settlement => settlement.location ? ({
     ...settlement.location,
     settlement: {
-      name: settlement.name
+      name: settlement.name,
+      slug: settlement.slug
     },
   }) : []);
 
