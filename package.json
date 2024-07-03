@@ -37,7 +37,7 @@
     "slugify": "^1.6.6",
     "tailwind-merge": "^2.0.0",
     "three": "^0.158.0",
-    "uuid": "^9.0.1"
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@svgr/webpack": "^6.5.1",
