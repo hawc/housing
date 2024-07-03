@@ -1,0 +1,27 @@
+import { Prisma } from '@prisma/client';
+import { NextRequest, NextResponse } from 'next/server';
+
+import { platformsInclude } from '@/lib/db';
+import prisma from '@/lib/prisma';
+import { baseTransformers } from '@/lib/transformers';
+
+async function updatePlatform(
+  where: Prisma.PlatformsWhereUniqueInput,
+  data: Prisma.PlatformsUpdateInput
+) {
+  return await prisma.platforms.update({
+    where,
+    data,
+    include: platformsInclude
+  });
+}
+
+export async function POST(req: NextRequest, { params }) {
+  const platform = await updatePlatform({ id: params.id }, await req.json());
+
+  if (!platform) {
+    return NextResponse.json('');
+  }
+  const responseData = baseTransformers.platform(platform);
+  return NextResponse.json(responseData);
+}

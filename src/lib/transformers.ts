@@ -16,6 +16,24 @@ export const baseTransformers = {
       settlement: transformers.settlement(location.settlement),
     };
   },
+  platform: (platform: PlatformsSelect): Platform => {
+    return {
+      id: platform.id,
+      name: platform.name,
+      slug: platform.slug,
+      description: platform.description ?? '',
+      url: platform.url ?? '',
+    };
+  },
+  externalLink: (externalLink: ExternalLinksSelect): ExternalLink => {
+    return {
+      id: externalLink.id,
+      name: externalLink.name ?? '',
+      description: externalLink.description ?? '',
+      url: externalLink.url ?? '',
+      platform: externalLink.platform ? transformers.platform(externalLink.platform) : undefined,
+    };
+  },
   settlementOnTag: (settlementOnTag: SettlementsOnTagsInclude): BaseSettlementOnTag => {
     return {
       tag: transformers.tag(settlementOnTag.tag),

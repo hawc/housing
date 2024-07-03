@@ -53,17 +53,17 @@ model Platforms {
 }
 
 model ExternalLinks {
-  id           String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name         String?
-  description  String?
-  url          String
-  platform     Platforms?  @relation(fields: [platformsId], references: [id])
-  published    Boolean     @default(true)
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
-  architects   Architects? @relation(fields: [architectsId], references: [id])
-  architectsId String?     @db.Uuid
-  platformsId  String?     @db.Uuid
+  id          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String?
+  description String?
+  url         String
+  platform    Platforms?  @relation(fields: [platformId], references: [id])
+  published   Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  architects  Architects? @relation(fields: [architectId], references: [id])
+  architectId String?     @db.Uuid
+  platformId  String?     @db.Uuid
 }
 
 model Architects {
