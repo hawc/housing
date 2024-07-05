@@ -46,7 +46,7 @@ function AddPlatform({ getPlatforms }: { getPlatforms: () => Promise<void> }) {
       <InputGhost placeholder='URL' value={currentPlatform.url} onChange={(event) => setPlatform({ url: event.target.value })} className='mb-1' />
       <TextareaGhost placeholder='Beschreibung' value={currentPlatform.description} onChange={(event) => setPlatform({ description: event.target.value })} />
       <Button disabled={loading} onClick={() => submitPlatform(currentPlatform)}>
-        <>Platform hinzufügen {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
+        <>Plattform hinzufügen {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
       </Button>
     </>
   );
@@ -95,7 +95,7 @@ export function EditPlatform({ platform, getPlatforms }: EditPlatformProps) {
       <InputGhost value={platform.url} onChange={(event) => updatePlatform({ url: event.target.value })} className='mb-1' />
       <TextareaGhost value={platform.description} onChange={(event) => updatePlatform({ description: event.target.value })} />
       <Button disabled={loading} onClick={() => submitPlatform(currentPlatform)}>
-        <>Platform speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
+        <>Plattform speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
       </Button>
     </>
   );

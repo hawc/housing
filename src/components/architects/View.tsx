@@ -21,37 +21,39 @@ export function Architect({ architect }: { architect: BaseArchitect }) {
         <Headline type='h1' className='inline-block'>{architect.name}</Headline>
       </div>
       <Container>
-        {architect.description ? (
-          <Box>
-            <p>{architect.description}</p>
-          </Box>
-        ) : (
-          <Box>
-            <p>
-              Für diese*n Architekt*in haben wir bisher keine Beschreibung.
-            </p>
-          </Box>
-        )}
+        <Box>
+          <p>{architect.description || 'Für diese*n Architekt*in haben wir bisher keine Beschreibung.'}</p>
+        </Box>
         {locations.length > 0 && (
           <>
             <Box>
               <Headline type='h2'>Siedlungen</Headline>
-              <>
-                {architect.settlements.map(settlement => (
-                  <div key={settlement.slug}>
-                    <Link className='inline-block mr-2' href={`/siedlungen/${settlement.slug}`}>
-                      {settlement.name}
-                    </Link>{'location' in settlement && settlement.location && (
-                      <><span className='sr-only'>, </span><span className='font-thin tracking-wide'>{settlement.location.city}</span></>
-                    )}
-                  </div>
-                ))}
-              </>
+              {architect.settlements.map(settlement => (
+                <div key={settlement.slug}>
+                  <Link className='inline-block mr-2' href={`/siedlungen/${settlement.slug}`}>
+                    {settlement.name}
+                  </Link>{'location' in settlement && settlement.location && (
+                    <><span className='sr-only'>, </span><span className='font-thin tracking-wide'>{settlement.location.city}</span></>
+                  )}
+                </div>
+              ))}
             </Box>
             <Box className='p-0 md:p-0'>
               <SettlementsMap locationsInput={locations} />
             </Box>
           </>
+        )}
+        {architect.urls.length && (
+          <Box>
+            <div>
+              <Headline type='h2'>Weblinks</Headline>
+              {architect.urls.map(externalLink => (
+                <div key={externalLink.id}>
+                  <Link href={externalLink.url} className='inline'>{externalLink.platform?.name || externalLink.name}</Link> {externalLink.description && <>({externalLink.description})</>}
+                </div>
+              ))}
+            </div>
+          </Box>
         )}
       </Container>
       <Container>
