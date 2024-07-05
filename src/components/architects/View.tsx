@@ -43,7 +43,7 @@ export function Architect({ architect }: { architect: BaseArchitect }) {
             </Box>
           </>
         )}
-        {architect.urls.length && (
+        {architect.urls.length > 0 && (
           <Box>
             <div>
               <Headline type='h2'>Weblinks</Headline>

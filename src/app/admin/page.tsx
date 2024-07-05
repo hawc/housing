@@ -212,7 +212,7 @@ export default function Admin() {
             </ListItem>
             <ListItem>
               <Link href="/admin/plattformen">
-                Platforms
+                Plattformen
               </Link>
             </ListItem>
           </List>

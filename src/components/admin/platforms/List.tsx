@@ -40,7 +40,7 @@ function AddPlatform({ getPlatforms }: { getPlatforms: () => Promise<void> }) {
     <>
       <div className='flex'>
         <Headline type='h6' tag='h2' className='grow'>
-          <InputGhost placeholder='Neue Platform' value={currentPlatform.name} onChange={(event) => setPlatform({ name: event.target.value })} className='mb-1' />
+          <InputGhost placeholder='Neue Plattform' value={currentPlatform.name} onChange={(event) => setPlatform({ name: event.target.value })} className='mb-1' />
         </Headline>
       </div>
       <InputGhost placeholder='URL' value={currentPlatform.url} onChange={(event) => setPlatform({ url: event.target.value })} className='mb-1' />

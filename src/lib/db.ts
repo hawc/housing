@@ -213,7 +213,10 @@ export const resourceTypesInclude = Prisma.validator<Prisma.ResourceTypesInclude
 
 export const architectsInclude = Prisma.validator<Prisma.ArchitectsInclude>()({
   urls: {
-    select: externalLinksSelect
+    select: externalLinksSelect,
+    where: {
+      published: true
+    }
   },
   settlements: {
     select: {
