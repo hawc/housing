@@ -20,6 +20,7 @@ export function AdminLinks() {
         <Link href='/admin/siedlungen' arrow>Siedlungen</Link>
         <Link href='/admin/architekten' arrow>Architekt*innen</Link>
         <Link href='/admin/tags' arrow>Tags</Link>
+        <Link href='/admin/plattformen' arrow>Plattformen</Link>
       </Box>
     </>
   );

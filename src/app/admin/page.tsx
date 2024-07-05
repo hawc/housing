@@ -210,6 +210,11 @@ export default function Admin() {
                 Tags
               </Link>
             </ListItem>
+            <ListItem>
+              <Link href="/admin/plattformen">
+                Platforms
+              </Link>
+            </ListItem>
           </List>
         </div>
       </LoginPageFrame>
