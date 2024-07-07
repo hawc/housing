@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { fetchData } from '@/lib/fetch';
 import type { Architect, BaseArchitect } from '@/lib/types';
 
+import { ExternalLinksList } from '@/components/admin/architects/ExternalLinks';
 import { Box, Container } from '@/components/blocks/Box';
 import { Button } from '@/components/blocks/form/Button';
 import { InputGhost } from '@/components/blocks/form/Input';
@@ -90,11 +91,12 @@ export function ArchitectEdit({ architectInput }: { architectInput: Architect | 
         </Container>
         <Container>
           <Box>
-            <div>
-              <TextareaGhost
-                onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => updateArchitectData({ description: event.target.value })}
-                value={architect?.description ?? ''} />
-            </div>
+            <>
+              <Headline className='inline-block' tag='h2' type='h3'>
+                Weblinks
+              </Headline>
+              {architect?.urls && <ExternalLinksList externalLinksInput={architect.urls} architectId={architect.id} />}
+            </>
           </Box>
         </Container>
         <Container className='md:grid-cols-3'>

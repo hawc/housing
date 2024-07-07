@@ -124,8 +124,8 @@ export interface Platform {
 }
 export interface ExternalLink {
   id: string;
-  name?: string;
-  description?: string;
+  name: string;
+  description: string;
   url: string;
   platform?: Platform;
 }
