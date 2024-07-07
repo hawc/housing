@@ -7,7 +7,7 @@ module.exports = {
   siteUrl: 'https://grosswohnsiedlungen.de',
   generateRobotsTxt: true,
   robotsTxtOptions: {
-    policies: [{ userAgent: '*', allow: '/' }],
+    policies: [{ userAgent: '*', allow: '/', disallow: '/api/' }],
   },
   exclude: ['/api/*', '/admin/*', '/admin', '*.png']
 };
