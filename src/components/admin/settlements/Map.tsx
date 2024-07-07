@@ -6,9 +6,9 @@ import ReactMapGL, { Marker } from 'react-map-gl';
 
 import './map.css';
 
-import { isSettlementFound } from '@/components/blocks/SearchList';
+import { BaseLocation, Location } from '@/lib/types';
 
-import { BaseLocation, Location } from '@/app/admin/page';
+import { isSettlementFound } from '@/components/blocks/SearchList';
 
 interface Coordinates {
   lat: number;

@@ -2,12 +2,12 @@
 
 import { useState } from 'react';
 
+import { BaseLocation, BaseSettlement } from '@/lib/types';
+
 import { Box } from '@/components/blocks/Box';
 import { SearchInput, SettlementsSearchList } from '@/components/blocks/SearchList';
 import { Headline } from '@/components/Headline';
 import { SettlementsMap } from '@/components/settlements/SettlementsMap';
-
-import { BaseLocation, BaseSettlement } from '@/app/admin/page';
 
 export function ListSettlements({ settlements, locations }: { settlements: BaseSettlement[], locations: BaseLocation[] }) {
   const [searchTerm, setSearchTerm] = useState('');

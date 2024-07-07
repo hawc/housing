@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { fetchData } from '@/lib/fetch';
+import type { Event, EventType } from '@/lib/types';
 import { dateIsValid, getUniqueLabel } from '@/lib/utils';
 
 import { Button } from '@/components/blocks/form/Button';
@@ -13,7 +14,6 @@ import { InputGhost } from '@/components/blocks/form/Input';
 import { Select } from '@/components/blocks/form/Select';
 import { TextareaGhost } from '@/components/blocks/form/Textarea';
 
-import { Event, EventType } from '@/app/admin/page';
 
 interface EditEventProps extends React.HTMLAttributes<HTMLElement> {
   eventInput: Event | undefined;

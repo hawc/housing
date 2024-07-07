@@ -1,14 +1,13 @@
 import { Metadata } from 'next';
 
 import { fetchData } from '@/lib/fetch';
+import { BaseArchitect } from '@/lib/types';
 
 import { ListArchitects } from '@/components/architects/List';
 import { Container } from '@/components/blocks/Box';
 import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcrumbs';
 import { ContactLink } from '@/components/blocks/ContactLink';
 import Layout from '@/components/layout/Layout';
-
-import { BaseArchitect } from '@/app/admin/page';
 
 export const metadata: Metadata = {
   title: 'Architekt*innen',

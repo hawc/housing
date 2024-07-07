@@ -3,10 +3,10 @@
 import { useEffect, useState } from 'react';
 
 import { fetchData } from '@/lib/fetch';
+import type { Detail, DetailType } from '@/lib/types';
 
 import { EditDetail } from '@/components/admin/settlements/Detail';
 
-import { Detail, DetailType } from '@/app/admin/page';
 
 interface DetailsListProps extends React.HTMLAttributes<HTMLElement> {
   detailsInput: Detail[];

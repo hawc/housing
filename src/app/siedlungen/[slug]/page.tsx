@@ -7,7 +7,7 @@ import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcr
 import Layout from '@/components/layout/Layout';
 import { Settlement } from '@/components/settlements/View';
 
-import type { BaseSettlement } from '@/app/admin/page';
+import type { BaseSettlement } from '@/lib/types';
 
 export async function generateMetadata(
   { params },

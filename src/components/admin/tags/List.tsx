@@ -4,6 +4,7 @@ import { Loader2Icon, RotateCwIcon, XIcon } from 'lucide-react';
 import { useState } from 'react';
 
 import { fetchData } from '@/lib/fetch';
+import { BaseTag, Tag } from '@/lib/types';
 import { sortAlphabetically } from '@/lib/utils';
 
 import { Box, Container } from '@/components/blocks/Box';
@@ -11,8 +12,6 @@ import { Button } from '@/components/blocks/form/Button';
 import { InputGhost } from '@/components/blocks/form/Input';
 import { TextareaGhost } from '@/components/blocks/form/Textarea';
 import { Headline } from '@/components/Headline';
-
-import { BaseTag, Tag } from '@/app/admin/page';
 
 function AddTag({ getTags }: { getTags: () => Promise<void> }) {
   const [currentTag, setCurrentTag] = useState<Partial<Tag>>({

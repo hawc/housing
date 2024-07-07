@@ -8,7 +8,7 @@ import { SettlementEdit } from '@/components/admin/settlements/Edit';
 import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcrumbs';
 import Layout from '@/components/layout/Layout';
 
-import type { BaseSettlement } from '@/app/admin/page';
+import type { BaseSettlement } from '@/lib/types';
 
 export async function generateMetadata(
   { params },

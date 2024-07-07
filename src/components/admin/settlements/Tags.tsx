@@ -4,12 +4,11 @@ import { PlusIcon, XIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import { fetchData } from '@/lib/fetch';
+import { BaseTag, Tag } from '@/lib/types';
 import { sortAlphabetically } from '@/lib/utils';
 
 import { Button } from '@/components/blocks/form/Button';
 import { Select } from '@/components/blocks/form/Select';
-
-import { BaseTag, Tag } from '@/app/admin/page';
 
 interface TagItemProps {
   tag: Tag;

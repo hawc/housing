@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { fetchData } from '@/lib/fetch';
+import type { BaseSettlement } from '@/lib/types';
 
 import { ArchitectsList } from '@/components/admin/settlements/Architects';
 import { DetailsList } from '@/components/admin/settlements/Details';
@@ -19,8 +20,6 @@ import { Button } from '@/components/blocks/form/Button';
 import { InputGhost } from '@/components/blocks/form/Input';
 import { TextareaGhost } from '@/components/blocks/form/Textarea';
 import { Headline } from '@/components/Headline';
-
-import type { BaseSettlement } from '@/app/admin/page';
 
 export type Partial<T> = { [P in keyof T]?: T[P] };
 

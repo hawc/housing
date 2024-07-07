@@ -6,13 +6,12 @@ import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { fetchData } from '@/lib/fetch';
+import type { Detail, DetailType } from '@/lib/types';
 import { dateIsValid, getUniqueLabel } from '@/lib/utils';
 
 import { Button } from '@/components/blocks/form/Button';
 import { InputGhost } from '@/components/blocks/form/Input';
 import { Select } from '@/components/blocks/form/Select';
-
-import { Detail, DetailType } from '@/app/admin/page';
 
 interface EditDetailProps extends React.HTMLAttributes<HTMLElement> {
   detailInput: Detail | undefined;

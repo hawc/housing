@@ -5,12 +5,11 @@ import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { fetchData } from '@/lib/fetch';
+import { Location } from '@/lib/types';
 import { getUniqueLabel } from '@/lib/utils';
 
 import { Button } from '@/components/blocks/form/Button';
 import { InputGhost } from '@/components/blocks/form/Input';
-
-import { Location } from '@/app/admin/page';
 
 async function updateLocation(id: string, data: Partial<Location>) {
   return await fetchData<Location>(`/api/locations/update/${id}`, undefined, { method: 'POST', body: JSON.stringify(data) });

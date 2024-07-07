@@ -1,7 +1,7 @@
 'use client';
-import { Link } from '@/components/blocks/Link';
+import { Detail } from '@/lib/types';
 
-import { Detail } from '@/app/admin/page';
+import { Link } from '@/components/blocks/Link';
 
 interface DetailsListProps extends React.HTMLAttributes<HTMLElement> {
   details: Detail[];

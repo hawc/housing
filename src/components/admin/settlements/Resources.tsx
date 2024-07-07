@@ -3,10 +3,9 @@
 import { useEffect, useState } from 'react';
 
 import { fetchData } from '@/lib/fetch';
+import { Resource, ResourceType } from '@/lib/types';
 
 import { EditResource } from '@/components/admin/settlements/Resource';
-
-import { Resource, ResourceType } from '@/app/admin/page';
 
 interface ResourcesListProps extends React.HTMLAttributes<HTMLElement> {
   resourcesInput: Resource[];

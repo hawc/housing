@@ -6,7 +6,7 @@ import { ListSettlements } from '@/components/admin/settlements/List';
 import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcrumbs';
 import Layout from '@/components/layout/Layout';
 
-import { BaseSettlement } from '@/app/admin/page';
+import { BaseSettlement } from '@/lib/types';
 
 async function getSettlements() {
   const settlements = await fetchData<BaseSettlement[], BaseSettlement[]>('/api/settlements/get/all', [], {

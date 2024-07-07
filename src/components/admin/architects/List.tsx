@@ -4,6 +4,7 @@ import { RotateCwIcon } from 'lucide-react';
 import { useState } from 'react';
 
 import { fetchData } from '@/lib/fetch';
+import type { Architect, BaseArchitect } from '@/lib/types';
 
 import { Box, Container } from '@/components/blocks/Box';
 import { Button } from '@/components/blocks/form/Button';
@@ -11,7 +12,6 @@ import { Link } from '@/components/blocks/Link';
 import { SearchInput, SearchList } from '@/components/blocks/SearchList';
 import { Headline } from '@/components/Headline';
 
-import { Architect, BaseArchitect } from '@/app/admin/page';
 
 export function ListArchitects({ architectsInput }: { architectsInput: BaseArchitect[] }) {
   const [searchTerm, setSearchTerm] = useState('');

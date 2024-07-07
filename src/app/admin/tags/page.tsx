@@ -5,7 +5,7 @@ import { ListTags } from '@/components/admin/tags/List';
 import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcrumbs';
 import Layout from '@/components/layout/Layout';
 
-import { BaseTag } from '@/app/admin/page';
+import { BaseTag } from '@/lib/types';
 
 async function getTags() {
   const tags = await fetchData<BaseTag[], BaseTag[]>('/api/tags/get/all', [], {

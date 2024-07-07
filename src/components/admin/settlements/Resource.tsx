@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { fetchData } from '@/lib/fetch';
+import { Resource, ResourceType } from '@/lib/types';
 import { getUniqueLabel } from '@/lib/utils';
 
 import { Button } from '@/components/blocks/form/Button';
@@ -12,7 +13,6 @@ import { InputGhost } from '@/components/blocks/form/Input';
 import { Select } from '@/components/blocks/form/Select';
 import Upload from '@/components/blocks/form/Upload';
 
-import { Resource, ResourceType } from '@/app/admin/page';
 import { ImageResponse } from '@/app/api/upload/route';
 
 interface EditResourceProps extends React.HTMLAttributes<HTMLElement> {

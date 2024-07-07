@@ -4,14 +4,13 @@ import { RotateCwIcon } from 'lucide-react';
 import { useState } from 'react';
 
 import { fetchData } from '@/lib/fetch';
+import { BaseSettlement, Settlement } from '@/lib/types';
 
 import { Box } from '@/components/blocks/Box';
 import { Button } from '@/components/blocks/form/Button';
 import { Link } from '@/components/blocks/Link';
 import { SearchInput, SettlementsSearchList } from '@/components/blocks/SearchList';
 import { Headline } from '@/components/Headline';
-
-import { BaseSettlement, Settlement } from '@/app/admin/page';
 
 export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSettlement[] }) {
   const [searchTerm, setSearchTerm] = useState('');

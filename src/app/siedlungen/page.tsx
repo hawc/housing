@@ -8,7 +8,7 @@ import { ContactLink } from '@/components/blocks/ContactLink';
 import Layout from '@/components/layout/Layout';
 import { ListSettlements } from '@/components/settlements/List';
 
-import { BaseLocation, BaseSettlement } from '@/app/admin/page';
+import { BaseLocation, BaseSettlement } from '@/lib/types';
 
 export const metadata: Metadata = {
   title: 'Siedlungen',

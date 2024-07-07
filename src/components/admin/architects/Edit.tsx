@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { fetchData } from '@/lib/fetch';
+import type { Architect, BaseArchitect } from '@/lib/types';
 
 import { Box, Container } from '@/components/blocks/Box';
 import { Button } from '@/components/blocks/form/Button';
@@ -13,7 +14,6 @@ import { InputGhost } from '@/components/blocks/form/Input';
 import { TextareaGhost } from '@/components/blocks/form/Textarea';
 import { Headline } from '@/components/Headline';
 
-import type { Architect, BaseArchitect } from '@/app/admin/page';
 
 export type Partial<T> = { [P in keyof T]?: T[P] };
 
@@ -79,6 +79,15 @@ export function ArchitectEdit({ architectInput }: { architectInput: Architect | 
         </div>
       </Box>
       <Container>
+        <Container>
+          <Box>
+            <div>
+              <TextareaGhost
+                onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => updateArchitectData({ description: event.target.value })}
+                value={architect?.description ?? ''} />
+            </div>
+          </Box>
+        </Container>
         <Container>
           <Box>
             <div>

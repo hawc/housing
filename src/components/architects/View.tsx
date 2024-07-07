@@ -1,10 +1,10 @@
+import type { BaseArchitect } from '@/lib/types';
+
 import { Box, Container } from '@/components/blocks/Box';
 import { ContactLink } from '@/components/blocks/ContactLink';
 import { Link } from '@/components/blocks/Link';
 import { Headline } from '@/components/Headline';
 import { SettlementsMap } from '@/components/settlements/SettlementsMap';
-
-import type { BaseArchitect } from '@/app/admin/page';
 
 export function Architect({ architect }: { architect: BaseArchitect }) {
   const locations = architect.settlements.flatMap(settlement => settlement.location ? ({

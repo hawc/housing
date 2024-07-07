@@ -1,8 +1,8 @@
 import dynamic from 'next/dynamic';
 
-import { Box } from '@/components/blocks/Box';
+import { BaseLocation, Location } from '@/lib/types';
 
-import { BaseLocation, Location } from '@/app/admin/page';
+import { Box } from '@/components/blocks/Box';
 
 export function SettlementsMap({ locationsInput, searchTerm }: { locationsInput: BaseLocation[] | Location[], searchTerm?: string }) {
   const Map = dynamic(() => import('@/components/admin/settlements/Map'), {

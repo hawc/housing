@@ -1,11 +1,10 @@
 import { BuildingIcon, CircleDotDashedIcon, HomeIcon } from 'lucide-react';
 
+import { Event } from '@/lib/types';
 import { dateIsValid, sortByDate } from '@/lib/utils';
 
 import { Link } from '@/components/blocks/Link';
 import { Headline } from '@/components/Headline';
-
-import { Event } from '@/app/admin/page';
 
 const IconComponent = ({ type, className }: { type: string, className: string }): JSX.Element => {
   switch (type) {

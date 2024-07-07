@@ -4,6 +4,7 @@ import { Loader2Icon, RotateCwIcon, XIcon } from 'lucide-react';
 import { useState } from 'react';
 
 import { fetchData } from '@/lib/fetch';
+import type { Platform } from '@/lib/types';
 import { sortAlphabetically } from '@/lib/utils';
 
 import { Box, Container } from '@/components/blocks/Box';
@@ -12,7 +13,6 @@ import { InputGhost } from '@/components/blocks/form/Input';
 import { TextareaGhost } from '@/components/blocks/form/Textarea';
 import { Headline } from '@/components/Headline';
 
-import type { Platform } from '@/app/admin/page';
 
 function AddPlatform({ getPlatforms }: { getPlatforms: () => Promise<void> }) {
   const [currentPlatform, setCurrentPlatform] = useState<Partial<Platform>>({

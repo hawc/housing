@@ -1,4 +1,4 @@
-import { Tag } from '@/app/admin/page';
+import { Tag } from '@/lib/types';
 
 function TagItem({ tag }: { tag: Tag }) {
   return (

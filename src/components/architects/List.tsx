@@ -2,11 +2,11 @@
 
 import { useState } from 'react';
 
+import { BaseArchitect } from '@/lib/types';
+
 import { Box } from '@/components/blocks/Box';
 import { SearchInput, SearchList } from '@/components/blocks/SearchList';
 import { Headline } from '@/components/Headline';
-
-import { BaseArchitect } from '@/app/admin/page';
 
 export function ListArchitects({ architects }: { architects: BaseArchitect[] }) {
   const [searchTerm, setSearchTerm] = useState<string>('');

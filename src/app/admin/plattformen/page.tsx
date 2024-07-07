@@ -5,7 +5,7 @@ import { ListPlatforms } from '@/components/admin/platforms/List';
 import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcrumbs';
 import Layout from '@/components/layout/Layout';
 
-import type { Platform } from '@/app/admin/page';
+import type { Platform } from '@/lib/types';
 
 async function getPlatforms() {
   const platforms = await fetchData<Platform[], Platform[]>('/api/platforms/get/all', [], {

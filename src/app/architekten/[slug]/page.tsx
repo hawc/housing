@@ -2,12 +2,11 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { fetchData } from '@/lib/fetch';
+import type { BaseArchitect } from '@/lib/types';
 
 import { Architect } from '@/components/architects/View';
 import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcrumbs';
 import Layout from '@/components/layout/Layout';
-
-import type { BaseArchitect } from '@/app/admin/page';
 
 export async function generateMetadata(
   { params },
