@@ -16,6 +16,7 @@ async function addPlatform(
       slug: slugify(data.name),
       description: data.description,
       url: data.url,
+      urlIdentifier: data.urlIdentifier
     },
     include: platformsInclude
   });
