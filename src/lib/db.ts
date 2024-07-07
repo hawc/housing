@@ -47,6 +47,7 @@ const platformsSelect = Prisma.validator<Prisma.PlatformsSelect>()({
   slug: true,
   description: true,
   url: true,
+  urlIdentifier: true,
 });
 
 const externalLinksSelect = Prisma.validator<Prisma.ExternalLinksSelect>()({

@@ -25,6 +25,7 @@ export function InputGhost({ className = '', value = '', name = '', type = 'text
       lang="de-DE"
       onChange={onChange}
       maxLength={maxLength}
+      disabled={disabled}
       {...rest} />
   );
 }

@@ -118,9 +118,9 @@ export interface Platform {
   id: string;
   name: string;
   slug: string;
-  urlIdentifier?: string;
-  description?: string;
-  url?: string;
+  description: string;
+  url: string;
+  urlIdentifier: string;
 }
 export interface ExternalLink {
   id: string;

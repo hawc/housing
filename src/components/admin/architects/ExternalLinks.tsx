@@ -18,7 +18,7 @@ export function ExternalLinksList({ externalLinksInput, architectId }: ExternalL
 
   async function getExternalLinks(architectId: string) {
     setLoading(true);
-    const externalLinks = await fetchData<ExternalLink[], ExternalLink[]>(`/api/externalLinks/get/settlement/${architectId}/all`, [], {
+    const externalLinks = await fetchData<ExternalLink[], ExternalLink[]>(`/api/externalLinks/get/architect/${architectId}/all`, [], {
       cache: 'no-cache'
     });
     setExternalLinks(externalLinks);
@@ -40,7 +40,8 @@ export function ExternalLinksList({ externalLinksInput, architectId }: ExternalL
       <EditExternalLink
         key={externalLinks.length}
         onUpdate={() => getExternalLinks(architectId)}
-        externalLinkInput={undefined} architectId={architectId} />
+        externalLinkInput={undefined}
+        architectId={architectId} />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import type { Prisma } from '@prisma/client';
-import type { NextRequest} from 'next/server';
+import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 import { externalLinksInclude } from '@/lib/db';
@@ -14,6 +14,7 @@ async function addExternalLink(
       name: data.name,
       description: data.description,
       url: data.url,
+      architectId: data.architectId,
       platformId: data.platformId
     },
     include: externalLinksInclude

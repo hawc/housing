@@ -44,7 +44,8 @@ function AddPlatform({ getPlatforms }: { getPlatforms: () => Promise<void> }) {
         </Headline>
       </div>
       <InputGhost placeholder='URL' value={currentPlatform.url} onChange={(event) => setPlatform({ url: event.target.value })} className='mb-1' />
-      <TextareaGhost placeholder='Beschreibung' value={currentPlatform.description} onChange={(event) => setPlatform({ description: event.target.value })} />
+      <InputGhost placeholder='URL-Matcher' value={currentPlatform.urlIdentifier} onChange={(event) => setPlatform({ urlIdentifier: event.target.value })} />
+      <TextareaGhost placeholder='Beschreibung' value={currentPlatform.description} onChange={(event) => setPlatform({ description: event.target.value })} className='mb-1' />
       <Button disabled={loading} onClick={() => submitPlatform(currentPlatform)}>
         <>Plattform hinzufügen {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
       </Button>
@@ -93,7 +94,8 @@ export function EditPlatform({ platform, getPlatforms }: EditPlatformProps) {
         </Button>
       </div>
       <InputGhost value={platform.url} onChange={(event) => updatePlatform({ url: event.target.value })} className='mb-1' />
-      <TextareaGhost value={platform.description} onChange={(event) => updatePlatform({ description: event.target.value })} />
+      <InputGhost placeholder='URL-Matcher' value={platform.urlIdentifier} onChange={(event) => updatePlatform({ urlIdentifier: event.target.value })} className='mb-1' />
+      <TextareaGhost value={platform.description} onChange={(event) => updatePlatform({ description: event.target.value })} className='mb-1' />
       <Button disabled={loading} onClick={() => submitPlatform(currentPlatform)}>
         <>Plattform speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
       </Button>

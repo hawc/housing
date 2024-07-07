@@ -22,6 +22,7 @@ export const baseTransformers = {
       slug: platform.slug,
       description: platform.description ?? '',
       url: platform.url ?? '',
+      urlIdentifier: platform.urlIdentifier ?? '',
     };
   },
   externalLink: (externalLink: ExternalLinksSelect): ExternalLink => {
@@ -180,6 +181,7 @@ export const transformers = {
       slug: platform.slug,
       description: platform.description ?? '',
       url: platform.url ?? '',
+      urlIdentifier: platform.url ?? '',
     };
   },
   externalLink: (externalLink: ExternalLinksSelect): ExternalLink => {

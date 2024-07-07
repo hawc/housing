@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { fetchData } from '@/lib/fetch';
-import type { ExternalLink } from '@/lib/types';
+import type { ExternalLink, Platform } from '@/lib/types';
 import { getUniqueLabel } from '@/lib/utils';
 
 import { Button } from '@/components/blocks/form/Button';
@@ -19,11 +19,22 @@ interface EditExternalLinkProps extends React.HTMLAttributes<HTMLElement> {
   onUpdate: (externalLinkId: string | undefined) => void;
 }
 
+async function getRelatedPlatform(data: Prisma.ExternalLinksUncheckedUpdateInput) {
+  const platforms = await fetchData<Platform[], Platform[]>('/api/platforms/get/all', []);
+  console.log('x', data, platforms);
+  return platforms.find(platform => platform.urlIdentifier && String(data.url).includes(platform.urlIdentifier));
+}
+
 async function updateExternalLink(id: string, data: Prisma.ExternalLinksUncheckedUpdateInput) {
+  const relatedPlatform = await getRelatedPlatform(data);
+  data.platformId = relatedPlatform ? relatedPlatform.id : null;
   return await fetchData<ExternalLink>(`/api/externalLinks/update/${id}`, undefined, { method: 'POST', body: JSON.stringify(data) });
 }
 
 async function addExternalLink(data: Prisma.ExternalLinksUncheckedCreateInput) {
+  const relatedPlatform = await getRelatedPlatform(data);
+  console.log('rel', relatedPlatform);
+  data.platformId = relatedPlatform ? relatedPlatform.id : null;
   return await fetchData<ExternalLink>('/api/externalLinks/add', undefined, { method: 'POST', body: JSON.stringify(data) });
 }
 
@@ -47,7 +58,7 @@ export function EditExternalLink({ externalLinkInput, architectId, onUpdate, ...
     setLoading(false);
   }
 
-  async function submitData(externalLink, architectId: string) {
+  async function submitData(externalLink: ExternalLink, architectId: string) {
     setLoading(true);
     let response;
     if (externalLink?.id) {
@@ -55,6 +66,7 @@ export function EditExternalLink({ externalLinkInput, architectId, onUpdate, ...
         name: externalLink.name,
         description: externalLink.description,
         url: externalLink.url,
+        architectId: architectId,
       };
       response = await updateExternalLink(externalLink.id, data);
     } else {
@@ -62,7 +74,7 @@ export function EditExternalLink({ externalLinkInput, architectId, onUpdate, ...
         name: externalLink.name,
         description: externalLink.description,
         url: externalLink.url,
-        architectId: architectId
+        architectId: architectId,
       };
       response = await addExternalLink(data);
     }
@@ -99,21 +111,26 @@ export function EditExternalLink({ externalLinkInput, architectId, onUpdate, ...
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={externalLink?.url ?? ''}
             onChange={(event) => setExternalLink({ url: event.target.value })} />
+          <label htmlFor={getUniqueLabel('externalLinkUrl', uuid)}>Plattform:</label>
+          <InputGhost
+            id={getUniqueLabel('externalLinkPlatform', uuid)}
+            className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
+            value={externalLink?.platform?.name ?? ''}
+            disabled />
         </div>
       </div>
       <div className='flex gap-4 flex-col lg:flex-row mt-2'>
         <Button
           className='w-full'
           onClick={() => externalLink && submitData(externalLink, architectId)}
-          disabled={loading || !(externalLink?.name)}><>{externalLink?.id ? 'Speichern' : 'Hinzufügen'}
+          disabled={loading || !(externalLink?.url)}><>{externalLink?.id ? 'Speichern' : 'Hinzufügen'}
             {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
         </Button>
         {externalLink?.id && (
           <Button
             className='w-full bg-text text-bg border border-text'
             onClick={() => deleteExternalLink(externalLink.id)}
-            disabled={loading || !(externalLink?.name)}><>Löschen
-              {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
+            disabled={loading}><>Löschen</>
           </Button>
         )}
       </div>
