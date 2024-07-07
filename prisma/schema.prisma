@@ -44,6 +44,7 @@ model Platforms {
   id            String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name          String          @unique
   slug          String          @unique
+  urlIdentifier String?         @unique
   description   String?
   url           String?
   published     Boolean         @default(true)
