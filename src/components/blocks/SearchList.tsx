@@ -1,6 +1,6 @@
 import { twMerge } from 'tailwind-merge';
 
-import { Location } from '@/lib/types';
+import type { Location } from '@/lib/types';
 import { slugify, sortAlphabetically } from '@/lib/utils';
 
 import { InputGhost } from '@/components/blocks/form/Input';

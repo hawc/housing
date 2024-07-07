@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 
 import { fetchData } from '@/lib/fetch';
-import { Resource, ResourceType } from '@/lib/types';
+import type { Resource, ResourceType } from '@/lib/types';
 
 import { EditResource } from '@/components/admin/settlements/Resource';
 

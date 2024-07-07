@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { BaseLocation, BaseSettlement } from '@/lib/types';
+import type { BaseLocation, BaseSettlement } from '@/lib/types';
 
 import { Box } from '@/components/blocks/Box';
 import { SearchInput, SettlementsSearchList } from '@/components/blocks/SearchList';

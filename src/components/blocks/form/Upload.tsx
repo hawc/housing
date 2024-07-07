@@ -5,7 +5,7 @@ import { useRef, useState } from 'react';
 
 import { fetchData } from '@/lib/fetch';
 
-import { ImageResponse } from '@/app/api/upload/route';
+import type { ImageResponse } from '@/app/api/upload/route';
 
 interface UploadResponse {
   success: boolean;

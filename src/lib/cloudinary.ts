@@ -1,4 +1,5 @@
-import { UploadApiResponse, v2 as cloudinary } from 'cloudinary';
+import type { UploadApiResponse} from 'cloudinary';
+import { v2 as cloudinary } from 'cloudinary';
 
 interface UploadImage {
   src: string;

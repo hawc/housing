@@ -6,7 +6,7 @@ import ReactMapGL, { Marker } from 'react-map-gl';
 
 import './map.css';
 
-import { BaseLocation, Location } from '@/lib/types';
+import type { BaseLocation, Location } from '@/lib/types';
 
 import { isSettlementFound } from '@/components/blocks/SearchList';
 

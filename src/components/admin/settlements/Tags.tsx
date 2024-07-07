@@ -4,7 +4,7 @@ import { PlusIcon, XIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import { fetchData } from '@/lib/fetch';
-import { BaseTag, Tag } from '@/lib/types';
+import type { BaseTag, Tag } from '@/lib/types';
 import { sortAlphabetically } from '@/lib/utils';
 
 import { Button } from '@/components/blocks/form/Button';

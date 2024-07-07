@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 import { fetchData } from '@/lib/fetch';
-import { Event, EventType } from '@/lib/types';
+import type { Event, EventType } from '@/lib/types';
 import { sortByDate } from '@/lib/utils';
 
 import { Event as EventComponent } from '@/components/admin/settlements/Event';

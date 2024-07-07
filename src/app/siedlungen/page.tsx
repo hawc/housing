@@ -1,14 +1,13 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
 import { fetchData } from '@/lib/fetch';
+import type { BaseLocation, BaseSettlement } from '@/lib/types';
 
 import { Container } from '@/components/blocks/Box';
 import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcrumbs';
 import { ContactLink } from '@/components/blocks/ContactLink';
 import Layout from '@/components/layout/Layout';
 import { ListSettlements } from '@/components/settlements/List';
-
-import { BaseLocation, BaseSettlement } from '@/lib/types';
 
 export const metadata: Metadata = {
   title: 'Siedlungen',

@@ -1,6 +1,7 @@
-import { Url } from 'next/dist/shared/lib/router/router';
-import { default as NextLink, LinkProps } from 'next/link';
-import { PropsWithChildren } from 'react';
+import type { Url } from 'next/dist/shared/lib/router/router';
+import type { LinkProps } from 'next/link';
+import { default as NextLink } from 'next/link';
+import type { PropsWithChildren } from 'react';
 
 import styles from './Breadcrumbs.module.css';
 

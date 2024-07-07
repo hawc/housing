@@ -1,13 +1,12 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { fetchData } from '@/lib/fetch';
+import type { BaseSettlement } from '@/lib/types';
 
 import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcrumbs';
 import Layout from '@/components/layout/Layout';
 import { Settlement } from '@/components/settlements/View';
-
-import type { BaseSettlement } from '@/lib/types';
 
 export async function generateMetadata(
   { params },

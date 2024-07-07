@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic';
 
-import { BaseLocation, Location } from '@/lib/types';
+import type { BaseLocation, Location } from '@/lib/types';
 
 import { Box } from '@/components/blocks/Box';
 

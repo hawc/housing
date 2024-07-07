@@ -1,4 +1,4 @@
-import { Tag } from '@/lib/types';
+import type { Tag } from '@/lib/types';
 
 function TagItem({ tag }: { tag: Tag }) {
   return (

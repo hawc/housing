@@ -4,7 +4,7 @@ import { RotateCwIcon } from 'lucide-react';
 import { useState } from 'react';
 
 import { fetchData } from '@/lib/fetch';
-import { BaseSettlement, Settlement } from '@/lib/types';
+import type { BaseSettlement, Settlement } from '@/lib/types';
 
 import { Box } from '@/components/blocks/Box';
 import { Button } from '@/components/blocks/form/Button';

@@ -2,7 +2,8 @@
 
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { useEffect, useRef, useState } from 'react';
-import { BufferGeometry, InstancedMesh, MathUtils } from 'three';
+import type { BufferGeometry, InstancedMesh} from 'three';
+import { MathUtils } from 'three';
 import { EXRLoader } from 'three/examples/jsm/loaders/EXRLoader';
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
 

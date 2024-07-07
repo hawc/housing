@@ -1,5 +1,5 @@
 'use client';
-import { Detail } from '@/lib/types';
+import type { Detail } from '@/lib/types';
 
 import { Link } from '@/components/blocks/Link';
 

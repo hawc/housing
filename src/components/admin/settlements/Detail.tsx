@@ -1,6 +1,6 @@
 'use client';
 
-import { Prisma } from '@prisma/client';
+import type { Prisma } from '@prisma/client';
 import { Loader2Icon } from 'lucide-react';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';

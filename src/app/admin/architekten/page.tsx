@@ -1,5 +1,5 @@
 import { fetchData } from '@/lib/fetch';
-import { BaseArchitect } from '@/lib/types';
+import type { BaseArchitect } from '@/lib/types';
 
 import { ListArchitects } from '@/components/admin/architects/List';
 import LoginPageFrame from '@/components/admin/LoginPageFrame';

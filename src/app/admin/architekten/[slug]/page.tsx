@@ -1,4 +1,4 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
 import { fetchData } from '@/lib/fetch';
 import type { BaseArchitect } from '@/lib/types';

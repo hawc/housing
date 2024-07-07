@@ -1,6 +1,6 @@
 import { BuildingIcon, CircleDotDashedIcon, HomeIcon } from 'lucide-react';
 
-import { Event } from '@/lib/types';
+import type { Event } from '@/lib/types';
 import { dateIsValid, sortByDate } from '@/lib/utils';
 
 import { Link } from '@/components/blocks/Link';

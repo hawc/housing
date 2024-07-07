@@ -1,7 +1,7 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
 import { fetchData } from '@/lib/fetch';
-import { BaseArchitect } from '@/lib/types';
+import type { BaseArchitect } from '@/lib/types';
 
 import { ListArchitects } from '@/components/architects/List';
 import { Container } from '@/components/blocks/Box';

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { BaseArchitect } from '@/lib/types';
+import type { BaseArchitect } from '@/lib/types';
 
 import { Box } from '@/components/blocks/Box';
 import { SearchInput, SearchList } from '@/components/blocks/SearchList';
