@@ -1,5 +1,5 @@
 import type { Prisma } from '@prisma/client';
-import type { NextRequest} from 'next/server';
+import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 import { architectsInclude } from '@/lib/db';
