@@ -14,7 +14,7 @@ export function Link({ href, children, arrow = false, back = false, ...rest }: L
 
   let content = children;
   if (!children) {
-    const matches = href.matchAll(/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:/\n?]+)/img);
+    const matches = href.matchAll(/^(?:https?:\/\/)?(?:www\.)?([^:/\n?]+)/img);
 
     for (const match of matches) {
       if (match[1]) {
