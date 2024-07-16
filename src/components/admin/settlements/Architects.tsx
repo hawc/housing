@@ -94,9 +94,9 @@ export function ArchitectsList({ architects, settlementId, getSettlement }: Arch
     setLoading(false);
   }
 
-  async function addArchitect(architectId: string, settlementId: string) {
+  async function addArchitect(architectId: string, settlementId: string, role: string | undefined) {
     setLoading(true);
-    await fetchData(`/api/settlements/add/architect/${settlementId}/${architectId}`);
+    await fetchData(`/api/settlements/add/architect/${settlementId}/${architectId}`, undefined, { method: 'POST', body: JSON.stringify({ role: role }) });
     await getSettlement();
     setLoading(false);
   }
@@ -133,7 +133,9 @@ export function ArchitectsList({ architects, settlementId, getSettlement }: Arch
             </div>
             <div className='basis-full'>
               <InputGhost
-                className='border-highlight border-2 border-solid p-1 w-full' placeholder="Rolle" value="" />
+                value={currentArchitect?.role ?? ''}
+                className='border-highlight border-2 border-solid p-1 w-full'
+                placeholder="Rolle" />
             </div>
           </div>
           <div className='flex'>
@@ -141,7 +143,7 @@ export function ArchitectsList({ architects, settlementId, getSettlement }: Arch
               <Button
                 className='border-highlight border-2 border-solid w-full'
                 disabled={!currentArchitect}
-                onClick={currentArchitect?.id ? () => addArchitect(currentArchitect.id, settlementId) : () => { return; }}>
+                onClick={currentArchitect?.id ? () => addArchitect(currentArchitect.id, settlementId, currentArchitect.role) : () => { return; }}>
                 Hinzufügen
               </Button>
             </div>

@@ -14,8 +14,9 @@ async function addSettlementsOnArchitect(
   });
 }
 
-export async function GET(_req: NextRequest, { params }) {
-  await addSettlementsOnArchitect({ settlementId: params.settlementId, architectId: params.architectId });
+export async function POST(req: NextRequest, { params }) {
+  const data = await req.json();
+  await addSettlementsOnArchitect({ settlementId: params.settlementId, architectId: params.architectId, ...data });
 
   return NextResponse.json('');
 }

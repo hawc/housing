@@ -70,7 +70,7 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
               <div className={settlement.architects.length > 3 ? 'md:columns-2' : 'md:columns-1'}>
                 {sortAlphabetically(settlement.architects).map((architect: Architect) => (
                   <div key={architect.id}>
-                    <LinkElement href={`/architekten/${architect.slug}`}>{architect.name}</LinkElement>
+                    <LinkElement href={`/architekten/${architect.slug}`}>{architect.name}</LinkElement>{architect.role ? ` (${architect.role})` : ''}
                   </div>
                 ))}
               </div>
