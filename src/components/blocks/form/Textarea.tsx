@@ -1,6 +1,6 @@
 import { twMerge } from 'tailwind-merge';
 
-interface TextareaProps extends React.HTMLAttributes<HTMLTextAreaElement> {
+interface TextareaProps extends React.InputHTMLAttributes<HTMLTextAreaElement> {
   className?: string;
   value?: string;
   name?: string;

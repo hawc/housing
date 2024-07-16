@@ -23,7 +23,7 @@ export async function POST(req: Request) {
   try {
     for (const formDataEntryValue of formDataImages) {
       if (typeof formDataEntryValue === 'object' && formDataEntryValue && 'arrayBuffer' in formDataEntryValue) {
-        const file = formDataEntryValue as unknown as Blob;
+        const file = formDataEntryValue;
         const fileType = 'image';
         const name = file.name.split('.')[0];
         const ext = file.name.split('.')[1];

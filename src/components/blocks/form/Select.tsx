@@ -10,7 +10,7 @@ interface Option {
   name: string;
 }
 
-interface SelectProps<T> extends React.HTMLAttributes<HTMLSelectElement> {
+interface SelectProps<T> extends React.InputHTMLAttributes<HTMLSelectElement> {
   value?: string;
   type?: string;
   className?: string;

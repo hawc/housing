@@ -86,8 +86,8 @@ export default function RootLayout({
         <body>
           {isProd ? (
             <PiwikProProvider
-              containerUrl={process.env.NEXT_PUBLIC_CONTAINER_URL}
-              containerId={process.env.NEXT_PUBLIC_CONTAINER_ID}
+              containerUrl={process.env.NEXT_PUBLIC_CONTAINER_URL ?? ''}
+              containerId={process.env.NEXT_PUBLIC_CONTAINER_ID ?? ''}
             >
               {content}
             </PiwikProProvider>
