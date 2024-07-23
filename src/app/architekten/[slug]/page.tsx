@@ -5,6 +5,7 @@ import { fetchData } from '@/lib/fetch';
 import type { BaseArchitect } from '@/lib/types';
 
 import { Architect } from '@/components/architects/View';
+import { Box } from '@/components/blocks/Box';
 import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcrumbs';
 import Layout from '@/components/layout/Layout';
 
@@ -51,6 +52,15 @@ export default async function ArchitectPage({ params }) {
     }>
       <section>
         <Architect architect={architect} />
+      </section>
+      <section>
+        <Box ghost>
+          <div className='text-center mt-2 mb-6'>
+            <span className='block sm:inline'>Eintrag erstellt: {architect.createdAt}</span>
+            <span className='hidden sm:inline'> • </span>
+            <span className='block sm:inline'>aktualisiert: {architect.updatedAt || architect.createdAt}</span>
+          </div>
+        </Box>
       </section>
     </Layout>
   );

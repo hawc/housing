@@ -11,7 +11,7 @@ export function ContactLink() {
   return (
     <Box className='bg-white text-black'>
       <div className='flex flex-row justify-between'>
-        <div>Informationen sind falsch oder unvollständig? Bitte schreib uns über das <Link href={`/kontakt?from=${pathname}`}>Kontaktformular</Link>!</div>
+        <div>Es sind Informationen falsch oder unvollständig? Bitte schreib uns über das <Link href={`/kontakt?from=${pathname}`}>Kontaktformular</Link>!</div>
       </div>
     </Box>
   );
