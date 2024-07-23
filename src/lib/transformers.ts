@@ -1,6 +1,8 @@
 import type { ArchitectsInclude, ArchitectsSelect, DetailsInclude, DetailsSelect, DetailsTypesSelect, DetailTypesInclude, EventsInclude, EventsSelect, EventTypesInclude, EventTypesSelect, ExternalLinksSelect, LocationsInclude, LocationsSelect, PlatformsSelect, ResourcesInclude, ResourcesSelect, ResourceTypesInclude, ResourceTypesSelect, SettlementsInclude, SettlementsOnArchitectsInclude, SettlementsOnTagsInclude, SettlementsSelect, SettlementTypesSelect, TagsInclude, TagsSelect } from '@/lib/db';
 import type { Architect, BaseArchitect, BaseDetail, BaseDetailType, BaseEvent, BaseEventType, BaseLocation, BaseResource, BaseResourceType, BaseSettlement, BaseSettlementOnArchitect, BaseSettlementOnTag, BaseTag, Detail, DetailType, Event, EventType, ExternalLink, Location, Platform, Resource, ResourceType, Settlement, SettlementType, Tag } from '@/lib/types';
 
+const DATE_OPTIONS: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
 export const baseTransformers = {
   location: (location: LocationsInclude): BaseLocation => {
     return {
@@ -60,6 +62,8 @@ export const baseTransformers = {
       tags: settlement.tags.map(tagRelation => transformers.tag(tagRelation.tag)),
       events: settlement.events.map(transformers.event),
       location: settlement.location ? transformers.location(settlement.location) : null,
+      createdAt: new Date(settlement.createdAt).toLocaleDateString('de-de', DATE_OPTIONS),
+      updatedAt: new Date(settlement.updatedAt).toLocaleDateString('de-de', DATE_OPTIONS),
     };
   },
   architect: (architect: ArchitectsInclude): BaseArchitect => {
@@ -70,6 +74,8 @@ export const baseTransformers = {
       description: architect.description ?? '',
       urls: architect.urls.map(transformers.externalLink),
       settlements: architect.settlements.map((settlementsOnArchitect) => transformers.settlement(settlementsOnArchitect.settlement)),
+      createdAt: new Date(architect.createdAt).toLocaleDateString('de-de', DATE_OPTIONS),
+      updatedAt: new Date(architect.updatedAt).toLocaleDateString('de-de', DATE_OPTIONS),
     };
   },
   tag: (tag: TagsInclude): BaseTag => {

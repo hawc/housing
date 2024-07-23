@@ -32,6 +32,8 @@ const settlementsSelect = Prisma.validator<Prisma.SettlementsSelect>()({
   tags: {
     select: settlementsOnTagsSelect
   },
+  createdAt: true,
+  updatedAt: true,
 });
 
 const settlementsSelectWithLocations = Prisma.validator<Prisma.SettlementsSelect>()({
@@ -67,7 +69,9 @@ const architectsSelect = Prisma.validator<Prisma.ArchitectsSelect>()({
   slug: true,
   urls: {
     select: externalLinksSelect
-  }
+  },
+  createdAt: true,
+  updatedAt: true,
 });
 
 const settlementsOnArchitectsSelect = Prisma.validator<Prisma.SettlementsOnArchitectsSelect>()({

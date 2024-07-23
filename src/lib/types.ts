@@ -144,6 +144,8 @@ export interface BaseArchitect {
   description: string;
   urls: ExternalLink[];
   settlements: Settlement[];
+  createdAt: string;
+  updatedAt: string;
 }
 export interface SettlementType {
   id: string;
@@ -173,6 +175,8 @@ export interface BaseSettlement {
   types: SettlementType[];
   architects: Architect[];
   tags: Tag[];
+  createdAt: string;
+  updatedAt: string;
 }
 export interface BaseSettlementOnTag {
   settlement: Settlement;
