@@ -5,6 +5,7 @@ import type { Architect, BaseSettlement, Settlement, Tag } from '@/lib/types';
 import { sortAlphabetically } from '@/lib/utils';
 
 import { Box, Container } from '@/components/blocks/Box';
+import CesiumWrapper from '@/components/blocks/CesiumWrapper';
 import { ContactLink } from '@/components/blocks/ContactLink';
 import { DetailsList } from '@/components/blocks/DetailsList';
 import { Link as LinkElement } from '@/components/blocks/Link';
@@ -141,9 +142,10 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
         {settlement.location && settlement.location.lat > 0 && settlement.location.lng > 0 && (
           <Container>
             <Box className='p-0 md:p-0'>
-              <Map
+              {/* <Map
                 markers={[settlement.location]}
-                center={{ lat: settlement.location.lat, lng: settlement.location.lng }} />
+                center={{ lat: settlement.location.lat, lng: settlement.location.lng }} /> */}
+              <CesiumWrapper positions={[{ lat: settlement.location.lat, lng: settlement.location.lng }]} />
             </Box>
           </Container>
         )}
