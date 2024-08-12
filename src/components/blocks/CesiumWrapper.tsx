@@ -11,9 +11,9 @@ const CesiumDynamicComponent = dynamic(() => import('./CesiumComponent'), {
 });
 
 export const CesiumWrapper: React.FunctionComponent<{
-  positions: Position[]
+  position: Position
 }> = ({
-  positions
+  position
 }) => {
     const [CesiumJs, setCesiumJs] = React.useState<CesiumType | null>(null);
     const [autoRotate, setAutoRotate] = React.useState<boolean>(true);
@@ -28,7 +28,11 @@ export const CesiumWrapper: React.FunctionComponent<{
     }, [CesiumJs]);
 
     return (
-      CesiumJs ? <><CesiumDynamicComponent CesiumJs={CesiumJs} positions={positions} isRotating={autoRotate} /><button onClick={(e) => setAutoRotate(!autoRotate)} type='button'>rotate? {autoRotate}</button><div id="credits"></div></> : null
+      CesiumJs ? <>
+        <CesiumDynamicComponent CesiumJs={CesiumJs} position={position} isRotating={autoRotate} />
+        <button onClick={() => setAutoRotate(!autoRotate)} type='button'>rotate? {autoRotate}</button>
+        <div id="credits"></div>
+      </> : null
     );
   };
 

@@ -1,26 +1,21 @@
 import { CopyrightIcon } from 'lucide-react';
-import dynamic from 'next/dynamic';
 
 import type { Architect, BaseSettlement, Settlement, Tag } from '@/lib/types';
 import { sortAlphabetically } from '@/lib/utils';
 
 import { Box, Container } from '@/components/blocks/Box';
-import CesiumWrapper from '@/components/blocks/CesiumWrapper';
 import { ContactLink } from '@/components/blocks/ContactLink';
 import { DetailsList } from '@/components/blocks/DetailsList';
 import { Link as LinkElement } from '@/components/blocks/Link';
 import { TagList } from '@/components/blocks/Tags';
 import { Timeline } from '@/components/blocks/Timeline';
 import { Headline } from '@/components/Headline';
+import { SettlementMap } from '@/components/settlements/3DMap';
 
 const isPhoto = (resource) => resource.resourceType.name === 'Foto';
 const isNotPhoto = (resource) => resource.resourceType.name !== 'Foto';
 
 export function Settlement({ settlement }: { settlement: BaseSettlement }) {
-  const Map = dynamic(() => import('@/components/admin/settlements/Map'), {
-    ssr: false
-  });
-
   const photoResources = settlement?.resources?.filter(isPhoto);
   const otherResources = settlement?.resources?.filter(isNotPhoto);
 
@@ -142,10 +137,7 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
         {settlement.location && settlement.location.lat > 0 && settlement.location.lng > 0 && (
           <Container>
             <Box className='p-0 md:p-0'>
-              {/* <Map
-                markers={[settlement.location]}
-                center={{ lat: settlement.location.lat, lng: settlement.location.lng }} /> */}
-              <CesiumWrapper positions={[{ lat: settlement.location.lat, lng: settlement.location.lng }]} />
+              <SettlementMap locationInput={settlement.location} />
             </Box>
           </Container>
         )}

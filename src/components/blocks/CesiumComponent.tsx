@@ -11,11 +11,11 @@ import type { Position } from '@/types/position';
 
 export const CesiumComponent: React.FunctionComponent<{
   CesiumJs: CesiumType,
-  positions: Position[],
+  position: Position,
   isRotating
 }> = ({
   CesiumJs,
-  positions,
+  position,
   isRotating
 }) => {
     const cesiumViewer = React.useRef<Viewer | null>(null);
@@ -78,7 +78,7 @@ export const CesiumComponent: React.FunctionComponent<{
       if (isLoaded) return;
       initializeCesiumJs();
 
-    }, [positions, isLoaded, initializeCesiumJs]);
+    }, [position, isLoaded, initializeCesiumJs]);
 
     React.useEffect(() => {
       if (isLoaded) {
@@ -89,7 +89,7 @@ export const CesiumComponent: React.FunctionComponent<{
           if (isRotating) {
             removeListener.current = cesiumViewer.current.clock.onTick.addEventListener(() => {
               if (cesiumViewer.current?.scene) {
-                const center = CesiumJs.Cartesian3.fromDegrees(positions[0].lng, positions[0].lat, 0);
+                const center = CesiumJs.Cartesian3.fromDegrees(position.lng, position.lat, 0);
                 const clampedHeight = cesiumViewer.current.scene.clampToHeight(center);
 
                 const rotation = -1; //counter-clockwise; +1 would be clockwise
@@ -105,7 +105,7 @@ export const CesiumComponent: React.FunctionComponent<{
           }
         }
       }
-    }, [isRotating, isLoaded, CesiumJs, positions]);
+    }, [isRotating, isLoaded, CesiumJs, position]);
 
     return (
       <div
