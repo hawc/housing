@@ -22,7 +22,7 @@ function formatDetail(detailText: string, type: string): string {
 }
 
 function sortByTypeAndDate(a: Detail, b: Detail) {
-  return a.detailType.name.localeCompare(b.detailType.name) || new Date(a.detailDate).getFullYear() - new Date(b.detailDate).getFullYear();
+  return a.detailType.name.localeCompare(b.detailType.name, 'de') || new Date(a.detailDate).getFullYear() - new Date(b.detailDate).getFullYear();
 }
 
 export function DetailsList({ details }: DetailsListProps) {
