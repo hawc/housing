@@ -1,7 +1,7 @@
 'use client';
 
 import type { BoundingSphere, Cesium3DTileset, Viewer } from 'cesium';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 //NOTE: This is required to get the stylings for default Cesium UI and controls
 import 'cesium/Build/Cesium/Widgets/widgets.css';
@@ -12,7 +12,7 @@ import type { Position } from '@/types/position';
 export const CesiumComponent: React.FunctionComponent<{
   CesiumJs: CesiumType,
   position: Position,
-  isRotating
+  isRotating,
 }> = ({
   CesiumJs,
   position,
@@ -23,8 +23,15 @@ export const CesiumComponent: React.FunctionComponent<{
     const addedScenePrimitives = React.useRef<Cesium3DTileset[]>([]);
     const bounding = React.useRef<BoundingSphere | null>(null);
     const [isLoaded, setIsLoaded] = React.useState(false);
+    const [isInitialized, setIsInitialized] = React.useState(false);
     const heading = React.useRef(-CesiumJs.Math.PI_OVER_TWO);
     const removeListener = React.useRef<undefined | (() => void)>(undefined);
+
+    useEffect(() => {
+      if (isInitialized) {
+        cesiumContainerRef.current?.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+      }
+    }, [isInitialized]);
 
     const cleanUpPrimitives = React.useCallback(() => {
       // Cleans up potentially already-existing primitives.
@@ -44,12 +51,16 @@ export const CesiumComponent: React.FunctionComponent<{
           tileset = await CesiumJs.Cesium3DTileset.fromIonAssetId(2275207);
         } catch (error) {
           console.error('Could not load tileset.');
+          return;
         }
         bounding.current = tileset.boundingSphere;
         const tiles = cesiumViewer.current.scene.primitives.add(tileset);
         addedScenePrimitives.current.push(tiles);
 
         setIsLoaded(true);
+        setTimeout(() => {
+          setIsInitialized(true);
+        }, 1000);
       }
     }, [CesiumJs.Cesium3DTileset, cleanUpPrimitives]);
 
@@ -68,6 +79,7 @@ export const CesiumComponent: React.FunctionComponent<{
           navigationHelpButton: false,
           sceneModePicker: false,
           timeline: false,
+          creditContainer: 'credits',
         });
 
         cesiumViewer.current.clock.clockStep = CesiumJs.ClockStep.SYSTEM_CLOCK_MULTIPLIER;
@@ -111,6 +123,8 @@ export const CesiumComponent: React.FunctionComponent<{
       <div
         ref={cesiumContainerRef}
         id='cesium-container'
+        style={{ transition: 'opacity 1s, height 1s', height: isInitialized ? 'calc(100px + 40vw)' : '100px', marginBottom: '-100px' }}
+        className={isInitialized ? 'opacity-100' : 'opacity-0'}
       />
     );
   };

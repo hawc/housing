@@ -18,6 +18,7 @@ export default function Layout({ children, breadcrumbs }: LayoutProps) {
         <main>
           {children}
         </main>
+        <div id="credits"></div>
         <Footer />
       </div>
     </>

@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import type { CesiumType } from '@/types/cesium';
 import type { Position } from '@/types/position';
@@ -13,25 +13,29 @@ const CesiumDynamicComponent = dynamic(() => import('./CesiumComponent'), {
 export const CesiumWrapper: React.FunctionComponent<{
   position: Position
 }> = ({
-  position
+  position,
 }) => {
-    const [CesiumJs, setCesiumJs] = React.useState<CesiumType | null>(null);
-    const [autoRotate, setAutoRotate] = React.useState<boolean>(true);
+    const [cesiumJs, setCesiumJs] = React.useState<CesiumType | null>(null);
+    useEffect(() => {
+
+      // if (typeof document !== "undefined") {
+      //   window.scrollTo({ top: 140 });
+      // }
+    }, []);
+
 
     React.useEffect(() => {
-      if (CesiumJs !== null) return;
+      if (cesiumJs !== null) return;
       const CesiumImportPromise = import('cesium');
       Promise.all([CesiumImportPromise]).then((promiseResults) => {
         const { ...Cesium } = promiseResults[0];
         setCesiumJs(Cesium);
       });
-    }, [CesiumJs]);
+    }, [cesiumJs]);
 
     return (
-      CesiumJs ? <>
-        <CesiumDynamicComponent CesiumJs={CesiumJs} position={position} isRotating={autoRotate} />
-        <button onClick={() => setAutoRotate(!autoRotate)} type='button'>rotate? {autoRotate}</button>
-        <div id="credits"></div>
+      cesiumJs ? <>
+        <CesiumDynamicComponent CesiumJs={cesiumJs} position={position} isRotating />
       </> : null
     );
   };
