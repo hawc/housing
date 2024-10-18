@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 
 import type { CesiumType } from '@/types/cesium';
 import type { Position } from '@/types/position';

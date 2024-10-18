@@ -29,7 +29,11 @@ export const CesiumComponent: React.FunctionComponent<{
 
     useEffect(() => {
       if (isInitialized) {
-        cesiumContainerRef.current?.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+        cesiumContainerRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+          inline: 'nearest'
+        });
       }
     }, [isInitialized]);
 

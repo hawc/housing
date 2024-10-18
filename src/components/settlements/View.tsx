@@ -1,5 +1,7 @@
 import { CopyrightIcon } from 'lucide-react';
 
+import dynamic from 'next/dynamic';
+
 import type { Architect, BaseSettlement, Settlement, Tag } from '@/lib/types';
 import { sortAlphabetically } from '@/lib/utils';
 
@@ -11,7 +13,6 @@ import { TagList } from '@/components/blocks/Tags';
 import { Timeline } from '@/components/blocks/Timeline';
 import { Headline } from '@/components/Headline';
 import { SettlementMap } from '@/components/settlements/3DMap';
-import dynamic from 'next/dynamic';
 
 const isPhoto = (resource) => resource.resourceType.name === 'Foto';
 const isNotPhoto = (resource) => resource.resourceType.name !== 'Foto';
