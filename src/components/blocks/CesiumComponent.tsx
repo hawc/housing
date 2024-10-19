@@ -27,16 +27,6 @@ export const CesiumComponent: React.FunctionComponent<{
     const heading = React.useRef(-CesiumJs.Math.PI_OVER_TWO);
     const removeListener = React.useRef<undefined | (() => void)>(undefined);
 
-    useEffect(() => {
-      if (isInitialized) {
-        cesiumContainerRef.current?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-          inline: 'nearest'
-        });
-      }
-    }, [isInitialized]);
-
     const cleanUpPrimitives = React.useCallback(() => {
       // Cleans up potentially already-existing primitives.
       addedScenePrimitives.current.forEach(scenePrimitive => {
