@@ -21,7 +21,6 @@ interface EditExternalLinkProps extends React.HTMLAttributes<HTMLElement> {
 
 async function getRelatedPlatform(data: Prisma.ExternalLinksUncheckedUpdateInput) {
   const platforms = await fetchData<Platform[], Platform[]>('/api/platforms/get/all', []);
-  console.log('x', data, platforms);
   return platforms.find(platform => platform.urlIdentifier && String(data.url).includes(platform.urlIdentifier));
 }
 
@@ -33,7 +32,6 @@ async function updateExternalLink(id: string, data: Prisma.ExternalLinksUnchecke
 
 async function addExternalLink(data: Prisma.ExternalLinksUncheckedCreateInput) {
   const relatedPlatform = await getRelatedPlatform(data);
-  console.log('rel', relatedPlatform);
   data.platformId = relatedPlatform ? relatedPlatform.id : null;
   return await fetchData<ExternalLink>('/api/externalLinks/add', undefined, { method: 'POST', body: JSON.stringify(data) });
 }

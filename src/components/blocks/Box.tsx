@@ -1,16 +1,12 @@
+import { HTMLAttributes, PropsWithChildren } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-interface BoxProps extends React.HTMLAttributes<HTMLElement> {
-  children: React.ReactNode;
+interface BoxProps extends HTMLAttributes<HTMLElement> {
   ghost?: boolean;
   highlighted?: boolean;
 }
 
-interface ContainerProps extends React.HTMLAttributes<HTMLElement> {
-  children: React.ReactNode;
-}
-
-export function Box({ children, ghost = false, highlighted = false, ...rest }: BoxProps) {
+export function Box({ children, ghost = false, highlighted = false, ...rest }: PropsWithChildren<BoxProps>) {
   return (
     <div
       {...rest}
@@ -20,7 +16,7 @@ export function Box({ children, ghost = false, highlighted = false, ...rest }: B
   );
 }
 
-export function Container({ children, className = '', ...rest }: ContainerProps) {
+export function Container({ children, className = '', ...rest }: PropsWithChildren<HTMLAttributes<HTMLElement>>) {
   return (
     <div className={twMerge(`grid grid-cols-1 ${className}`)} {...rest}>
       {children}

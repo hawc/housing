@@ -1,10 +1,16 @@
+
 import dynamic from 'next/dynamic';
 
 import type { BaseLocation, Location } from '@/lib/types';
 
 import { Box } from '@/components/blocks/Box';
 
-export function SettlementsMap({ locationsInput, searchTerm }: { locationsInput: BaseLocation[] | Location[], searchTerm?: string }) {
+interface SettlementsMapProps {
+  locationsInput: BaseLocation[] | Location[];
+  searchTerm?: string;
+}
+
+export function SettlementsMap({ locationsInput, searchTerm }: SettlementsMapProps) {
   const Map = dynamic(() => import('@/components/admin/settlements/Map'), {
     ssr: false
   });

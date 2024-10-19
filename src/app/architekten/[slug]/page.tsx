@@ -14,11 +14,28 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const architect = await getArchitect(params.slug);
 
+  if (!architect) {
+    notFound();
+  }
+
+  const tags = ['Architekt', 'Plattenbau', 'Großwohnsiedlungen'];
+
+  if (!tags.includes(architect.name)) {
+    tags.push(architect.name);
+  }
+
   return {
-    title: `${architect?.name} | Architekt*innen`,
+    title: `${architect.name} | Architekt*innen`,
+    description: `Architekt*in deutscher Großwohnsiedlungen: ${architect.name} | Archiv deutscher Großwohnsiedlungen nach 1945.`,
+    openGraph: {
+      type: 'article',
+      description: `Architekt*in deutscher Großwohnsiedlungen: ${architect.name} | Archiv deutscher Großwohnsiedlungen nach 1945.`,
+      publishedTime: architect.createdAt,
+      modifiedTime: architect.updatedAt,
+      tags,
+    }
   };
 }
-
 export async function generateStaticParams() {
   const architects = await fetchData<BaseArchitect[], BaseArchitect[]>('/api/architects/get/all', []);
 

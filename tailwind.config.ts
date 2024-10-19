@@ -28,6 +28,12 @@ export default {
       gridTemplateColumns: {
         '1-3': '33% auto',
       },
+      height: {
+        '40-vw': '40vw',
+      },
+      width: {
+        '100-vw': '100vw',
+      }
     },
   },
   plugins: [require('@tailwindcss/forms')],

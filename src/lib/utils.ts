@@ -1,6 +1,6 @@
 import { default as slugifyFunction } from 'slugify';
 
-const LOCALE = 'de';
+export const LOCALE = 'de';
 
 export function sortAlphabetically<T>(array: Array<T & { name: string }>) {
   return array.sort((a, b) => a.name.localeCompare(b.name, LOCALE));

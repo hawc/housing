@@ -2,6 +2,7 @@ import { UserProvider } from '@auth0/nextjs-auth0/client';
 import PiwikProProvider from '@piwikpro/next-piwik-pro';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
+import { PropsWithChildren } from 'react';
 
 import '@/styles/globals.css';
 
@@ -44,9 +45,6 @@ export const metadata: Metadata = {
   authors: [{ name: 'Hendrik Wichern', url: 'https://hendrikwichern.de' }],
   creator: 'Hendrik Wichern',
   metadataBase: new URL(process.env.BASE_URL ?? ''),
-  // openGraph: {
-  //   images: '/og-image.png',
-  // },
   openGraph: {
     title: {
       template: '%s | Großwohnsiedlungen',
@@ -69,9 +67,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: {
-  children: React.ReactNode
-}) {
+}: PropsWithChildren) {
   const isProd = process.env.NODE_ENV === 'production';
 
   const content = (

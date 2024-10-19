@@ -175,3 +175,31 @@ p + p {
 #ppms_cm_paragraph_1::after {
   content: ' ';
 }
+
+.cesium-viewer-cesiumWidgetContainer {
+  border-top: 1px solid var(--text);
+}
+
+.cesium-viewer-fullscreenContainer {
+  top: 1px !important;
+  bottom: unset !important;
+}
+
+.cesium-viewer-cesiumWidgetContainer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  box-shadow: inset 0px -180px 80px -70px var(--bg);
+}
+
+.cesium-viewer-bottom,
+.cesium-viewer-cesiumWidgetContainer {
+  pointer-events: none;
+}
+
+.cesium-widget-credits {
+  position: relative !important;
+}
