@@ -21,8 +21,8 @@ export default function HomePage() {
               Ein Archiv für Großwohnsiedlungen in Deutschland.
             </p>
             <p>
-              Wie 1986 vom Bundesminister für Bauwesen, Raumordnung und Städtebau definiert,
-              werden hier Siedlungen gelistet, die grob den folgenden Kriterien entsprechen:
+              Dieses Archiv bietet einen umfassenden Überblick über deutsche Großwohnsiedlungen, oft auch Plattenbauviertel genannt.
+              Es umfasst Siedlungen, die nach den folgenden Kriterien ausgewählt wurden:
             </p>
             <List className='my-4'>
               <ListItem>nach 1945 erbaut</ListItem>
@@ -32,8 +32,8 @@ export default function HomePage() {
               <ListItem>überwiegend sozialer Wohnungsbau</ListItem>
             </List>
             <p>
-              Neben allgemeinen Information zu den gelisteten Großwohnsiedlungen finden sich
-              auf dieser Website auch Informationen über die beteiligten Architekt*innen.
+              Neben allgemeinen Informationen zu den aufgeführten Siedlungen finden Sie hier
+              auch Details über die Architekt*innen, die an diesen Projekten beteiligt waren.
             </p>
           </Box>
           <Box>
