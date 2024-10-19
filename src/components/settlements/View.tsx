@@ -16,6 +16,14 @@ import { SettlementMeta } from '@/components/settlements/SettlementsMeta';
 const isPhoto = (resource) => resource.resourceType.name === 'Foto';
 const isNotPhoto = (resource) => resource.resourceType.name !== 'Foto';
 
+const transformUrl = (url: string) => {
+  if (url.includes('res.cloudinary.com') && url.includes('/image/upload/')) {
+    return url.replace('/image/upload/', '/image/upload/w_1484/');
+  }
+
+  return url;
+};
+
 function sortByRole(array: Array<Architect>) {
   const getRole = (architect) => architect.role ?? '';
   const architects = sortAlphabetically(array);
@@ -128,7 +136,7 @@ export function Settlement({ settlement }: SettlementProps) {
                 <Box key={resource.id} className='p-0 md:p-0 justify-between'>
                   <div>
                     <div className='flex items-center overflow-hidden bg-grey-light'>
-                      <img src={resource.url} alt={resource.description} loading='lazy' className='min-w-full' />
+                      <img src={transformUrl(resource.url)} alt={resource.description} loading='lazy' className='min-w-full' />
                     </div>
                   </div>
                   <div className='px-3 py-2 md:px-5 md:py-4'>
