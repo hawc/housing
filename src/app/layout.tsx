@@ -45,9 +45,6 @@ export const metadata: Metadata = {
   authors: [{ name: 'Hendrik Wichern', url: 'https://hendrikwichern.de' }],
   creator: 'Hendrik Wichern',
   metadataBase: new URL(process.env.BASE_URL ?? ''),
-  // openGraph: {
-  //   images: '/og-image.png',
-  // },
   openGraph: {
     title: {
       template: '%s | Großwohnsiedlungen',

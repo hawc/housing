@@ -21,7 +21,7 @@ export function SettlementMeta({ location }: SettlementsMetaProps) {
 
   return (
     <>
-      <div className='flex flex-row gap-1'><MapPinIcon /> {location?.city}</div>
+      <div className='flex flex-row gap-1 items-center'><MapPinIcon /> {location?.city}</div>
       <Button ghost className='rounded-full px-2 hidden md:block' onClick={setTopView} disabled={is3DLoading}>
         {is3DLoading ? (
           <div className='flex gap-1'>3D-Ansicht lädt <Loader2Icon className='h-6 self-center animate-spin' /></div>
