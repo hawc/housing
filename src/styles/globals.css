@@ -195,8 +195,7 @@ p + p {
   box-shadow: inset 0px -180px 80px -70px var(--bg);
 }
 
-.cesium-viewer-bottom,
-.cesium-viewer-cesiumWidgetContainer {
+.cesium-viewer-cesiumWidgetContainer canvas {
   pointer-events: none;
 }
 

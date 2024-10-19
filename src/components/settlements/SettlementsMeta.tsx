@@ -16,6 +16,14 @@ export function SettlementMeta({ location }: SettlementsMetaProps) {
   const { enable3D, setEnable3D, is3DLoading } = useContext(SettingsContext);
 
   const setTopView = useCallback(() => {
+    if (!enable3D) {
+      const credits = document.querySelector('#credits');
+
+      if (credits) {
+        credits.innerHTML = '';
+      }
+    }
+
     setEnable3D(!enable3D);
   }, [setEnable3D, enable3D]);
 
