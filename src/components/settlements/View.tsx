@@ -2,7 +2,7 @@ import { CopyrightIcon } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
 import type { Architect, BaseSettlement, Settlement } from '@/lib/types';
-import { sortAlphabetically } from '@/lib/utils';
+import { LOCALE, sortAlphabetically } from '@/lib/utils';
 
 import { Box, Container } from '@/components/blocks/Box';
 import { ContactLink } from '@/components/blocks/ContactLink';
@@ -15,6 +15,13 @@ import { SettlementMeta } from '@/components/settlements/SettlementsMeta';
 
 const isPhoto = (resource) => resource.resourceType.name === 'Foto';
 const isNotPhoto = (resource) => resource.resourceType.name !== 'Foto';
+
+function sortByRole(array: Array<Architect>) {
+  const getRole = (architect) => architect.role ?? '';
+  const architects = sortAlphabetically(array);
+
+  return architects.sort((a, b) => getRole(a).localeCompare(getRole(b), LOCALE));
+}
 
 interface SettlementProps {
   settlement: BaseSettlement;
@@ -31,12 +38,9 @@ export function Settlement({ settlement }: SettlementProps) {
   return (
     <>
       {settlement.location && settlement.location.lat > 0 && settlement.location.lng > 0 && (
-        <div style={{
-        }} className='w-100-vw relative left-1/2 -translate-x-1/2'>
-          <div>
-            <div className='p-0 md:p-0 w-full'>
-              <SettlementMap locationInput={settlement.location} />
-            </div>
+        <div className='w-100-vw relative left-1/2 -translate-x-1/2'>
+          <div className='p-0 md:p-0 w-full'>
+            <SettlementMap locationInput={settlement.location} />
           </div>
         </div>
       )}
@@ -81,7 +85,7 @@ export function Settlement({ settlement }: SettlementProps) {
                   {settlement.architects.length > 1 ? 'Architekt*innen' : 'Architekt*in'}
                 </Headline>
                 <div className={settlement.architects.length > 3 ? 'md:columns-2' : 'md:columns-1'}>
-                  {sortAlphabetically(settlement.architects).map((architect: Architect) => (
+                  {sortByRole(settlement.architects).map((architect: Architect) => (
                     <div key={architect.id}>
                       <LinkElement href={`/architekten/${architect.slug}`}>{architect.name}</LinkElement>{architect.role ? ` (${architect.role})` : ''}
                     </div>
