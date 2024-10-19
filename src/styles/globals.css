@@ -192,7 +192,7 @@ p + p {
   left: 0;
   height: 100%;
   width: 100%;
-  box-shadow: inset 0px -230px 125px -100px var(--bg);
+  box-shadow: inset 0px -180px 80px -70px var(--bg);
 }
 
 .cesium-viewer-bottom,

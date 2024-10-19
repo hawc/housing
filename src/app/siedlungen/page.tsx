@@ -28,6 +28,7 @@ async function getLocations() {
 export default async function Settlements() {
   const settlements = await getSettlements();
   const locations = await getLocations();
+
   return (
     <Layout breadcrumbs={
       <Breadcrumbs>

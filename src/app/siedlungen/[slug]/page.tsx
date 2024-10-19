@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { fetchData } from '@/lib/fetch';
+import { SettingsProvider } from '@/lib/settingsContext';
 import type { BaseSettlement } from '@/lib/types';
 
 import { Box } from '@/components/blocks/Box';
@@ -43,25 +44,27 @@ export default async function SettlementPage({ params }) {
   }
 
   return (
-    <Layout breadcrumbs={
-      <Breadcrumbs>
-        <Breadcrumb href="/">Startseite</Breadcrumb>
-        <Breadcrumb href="/siedlungen">Siedlungen</Breadcrumb>
-        <Breadcrumb>{settlement.name}</Breadcrumb>
-      </Breadcrumbs>
-    }>
-      <section>
-        <Settlement settlement={settlement} />
-      </section>
-      <section>
-        <Box ghost>
-          <div className='text-center mt-2 mb-6'>
-            <span className='block sm:inline'>Eintrag erstellt: {settlement.createdAt}</span>
-            <span className='hidden sm:inline'> • </span>
-            <span className='block sm:inline'>aktualisiert: {settlement.updatedAt || settlement.createdAt}</span>
-          </div>
-        </Box>
-      </section>
-    </Layout>
+    <SettingsProvider>
+      <Layout breadcrumbs={
+        <Breadcrumbs>
+          <Breadcrumb href="/">Startseite</Breadcrumb>
+          <Breadcrumb href="/siedlungen">Siedlungen</Breadcrumb>
+          <Breadcrumb>{settlement.name}</Breadcrumb>
+        </Breadcrumbs>
+      }>
+        <section>
+          <Settlement settlement={settlement} />
+        </section>
+        <section>
+          <Box ghost>
+            <div className='text-center mt-2 mb-6'>
+              <span className='block sm:inline'>Eintrag erstellt: {settlement.createdAt}</span>
+              <span className='hidden sm:inline'> • </span>
+              <span className='block sm:inline'>aktualisiert: {settlement.updatedAt || settlement.createdAt}</span>
+            </div>
+          </Box>
+        </section>
+      </Layout>
+    </SettingsProvider>
   );
 }

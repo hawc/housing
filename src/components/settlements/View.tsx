@@ -1,23 +1,26 @@
 import { CopyrightIcon } from 'lucide-react';
-
 import dynamic from 'next/dynamic';
 
-import type { Architect, BaseSettlement, Settlement, Tag } from '@/lib/types';
+import type { Architect, BaseSettlement, Settlement } from '@/lib/types';
 import { sortAlphabetically } from '@/lib/utils';
 
 import { Box, Container } from '@/components/blocks/Box';
 import { ContactLink } from '@/components/blocks/ContactLink';
 import { DetailsList } from '@/components/blocks/DetailsList';
 import { Link as LinkElement } from '@/components/blocks/Link';
-import { TagList } from '@/components/blocks/Tags';
 import { Timeline } from '@/components/blocks/Timeline';
 import { Headline } from '@/components/Headline';
 import { SettlementMap } from '@/components/settlements/3DMap';
+import { SettlementMeta } from '@/components/settlements/SettlementsMeta';
 
 const isPhoto = (resource) => resource.resourceType.name === 'Foto';
 const isNotPhoto = (resource) => resource.resourceType.name !== 'Foto';
 
-export function Settlement({ settlement }: { settlement: BaseSettlement }) {
+interface SettlementProps {
+  settlement: BaseSettlement;
+}
+
+export function Settlement({ settlement }: SettlementProps) {
   const photoResources = settlement?.resources?.filter(isPhoto);
   const otherResources = settlement?.resources?.filter(isNotPhoto);
 
@@ -41,13 +44,10 @@ export function Settlement({ settlement }: { settlement: BaseSettlement }) {
         <Box ghost>
           <div className='md:flex mt-6'>
             <Headline type='h1' className='inline-block'>{settlement.name}</Headline>
-            <div className='md:flex md:items-start'>
-              {/* {settlement.tags.length > 0 && (
-              <TagList className='ml-2' tags={settlement.tags} />
-            )} */}
-              {settlement.location?.city && (<TagList className='mb-3 md:ml-2' tags={[{ name: settlement.location.city }] as Tag[]} />)}
-            </div>
           </div>
+        </Box>
+        <Box ghost className='py-0 md:p-0 mb-2 flex-row justify-between items-end'>
+          <SettlementMeta location={settlement.location} />
         </Box>
         <Container>
           {settlement.description && (

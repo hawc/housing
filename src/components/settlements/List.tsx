@@ -9,7 +9,12 @@ import { SearchInput, SettlementsSearchList } from '@/components/blocks/SearchLi
 import { Headline } from '@/components/Headline';
 import { SettlementsMap } from '@/components/settlements/SettlementsMap';
 
-export function ListSettlements({ settlements, locations }: { settlements: BaseSettlement[], locations: BaseLocation[] }) {
+interface ListSettlementsProps {
+  settlements: BaseSettlement[];
+  locations: BaseLocation[];
+}
+
+export function ListSettlements({ settlements, locations }: ListSettlementsProps) {
   const [searchTerm, setSearchTerm] = useState('');
 
   return (
