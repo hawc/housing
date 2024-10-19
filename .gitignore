@@ -49,3 +49,5 @@ sitemap.xml
 sitemap-*.xml
 # Local Netlify folder
 .netlify
+
+/public/cesium
