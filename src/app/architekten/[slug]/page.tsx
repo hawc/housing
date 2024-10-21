@@ -18,21 +18,12 @@ export async function generateMetadata(
     notFound();
   }
 
-  const tags = ['Architekt', 'Plattenbau', 'Großwohnsiedlungen'];
-
-  if (!tags.includes(architect.name)) {
-    tags.push(architect.name);
-  }
-
   return {
     title: `${architect.name} | Architekt*innen`,
     description: `Architekt*in deutscher Großwohnsiedlungen: ${architect.name} | Archiv deutscher Großwohnsiedlungen nach 1945.`,
     openGraph: {
-      type: 'article',
+      type: 'website',
       description: `Architekt*in deutscher Großwohnsiedlungen: ${architect.name} | Archiv deutscher Großwohnsiedlungen nach 1945.`,
-      publishedTime: architect.createdAt,
-      modifiedTime: architect.updatedAt,
-      tags,
     }
   };
 }

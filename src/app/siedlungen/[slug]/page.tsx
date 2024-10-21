@@ -19,31 +19,14 @@ export async function generateMetadata(
     notFound();
   }
 
-  const tags = ['Plattenbau', 'Großwohnsiedlung'];
-
-  if (settlement.location?.city) {
-    tags.push(settlement.location.city);
-  }
-
-  if (settlement.location?.district) {
-    tags.push(settlement.location.district);
-  }
-
-  if (!tags.includes(settlement.name)) {
-    tags.push(settlement.name);
-  }
-
   const images = settlement.resources.filter(resource => resource.resourceType.name === 'Foto');
 
   return {
     title: settlement.name,
     description: `Die Großwohnsiedlung ${settlement.name} in ${settlement.location?.city ?? 'Deutschland'} | Archiv deutscher Großwohnsiedlungen nach 1945.`,
     openGraph: {
-      type: 'article',
+      type: 'website',
       description: `Die Großwohnsiedlung ${settlement.name} in ${settlement.location?.city ?? 'Deutschland'} | Archiv deutscher Großwohnsiedlungen nach 1945.`,
-      publishedTime: settlement.createdAt,
-      modifiedTime: settlement.updatedAt,
-      tags,
       images: images.map(image => ({ url: image.url }))
     }
   };
