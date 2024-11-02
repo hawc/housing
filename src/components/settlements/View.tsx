@@ -12,6 +12,7 @@ import { Timeline } from '@/components/blocks/Timeline';
 import { Headline } from '@/components/Headline';
 import { SettlementMap } from '@/components/settlements/3DMap';
 import { SettlementMeta } from '@/components/settlements/SettlementsMeta';
+import { LightBox } from '@/components/blocks/LightBox';
 
 const isPhoto = (resource) => resource.resourceType.name === 'Foto';
 const isNotPhoto = (resource) => resource.resourceType.name !== 'Foto';
@@ -136,7 +137,7 @@ export function Settlement({ settlement }: SettlementProps) {
                 <Box key={resource.id} className='p-0 md:p-0 justify-between'>
                   <div>
                     <div className='flex items-center overflow-hidden bg-grey-light'>
-                      <img src={transformUrl(resource.url)} alt={resource.description} loading='lazy' className='min-w-full' />
+                      <LightBox src={transformUrl(resource.url)} alt={resource.description} className='min-w-full' />
                     </div>
                   </div>
                   <div className='px-3 py-2 md:px-5 md:py-4'>
