@@ -7,12 +7,12 @@ import { LOCALE, sortAlphabetically } from '@/lib/utils';
 import { Box, Container } from '@/components/blocks/Box';
 import { ContactLink } from '@/components/blocks/ContactLink';
 import { DetailsList } from '@/components/blocks/DetailsList';
+import { LightBox } from '@/components/blocks/LightBox';
 import { Link as LinkElement } from '@/components/blocks/Link';
 import { Timeline } from '@/components/blocks/Timeline';
 import { Headline } from '@/components/Headline';
 import { SettlementMap } from '@/components/settlements/3DMap';
 import { SettlementMeta } from '@/components/settlements/SettlementsMeta';
-import { LightBox } from '@/components/blocks/LightBox';
 
 const isPhoto = (resource) => resource.resourceType.name === 'Foto';
 const isNotPhoto = (resource) => resource.resourceType.name !== 'Foto';

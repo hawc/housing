@@ -1,10 +1,11 @@
-"use client";
+'use client';
 
 import { XIcon } from 'lucide-react';
-import "./LightBox.css"
-
 import { HTMLAttributes, PropsWithChildren, useRef, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
+
+import './LightBox.css';
+
 import { Button } from '@/components/blocks/form/Button';
 
 interface LightBoxProps extends HTMLAttributes<HTMLElement> {
@@ -21,7 +22,7 @@ export function LightBox({ src, alt, className, ...rest }: PropsWithChildren<Lig
       <img
         src={src}
         className={twMerge(`image ${className}`)}
-        alt={alt ?? "Siedlungsansicht"}
+        alt={alt ?? 'Siedlungsansicht'}
         loading='lazy'
         onClick={() => setIsOpen(true)} />
       {isOpen && (
@@ -36,19 +37,19 @@ export function LightBox({ src, alt, className, ...rest }: PropsWithChildren<Lig
             autoFocus
             onClick={() => setIsOpen(false)}
             onKeyUp={(e) => {
-              if (e.key === "Escape") {
-                setIsOpen(false)
+              if (e.key === 'Escape') {
+                setIsOpen(false);
               }
             }
             }
-            className="lightbox-close p-1 top-1 right-1">
+            className='lightbox-close p-1 top-1 right-1'>
             <XIcon />
           </Button>
-          <div className="lightbox-wrapper sm:p-3 p-1">
+          <div className='lightbox-wrapper sm:p-3 p-1'>
             <img
               src={src}
-              className="lightbox-image"
-              alt={alt ?? "Siedlungsansicht"}
+              className='lightbox-image'
+              alt={alt ?? 'Siedlungsansicht'}
               loading='lazy' />
           </div>
         </dialog>
