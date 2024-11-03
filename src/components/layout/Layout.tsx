@@ -3,7 +3,7 @@ import { Header } from '@/components/blocks/Header';
 
 type LayoutProps = React.PropsWithChildren & {
   breadcrumbs?: React.ReactNode;
-  isHome: boolean;
+  isHome?: boolean;
 }
 
 export default function Layout({ children, breadcrumbs, isHome = false }: LayoutProps) {
