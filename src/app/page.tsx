@@ -1,4 +1,3 @@
-import Image from 'next/legacy/image';
 
 import { AdminLinks } from '@/components/admin/AdminLinks';
 import { Box, Container } from '@/components/blocks/Box';
@@ -9,20 +8,20 @@ import Layout from '@/components/layout/Layout';
 
 export default function HomePage() {
   return (
-    <Layout>
+    <Layout isHome>
       <section>
-        <Container>
-          <Headline type='h1' className='mt-8'>Großwohn­siedlungen</Headline>
-          <Box className='p-0 md:p-0'>
-            <Image src='/images/header-01.png' alt='Header image' width={1280} height={400} priority />
-          </Box>
-          <Box>
-            <p>
-              Ein Archiv für Großwohnsiedlungen in Deutschland.
-            </p>
+        <Container style={{ marginTop: 'min(calc(var(--header-image-height) - 8vw), 300px)' }}>
+          <Headline type='h1' tag='h1' className='pb-4 md:pb-1 xl:text-center'>
+            Ein Archiv für <br /><span className=''>Großwohn­siedlungen</span><br />in Deutschland.
+          </Headline>
+          <Box ghost className='mb-6 md:mb-11'>
+            <div className='flex flex-col md:flex-row gap-2 md:gap-12 mt-0 mb-4 md:mb-8 xl:justify-center'>
+              <StyledLink href='/siedlungen' className='text-xl md:text-2xl' arrow highlight>Zum Archiv</StyledLink>
+              <StyledLink href='/architekten' className='text-xl md:text-2xl' arrow highlight>Architekt*innen</StyledLink>
+            </div>
             <p>
               Dieses Archiv bietet einen umfassenden Überblick über deutsche Großwohnsiedlungen, oft auch Plattenbauviertel genannt.
-              Es umfasst Siedlungen, die nach den folgenden Kriterien ausgewählt wurden:
+              Es umfasst Siedlungen, die grob nach den folgenden Kriterien ausgewählt wurden:
             </p>
             <List className='my-4'>
               <ListItem>nach 1945 erbaut</ListItem>
@@ -32,15 +31,9 @@ export default function HomePage() {
               <ListItem>überwiegend sozialer Wohnungsbau</ListItem>
             </List>
             <p>
-              Neben allgemeinen Informationen zu den aufgeführten Siedlungen finden Sie hier
+              Neben allgemeinen Informationen zu den aufgeführten Siedlungen findest du hier
               auch Details über die Architekt*innen, die an diesen Projekten beteiligt waren.
             </p>
-          </Box>
-          <Box>
-            <StyledLink href='/siedlungen' className='text-xl' arrow>Zum Archiv</StyledLink>
-          </Box>
-          <Box>
-            <StyledLink href='/architekten' className='text-xl' arrow>Architekt*innen</StyledLink>
           </Box>
           <AdminLinks />
         </Container>

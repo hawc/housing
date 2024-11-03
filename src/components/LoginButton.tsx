@@ -12,7 +12,7 @@ export function LoginButton({ className = '' }: { className?: string }) {
   }
 
   return (
-    <span className={`p-1 md:p-2 ${className}`}>
+    <span className={`p-1 md:p-2 hidden md:block ${className}`}>
       {isLoading ? <><Loader2Icon className='animate-spin' /></> :
         user ? (
           <Link href="/api/auth/logout">

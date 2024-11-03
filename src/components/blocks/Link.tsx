@@ -7,9 +7,10 @@ interface LinkProps extends React.HTMLAttributes<HTMLElement> {
   href: string;
   arrow?: boolean;
   back?: boolean;
+  highlight?: boolean;
 }
 
-export function Link({ href, children, arrow = false, back = false, ...rest }: LinkProps) {
+export function Link({ href, children, arrow = false, back = false, highlight = false, ...rest }: LinkProps) {
   const isExternal = href.includes('http');
 
   let content = children;
@@ -30,7 +31,7 @@ export function Link({ href, children, arrow = false, back = false, ...rest }: L
       rel={isExternal ? 'noopener' : undefined}
       className={twMerge(`font-bold tracking-wide inline-flex place-content-start ${(arrow && back) ? 'flex-row-reverse' : ''} ${rest.className}`)}
       href={href}>
-      <><span className={`${styles.link} ${back ? styles.linkArrowBack : isExternal ? `${styles.linkArrow} ${styles.externalLink}` : styles.linkArrow}`}>{content}</span>{(arrow || back) && (<span></span>)}</>
+      <><span className={`${styles.link} ${highlight ? styles.highlight : ''} ${back ? styles.linkArrowBack : isExternal ? `${styles.linkArrow} ${styles.externalLink}` : styles.linkArrow}`}>{content}</span>{(arrow || back) && (<span></span>)}</>
     </NextLink>
   );
 }
