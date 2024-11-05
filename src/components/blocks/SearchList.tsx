@@ -14,7 +14,7 @@ type Item = { name: string; slug: string, location?: Location | null };
 type ItemsList = Item[];
 interface SearchListProps extends React.HTMLAttributes<HTMLElement> {
   items: ItemsList;
-  sorting: Sorting;
+  sorting?: Sorting;
   path: string;
   className?: string;
   searchTerm?: string;
@@ -160,7 +160,7 @@ export function SettlementsSearchList({ items, sorting, path, className = '', se
 
   return (
     <div className={className} {...rest}>
-      {sorting === 'alphabetic' && (
+      {!sorting || sorting === 'alphabetic' && (
         <SettlementsList items={items} searchTerm={searchTerm} loading={loading} path={path} />
       )}
       {sorting === 'city' && (
