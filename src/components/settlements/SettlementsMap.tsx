@@ -1,8 +1,8 @@
-
-import dynamic from 'next/dynamic';
+'use client';
 
 import type { BaseLocation, Location } from '@/lib/types';
 
+import Map from '@/components/admin/settlements/Map';
 import { Box } from '@/components/blocks/Box';
 
 interface SettlementsMapProps {
@@ -11,10 +11,6 @@ interface SettlementsMapProps {
 }
 
 export function SettlementsMap({ locationsInput, searchTerm }: SettlementsMapProps) {
-  const Map = dynamic(() => import('@/components/admin/settlements/Map'), {
-    ssr: false
-  });
-
   return (
     <Box ghost>
       <Map markers={locationsInput} center={{ lat: 51.165707, lng: 10.452764 }} zoom={4} searchTerm={searchTerm} />

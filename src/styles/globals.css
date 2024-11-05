@@ -65,12 +65,14 @@ select {
   --white: #ededed;
   --black: #121212;
   --orange: #ff4d00;
+  --orange-dark: #a83200;
   --form-bg: rgba(0, 0, 0, .2);
   --bg: var(--white);
   --bg-inv: var(--black);
   --text: var(--black);
   --highlight-orange: var(--orange);
   --highlight: var(--highlight-orange);
+  --highlight-dark: var(--orange-dark);
   --header-image-height: calc(100vw / 3.2);
 }
 
