@@ -1,5 +1,4 @@
 
-import { notFound } from 'next/navigation';
 
 import { fetchData } from '@/lib/fetch';
 import type { BaseSettlement } from '@/lib/types';
@@ -29,10 +28,6 @@ async function getSettlement(slug: string) {
 
 export default async function SettlementPage({ params }) {
   const settlement = await getSettlement(params.slug);
-
-  if (!settlement) {
-    notFound();
-  }
 
   return (
     <Layout breadcrumbs={
