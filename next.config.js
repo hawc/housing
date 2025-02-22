@@ -30,6 +30,11 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: '/siedlungen/gro%C3%9Fer-dreesch',
+        destination: '/siedlungen/grosser-dreesch',
+        permanent: true,
+      },
+      {
         source: '/siedlungen/großer-dreesch',
         destination: '/siedlungen/grosser-dreesch',
         permanent: true,
