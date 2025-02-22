@@ -24,6 +24,31 @@ const nextConfig = {
         destination: '/siedlungen/weisse-siedlung',
         permanent: true,
       },
+      {
+        source: '/siedlungen/sachsendorfmadlow',
+        destination: '/siedlungen/sachsendorf-madlow',
+        permanent: true,
+      },
+      {
+        source: '/siedlungen/großer-dreesch',
+        destination: '/siedlungen/grosser-dreesch',
+        permanent: true,
+      },
+      {
+        source: '/siedlungen/paunsdorf',
+        destination: '/siedlungen/neu-paunsdorf',
+        permanent: true,
+      },
+      {
+        source: '/siedlungen/wk-i-v-zentrum-neue-zeit',
+        destination: '/siedlungen/wk-iv-v-neue-zeit',
+        permanent: true,
+      },
+      {
+        source: '/architekten/helmut-von-wetz',
+        destination: '/architekten/helmut-von-werz',
+        permanent: true,
+      },
     ];
   },
   // SVGR
