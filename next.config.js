@@ -17,7 +17,15 @@ const nextConfig = {
       'res.cloudinary.com',
     ],
   },
-
+  async redirects() {
+    return [
+      {
+        source: '/siedlungen/weisse-siedlung-an-der-aronstrasse',
+        destination: '/siedlungen/weisse-siedlung',
+        permanent: true,
+      },
+    ];
+  },
   // SVGR
   webpack(config, { webpack }) {
     config.module.rules.push({
