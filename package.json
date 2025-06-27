@@ -24,7 +24,6 @@
     "@piwikpro/next-piwik-pro": "^3.1.0",
     "@prisma/client": "^4.13.0",
     "@react-three/fiber": "^8.15.11",
-    "cached-prisma": "^1.2.1",
     "cesium": "^1.130.1",
     "cloudinary": "^1.41.0",
     "clsx": "^2.0.0",
