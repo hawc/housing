@@ -1,7 +1,7 @@
 import { CopyrightIcon } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
-import type { Architect, BaseSettlement, Settlement } from '@/lib/types';
+import type { Architect, BaseSettlement } from '@/lib/types';
 import { LOCALE, sortAlphabetically } from '@/lib/utils';
 
 import { Box, Container } from '@/components/blocks/Box';
@@ -96,7 +96,7 @@ export function Settlement({ settlement }: SettlementProps) {
                 <div className={settlement.architects.length > 3 ? 'md:columns-2' : 'md:columns-1'}>
                   {sortByRole(settlement.architects).map((architect: Architect) => (
                     <div key={architect.id}>
-                      <LinkElement href={`/architekten/${architect.slug}`}>{architect.name}</LinkElement>{architect.role ? ` (${architect.role})` : ''}
+                      <LinkElement href={`/architekten/${architect.slug}`}>{architect.name}</LinkElement>{architect.role ? <span className="font-thin tracking-wide">{` (${architect.role})`}</span> : ''}
                     </div>
                   ))}
                 </div>
