@@ -7,9 +7,7 @@ import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcr
 import Layout from '@/components/layout/Layout';
 
 async function getArchitects() {
-  const architects = await fetchData<BaseArchitect[], BaseArchitect[]>('/api/architects/get/all', [], {
-    cache: 'no-cache'
-  });
+  const architects = await fetchData<BaseArchitect[], BaseArchitect[]>('/api/architects/get/all', []);
 
   return architects;
 }

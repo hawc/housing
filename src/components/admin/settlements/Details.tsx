@@ -27,9 +27,7 @@ export function DetailsList({ detailsInput, settlementId }: DetailsListProps) {
 
   async function getDetails(settlementId: string) {
     setLoading(true);
-    const details = await fetchData<Detail[], Detail[]>(`/api/details/get/settlement/${settlementId}/all`, [], {
-      cache: 'no-cache'
-    });
+    const details = await fetchData<Detail[], Detail[]>(`/api/details/get/settlement/${settlementId}/all`, []);
     setDetails(details);
     setLoading(false);
   }

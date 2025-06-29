@@ -12,7 +12,7 @@ import { Link } from '@/components/blocks/Link';
 import { SearchInput, SettlementsSearchList } from '@/components/blocks/SearchList';
 import { Headline } from '@/components/Headline';
 
-export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSettlement[] }) {
+export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSettlement[]; }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [settlements, setSettlements] = useState<Settlement[]>(settlementsInput);
   const [loading, setLoading] = useState(false);
@@ -20,9 +20,7 @@ export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSe
   async function getSettlementsData() {
     setLoading(true);
     await fetchData('/api/cache/clear');
-    const settlements = await fetchData<BaseSettlement[], BaseSettlement[]>('/api/settlements/get/all', [], {
-      cache: 'no-cache'
-    });
+    const settlements = await fetchData<BaseSettlement[], BaseSettlement[]>('/api/settlements/get/all', []);
     setSettlements(settlements);
     setLoading(false);
   }

@@ -18,7 +18,7 @@ function TimelineWrapper({ children, className = '' }: React.HTMLAttributes<HTML
   );
 }
 
-export function Timeline({ eventsInput, settlementId }: { eventsInput: Event[], settlementId: string }) {
+export function Timeline({ eventsInput, settlementId }: { eventsInput: Event[], settlementId: string; }) {
   const [loading, setLoading] = useState<boolean>(false);
   const [availableEventTypes, setAvailableEventTypes] = useState<EventType[]>([]);
   const [events, setEvents] = useState<Event[]>(eventsInput);
@@ -32,9 +32,7 @@ export function Timeline({ eventsInput, settlementId }: { eventsInput: Event[], 
 
   async function getEvents(settlementId: string) {
     setLoading(true);
-    const events = await fetchData<Event[], Event[]>(`/api/events/get/settlement/${settlementId}/all`, [], {
-      cache: 'no-cache'
-    });
+    const events = await fetchData<Event[], Event[]>(`/api/events/get/settlement/${settlementId}/all`, []);
     setEvents(events);
     setLoading(false);
   }

@@ -8,9 +8,7 @@ import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcr
 import Layout from '@/components/layout/Layout';
 
 async function getSettlements() {
-  const settlements = await fetchData<BaseSettlement[], BaseSettlement[]>('/api/settlements/get/all', [], {
-    cache: 'no-cache'
-  });
+  const settlements = await fetchData<BaseSettlement[], BaseSettlement[]>('/api/settlements/get/all', []);
 
   return settlements;
 }
