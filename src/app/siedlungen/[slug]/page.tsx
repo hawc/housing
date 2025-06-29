@@ -10,9 +10,8 @@ import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcr
 import Layout from '@/components/layout/Layout';
 import { Settlement } from '@/components/settlements/View';
 
-export async function generateMetadata(
-  { params },
-): Promise<Metadata> {
+export async function generateMetadata(props): Promise<Metadata> {
+  const params = await props.params;
   const settlement = await getSettlement(params.slug);
 
   if (!settlement) {
@@ -48,7 +47,8 @@ async function getSettlement(slug: string) {
   return settlement;
 }
 
-export default async function SettlementPage({ params }) {
+export default async function SettlementPage(props) {
+  const params = await props.params;
   const settlement = await getSettlement(params.slug);
 
   if (!settlement) {

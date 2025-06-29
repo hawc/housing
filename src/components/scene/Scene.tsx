@@ -2,7 +2,7 @@
 
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { useEffect, useRef, useState } from 'react';
-import type { BufferGeometry, InstancedMesh} from 'three';
+import type { BufferGeometry, InstancedMesh } from 'three';
 import { MathUtils } from 'three';
 import { EXRLoader } from 'three/examples/jsm/loaders/EXRLoader';
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
@@ -61,6 +61,7 @@ export function Scene({ fileUrl, height, width, ...rest }: SceneProps) {
       geo.computeVertexNormals();
       setGeometry(geo);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

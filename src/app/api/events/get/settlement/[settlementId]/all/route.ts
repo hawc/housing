@@ -15,7 +15,8 @@ async function findEvents(
   });
 }
 
-export async function GET(_req: NextRequest, { params }) {
+export async function GET(_req: NextRequest, props) {
+  const params = await props.params;
   const events = await findEvents({ settlementId: params.settlementId });
   if (!events) {
     return NextResponse.json([]);

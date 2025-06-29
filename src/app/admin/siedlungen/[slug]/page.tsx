@@ -26,7 +26,8 @@ async function getSettlement(slug: string) {
   return settlement;
 }
 
-export default async function SettlementPage({ params }) {
+export default async function SettlementPage(props) {
+  const params = await props.params;
   const settlement = await getSettlement(params.slug);
 
   return (

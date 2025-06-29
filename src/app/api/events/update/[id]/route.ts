@@ -17,7 +17,8 @@ async function updateEvent(
   });
 }
 
-export async function POST(req: NextRequest, { params }) {
+export async function POST(req: NextRequest, props) {
+  const params = await props.params;
   const event = await updateEvent({ id: params.id }, await req.json());
 
   if (!event) {

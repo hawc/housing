@@ -9,9 +9,8 @@ import { Box } from '@/components/blocks/Box';
 import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcrumbs';
 import Layout from '@/components/layout/Layout';
 
-export async function generateMetadata(
-  { params },
-): Promise<Metadata> {
+export async function generateMetadata(props): Promise<Metadata> {
+  const params = await props.params;
   const architect = await getArchitect(params.slug);
 
   if (!architect) {
@@ -43,7 +42,8 @@ async function getArchitect(slug: string) {
   return architect;
 }
 
-export default async function ArchitectPage({ params }) {
+export default async function ArchitectPage(props) {
+  const params = await props.params;
   const architect = await getArchitect(params.slug);
 
   if (!architect) {

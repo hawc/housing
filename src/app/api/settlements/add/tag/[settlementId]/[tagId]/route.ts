@@ -14,7 +14,8 @@ async function addSettlementsOnTag(
   });
 }
 
-export async function GET(_req: NextRequest, { params }) {
+export async function GET(_req: NextRequest, props) {
+  const params = await props.params;
   await addSettlementsOnTag({ settlementId: params.settlementId, tagId: params.tagId });
 
   return NextResponse.json('');

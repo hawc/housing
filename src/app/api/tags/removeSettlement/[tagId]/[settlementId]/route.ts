@@ -15,7 +15,8 @@ async function updateTag(
   });
 }
 
-export async function GET(_req: NextRequest, { params }) {
+export async function GET(_req: NextRequest, props) {
+  const params = await props.params;
   const data: Prisma.TagsUpdateInput = {
     settlements: {
       delete: {

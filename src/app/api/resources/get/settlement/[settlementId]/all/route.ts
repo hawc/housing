@@ -15,7 +15,8 @@ async function findResources(
   });
 }
 
-export async function GET(_req: NextRequest, { params }) {
+export async function GET(_req: NextRequest, props) {
+  const params = await props.params;
   const resources = await findResources({ settlementId: params.settlementId });
   if (!resources) {
     return NextResponse.json([]);

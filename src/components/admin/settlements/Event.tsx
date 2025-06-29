@@ -22,7 +22,7 @@ interface EditEventProps extends React.HTMLAttributes<HTMLElement> {
   onUpdate: (detailId: string | undefined) => void;
 }
 
-function IconComponent({ type, className }: { type: string, className: string }): JSX.Element {
+function IconComponent({ type, className }: { type: string, className: string; }) {
   switch (type) {
     case 'Planung': return <CircleDotDashedIcon className={className} />;
     case 'Fertigstellung': return <BuildingIcon className={className} />;

@@ -10,7 +10,19 @@ import type { BaseLocation, Location } from '@/lib/types';
 
 import { isSettlementFound } from '@/components/blocks/SearchList';
 
-interface Coordinates {
+interface TooltipProps {
+  title: string;
+}
+
+function Tooltip({ title = '' }: TooltipProps) {
+  return (
+    <div
+      className='tooltip absolute hidden text-center leading-tight text-white text-sm tracking-wide font-primary whitespace-nowrap'
+      dangerouslySetInnerHTML={{ __html: title.replaceAll(', ', '<br />') }}></div>
+  );
+}
+
+export interface Coordinates {
   lat: number;
   lng: number;
 }
@@ -20,14 +32,6 @@ interface MapProps {
   center: Coordinates;
   zoom?: number;
   searchTerm?: string;
-}
-
-function Tooltip({ title = '' }: { title: string }) {
-  return (
-    <div
-      className='tooltip absolute hidden text-center leading-tight text-white text-sm tracking-wide font-primary whitespace-nowrap'
-      dangerouslySetInnerHTML={{ __html: title.replaceAll(', ', '<br />') }}></div>
-  );
 }
 
 export default function Map({ markers, center, zoom = 12, searchTerm = '' }: MapProps) {

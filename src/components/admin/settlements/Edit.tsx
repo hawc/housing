@@ -23,12 +23,12 @@ import { Headline } from '@/components/Headline';
 
 export type Partial<T> = { [P in keyof T]?: T[P] };
 
-export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettlement | undefined }) {
+export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettlement | undefined; }) {
   const router = useRouter();
   const [settlement, setSettlement] = useState<BaseSettlement | undefined>(settlementInput);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const Map = dynamic(() => import('@/components/admin/settlements/Map'), {
+  const Map = dynamic(() => import('@/components/settlements/Map'), {
     ssr: false
   });
 

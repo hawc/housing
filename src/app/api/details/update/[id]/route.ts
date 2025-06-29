@@ -17,7 +17,8 @@ async function updateDetail(
   });
 }
 
-export async function POST(req: NextRequest, { params }) {
+export async function POST(req: NextRequest, props) {
+  const params = await props.params;
   const detail = await updateDetail({ id: params.id }, await req.json());
 
   if (!detail) {
