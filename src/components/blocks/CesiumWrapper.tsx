@@ -9,7 +9,9 @@ import { Coordinates } from '@/components/settlements/Map';
 
 import type { CesiumType } from '@/types/cesium';
 
-window.CESIUM_BASE_URL = '/cesium';
+if (typeof window !== 'undefined') {
+  window.CESIUM_BASE_URL = '/cesium';
+}
 
 const CesiumDynamicComponent = dynamic(() => import('./CesiumComponent'), {
   ssr: false,
