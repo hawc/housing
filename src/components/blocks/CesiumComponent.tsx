@@ -84,6 +84,7 @@ function CesiumComponent({
         timeline: false,
         creditContainer: 'credits',
         skyBox: false,
+        infoBox: false,
       });
 
       cesiumViewer.current.clock.clockStep = CesiumJs.ClockStep.SYSTEM_CLOCK_MULTIPLIER;
