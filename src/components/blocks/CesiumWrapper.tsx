@@ -1,19 +1,22 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 
 import { SettingsContext } from '@/lib/settingsContext';
 
+import { Coordinates } from '@/components/settlements/Map';
+
 import type { CesiumType } from '@/types/cesium';
-import type { Position } from '@/types/position';
+
+window.CESIUM_BASE_URL = '/cesium';
 
 const CesiumDynamicComponent = dynamic(() => import('./CesiumComponent'), {
   ssr: false,
 });
 
 interface CesiumWrapperProps {
-  position: Position;
+  position: Coordinates;
 }
 
 export function CesiumWrapper({ position }: CesiumWrapperProps) {

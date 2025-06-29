@@ -18,7 +18,8 @@ async function deleteLocation(
   });
 }
 
-export async function GET(_req: NextRequest, { params }) {
+export async function GET(_req: NextRequest, props) {
+  const params = await props.params;
   await deleteLocation({ id: params.id });
 
   return NextResponse.json('');

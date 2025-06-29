@@ -17,7 +17,8 @@ async function updateSettlement(
   });
 }
 
-export async function POST(req: NextRequest, { params }) {
+export async function POST(req: NextRequest, props) {
+  const params = await props.params;
   const settlement = await updateSettlement({ slug: params.slug }, await req.json());
 
   if (!settlement) {

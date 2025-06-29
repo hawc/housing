@@ -15,7 +15,8 @@ async function findArchitect(
   });
 }
 
-export async function GET(_req: NextRequest, { params }) {
+export async function GET(_req: NextRequest, props) {
+  const params = await props.params;
   const architect = await findArchitect({ slug: params.slug });
   if (!architect) {
     return NextResponse.json('');

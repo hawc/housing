@@ -18,7 +18,8 @@ async function deleteSettlement(
   });
 }
 
-export async function POST(_req: NextRequest, { params }) {
+export async function POST(_req: NextRequest, props) {
+  const params = await props.params;
   await deleteSettlement({ slug: params.slug });
 
   return NextResponse.json('');

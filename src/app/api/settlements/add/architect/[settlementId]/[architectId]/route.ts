@@ -14,7 +14,8 @@ async function addSettlementsOnArchitect(
   });
 }
 
-export async function POST(req: NextRequest, { params }) {
+export async function POST(req: NextRequest, props) {
+  const params = await props.params;
   const data = await req.json();
   await addSettlementsOnArchitect({ settlementId: params.settlementId, architectId: params.architectId, ...data });
 

@@ -6,7 +6,7 @@ import { dateIsValid, sortByDate } from '@/lib/utils';
 import { Link } from '@/components/blocks/Link';
 import { Headline } from '@/components/Headline';
 
-const IconComponent = ({ type, className }: { type: string, className: string }): JSX.Element => {
+const IconComponent = ({ type, className }: { type: string, className: string; }) => {
   switch (type) {
     case 'Planung': return <CircleDotDashedIcon className={className} />;
     case 'Fertigstellung': return <BuildingIcon className={className} />;
@@ -61,7 +61,7 @@ function TimelineConnector() {
   );
 }
 
-export function Timeline({ events }: { events: Event[] }) {
+export function Timeline({ events }: { events: Event[]; }) {
   return (
     <TimelineWrapper>
       {sortByDate(events, 'eventDate').filter(event => dateIsValid(event.eventDate)).map((event: Event, index: number) => (

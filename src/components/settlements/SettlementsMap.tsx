@@ -2,8 +2,8 @@
 
 import type { BaseLocation, Location } from '@/lib/types';
 
-import Map from '@/components/admin/settlements/Map';
 import { Box } from '@/components/blocks/Box';
+import Map from '@/components/settlements/Map';
 
 interface SettlementsMapProps {
   locationsInput: BaseLocation[] | Location[];

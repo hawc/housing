@@ -17,7 +17,8 @@ async function updateExternalLink(
   });
 }
 
-export async function POST(req: NextRequest, { params }) {
+export async function POST(req: NextRequest, props) {
+  const params = await props.params;
   const externalLink = await updateExternalLink({ id: params.id }, await req.json());
 
   if (!externalLink) {

@@ -15,7 +15,8 @@ async function findSettlement(
   });
 }
 
-export async function GET(_req: NextRequest, { params }) {
+export async function GET(_req: NextRequest, props) {
+  const params = await props.params;
   const settlement = await findSettlement({ slug: params.slug });
   if (!settlement) {
     return NextResponse.json('');

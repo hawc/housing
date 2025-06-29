@@ -14,7 +14,8 @@ async function updateSettlementsOnArchitect(
   });
 }
 
-export async function POST(req: NextRequest, { params }) {
+export async function POST(req: NextRequest, props) {
+  const params = await props.params;
   await updateSettlementsOnArchitect({
     settlementId_architectId: {
       settlementId: params.settlementId,

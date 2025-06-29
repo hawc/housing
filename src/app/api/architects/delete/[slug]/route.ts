@@ -18,7 +18,8 @@ async function deleteArchitect(
   });
 }
 
-export async function GET(_req: NextRequest, { params }) {
+export async function GET(_req: NextRequest, props) {
+  const params = await props.params;
   await deleteArchitect({ slug: params.slug });
 
   return NextResponse.json('');

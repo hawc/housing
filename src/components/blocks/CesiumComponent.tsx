@@ -1,19 +1,20 @@
 'use client';
 
 import type { BoundingSphere, Cesium3DTileset, Viewer } from 'cesium';
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 
 // This is required to get the stylings for default Cesium UI and controls
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 
 import { SettingsContext } from '@/lib/settingsContext';
 
+import { Coordinates } from '@/components/settlements/Map';
+
 import type { CesiumType } from '@/types/cesium';
-import type { Position } from '@/types/position';
 
 interface CesiumComponentProps {
   CesiumJs: CesiumType,
-  position: Position,
+  position: Coordinates,
   isRotating,
 }
 

@@ -17,7 +17,8 @@ async function updateArchitect(
   });
 }
 
-export async function POST(req: NextRequest, { params }) {
+export async function POST(req: NextRequest, props) {
+  const params = await props.params;
   const architect = await updateArchitect({ slug: params.slug }, await req.json());
 
   if (!architect) {

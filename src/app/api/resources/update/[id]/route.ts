@@ -17,7 +17,8 @@ async function updateResource(
   });
 }
 
-export async function POST(req: NextRequest, { params }) {
+export async function POST(req: NextRequest, props) {
+  const params = await props.params;
   const resource = await updateResource({ id: params.id }, await req.json());
 
   if (!resource) {

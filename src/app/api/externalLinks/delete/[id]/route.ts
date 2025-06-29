@@ -17,7 +17,8 @@ async function deleteExternalLink(
   });
 }
 
-export async function GET(_req: NextRequest, { params }) {
+export async function GET(_req: NextRequest, props) {
+  const params = await props.params;
   await deleteExternalLink({ id: params.id });
 
   return NextResponse.json('');

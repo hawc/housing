@@ -9,7 +9,7 @@ import { List, ListItem } from '@/components/blocks/List';
 import { Headline } from '@/components/Headline';
 import { Sorting } from '@/components/settlements/List';
 
-type Item = { name: string; slug: string, location?: Location | null };
+type Item = { name: string; slug: string, location?: Location | null; };
 
 type ItemsList = Item[];
 interface SearchListProps extends React.HTMLAttributes<HTMLElement> {
@@ -28,7 +28,7 @@ interface SearchInputProps extends React.HTMLAttributes<HTMLElement> {
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
 }
 
-export function SearchInput({ className = '', searchTerm = '', placeholder = 'Suchbegriff eingeben', loading = false, onChange = () => { return; }, ...rest }: SearchInputProps): React.ReactElement {
+export function SearchInput({ className = '', searchTerm = '', placeholder = 'Suchbegriff eingeben', loading = false, onChange = () => { return; }, ...rest }: SearchInputProps) {
   return (
     <InputGhost
       placeholder={placeholder}
@@ -40,7 +40,7 @@ export function SearchInput({ className = '', searchTerm = '', placeholder = 'Su
   );
 }
 
-export function SearchList({ items, path, className = '', searchTerm = '', loading = false, ...rest }: SearchListProps): React.ReactElement {
+export function SearchList({ items, path, className = '', searchTerm = '', loading = false, ...rest }: SearchListProps) {
   const sortedList = sortAlphabetically(items.filter(item => slugify(item.name).includes(slugify(searchTerm))));
 
   if (sortedList.length === 0) {
@@ -74,7 +74,7 @@ export function isSettlementFound(name: string, city = '', searchTerm: string) {
   return slugify(name).includes(slugify(searchTerm)) || slugify(city).includes(slugify(searchTerm));
 }
 
-function groupByCity(arr: ItemsList): { [key: string]: Item[] } {
+function groupByCity(arr: ItemsList): { [key: string]: Item[]; } {
   return arr.reduce(function (memo, x) {
     if (!memo[x.location?.city ?? '(ohne)']) {
       memo[x.location?.city ?? '(ohne)'] = [];
@@ -84,7 +84,7 @@ function groupByCity(arr: ItemsList): { [key: string]: Item[] } {
   }, {});
 }
 
-function SettlementsList({ items, searchTerm, loading, path }: { items: ItemsList; searchTerm: string; loading: boolean; path: string }) {
+function SettlementsList({ items, searchTerm, loading, path }: { items: ItemsList; searchTerm: string; loading: boolean; path: string; }) {
   const sortedList = sortAlphabetically(items.filter(item => isSettlementFound(item.name, item.location?.city, searchTerm)));
 
   if (sortedList.length === 0) {
@@ -114,7 +114,7 @@ function SettlementsList({ items, searchTerm, loading, path }: { items: ItemsLis
   );
 }
 
-function SettlementsListByCity({ items, searchTerm, loading, path }: { items: ItemsList; searchTerm: string; loading: boolean; path: string }) {
+function SettlementsListByCity({ items, searchTerm, loading, path }: { items: ItemsList; searchTerm: string; loading: boolean; path: string; }) {
   const searchResults = items.filter(item => isSettlementFound(item.name, item.location?.city ?? '', searchTerm));
 
   if (searchResults.length === 0) {
@@ -151,7 +151,7 @@ function SettlementsListByCity({ items, searchTerm, loading, path }: { items: It
   );
 }
 
-export function SettlementsSearchList({ items, sorting, path, className = '', searchTerm = '', loading = false, ...rest }: SearchListProps): React.ReactElement {
+export function SettlementsSearchList({ items, sorting, path, className = '', searchTerm = '', loading = false, ...rest }: SearchListProps) {
   // if (sorting === 'state') {
   //   const searchResults = items.filter(item => isSettlementFound(item.name, item.location?.city ?? '', searchTerm));
 

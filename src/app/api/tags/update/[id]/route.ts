@@ -17,7 +17,8 @@ async function updateTag(
   });
 }
 
-export async function POST(req: NextRequest, { params }) {
+export async function POST(req: NextRequest, props) {
+  const params = await props.params;
   const tag = await updateTag({ id: params.id }, await req.json());
 
   if (!tag) {

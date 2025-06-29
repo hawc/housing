@@ -7,9 +7,8 @@ import { ContactForm } from '@/components/ContactForm';
 import { Headline } from '@/components/Headline';
 import Layout from '@/components/layout/Layout';
 
-export async function generateMetadata(
-  { searchParams }
-): Promise<Metadata> {
+export async function generateMetadata(props): Promise<Metadata> {
+  const searchParams = await props.searchParams;
   return {
     title: 'Kontakt',
     alternates: searchParams.from ? { canonical: `${process.env.BASE_URL}/kontakt` } : undefined

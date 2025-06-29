@@ -1,5 +1,6 @@
+'use client';
+
 import { CopyrightIcon } from 'lucide-react';
-import dynamic from 'next/dynamic';
 
 import type { Architect, BaseSettlement } from '@/lib/types';
 import { LOCALE, sortAlphabetically } from '@/lib/utils';
@@ -11,21 +12,22 @@ import { LightBox } from '@/components/blocks/LightBox';
 import { Link as LinkElement } from '@/components/blocks/Link';
 import { Timeline } from '@/components/blocks/Timeline';
 import { Headline } from '@/components/Headline';
-import { SettlementMap } from '@/components/settlements/3DMap';
+import { CesiumMap } from '@/components/settlements/CesiumMap';
+import { SettlementMap } from '@/components/settlements/SettlementMap';
 import { SettlementMeta } from '@/components/settlements/SettlementsMeta';
 
 const isPhoto = (resource) => resource.resourceType.name === 'Foto';
 const isNotPhoto = (resource) => resource.resourceType.name !== 'Foto';
 
-const transformUrl = (url: string) => {
+function transformUrl(url: string) {
   if (url.includes('res.cloudinary.com') && url.includes('/image/upload/')) {
     return url.replace('/image/upload/', '/image/upload/w_1484/');
   }
 
   return url;
-};
+}
 
-function sortByRole(array: Array<Architect>) {
+function sortByRole(array: Architect[]) {
   const getRole = (architect) => architect.role ?? '';
   const architects = sortAlphabetically(array);
 
@@ -40,16 +42,12 @@ export function Settlement({ settlement }: SettlementProps) {
   const photoResources = settlement?.resources?.filter(isPhoto);
   const otherResources = settlement?.resources?.filter(isNotPhoto);
 
-  const Map = dynamic(() => import('@/components/admin/settlements/Map'), {
-    ssr: false
-  });
-
   return (
     <>
       {settlement.location && settlement.location.lat > 0 && settlement.location.lng > 0 && (
         <div className='w-100-vw relative left-1/2 -translate-x-1/2'>
           <div className='p-0 md:p-0 w-full'>
-            <SettlementMap locationInput={settlement.location} />
+            <CesiumMap locationInput={settlement.location} />
           </div>
         </div>
       )}
@@ -167,7 +165,7 @@ export function Settlement({ settlement }: SettlementProps) {
           {settlement.location && settlement.location.lat > 0 && settlement.location.lng > 0 && (
             <Container>
               <Box className='p-0 md:p-0'>
-                <Map
+                <SettlementMap
                   markers={[settlement.location]}
                   center={{ lat: settlement.location.lat, lng: settlement.location.lng }} />
               </Box>
