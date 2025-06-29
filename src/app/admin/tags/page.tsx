@@ -7,9 +7,7 @@ import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcr
 import Layout from '@/components/layout/Layout';
 
 async function getTags() {
-  const tags = await fetchData<BaseTag[], BaseTag[]>('/api/tags/get/all', [], {
-    cache: 'no-cache'
-  });
+  const tags = await fetchData<BaseTag[], BaseTag[]>('/api/tags/get/all', []);
 
   return tags;
 }

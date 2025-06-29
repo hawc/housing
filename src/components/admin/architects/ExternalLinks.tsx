@@ -18,9 +18,7 @@ export function ExternalLinksList({ externalLinksInput, architectId }: ExternalL
 
   async function getExternalLinks(architectId: string) {
     setLoading(true);
-    const externalLinks = await fetchData<ExternalLink[], ExternalLink[]>(`/api/externalLinks/get/architect/${architectId}/all`, [], {
-      cache: 'no-cache'
-    });
+    const externalLinks = await fetchData<ExternalLink[], ExternalLink[]>(`/api/externalLinks/get/architect/${architectId}/all`, []);
     setExternalLinks(externalLinks);
     setLoading(false);
   }

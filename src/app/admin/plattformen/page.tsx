@@ -7,9 +7,7 @@ import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcr
 import Layout from '@/components/layout/Layout';
 
 async function getPlatforms() {
-  const platforms = await fetchData<Platform[], Platform[]>('/api/platforms/get/all', [], {
-    cache: 'no-cache'
-  });
+  const platforms = await fetchData<Platform[], Platform[]>('/api/platforms/get/all', []);
 
   return platforms;
 }

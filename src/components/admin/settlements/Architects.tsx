@@ -14,8 +14,8 @@ import { Select } from '@/components/blocks/form/Select';
 interface ArchitectsItemProps extends React.HTMLAttributes<HTMLElement> {
   architect: Architect;
   settlementId: string;
-  removeArchitect: (id, settlementId) => void
-  updateArchitectOnSettlement: (id, settlementId, role) => void
+  removeArchitect: (id, settlementId) => void;
+  updateArchitectOnSettlement: (id, settlementId, role) => void;
 }
 
 interface ArchitectsListProps extends React.HTMLAttributes<HTMLElement> {
@@ -25,9 +25,7 @@ interface ArchitectsListProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 async function getArchitects() {
-  const architects = await fetchData<BaseArchitect[]>('/api/architects/get/all', undefined, {
-    cache: 'no-cache'
-  });
+  const architects = await fetchData<BaseArchitect[]>('/api/architects/get/all', undefined);
 
   return architects;
 }

@@ -27,9 +27,7 @@ export function ResourcesList({ resourcesInput, settlementId, settlementSlug }: 
 
   async function getResources(settlementId: string) {
     setLoading(true);
-    const resources = await fetchData<Resource[], Resource[]>(`/api/resources/get/settlement/${settlementId}/all`, [], {
-      cache: 'no-cache'
-    });
+    const resources = await fetchData<Resource[], Resource[]>(`/api/resources/get/settlement/${settlementId}/all`, []);
     setResources(resources);
     setLoading(false);
   }
