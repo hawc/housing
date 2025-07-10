@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { showLogger } from '@/constant/env';
 
 /**

@@ -108,8 +108,6 @@ export function EditResource({ resourceInput, availableResourceTypes, settlement
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={resource?.resourceType?.id ?? ''}
             options={availableResourceTypes}
-            // todo: fix non-null assertion
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             onChange={(event) => setResourceType(availableResourceTypes.find(resourceType => resourceType.id === event.target.value)!)} />
         </div>
         <div className='basis-full'>
