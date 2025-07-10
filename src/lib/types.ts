@@ -1,3 +1,5 @@
+import { Polygon } from 'geojson';
+
 export interface EventType {
   id: string;
   name: string;
@@ -33,6 +35,7 @@ export interface Location {
   city: string;
   lat: number;
   lng: number;
+  geo?: Polygon;
 }
 export interface BaseLocation {
   id: string;
@@ -43,6 +46,7 @@ export interface BaseLocation {
   city: string;
   lat: number;
   lng: number;
+  geo?: Polygon;
   settlement: Settlement;
 }
 export interface DetailType {

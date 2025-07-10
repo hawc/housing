@@ -5,13 +5,15 @@ import dynamic from 'next/dynamic';
 import type { Location } from '@/lib/types';
 
 import { Coordinates } from '@/components/settlements/Map';
+import { Polygon } from 'geojson';
 
 interface SettlementMapProps {
   markers: Location[];
   center: Coordinates;
+  geo?: Polygon;
 }
 
-export function SettlementMap({ markers, center }: SettlementMapProps) {
+export function SettlementMap({ markers, center, geo }: SettlementMapProps) {
   const Map = dynamic(() => import('@/components/settlements/Map'), {
     ssr: false
   });
@@ -19,6 +21,7 @@ export function SettlementMap({ markers, center }: SettlementMapProps) {
   return (
     <Map
       markers={markers}
-      center={center} />
+      center={center}
+      geo={geo} />
   );
 }

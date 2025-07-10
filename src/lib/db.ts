@@ -10,6 +10,7 @@ const locationsSelect = Prisma.validator<Prisma.LocationsSelect>()({
   city: true,
   lat: true,
   lng: true,
+  geo: true,
 });
 
 const tagsSelect = Prisma.validator<Prisma.TagsSelect>()({

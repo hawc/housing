@@ -167,7 +167,8 @@ export function Settlement({ settlement }: SettlementProps) {
               <Box className='p-0 md:p-0'>
                 <SettlementMap
                   markers={[settlement.location]}
-                  center={{ lat: settlement.location.lat, lng: settlement.location.lng }} />
+                  center={{ lat: settlement.location.lat, lng: settlement.location.lng }} 
+                  geo={ settlement.location.geo  }/>
               </Box>
             </Container>
           )}

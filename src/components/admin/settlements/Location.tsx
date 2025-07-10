@@ -43,6 +43,7 @@ export function Location({ locationInput, settlementId, onUpdate, className = ''
         district: location.district,
         zipCode: location.zipCode,
         city: location.city,
+        geo: location.geo
       };
       responseLocation = await updateLocation(location.id, data);
     } else {
@@ -54,6 +55,7 @@ export function Location({ locationInput, settlementId, onUpdate, className = ''
         district: location.district,
         zipCode: location.zipCode,
         city: location.city,
+        geo: location.geo,
         settlement: {
           connect: {
             id: settlementId

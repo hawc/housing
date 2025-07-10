@@ -19,7 +19,7 @@ const eraser: ClipLayerSpecification = {
   'type': 'clip',
   'source': 'eraser',
   'layout': {
-    'clip-layer-types': ['symbol', 'model']
+    'clip-layer-types': ['model']
   },
 };
 

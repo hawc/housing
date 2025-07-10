@@ -1,5 +1,15 @@
 import type { ArchitectsInclude, ArchitectsSelect, DetailsInclude, DetailsSelect, DetailsTypesSelect, DetailTypesInclude, EventsInclude, EventsSelect, EventTypesInclude, EventTypesSelect, ExternalLinksSelect, LocationsInclude, LocationsSelect, PlatformsSelect, ResourcesInclude, ResourcesSelect, ResourceTypesInclude, ResourceTypesSelect, SettlementsInclude, SettlementsOnArchitectsInclude, SettlementsOnTagsInclude, SettlementsSelect, SettlementTypesSelect, TagsInclude, TagsSelect } from '@/lib/db';
 import type { Architect, BaseArchitect, BaseDetail, BaseDetailType, BaseEvent, BaseEventType, BaseLocation, BaseResource, BaseResourceType, BaseSettlement, BaseSettlementOnArchitect, BaseSettlementOnTag, BaseTag, Detail, DetailType, Event, EventType, ExternalLink, Location, Platform, Resource, ResourceType, Settlement, SettlementType, Tag } from '@/lib/types';
+import { Prisma } from '@prisma/client';
+import { Polygon } from 'geojson';
+
+function parsePrismaJson<T>(json: Prisma.JsonValue) {
+  if (!json) {
+    return undefined;
+  }
+  
+  return json as T;
+}
 
 const DATE_OPTIONS: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
@@ -14,6 +24,7 @@ export const baseTransformers = {
       city: location.city ?? '',
       lat: location.lat,
       lng: location.lng,
+      geo: parsePrismaJson<Polygon | undefined>(location.geo),
       settlement: transformers.settlement(location.settlement),
     };
   },
@@ -209,6 +220,7 @@ export const transformers = {
       city: location.city ?? '',
       lat: location.lat,
       lng: location.lng,
+      geo: parsePrismaJson<Polygon | undefined>(location.geo),
     };
   },
   resource: (resource: ResourcesSelect): Resource => {
