@@ -1,14 +1,27 @@
 'use client';
 
+import mask from '@turf/mask';
+import { FeatureCollection, Polygon } from 'geojson';
+import { ChevronsDownUpIcon, ChevronsUpDownIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import ReactMapGL, { Marker } from 'react-map-gl';
-
+import { useCallback, useMemo, useRef, useState } from 'react';
+import { Map as MapboxMap, MapRef, Marker } from 'react-map-gl/mapbox';
 import './map.css';
 
 import type { BaseLocation, Location } from '@/lib/types';
 
 import { isSettlementFound } from '@/components/blocks/SearchList';
+import { ClipLayerSpecification } from 'mapbox-gl';
+import { Layer, Source } from 'react-map-gl/mapbox';
+
+const eraser: ClipLayerSpecification = {
+  'id': 'eraser',
+  'type': 'clip',
+  'source': 'eraser',
+  'layout': {
+    'clip-layer-types': ['symbol', 'model']
+  },
+};
 
 interface TooltipProps {
   title: string;
@@ -30,26 +43,69 @@ export interface Coordinates {
 interface MapProps {
   markers: (BaseLocation | Location)[];
   center: Coordinates;
+  geo?: Polygon;
   zoom?: number;
   searchTerm?: string;
 }
 
-export default function Map({ markers, center, zoom = 12, searchTerm = '' }: MapProps) {
+export default function Map({ markers, center, geo, zoom = 15, searchTerm = '' }: MapProps) {
   const router = useRouter();
   const [hasClickedMarker, setHasClickedMarker] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const mapRef = useRef(null);
+
+  const handleExpand = useCallback(() => {
+    setIsExpanded(!isExpanded);
+    const t = setTimeout(() => {
+
+      (mapRef.current as null | MapRef)?.resize();
+    }, 40);
+
+    return () => {
+      clearTimeout(t);
+    };
+  }, [isExpanded]);
+
+  const maskedGeoCollection: FeatureCollection | undefined = useMemo(() => {
+    if (!geo) {
+      return;
+    }
+
+    const masked = mask(geo);
+
+    return {
+      type: 'FeatureCollection',
+      features: [
+        { 
+          type: 'Feature',
+          geometry: masked.geometry,
+          properties: {}
+        }
+      ]
+    };
+  }, [geo]);
 
   return (
-    <>
-      <ReactMapGL
-        style={{ height: '400px' }}
+    <div className="mapbox-map">
+      <MapboxMap
+        ref={mapRef}
+        style={{ height: isExpanded ? '800px' : '400px' }}
         initialViewState={{
           longitude: center.lng,
           latitude: center.lat,
-          zoom: zoom
+          zoom: zoom,
         }}
         mapStyle="mapbox://styles/hawc/clk5ql67s00ie01pdadkx2kbb"
         mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_API_TOKEN}
+        cooperativeGestures
+        maxZoom={18}
+        minZoom={4.3}
       >
+      {maskedGeoCollection && (
+        <Source id="my-data" type="geojson" data={maskedGeoCollection}>
+          <Layer {...eraser} />
+        </Source>
+      )}
         {markers.map(marker => 'settlement' in marker ? (
           <Marker
             key={`${marker.lat}-${marker.lng}`}
@@ -86,7 +142,8 @@ export default function Map({ markers, center, zoom = 12, searchTerm = '' }: Map
             </div>
           </Marker>
         ))}
-      </ReactMapGL>
-    </>
+      </MapboxMap>
+      <button className="mapbox-button" type="button" onClick={handleExpand}>{isExpanded ? <ChevronsDownUpIcon /> : <ChevronsUpDownIcon />}</button>
+    </div>
   );
 }

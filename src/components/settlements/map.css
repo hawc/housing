@@ -44,7 +44,6 @@
 }
 
 .mapboxgl-marker {
-  z-index: 1;
 }
 
 .mapboxgl-marker:has(.marker-disabled) {
@@ -52,5 +51,19 @@
 }
 
 .mapboxgl-marker:hover {
-  z-index: 2;
+  z-index: 1;
+}
+
+.mapbox-map {
+  position: relative;
+}
+
+.mapbox-button {
+  position: absolute;
+  padding: 0.25rem;
+  top: -1px;
+  right: -1px;
+  background-color: var(--black);
+  border: 1px solid var(--white);
+  
 }
