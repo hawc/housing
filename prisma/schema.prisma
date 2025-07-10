@@ -72,6 +72,8 @@ model Architects {
   name            String                        @unique
   slug            String                        @unique
   description     String?
+  born            DateTime?                     @db.Date
+  died            DateTime?                     @db.Date
   published       Boolean                       @default(true)
   createdAt       DateTime                      @default(now())
   updatedAt       DateTime                      @updatedAt
@@ -136,6 +138,7 @@ model Locations {
   id           String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   lat          Float       @default(0.0)
   lng          Float       @default(0.0)
+  geo          Json?
   name         String?
   address      String?
   district     String?
