@@ -1,7 +1,7 @@
 import { twMerge } from 'tailwind-merge';
 
 import type { Location } from '@/lib/types';
-import { groupByCity, isSettlementFound, slugify, sortAlphabetically } from '@/lib/utils';
+import { groupByCity, groupByState, isSettlementFound, slugify, sortAlphabetically } from '@/lib/utils';
 
 import { InputGhost } from '@/components/blocks/form/Input';
 import { Link } from '@/components/blocks/Link';
@@ -101,7 +101,7 @@ function SettlementsList({ items, searchTerm, loading, path }: { items: Searchab
   );
 }
 
-function SettlementsListByCity({ items, searchTerm, loading, path }: { items: SearchableItemsList; searchTerm: string; loading: boolean; path: string; }) {
+function GroupedSettlementsList({ items, searchTerm, loading, path, sorting }: { items: SearchableItemsList; searchTerm: string; loading: boolean; path: string; sorting: Sorting }) {
   const searchResults = items.filter(item => isSettlementFound(item.name, item.location?.city ?? '', searchTerm));
 
   if (searchResults.length === 0) {
@@ -110,7 +110,9 @@ function SettlementsListByCity({ items, searchTerm, loading, path }: { items: Se
     );
   }
 
-  const sortedList = groupByCity(searchResults);
+  const isStateSorting = sorting === 'state';
+
+  const sortedList = isStateSorting ? groupByState(searchResults) : groupByCity(searchResults);
 
   return (
     <div className='flex flex-col gap-4'>
@@ -125,9 +127,11 @@ function SettlementsListByCity({ items, searchTerm, loading, path }: { items: Se
                 </ListItem>
               ) : (
                 <ListItem plain key={item.slug}>
-                  <Link className='inline-block mr-2 font-normal' href={`${path}${item.slug}`}>
+                  <Link className={`inline-block mr-2 ${!isStateSorting && 'font-normal'}`} href={`${path}${item.slug}`}>
                     {item.name}
-                  </Link>
+                  </Link>{ isStateSorting && 'location' in item && item.location && item.location.state !== item.location.city && (
+                    <><span className='sr-only'>, </span><span className='font-thin tracking-wide'>{item.location.city}</span></>
+                  )}
                 </ListItem>
               )
             ))}
@@ -139,19 +143,13 @@ function SettlementsListByCity({ items, searchTerm, loading, path }: { items: Se
 }
 
 export function SettlementsSearchList({ items, sorting = 'alphabetic', path, className = '', searchTerm = '', loading = false, ...rest }: SearchListProps) {
-  // if (sorting === 'state') {
-  //   const searchResults = items.filter(item => isSettlementFound(item.name, item.location?.city ?? '', searchTerm));
-
-  //   sortedList = sortByState(searchResults);
-  // }
-
   return (
     <div className={className} {...rest}>
       {!sorting || sorting === 'alphabetic' && (
         <SettlementsList items={items} searchTerm={searchTerm} loading={loading} path={path} />
       )}
-      {sorting === 'city' && (
-        <SettlementsListByCity items={items} searchTerm={searchTerm} loading={loading} path={path} />
+      {sorting && ['city' , 'state'].includes(sorting) && (
+        <GroupedSettlementsList items={items} searchTerm={searchTerm} loading={loading} path={path} sorting={sorting} />
       )}
     </div>
   );

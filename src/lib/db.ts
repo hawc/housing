@@ -8,6 +8,7 @@ const locationsSelect = Prisma.validator<Prisma.LocationsSelect>()({
   district: true,
   zipCode: true,
   city: true,
+  state: true,
   lat: true,
   lng: true,
   geo: true,

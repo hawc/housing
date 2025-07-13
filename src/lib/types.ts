@@ -33,6 +33,7 @@ export interface Location {
   district: string;
   zipCode: string;
   city: string;
+  state: string;
   lat: number;
   lng: number;
   geo?: Polygon;
@@ -44,6 +45,7 @@ export interface BaseLocation {
   district: string;
   zipCode: string;
   city: string;
+  state: string;
   lat: number;
   lng: number;
   geo?: Polygon;

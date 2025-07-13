@@ -28,11 +28,23 @@ export function isSettlementFound(name: string, city = '', searchTerm: string) {
 }
 
 export function groupByCity(arr: SearchableItemsList): { [key: string]: SearchableItem[]; } {
-  return arr.reduce(function (memo, x) {
-    if (!memo[x.location?.city ?? '(ohne)']) {
-      memo[x.location?.city ?? '(ohne)'] = [];
+  return arr.reduce(function (acc, item) {
+    if (!acc[item.location?.city ?? '(ohne)']) {
+      acc[item.location?.city ?? '(ohne)'] = [];
     }
-    memo[x.location?.city ?? '(ohne)'].push(x);
-    return memo;
+    acc[item.location?.city ?? '(ohne)'].push(item);
+
+    return acc;
+  }, {});
+}
+
+export function groupByState(arr: SearchableItemsList): { [key: string]: SearchableItem[]; } {
+  return arr.reduce(function (acc, item) {
+    if (!acc[item.location?.state ?? '(ohne)']) {
+      acc[item.location?.state ?? '(ohne)'] = [];
+    }
+    acc[item.location?.state ?? '(ohne)'].push(item);
+
+    return acc;
   }, {});
 }

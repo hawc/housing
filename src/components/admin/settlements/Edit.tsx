@@ -155,6 +155,7 @@ export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettl
                     <Map
                       key={`${settlement.location.lat}${settlement.location.lng}`}
                       markers={[settlement.location]}
+                      geo={settlement.location.geo}
                       center={{ lat: settlement.location.lat, lng: settlement.location.lng }} />
                   </Box>
                 </Container>

@@ -144,6 +144,7 @@ model Locations {
   district     String?
   zipCode      String?
   city         String?
+  state        String?
   published    Boolean     @default(true)
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt

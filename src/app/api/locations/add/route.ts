@@ -18,7 +18,8 @@ async function createLocation(
       district: data.district,
       zipCode: data.zipCode,
       city: data.city,
-      settlement: data.settlement
+      state: data.state,
+      settlement: data.settlement,
     },
     include: locationsInclude
   });

@@ -48,9 +48,9 @@ export function ListSettlements({ settlements, locations }: ListSettlementsProps
           <button onClick={() => setActiveSorting('city')} className={`hover:underline ${activeSorting === 'city' ? 'underline font-semibold' : ''}`} type='button'>
             nach Stadt
           </button>
-          {/* <button onClick={() => setActiveSorting('state')} className={`hover:underline ${activeSorting === 'state' ? 'underline font-semibold' : ''}`} type='button'>
+          <button onClick={() => setActiveSorting('state')} className={`hover:underline ${activeSorting === 'state' ? 'underline font-semibold' : ''}`} type='button'>
             nach Bundesland
-          </button> */}
+          </button>
         </div>
       </Box>
       <Box>
@@ -62,7 +62,6 @@ export function ListSettlements({ settlements, locations }: ListSettlementsProps
           {!settlements ? (
             <>Keine Siedlungen gefunden.</>
           ) : (
-            <>
               <SettlementsSearchList
                 className='transition-filter'
                 searchTerm={searchTerm}
@@ -70,7 +69,6 @@ export function ListSettlements({ settlements, locations }: ListSettlementsProps
                 loading={settlements.length === 0}
                 sorting={activeSorting}
                 items={settlements} />
-            </>
           )}
         </div>
       </Box>

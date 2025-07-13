@@ -10,6 +10,7 @@ import { getUniqueLabel } from '@/lib/utils';
 
 import { Button } from '@/components/blocks/form/Button';
 import { InputGhost } from '@/components/blocks/form/Input';
+import { TextareaGhost } from '@/components/blocks/form/Textarea';
 
 async function updateLocation(id: string, data: Partial<Location>) {
   return await fetchData<Location>(`/api/locations/update/${id}`, undefined, { method: 'POST', body: JSON.stringify(data) });
@@ -43,6 +44,7 @@ export function Location({ locationInput, settlementId, onUpdate, className = ''
         district: location.district,
         zipCode: location.zipCode,
         city: location.city,
+        state: location.state,
         geo: location.geo
       };
       responseLocation = await updateLocation(location.id, data);
@@ -55,6 +57,7 @@ export function Location({ locationInput, settlementId, onUpdate, className = ''
         district: location.district,
         zipCode: location.zipCode,
         city: location.city,
+        state: location.state,
         geo: location.geo,
         settlement: {
           connect: {
@@ -89,6 +92,10 @@ export function Location({ locationInput, settlementId, onUpdate, className = ''
         <InputGhost value={location?.lng ?? ''} step="0.01" disabled={loading} type='number' id={getUniqueLabel('lng', uuid)} className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocationData({ lng: Number(event.target.value) })} />
       </div>
       <div>
+        <label htmlFor={getUniqueLabel('geo', uuid)}>Geometriedaten (JSON):</label>
+        <TextareaGhost value={JSON.stringify(location?.geo) ?? ''} disabled={loading} id={getUniqueLabel('geo', uuid)} className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocationData({ geo: JSON.parse(event.target.value.replace(/\s+/g, '')) })} />
+      </div>
+      <div>
         <label htmlFor={getUniqueLabel('name', uuid)}>Volle Adresse:</label>
         <InputGhost value={location?.name ?? ''} disabled={loading} id={getUniqueLabel('name', uuid)} className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocationData({ name: event.target.value })} />
       </div>
@@ -107,6 +114,10 @@ export function Location({ locationInput, settlementId, onUpdate, className = ''
       <div>
         <label htmlFor={getUniqueLabel('city', uuid)}>Stadt:</label>
         <InputGhost value={location?.city ?? ''} disabled={loading} id={getUniqueLabel('city', uuid)} className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocationData({ city: event.target.value })} />
+      </div>
+      <div>
+        <label htmlFor={getUniqueLabel('state', uuid)}>Bundesland:</label>
+        <InputGhost value={location?.state ?? ''} disabled={loading} id={getUniqueLabel('state', uuid)} className='mt-1 border-highlight border-solid border-2 mb-2 p-1' onChange={(event) => updateLocationData({ state: event.target.value })} />
       </div>
       <div className='pt-7'>
         <Button
