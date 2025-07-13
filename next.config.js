@@ -50,6 +50,11 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: '/siedlungen/tenever',
+        destination: '/siedlungen/osterholz-tenever',
+        permanent: true,
+      },
+      {
         source: '/architekten/helmut-von-wetz',
         destination: '/architekten/helmut-von-werz',
         permanent: true,
