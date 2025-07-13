@@ -1,7 +1,7 @@
 import { twMerge } from 'tailwind-merge';
 
 import type { Location } from '@/lib/types';
-import { slugify, sortAlphabetically } from '@/lib/utils';
+import { groupByCity, isSettlementFound, slugify, sortAlphabetically } from '@/lib/utils';
 
 import { InputGhost } from '@/components/blocks/form/Input';
 import { Link } from '@/components/blocks/Link';
@@ -9,13 +9,13 @@ import { List, ListItem } from '@/components/blocks/List';
 import { Headline } from '@/components/Headline';
 import { Sorting } from '@/components/settlements/List';
 
-type Item = { name: string; slug: string, location?: Location | null; };
+export type SearchableItem = { name: string; slug: string, location?: Location | null; };
 
-type ItemsList = Item[];
+export type SearchableItemsList = SearchableItem[];
 interface SearchListProps extends React.HTMLAttributes<HTMLElement> {
-  items: ItemsList;
-  sorting?: Sorting;
+  items: SearchableItemsList;
   path: string;
+  sorting?: Sorting;
   className?: string;
   searchTerm?: string;
   loading?: boolean;
@@ -70,21 +70,8 @@ export function SearchList({ items, path, className = '', searchTerm = '', loadi
   );
 }
 
-export function isSettlementFound(name: string, city = '', searchTerm: string) {
-  return slugify(name).includes(slugify(searchTerm)) || slugify(city).includes(slugify(searchTerm));
-}
 
-function groupByCity(arr: ItemsList): { [key: string]: Item[]; } {
-  return arr.reduce(function (memo, x) {
-    if (!memo[x.location?.city ?? '(ohne)']) {
-      memo[x.location?.city ?? '(ohne)'] = [];
-    }
-    memo[x.location?.city ?? '(ohne)'].push(x);
-    return memo;
-  }, {});
-}
-
-function SettlementsList({ items, searchTerm, loading, path }: { items: ItemsList; searchTerm: string; loading: boolean; path: string; }) {
+function SettlementsList({ items, searchTerm, loading, path }: { items: SearchableItemsList; searchTerm: string; loading: boolean; path: string; }) {
   const sortedList = sortAlphabetically(items.filter(item => isSettlementFound(item.name, item.location?.city, searchTerm)));
 
   if (sortedList.length === 0) {
@@ -114,7 +101,7 @@ function SettlementsList({ items, searchTerm, loading, path }: { items: ItemsLis
   );
 }
 
-function SettlementsListByCity({ items, searchTerm, loading, path }: { items: ItemsList; searchTerm: string; loading: boolean; path: string; }) {
+function SettlementsListByCity({ items, searchTerm, loading, path }: { items: SearchableItemsList; searchTerm: string; loading: boolean; path: string; }) {
   const searchResults = items.filter(item => isSettlementFound(item.name, item.location?.city ?? '', searchTerm));
 
   if (searchResults.length === 0) {
@@ -151,7 +138,7 @@ function SettlementsListByCity({ items, searchTerm, loading, path }: { items: It
   );
 }
 
-export function SettlementsSearchList({ items, sorting, path, className = '', searchTerm = '', loading = false, ...rest }: SearchListProps) {
+export function SettlementsSearchList({ items, sorting = 'alphabetic', path, className = '', searchTerm = '', loading = false, ...rest }: SearchListProps) {
   // if (sorting === 'state') {
   //   const searchResults = items.filter(item => isSettlementFound(item.name, item.location?.city ?? '', searchTerm));
 

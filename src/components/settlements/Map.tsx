@@ -10,7 +10,8 @@ import './map.css';
 
 import type { BaseLocation, Location } from '@/lib/types';
 
-import { isSettlementFound } from '@/components/blocks/SearchList';
+import { MapTooltip } from '@/components/settlements/MapTooltip';
+import { isSettlementFound } from '@/lib/utils';
 import { ClipLayerSpecification } from 'mapbox-gl';
 import { Layer, Source } from 'react-map-gl/mapbox';
 
@@ -22,18 +23,6 @@ const eraser: ClipLayerSpecification = {
     'clip-layer-types': ['model']
   },
 };
-
-interface TooltipProps {
-  title: string;
-}
-
-function Tooltip({ title = '' }: TooltipProps) {
-  return (
-    <div
-      className='tooltip absolute hidden text-center leading-tight text-white text-sm tracking-wide font-primary whitespace-nowrap'
-      dangerouslySetInnerHTML={{ __html: title.replaceAll(', ', '<br />') }}></div>
-  );
-}
 
 export interface Coordinates {
   lat: number;
@@ -115,7 +104,7 @@ export default function Map({ markers, center, geo, zoom = 15, searchTerm = '' }
           >
             <div
               className={`relative h-4 w-4 flex items-center cursor-pointer marker ${!isSettlementFound(marker.settlement.name, marker.city, searchTerm) && 'marker-disabled'}`}>
-              <Tooltip title={marker.settlement.name} />
+              <MapTooltip title={marker.settlement.name} />
             </div>
           </Marker>
         ) : (
@@ -138,7 +127,7 @@ export default function Map({ markers, center, geo, zoom = 15, searchTerm = '' }
             }}
           >
             <div className='relative h-4 w-4 flex items-center cursor-pointer marker'>
-              {marker.name && <Tooltip title={hasClickedMarker ? 'Adresse kopiert' : marker.name} />}
+              {marker.name && <MapTooltip title={hasClickedMarker ? 'Adresse kopiert' : marker.name} />}
             </div>
           </Marker>
         ))}

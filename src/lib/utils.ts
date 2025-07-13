@@ -1,3 +1,4 @@
+import { SearchableItem, SearchableItemsList } from '@/components/blocks/SearchList';
 import { default as slugifyFunction } from 'slugify';
 
 export const LOCALE = 'de';
@@ -20,4 +21,18 @@ export function getUniqueLabel(label: string, uuid: string) {
 
 export function dateIsValid(date) {
   return !Number.isNaN(new Date(date).getTime());
+}
+
+export function isSettlementFound(name: string, city = '', searchTerm: string) {
+  return slugify(name).includes(slugify(searchTerm)) || slugify(city).includes(slugify(searchTerm));
+}
+
+export function groupByCity(arr: SearchableItemsList): { [key: string]: SearchableItem[]; } {
+  return arr.reduce(function (memo, x) {
+    if (!memo[x.location?.city ?? '(ohne)']) {
+      memo[x.location?.city ?? '(ohne)'] = [];
+    }
+    memo[x.location?.city ?? '(ohne)'].push(x);
+    return memo;
+  }, {});
 }
