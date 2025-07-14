@@ -55,6 +55,11 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: '/siedlungen/vahr',
+        destination: '/siedlungen/neue-vahr',
+        permanent: true,
+      },
+      {
         source: '/architekten/helmut-von-wetz',
         destination: '/architekten/helmut-von-werz',
         permanent: true,
