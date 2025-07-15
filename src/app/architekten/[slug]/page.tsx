@@ -8,6 +8,7 @@ import { Architect } from '@/components/architects/View';
 import { Box } from '@/components/blocks/Box';
 import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcrumbs';
 import Layout from '@/components/layout/Layout';
+import { formatDate } from '@/lib/utils';
 
 export async function generateMetadata(props): Promise<Metadata> {
   const params = await props.params;
@@ -64,9 +65,9 @@ export default async function ArchitectPage(props) {
       <section>
         <Box ghost>
           <div className='text-center mt-2 mb-6'>
-            <span className='block sm:inline'>Eintrag erstellt: {architect.createdAt}</span>
+            <span className='block sm:inline'>Eintrag erstellt: {formatDate(architect.createdAt)}</span>
             <span className='hidden sm:inline'> • </span>
-            <span className='block sm:inline'>aktualisiert: {architect.updatedAt || architect.createdAt}</span>
+            <span className='block sm:inline'>aktualisiert: {formatDate(architect.updatedAt || architect.createdAt)}</span>
           </div>
         </Box>
       </section>

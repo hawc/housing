@@ -11,8 +11,6 @@ function parsePrismaJson<T>(json: Prisma.JsonValue) {
   return json as T;
 }
 
-const DATE_OPTIONS: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-
 export const baseTransformers = {
   location: (location: LocationsInclude): BaseLocation => {
     return {
@@ -74,8 +72,8 @@ export const baseTransformers = {
       tags: settlement.tags.map(tagRelation => transformers.tag(tagRelation.tag)),
       events: settlement.events.map(transformers.event),
       location: settlement.location ? transformers.location(settlement.location) : null,
-      createdAt: new Date(settlement.createdAt).toLocaleDateString('de-de', DATE_OPTIONS),
-      updatedAt: new Date(settlement.updatedAt).toLocaleDateString('de-de', DATE_OPTIONS),
+      createdAt: settlement.createdAt,
+      updatedAt: settlement.updatedAt,
     };
   },
   architect: (architect: ArchitectsInclude): BaseArchitect => {
@@ -86,8 +84,8 @@ export const baseTransformers = {
       description: architect.description ?? '',
       urls: architect.urls.map(transformers.externalLink),
       settlements: architect.settlements.map((settlementsOnArchitect) => transformers.settlement(settlementsOnArchitect.settlement)),
-      createdAt: new Date(architect.createdAt).toLocaleDateString('de-de', DATE_OPTIONS),
-      updatedAt: new Date(architect.updatedAt).toLocaleDateString('de-de', DATE_OPTIONS),
+      createdAt: architect.createdAt,
+      updatedAt: architect.updatedAt,
     };
   },
   tag: (tag: TagsInclude): BaseTag => {
