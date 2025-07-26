@@ -45,6 +45,11 @@ export default async function Updates() {
             <Headline type='h1'>Updates</Headline>
           </div>
         </Box>
+        <Box ghost>
+          <p className="mb-4">
+            Hier findest du in chronologischer Reihenfolge alle jüngsten Änderungen im Archiv, von neu hinzugefügten Siedlungen über aktualisierte Daten bis zu ergänzten Quellen. So behältst du bequem im Blick, was sich wann auf unseren Unterseiten getan hat.
+          </p>
+        </Box>
         <Box>
           <div className='flex flex-col gap-6'>
             {sortedUpdates.map(([date, update]) => (
