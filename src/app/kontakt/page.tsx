@@ -30,8 +30,8 @@ export default function Kontakt() {
             <Headline type='h1'>Kontakt</Headline>
           </div>
         </Box>
-        <Box>
-          <p>
+        <Box ghost>
+          <p className="mb-4">
             Wir schätzen dein Feedback sehr und freuen uns über alle Fragen oder Hinweise. Wir versuchen deine Nachricht schnellstmöglich zu beantworten.
           </p>
         </Box>

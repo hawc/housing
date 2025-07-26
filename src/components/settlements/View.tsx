@@ -57,13 +57,13 @@ export function Settlement({ settlement }: SettlementProps) {
             <Headline type='h1' className='inline-block'>{settlement.name}</Headline>
           </div>
         </Box>
-        <Box ghost className='py-0 md:p-0 mb-2 flex-row justify-between items-end'>
+        <Box ghost className='py-0 md:p-0 mb-4 flex-row justify-between items-end'>
           <SettlementMeta location={settlement.location} />
         </Box>
         <Container>
           {settlement.description && (
             <Container>
-              <Box>
+              <Box ghost className="mb-4">
                 <div dangerouslySetInnerHTML={{ __html: settlement.description }}></div>
               </Box>
             </Container>

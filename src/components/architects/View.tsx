@@ -21,7 +21,7 @@ export function Architect({ architect }: { architect: BaseArchitect }) {
         <Headline type='h1' className='inline-block'>{architect.name}</Headline>
       </div>
       <Container>
-        <Box>
+        <Box ghost className="mb-4">
           {architect.description ? (
             <div dangerouslySetInnerHTML={{ __html: architect.description }}></div>
           ) : (
