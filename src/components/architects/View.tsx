@@ -22,7 +22,11 @@ export function Architect({ architect }: { architect: BaseArchitect }) {
       </div>
       <Container>
         <Box>
-          <p>{architect.description || 'Für diese*n Architekt*in haben wir bisher keine Beschreibung.'}</p>
+          {architect.description ? (
+            <div dangerouslySetInnerHTML={{ __html: architect.description }}></div>
+          ) : (
+            <p>{'Für diese*n Architekt*in haben wir bisher keine Beschreibung.'}</p>
+          )}
         </Box>
         {locations.length > 0 && (
           <>
