@@ -1,5 +1,6 @@
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import PiwikProProvider from '@piwikpro/next-piwik-pro';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { PropsWithChildren } from 'react';
@@ -86,6 +87,7 @@ export default function RootLayout({
               containerId={process.env.NEXT_PUBLIC_CONTAINER_ID ?? ''}
             >
               {content}
+              <SpeedInsights />
             </PiwikProProvider>
           ) : content}
         </body>
