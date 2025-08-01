@@ -4,6 +4,7 @@ import type { Event } from '@/lib/types';
 import { dateIsValid, sortByDate } from '@/lib/utils';
 
 import { Link } from '@/components/blocks/Link';
+import { Tooltip } from '@/components/blocks/Tooltip';
 import { Headline } from '@/components/Headline';
 
 const IconComponent = ({ type, className }: { type: string, className: string; }) => {
@@ -87,7 +88,7 @@ export function Timeline({ events }: { events: Event[]; }) {
                   {event.source.includes('http') ? (
                     <Link href={event.source} title={event.source}>Quelle</Link>
                   ) : (
-                    <>Quelle: {event.source}</>
+                    <Tooltip text={event.source}>Quelle</Tooltip>
                   )}
               </div>
             )}

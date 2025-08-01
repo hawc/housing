@@ -30,11 +30,11 @@
   transform: translate(-50%, -50%) scale(1.5);
 }
 
-.marker:hover .tooltip {
+.marker:hover .map-tooltip {
   display: block;
 }
 
-.tooltip {
+.map-tooltip {
   left: 50%;
   bottom: 1rem;
   padding: 0.15rem 0.3rem;

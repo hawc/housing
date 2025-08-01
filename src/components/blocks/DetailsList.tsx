@@ -2,6 +2,7 @@
 import type { Detail } from '@/lib/types';
 
 import { Link } from '@/components/blocks/Link';
+import { Tooltip } from '@/components/blocks/Tooltip';
 
 interface DetailsListProps extends React.HTMLAttributes<HTMLElement> {
   details: Detail[];
@@ -47,7 +48,7 @@ export function DetailsList({ details }: DetailsListProps) {
                   {detail.source.includes('http') ? (
                     <Link href={detail.source} title={detail.source}>Quelle</Link>
                   ) : (
-                    <>Quelle: {detail.source}</>
+                    <Tooltip text={detail.source}>Quelle</Tooltip>
                   )}
                 </td>
               }
