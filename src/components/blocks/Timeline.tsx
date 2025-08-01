@@ -39,10 +39,11 @@ function TimelineBody({ children }: React.HTMLAttributes<HTMLElement>) {
   return (
     <div className="flex gap-4">
       <span className="pointer-events-none invisible h-full flex-shrink-0" style={{ width: '40px' }}></span>
-      <div>
+      <div className="flex flex-col gap-2">
         {children}
       </div>
-    </div>);
+    </div>
+  );
 }
 
 function TimelineWrapper({ children }: React.HTMLAttributes<HTMLElement>) {
@@ -78,10 +79,16 @@ export function Timeline({ events }: { events: Event[]; }) {
             </Headline>
           </TimelineHeader>
           <TimelineBody>
-            {event.description}
+            <div>
+              {event.description}
+            </div>
             {event.source && (
               <div>
-                <Link href={event.source}>Quelle</Link>
+                  {event.source.includes('http') ? (
+                    <Link href={event.source} title={event.source}>Quelle</Link>
+                  ) : (
+                    <>Quelle: {event.source}</>
+                  )}
               </div>
             )}
           </TimelineBody>
