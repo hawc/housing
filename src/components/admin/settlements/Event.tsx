@@ -67,6 +67,8 @@ export function Event({ eventInput, availableEventTypes, settlementId, onUpdate 
   const [loading, setLoading] = useState<boolean>(false);
   const [uuid] = useState<string>(uuidv4());
 
+  const eventTypeName = availableEventTypes.find(type => type.id === eventTypeId)?.name;
+
   function setEvent(input: Partial<Event>) {
     setCurrentEvent({
       ...event,
@@ -104,7 +106,7 @@ export function Event({ eventInput, availableEventTypes, settlementId, onUpdate 
       response = await updateEvent(event.id, data);
     } else {
       const data: Prisma.EventsUncheckedCreateInput = {
-        name: event.name,
+        name: event.name || eventTypeName,
         description: event.description,
         source: event.source,
         eventDate: event.eventDate ? new Date(event.eventDate) : null,
@@ -129,14 +131,6 @@ export function Event({ eventInput, availableEventTypes, settlementId, onUpdate 
           </TimelineIcon>
           <div className='flex gap-4'>
             <div className='basis-full'>
-              <label htmlFor={getUniqueLabel('eventName', uuid)}>Name:</label>
-              <InputGhost
-                className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
-                value={event?.name ?? ''}
-                id={getUniqueLabel('eventName', uuid)}
-                onChange={(event) => setEvent({ name: event.target.value })} />
-            </div>
-            <div className='basis-full'>
               <label htmlFor={getUniqueLabel('eventType', uuid)}>Typ:</label>
               <Select<EventType>
                 className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
@@ -144,6 +138,15 @@ export function Event({ eventInput, availableEventTypes, settlementId, onUpdate 
                 options={availableEventTypes}
                 id={getUniqueLabel('eventType', uuid)}
                 onChange={(event) => setEventTypeId(event.target.value)} />
+            </div>
+            <div className='basis-full'>
+              <label htmlFor={getUniqueLabel('eventName', uuid)}>Name:</label>
+              <InputGhost
+                id={getUniqueLabel('eventName', uuid)}
+                placeholder={eventTypeName}
+                className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
+                value={event?.name ?? ''}
+                onChange={(event) => setEvent({ name: event.target.value })} />
             </div>
           </div>
         </TimelineHeader>
@@ -179,14 +182,14 @@ export function Event({ eventInput, availableEventTypes, settlementId, onUpdate 
             <Button
               className='w-full'
               onClick={event ? () => submitData(event, eventTypeId, settlementId) : () => { return; }}
-              disabled={loading || !(event?.name)}><>{event?.id ? 'Speichern' : 'Hinzufügen'}
+              disabled={loading || (!event?.name && !eventTypeName)}><>{event?.id ? 'Speichern' : 'Hinzufügen'}
                 {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
             </Button>
             {event?.id && (
               <Button
                 className='w-full bg-text text-bg border border-text'
                 onClick={() => deleteEvent(event.id)}
-                disabled={loading || !(event?.name)}><>Löschen
+                disabled={loading || (!event?.name && !eventTypeName)}><>Löschen
                   {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
               </Button>
             )}

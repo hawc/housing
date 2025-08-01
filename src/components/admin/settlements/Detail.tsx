@@ -47,6 +47,8 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, on
   const [loading, setLoading] = useState<boolean>(false);
   const [uuid] = useState<string>(uuidv4());
 
+  const detailTypeName = availableDetailTypes.find(type => type.id === detailTypeId)?.name;
+
   function setDetail(input: Partial<Detail>) {
     setCurrentDetail({
       ...detail,
@@ -77,7 +79,7 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, on
       response = await updateDetail(detail.id, data);
     } else {
       const data: Prisma.DetailsUncheckedCreateInput = {
-        name: detail.name,
+        name: detail.name || detailTypeName,
         description: detail.description,
         annotation: detail.annotation,
         source: detail.source,
@@ -108,6 +110,7 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, on
           <label htmlFor={getUniqueLabel('detailName', uuid)}>Name:</label>
           <InputGhost
             id={getUniqueLabel('detailName', uuid)}
+            placeholder={detailTypeName}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={detail?.name ?? ''}
             onChange={(event) => setDetail({ name: event.target.value })} />
@@ -155,14 +158,14 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, on
         <Button
           className='w-full'
           onClick={() => detail && submitData(detail, detailTypeId, settlementId)}
-          disabled={loading || !(detail?.name)}><>{detail?.id ? 'Speichern' : 'Hinzufügen'}
+          disabled={loading || (!detail?.name && !detailTypeName)}><>{detail?.id ? 'Speichern' : 'Hinzufügen'}
             {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
         </Button>
         {detail?.id && (
           <Button
             className='w-full bg-text text-bg border border-text'
             onClick={() => deleteDetail(detail.id)}
-            disabled={loading || !(detail?.name)}><>Löschen
+            disabled={loading || (!detail?.name && !detailTypeName)}><>Löschen
               {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
           </Button>
         )}
