@@ -74,6 +74,24 @@ export default function Map({ markers, center, geo, zoom = 15, searchTerm = '' }
     };
   }, [geo]);
 
+  const handleClick = useCallback((marker) => {
+    if (hasClickedMarker) {
+      setHasClickedMarker(false);
+
+      return;
+    }
+    setHasClickedMarker(true);
+    navigator.clipboard.writeText(marker.name);
+
+    const t = setTimeout(() => {
+      setHasClickedMarker(false);
+    }, 2000);
+
+    return () => {
+      clearTimeout(t);
+    };
+  }, [hasClickedMarker]);
+
   return (
     <div className="mapbox-map">
       <MapboxMap
@@ -112,19 +130,7 @@ export default function Map({ markers, center, geo, zoom = 15, searchTerm = '' }
             key={`${marker.lat}-${marker.lng}`}
             latitude={marker.lat}
             longitude={marker.lng}
-            onClick={() => {
-              if (hasClickedMarker) {
-                setHasClickedMarker(false);
-
-                return;
-              }
-              setHasClickedMarker(true);
-              navigator.clipboard.writeText(marker.name);
-
-              setTimeout(() => {
-                setHasClickedMarker(false);
-              }, 2000);
-            }}
+            onClick={() => handleClick(marker)}
           >
             <div className='relative h-4 w-4 flex items-center cursor-pointer marker'>
               {marker.name && <MapTooltip title={hasClickedMarker ? 'Adresse kopiert' : marker.name} />}

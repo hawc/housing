@@ -1,7 +1,7 @@
 import { twMerge } from 'tailwind-merge';
 
 import type { Location } from '@/lib/types';
-import { groupByCity, groupByState, isSettlementFound, slugify, sortAlphabetically } from '@/lib/utils';
+import { groupBy, isSettlementFound, slugify, sortAlphabetically } from '@/lib/utils';
 
 import { InputGhost } from '@/components/blocks/form/Input';
 import { Link } from '@/components/blocks/Link';
@@ -112,7 +112,7 @@ function GroupedSettlementsList({ items, searchTerm, loading, path, sorting }: {
 
   const isStateSorting = sorting === 'state';
 
-  const sortedList = isStateSorting ? groupByState(searchResults) : groupByCity(searchResults);
+  const sortedList = groupBy(searchResults, isStateSorting ? 'state' : 'city');
 
   return (
     <div className='flex flex-col gap-4'>

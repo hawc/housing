@@ -30,23 +30,12 @@ export function isSettlementFound(name: string, city = '', searchTerm: string) {
   return slugify(name).includes(slugify(searchTerm)) || slugify(city).includes(slugify(searchTerm));
 }
 
-export function groupByCity(arr: SearchableItemsList): { [key: string]: SearchableItem[]; } {
+export function groupBy(arr: SearchableItemsList, groupKey: 'city' | 'state'): { [key: string]: SearchableItem[]; } {
   return arr.reduce(function (acc, item) {
-    if (!acc[item.location?.city ?? '(ohne)']) {
-      acc[item.location?.city ?? '(ohne)'] = [];
+    if (!acc[item.location?.[groupKey] ?? '(ohne)']) {
+      acc[item.location?.[groupKey] ?? '(ohne)'] = [];
     }
-    acc[item.location?.city ?? '(ohne)'].push(item);
-
-    return acc;
-  }, {});
-}
-
-export function groupByState(arr: SearchableItemsList): { [key: string]: SearchableItem[]; } {
-  return arr.reduce(function (acc, item) {
-    if (!acc[item.location?.state ?? '(ohne)']) {
-      acc[item.location?.state ?? '(ohne)'] = [];
-    }
-    acc[item.location?.state ?? '(ohne)'].push(item);
+    acc[item.location?.[groupKey] ?? '(ohne)'].push(item);
 
     return acc;
   }, {});
