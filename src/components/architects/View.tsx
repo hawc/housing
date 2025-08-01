@@ -42,7 +42,7 @@ export function Architect({ architect }: { architect: BaseArchitect }) {
                 </div>
               ))}
             </Box>
-            <Box className='p-0 md:p-0'>
+            <Box className='p-0 md:p-0 overflow-hidden'>
               <SettlementsMap locationsInput={locations} />
             </Box>
           </>

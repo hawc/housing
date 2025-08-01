@@ -72,7 +72,7 @@ export function ListSettlements({ settlements, locations }: ListSettlementsProps
           )}
         </div>
       </Box>
-      <Box className='p-0 md:p-0'>
+      <Box className='p-0 md:p-0 overflow-hidden'>
         {Map}
       </Box>
     </>

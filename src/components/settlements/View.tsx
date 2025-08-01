@@ -164,7 +164,7 @@ export function Settlement({ settlement }: SettlementProps) {
           )}
           {settlement.location && settlement.location.lat > 0 && settlement.location.lng > 0 && (
             <Container>
-              <Box className='p-0 md:p-0'>
+              <Box className='p-0 md:p-0 overflow-hidden'>
                 <SettlementMap
                   markers={[settlement.location]}
                   center={{ lat: settlement.location.lat, lng: settlement.location.lng }} 
