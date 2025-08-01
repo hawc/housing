@@ -134,7 +134,7 @@ body {
 input::placeholder,
 textarea::placeholder {
   color: inherit;
-  opacity: 0.8;
+  opacity: 0.6;
   font-size: var(--text-base);
 }
 
