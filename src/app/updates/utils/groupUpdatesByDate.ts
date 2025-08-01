@@ -5,7 +5,14 @@ function getDateAsISO(date: Date) {
 }
 
 function getTime(date: Date) {
-  return new Date(date).getTime();
+  const parsedDate = new Date(date);
+
+  // only return date without time
+  return Date.UTC(parsedDate.getUTCFullYear(), parsedDate.getUTCMonth(), parsedDate.getUTCDate());
+}
+
+function wasUpdated(update: BaseSettlement | BaseArchitect) {
+  return getTime(update.updatedAt) > getTime(update.createdAt);
 }
 
 type UpdateType = 'architect' | 'settlement';
@@ -25,8 +32,8 @@ export function groupUpdatesByDate(updates: BaseSettlement[] | BaseArchitect[], 
   const allUpdates = updates.map((update: BaseSettlement | BaseArchitect) => ({
     ...update,
     type,
-    latestChange: getTime(update.updatedAt) > getTime(update.createdAt) ? update.updatedAt : update.createdAt,
-    changeType: getTime(update.updatedAt) > getTime(update.createdAt) ? 'updated' : 'created',
+    latestChange: wasUpdated(update) ? update.updatedAt : update.createdAt,
+    changeType: wasUpdated(update) ? 'updated' : 'created',
   } as Update));
 
   const sortedUpdates = allUpdates.sort((a, b) => getTime(b.latestChange) - getTime(a.latestChange));
