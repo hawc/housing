@@ -14,6 +14,7 @@ import { Select } from '@/components/blocks/form/Select';
 import Upload from '@/components/blocks/form/Upload';
 
 import type { ImageResponse } from '@/app/api/upload/route';
+import { LightBox } from '@/components/blocks/LightBox';
 
 interface EditResourceProps extends React.HTMLAttributes<HTMLElement> {
   resourceInput: Resource | undefined;
@@ -100,6 +101,9 @@ export function EditResource({ resourceInput, availableResourceTypes, settlement
 
   return (
     <div {...rest}>
+      {resource?.resourceType?.name === 'Foto' && resource?.url && (
+        <LightBox src={resource?.url} className="mb-2" />
+      )}
       <div className='flex gap-4'>
         <div className='basis-full'>
           <label htmlFor={getUniqueLabel('resourceType', uuid)}>Typ:</label>
@@ -181,7 +185,7 @@ export function EditResource({ resourceInput, availableResourceTypes, settlement
         <Button
           className='w-full'
           onClick={resource ? () => submitData(resource, resourceType.id, settlementId) : () => { return; }}
-          disabled={loading || !(resource?.name) || (resourceType?.name === 'Foto' && !resource.url)}>
+          disabled={loading || !resource?.name || (resourceType?.name === 'Foto' && !resource.url)}>
           {resource?.id ? 'Speichern' : 'Hinzufügen'}
           {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}
         </Button>
