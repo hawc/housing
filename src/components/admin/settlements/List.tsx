@@ -1,29 +1,24 @@
 'use client';
 
-import { RotateCwIcon } from 'lucide-react';
-import { useState } from 'react';
+import { PlusIcon } from 'lucide-react';
+import { useCallback, useState } from 'react';
 
-import { fetchData } from '@/lib/fetch';
-import type { BaseSettlement, Settlement } from '@/lib/types';
+import type { BaseSettlement } from '@/lib/types';
 
 import { Box } from '@/components/blocks/Box';
 import { Button } from '@/components/blocks/form/Button';
-import { Link } from '@/components/blocks/Link';
 import { SearchInput, SettlementsSearchList } from '@/components/blocks/SearchList';
 import { Headline } from '@/components/Headline';
+import { useRouter } from 'next/navigation';
 
 export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSettlement[]; }) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [settlements, setSettlements] = useState<Settlement[]>(settlementsInput);
-  const [loading, setLoading] = useState(false);
 
-  async function getSettlementsData() {
-    setLoading(true);
-    await fetchData('/api/cache/clear');
-    const settlements = await fetchData<BaseSettlement[], BaseSettlement[]>('/api/settlements/get/all', []);
-    setSettlements(settlements);
-    setLoading(false);
-  }
+  const router = useRouter();
+
+  const addSettlement = useCallback(() => {
+    router.push('/admin/siedlungen/neu');
+  }, [router]);
 
   return (
     <>
@@ -31,8 +26,8 @@ export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSe
         <div className='flex mt-6'>
           <Headline type='h1' className='mb-0 inline-block'>Siedlungen</Headline>
           <div>
-            <Button className='ml-3 p-2 rounded-full' onClick={() => getSettlementsData()}>
-              <RotateCwIcon className={`align-text-bottom ${loading && 'animate-spin'}`} size={15} />
+            <Button className='ml-3 p-2 rounded-full' onClick={addSettlement}>
+              <PlusIcon className='align-text-bottom' size={15} />
             </Button>
           </div>
         </div>
@@ -41,23 +36,17 @@ export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSe
         <div className="flex flex-col">
           <SearchInput
             searchTerm={searchTerm}
-            loading={loading && settlements.length > 0}
             onChange={(event) => setSearchTerm(event.target.value)}
             placeholder='Nach Siedlungen suchen' />
-          {!loading && !settlements ? (
+          {!settlementsInput ? (
             <>Keine Siedlungen gefunden.</>
           ) : (
             <SettlementsSearchList
-              className={`transition-filter ${loading ? 'blur-sm' : 'blur-none'}`}
               searchTerm={searchTerm}
               path='/admin/siedlungen/'
-              loading={loading && settlements.length > 0}
-              items={settlements} />
+              items={settlementsInput} />
           )}
         </div>
-      </Box>
-      <Box>
-        <Link arrow href="/admin/siedlungen/neu">Neue Siedlung</Link>
       </Box>
     </>
   );

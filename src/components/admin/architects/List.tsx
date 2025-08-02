@@ -1,30 +1,24 @@
 'use client';
 
-import { RotateCwIcon } from 'lucide-react';
-import { useState } from 'react';
+import { PlusIcon } from 'lucide-react';
+import { useCallback, useState } from 'react';
 
-import { fetchData } from '@/lib/fetch';
-import type { Architect, BaseArchitect } from '@/lib/types';
+import type { BaseArchitect } from '@/lib/types';
 
 import { Box, Container } from '@/components/blocks/Box';
 import { Button } from '@/components/blocks/form/Button';
-import { Link } from '@/components/blocks/Link';
 import { SearchInput, SearchList } from '@/components/blocks/SearchList';
 import { Headline } from '@/components/Headline';
-
+import { useRouter } from 'next/navigation';
 
 export function ListArchitects({ architectsInput }: { architectsInput: BaseArchitect[] }) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [architects, setArchitects] = useState<Architect[]>(architectsInput);
-  const [loading, setLoading] = useState(false);
 
-  const reloadArchitects = async () => {
-    setLoading(true);
-    await fetchData('/api/cache/clear');
-    const architects = await fetchData<BaseArchitect[], BaseArchitect[]>('/api/architects/get/all', []);
-    setArchitects(architects);
-    setLoading(false);
-  };
+  const router = useRouter();
+
+  const addArchitect = useCallback(() => {
+    router.push('/admin/architekten/neu');
+  }, [router]);
 
   return (
     <>
@@ -32,8 +26,8 @@ export function ListArchitects({ architectsInput }: { architectsInput: BaseArchi
         <div className='flex mt-6'>
           <Headline type='h1' className='mb-0 inline-block'>Architekt*innen</Headline>
           <div>
-            <Button className='ml-3 p-2 rounded-full' onClick={() => reloadArchitects()}>
-              <RotateCwIcon className={`align-text-bottom ${loading && 'animate-spin'}`} size={15} />
+            <Button className='ml-3 p-2 rounded-full' onClick={addArchitect}>
+              <PlusIcon className='align-text-bottom' size={15} />
             </Button>
           </div>
         </div>
@@ -43,23 +37,17 @@ export function ListArchitects({ architectsInput }: { architectsInput: BaseArchi
           <div className="flex flex-col transition-filter">
             <SearchInput
               searchTerm={searchTerm}
-              loading={loading && architects.length > 0}
               onChange={(event) => setSearchTerm(event.target.value)}
               placeholder='Nach Architekt*innen suchen' />
-            {!loading && !architects ? (
+            {!architectsInput ? (
               <>Keine Architekt*innen gefunden.</>
             ) : (
               <SearchList
-                className={`transition-filter ${loading ? 'blur-sm' : 'blur-none'}`}
                 path='/admin/architekten/'
-                loading={loading && architects.length > 0}
                 searchTerm={searchTerm}
-                items={architects} />
+                items={architectsInput} />
             )}
           </div>
-        </Box>
-        <Box>
-          <Link arrow href="/admin/architekten/neu">Neue*r Architekt*in</Link>
         </Box>
       </Container>
     </>
