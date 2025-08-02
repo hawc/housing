@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Fragment, useCallback, useEffect, useState } from 'react';
 
 import { fetchData } from '@/lib/fetch';
 import type { Architect, BaseArchitect } from '@/lib/types';
@@ -34,7 +34,7 @@ export function ArchitectsItem({ architect, settlementId, removeArchitect, updat
   const [role, setRole] = useState(architect.role ?? '');
   return (
     <div className="grid gap-4" {...rest}>
-      <div className='flex gap-4 items-center'>
+      <div className='flex gap-3 items-center'>
         Name: <div>{architect.name}</div>
       </div>
       <div className='flex gap-4 items-center'>
@@ -92,12 +92,33 @@ export function ArchitectsList({ architects, settlementId, getSettlement }: Arch
     setLoading(false);
   }
 
-  async function addArchitect(architectId: string, settlementId: string, role: string | undefined) {
+  const addArchitect = useCallback(async (architectId: string, settlementId: string, role: string | undefined) => {
     setLoading(true);
     await fetchData(`/api/settlements/add/architect/${settlementId}/${architectId}`, undefined, { method: 'POST', body: JSON.stringify({ role: role }) });
     await getSettlement();
     setLoading(false);
-  }
+  }, [getSettlement]);
+
+  const handleSetArchitectRole = useCallback((event) => {
+    const role = event.target.value;
+
+    if (!role || !currentArchitect?.id) {
+      return;
+    }
+
+    setCurrentArchitect({
+      ...currentArchitect,
+      role: event.target.value
+    });
+  }, [currentArchitect]);
+
+  const handleAddArchitect = useCallback(() => {
+    if (!currentArchitect?.id) {
+      return;
+    }
+
+    addArchitect(currentArchitect.id, settlementId, currentArchitect.role);
+  }, [addArchitect, currentArchitect, settlementId]);
 
   useEffect(() => {
     getAvailableArchitects();
@@ -105,15 +126,17 @@ export function ArchitectsList({ architects, settlementId, getSettlement }: Arch
   }, []);
 
   return (
-    <div className={`grid gap-4 transition-filter ${loading ? 'blur-sm pointer-events-none' : ''}`}>
-      <div>
+    <div className={`grid transition-filter ${loading ? 'blur-sm pointer-events-none' : ''}`}>
+      <div className="flex flex-col">
         {architects && sortAlphabetically(architects).map((architect: Architect) => (
-          <ArchitectsItem
-            removeArchitect={removeArchitect}
-            updateArchitectOnSettlement={updateArchitectOnSettlement}
-            key={architect.id}
-            architect={architect}
-            settlementId={settlementId} />
+          <Fragment key={architect.id}>
+            <ArchitectsItem
+              removeArchitect={removeArchitect}
+              updateArchitectOnSettlement={updateArchitectOnSettlement}
+              architect={architect}
+              settlementId={settlementId} />
+            <hr className='mb-4 mt-6 border' />
+          </Fragment>
         ))}
       </div>
       <div>
@@ -133,7 +156,10 @@ export function ArchitectsList({ architects, settlementId, getSettlement }: Arch
               <InputGhost
                 value={currentArchitect?.role ?? ''}
                 className='border-highlight border-2 border-solid p-1 w-full'
-                placeholder="Rolle" />
+                placeholder="Rolle"
+                disabled={!currentArchitect}
+                onChange={handleSetArchitectRole}
+              />
             </div>
           </div>
           <div className='flex'>
@@ -141,7 +167,7 @@ export function ArchitectsList({ architects, settlementId, getSettlement }: Arch
               <Button
                 className='border-highlight border-2 border-solid w-full'
                 disabled={!currentArchitect}
-                onClick={currentArchitect?.id ? () => addArchitect(currentArchitect.id, settlementId, currentArchitect.role) : () => { return; }}>
+                onClick={handleAddArchitect}>
                 Hinzufügen
               </Button>
             </div>
