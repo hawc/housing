@@ -36,9 +36,11 @@ export function ResourcesList({ resourcesInput, settlementId, settlementSlug }: 
     getAvailableResourceTypes();
   }, []);
 
+  const sortedResources = resources?.sort((a, b) => a.resourceType.name.localeCompare(b.resourceType.name));
+
   return (
     <div className={`transition-filter ${loading ? 'blur-sm pointer-events-none' : ''}`}>
-      {resources?.map((resource: Resource) => (
+      {sortedResources?.map((resource: Resource) => (
         <div
           key={resource.id}>
           <EditResource
