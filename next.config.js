@@ -60,6 +60,11 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: '/siedlungen/neuallermoehe',
+        destination: '/siedlungen/neuallermoehe-ost',
+        permanent: true,
+      },
+      {
         source: '/architekten/helmut-von-wetz',
         destination: '/architekten/helmut-von-werz',
         permanent: true,
