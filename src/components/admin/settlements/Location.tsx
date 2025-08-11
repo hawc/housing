@@ -1,7 +1,7 @@
 'use client';
 
 import { Loader2Icon } from 'lucide-react';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { fetchData } from '@/lib/fetch';
@@ -32,7 +32,7 @@ export function Location({ locationInput, settlementId, onUpdate, className = ''
   const [loading, setLoading] = useState<boolean>(false);
   const [uuid] = useState<string>(uuidv4());
 
-  async function submitLocation(location: Partial<Location>) {
+  const submitLocation = useCallback(async (location: Partial<Location>) => {
     setLoading(true);
     let responseLocation;
     if (location?.id) {
@@ -72,14 +72,22 @@ export function Location({ locationInput, settlementId, onUpdate, className = ''
       setLocation(responseLocation);
       await onUpdate();
     }
-  }
+  }, [onUpdate, settlementId]);
 
-  async function updateLocationData(input: Partial<Location>) {
+  function updateLocationData(input: Partial<Location>) {
     setLocation({
       ...location,
       ...input,
     });
   }
+
+  const handleSubmitLocation = useCallback(() => {
+    if (!location) {
+      return;
+    }
+
+    submitLocation(location);
+  }, [location, submitLocation]);
 
   return (
     <div className={`columns-2 ${className}`}>
@@ -121,7 +129,7 @@ export function Location({ locationInput, settlementId, onUpdate, className = ''
       </div>
       <div className='pt-7'>
         <Button
-          onClick={location ? () => submitLocation(location) : () => { return; }}
+          onClick={handleSubmitLocation}
           className='w-full'
           disabled={loading || !location?.lat || !location?.lng}>
           Speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}

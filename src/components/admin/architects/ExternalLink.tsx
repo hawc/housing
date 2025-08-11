@@ -13,9 +13,10 @@ import { InputGhost } from '@/components/blocks/form/Input';
 import { TextareaGhost } from '@/components/blocks/form/Textarea';
 import { getUniqueLabel } from '@/utils/getUniqueLabel';
 
-interface EditExternalLinkProps extends React.HTMLAttributes<HTMLElement> {
+interface EditExternalLinkProps {
   externalLinkInput: ExternalLink | undefined;
   architectId: string;
+  className?: string;
   onUpdate: (externalLinkId: string | undefined) => void;
 }
 
@@ -36,7 +37,7 @@ async function addExternalLink(data: Prisma.ExternalLinksUncheckedCreateInput) {
   return await fetchData<ExternalLink>('/api/externalLinks/add', undefined, { method: 'POST', body: JSON.stringify(data) });
 }
 
-export function EditExternalLink({ externalLinkInput, architectId, onUpdate, ...rest }: EditExternalLinkProps) {
+export function EditExternalLink({ externalLinkInput, architectId, onUpdate, className }: EditExternalLinkProps) {
   const [externalLink, setCurrentExternalLink] = useState<ExternalLink | undefined>(externalLinkInput);
   const [loading, setLoading] = useState<boolean>(false);
   const [uuid] = useState<string>(uuidv4());
@@ -82,7 +83,7 @@ export function EditExternalLink({ externalLinkInput, architectId, onUpdate, ...
   }
 
   return (
-    <div {...rest}>
+    <div className={className}>
       <div className='flex gap-4'>
         <div className='basis-full'>
           <label htmlFor={getUniqueLabel('externalLinkName', uuid)}>Name:</label>

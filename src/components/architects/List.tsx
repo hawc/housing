@@ -8,7 +8,11 @@ import { Box } from '@/components/blocks/Box';
 import { SearchInput, SearchList } from '@/components/blocks/SearchList';
 import { Headline } from '@/components/Headline';
 
-export function ListArchitects({ architects }: { architects: BaseArchitect[] }) {
+interface ListArchitectsProps {
+  architects: BaseArchitect[]
+}
+
+export function ListArchitects({ architects }: ListArchitectsProps) {
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   return (

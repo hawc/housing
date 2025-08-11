@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { fetchData } from '@/lib/fetch';
 import type { ExternalLink } from '@/lib/types';
@@ -23,12 +23,16 @@ export function ExternalLinksList({ externalLinksInput, architectId }: ExternalL
     setLoading(false);
   }
 
+  const handleUpdate = useCallback(() => {
+    getExternalLinks(architectId);
+  }, [architectId]);
+
   return (
     <div className={`transition-filter ${loading ? 'blur-sm pointer-events-none' : ''}`}>
       {externalLinks?.map((externalLink: ExternalLink) => (
         <div key={externalLink.id}>
           <EditExternalLink
-            onUpdate={() => getExternalLinks(architectId)}
+            onUpdate={handleUpdate}
             className='mb-4'
             externalLinkInput={externalLink}
             architectId={architectId} />
@@ -37,7 +41,7 @@ export function ExternalLinksList({ externalLinksInput, architectId }: ExternalL
       ))}
       <EditExternalLink
         key={externalLinks.length}
-        onUpdate={() => getExternalLinks(architectId)}
+        onUpdate={handleUpdate}
         externalLinkInput={undefined}
         architectId={architectId} />
     </div>

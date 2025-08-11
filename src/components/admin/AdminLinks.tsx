@@ -16,7 +16,7 @@ export function AdminLinks() {
   return (
     <>
       <Headline type='h1' className='mt-6'>Administration</Headline>
-      <Box ghost className="mb-6">
+      <Box ghost className='mb-6'>
         <Link href='/admin/siedlungen' arrow>Siedlungen</Link>
         <Link href='/admin/architekten' arrow>Architekt*innen</Link>
         <Link href='/admin/tags' arrow>Tags</Link>

@@ -4,17 +4,17 @@ import { Loader2Icon } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 
 import { fetchData } from '@/lib/fetch';
 import type { BaseSettlement } from '@/lib/types';
 
-import { ArchitectsList } from '@/components/admin/settlements/Architects';
-import { DetailsList } from '@/components/admin/settlements/Details';
+import { ArchitectsList } from '@/components/admin/settlements/architects/List';
+import { DetailsList } from '@/components/admin/settlements/details/List';
 import { Location } from '@/components/admin/settlements/Location';
-import { ResourcesList } from '@/components/admin/settlements/Resources';
-import { TagList } from '@/components/admin/settlements/Tags';
-import { Timeline } from '@/components/admin/settlements/Timeline';
+import { ResourcesList } from '@/components/admin/settlements/resources/List';
+import { TagList } from '@/components/admin/settlements/tags/List';
+import { Timeline } from '@/components/admin/settlements/timeline/Timeline';
 import { Box, Container } from '@/components/blocks/Box';
 import { Button } from '@/components/blocks/form/Button';
 import { InputGhost } from '@/components/blocks/form/Input';
@@ -33,13 +33,6 @@ export function SettlementEdit({ settlementInput }: SettlementEditProps) {
   const Map = dynamic(() => import('@/components/settlements/Map'), {
     ssr: false
   });
-
-  function updateSettlement(input: Partial<BaseSettlement>) {
-    setSettlement({
-      ...settlement,
-      ...input,
-    } as BaseSettlement);
-  }
 
   async function submitData(settlement: Partial<BaseSettlement>) {
     setLoading(true);
@@ -73,6 +66,20 @@ export function SettlementEdit({ settlementInput }: SettlementEditProps) {
     setLoading(false);
   }
 
+  const handleChangeName = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    setSettlement({
+      ...settlement,
+      name: event.target.value,
+    } as BaseSettlement);
+  }, [settlement]);
+
+  const handleChangeDescription = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
+    setSettlement({
+      ...settlement,
+      description: event.target.value,
+    } as BaseSettlement);
+  }, [settlement]);
+
   return (
     <>
       <Box ghost>
@@ -80,7 +87,7 @@ export function SettlementEdit({ settlementInput }: SettlementEditProps) {
           <Headline type='h1' className='inline-block'>
             <InputGhost
               className='text-inherit'
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => updateSettlement({ name: event.target.value })}
+              onChange={handleChangeName}
               value={settlement?.name ?? ''} />
           </Headline>
           {settlement?.id && (
@@ -89,16 +96,14 @@ export function SettlementEdit({ settlementInput }: SettlementEditProps) {
                 <div className='inline-block pb-1'>
                   <Loader2Icon className='animate-spin' />
                 </div>
-              ) : (settlement?.tags &&
-                (
-                  <TagList
-                    key={Object.keys(settlement.tags).length}
-                    className='ml-2'
-                    getSettlement={() => getSettlement(settlement.slug)}
-                    existingTags={settlement.tags}
-                    settlementId={settlement?.id} />
-                )
-              )}
+              ) : (settlement?.tags && (
+                <TagList
+                  key={Object.keys(settlement.tags).length}
+                  className='ml-2'
+                  getSettlement={() => getSettlement(settlement.slug)}
+                  existingTags={settlement.tags}
+                  settlementId={settlement?.id} />
+              ))}
             </div>
           )}
         </div>
@@ -107,7 +112,7 @@ export function SettlementEdit({ settlementInput }: SettlementEditProps) {
         <Container>
           <Box>
             <TextareaGhost
-              onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => updateSettlement({ description: event.target.value })}
+              onChange={handleChangeDescription}
               value={settlement?.description ?? ''} />
           </Box>
         </Container>

@@ -11,7 +11,11 @@ import { SearchInput, SettlementsSearchList } from '@/components/blocks/SearchLi
 import { Headline } from '@/components/Headline';
 import { useRouter } from 'next/navigation';
 
-export function ListSettlements({ settlementsInput }: { settlementsInput: BaseSettlement[]; }) {
+interface ListSettlementsProps {
+  settlementsInput: BaseSettlement[];
+}
+
+export function ListSettlements({ settlementsInput }: ListSettlementsProps) {
   const [searchTerm, setSearchTerm] = useState('');
 
   const router = useRouter();

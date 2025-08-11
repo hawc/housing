@@ -10,7 +10,7 @@ import { TextareaGhost } from '@/components/blocks/form/Textarea';
 import { Headline } from '@/components/Headline';
 
 interface AddTagProps {
-  getTags: () => Promise<void>
+  getTags: () => Promise<void>;
 }
 
 export function AddTag({ getTags }: AddTagProps) {

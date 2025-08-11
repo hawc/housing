@@ -1,7 +1,7 @@
 'use client';
 
 import { Loader2Icon, PlusIcon } from 'lucide-react';
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 import { fetchData } from '@/lib/fetch';
 
@@ -12,13 +12,11 @@ interface UploadResponse {
   images: ImageResponse[];
 }
 
-interface UploadProps extends React.HTMLAttributes<HTMLElement> {
-  onUpload: (images: ImageResponse[]) => void;
-  category: string;
-  multiple?: boolean;
+interface UploadInputLabelProps {
+  uploadImages: File[];
 }
 
-function UploadInputLabel({ uploadImages }: { uploadImages: File[] }) {
+function UploadInputLabel({ uploadImages }: UploadInputLabelProps) {
   return uploadImages.length ? (
     <div className='block whitespace-nowrap text-ellipsis overflow-hidden'>
       {uploadImages.length === 1 ? uploadImages[0].name : `${uploadImages.length} Dateien`}
@@ -30,7 +28,15 @@ function UploadInputLabel({ uploadImages }: { uploadImages: File[] }) {
   );
 }
 
-export default function Upload({ onUpload, category, id, multiple = false, className = '', ...rest }: UploadProps) {
+interface UploadProps {
+  onUpload: (images: ImageResponse[]) => void;
+  category: string;
+  multiple?: boolean;
+  className?: string;
+  id?: string;
+}
+
+export default function Upload({ onUpload, category, id, multiple = false, className = '' }: UploadProps) {
   const [uploadImages, setUploadImages] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
   const input = useRef<HTMLInputElement>(null);
@@ -62,8 +68,14 @@ export default function Upload({ onUpload, category, id, multiple = false, class
     setUploading(false);
   }
 
+  const handleUploadClick = useCallback(() => {
+    input.current?.click();
+  }, []);
+
   return (
-    <div onClick={() => input.current?.click()} className={`flex flex-row cursor-default ${className}`} {...rest}>
+    <div
+      onClick={handleUploadClick}
+      className={`flex flex-row cursor-default ${className}`}>
       <div className='flex-grow border-2 py-1 px-3 border-highlight max-w-full'>
         {uploading ? (
           <div className='flex justify-between'>

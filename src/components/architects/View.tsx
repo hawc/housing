@@ -5,15 +5,28 @@ import { ContactLink } from '@/components/blocks/ContactLink';
 import { Link } from '@/components/blocks/Link';
 import { Headline } from '@/components/Headline';
 import { SettlementsMap } from '@/components/settlements/SettlementsMap';
+import { useMemo } from 'react';
 
-export function Architect({ architect }: { architect: BaseArchitect }) {
-  const locations = architect.settlements.flatMap(settlement => settlement.location ? ({
-    ...settlement.location,
-    settlement: {
-      name: settlement.name,
-      slug: settlement.slug
-    },
-  }) : []);
+interface ArchitectProps {
+  architect: BaseArchitect;
+}
+
+export function Architect({ architect }: ArchitectProps) {
+  const locations = useMemo(() => {
+    return architect.settlements.flatMap(settlement => {
+      if (!settlement.location) {
+        return [];
+      }
+
+      return {
+        ...settlement.location,
+        settlement: {
+          name: settlement.name,
+          slug: settlement.slug
+        },
+      };
+    });
+  }, [architect.settlements]);
 
   return (
     <>
