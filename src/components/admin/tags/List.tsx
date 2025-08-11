@@ -5,13 +5,13 @@ import { useState } from 'react';
 
 import { fetchData } from '@/lib/fetch';
 import type { BaseTag } from '@/lib/types';
-import { sortAlphabetically } from '@/lib/utils';
 
 import { AddTag } from '@/components/admin/tags/Add';
 import { EditTag } from '@/components/admin/tags/Edit';
 import { Box, Container } from '@/components/blocks/Box';
 import { Button } from '@/components/blocks/form/Button';
 import { Headline } from '@/components/Headline';
+import { sortAlphabetically } from '@/utils/sortAlphabetically';
 
 interface ListTagsProps {
   tagsInput: BaseTag[]

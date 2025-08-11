@@ -4,7 +4,11 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import { Loader2Icon, LogInIcon, LogOutIcon } from 'lucide-react';
 import Link from 'next/link';
 
-export function LoginButton({ className = '' }: { className?: string; }) {
+interface LoginButtonProps {
+  className?: string;
+}
+
+export function LoginButton({ className = '' }: LoginButtonProps) {
   const { user, error, isLoading } = useUser();
 
   if (error) {

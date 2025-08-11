@@ -10,6 +10,8 @@ import { SearchInput, SettlementsSearchList } from '@/components/blocks/SearchLi
 import { Headline } from '@/components/Headline';
 import { SettlementsMap } from '@/components/settlements/SettlementsMap';
 
+const SEARCH_TERM_DEBOUNCE_MS = 800;
+
 interface ListSettlementsProps {
   settlements: BaseSettlement[];
   locations: BaseLocation[];
@@ -24,7 +26,7 @@ export function ListSettlements({ settlements, locations }: ListSettlementsProps
 
   useDebounce(() => {
     setDebouncedSearchTerm(searchTerm);
-  }, [searchTerm], 800);
+  }, [searchTerm], SEARCH_TERM_DEBOUNCE_MS);
 
   const Map = useMemo(() => (
     <SettlementsMap locationsInput={locations} searchTerm={debouncedSearchTerm} />

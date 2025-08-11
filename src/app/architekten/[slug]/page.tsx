@@ -8,7 +8,7 @@ import { Architect } from '@/components/architects/View';
 import { Box } from '@/components/blocks/Box';
 import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcrumbs';
 import Layout from '@/components/layout/Layout';
-import { formatDate } from '@/lib/utils';
+import { formatDate } from '@/utils/formatDate';
 
 export async function generateMetadata(props): Promise<Metadata> {
   const params = await props.params;

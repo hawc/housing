@@ -5,10 +5,10 @@ import { useEffect, useState } from 'react';
 
 import { fetchData } from '@/lib/fetch';
 import type { BaseTag, Tag } from '@/lib/types';
-import { sortAlphabetically } from '@/lib/utils';
 
 import { Button } from '@/components/blocks/form/Button';
 import { Select } from '@/components/blocks/form/Select';
+import { sortAlphabetically } from '@/utils/sortAlphabetically';
 
 interface TagItemProps {
   tag: Tag;

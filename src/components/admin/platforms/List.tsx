@@ -5,16 +5,20 @@ import { useState } from 'react';
 
 import { fetchData } from '@/lib/fetch';
 import type { Platform } from '@/lib/types';
-import { sortAlphabetically } from '@/lib/utils';
 
 import { Box, Container } from '@/components/blocks/Box';
 import { Button } from '@/components/blocks/form/Button';
 import { InputGhost } from '@/components/blocks/form/Input';
 import { TextareaGhost } from '@/components/blocks/form/Textarea';
 import { Headline } from '@/components/Headline';
+import { sortAlphabetically } from '@/utils/sortAlphabetically';
+
+interface AddPlatformProps { 
+  getPlatforms: () => Promise<void>;
+}
 
 
-function AddPlatform({ getPlatforms }: { getPlatforms: () => Promise<void> }) {
+function AddPlatform({ getPlatforms }: AddPlatformProps) {
   const [currentPlatform, setCurrentPlatform] = useState<Partial<Platform>>({
     name: '',
     description: '',

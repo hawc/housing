@@ -7,12 +7,6 @@ import { MathUtils } from 'three';
 import { EXRLoader } from 'three/examples/jsm/loaders/EXRLoader';
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
 
-interface SceneProps extends React.HTMLAttributes<HTMLElement> {
-  fileUrl: string;
-  height?: string;
-  width?: string;
-}
-
 function Mesh({ geometry, scrollPosition }) {
   const meshRef = useRef<InstancedMesh>(null);
   const [rotation, setRotation] = useState(0);
@@ -37,7 +31,14 @@ function Mesh({ geometry, scrollPosition }) {
   );
 }
 
-export function Scene({ fileUrl, height, width, ...rest }: SceneProps) {
+interface SceneProps {
+  fileUrl: string;
+  className?: string;
+  height?: string;
+  width?: string;
+}
+
+export function Scene({ fileUrl, height, width, className }: SceneProps) {
   const [geometry, setGeometry] = useState<BufferGeometry>();
   const [scrollPosition, setScrollPosition] = useState(typeof window !== 'undefined' ? window.scrollY : 0);
 
@@ -65,7 +66,7 @@ export function Scene({ fileUrl, height, width, ...rest }: SceneProps) {
   }, []);
 
   return (
-    <div {...rest}>
+    <div className={className}>
       <Canvas orthographic camera={{ position: [0, 20, -200], zoom: 3 }} style={{ width: width ?? '100%', height: height ?? '600px' }}>
         <Mesh geometry={geometry} scrollPosition={scrollPosition} />
       </Canvas>

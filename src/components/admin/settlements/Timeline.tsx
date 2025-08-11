@@ -1,16 +1,19 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { PropsWithChildren, useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 import { fetchData } from '@/lib/fetch';
 import type { Event, EventType } from '@/lib/types';
-import { sortByDate } from '@/lib/utils';
 
 import { Event as EventComponent } from '@/components/admin/settlements/Event';
+import { sortByDate } from '@/utils/sortByDate';
 
+interface TimelineWrapperProps {
+  className?: string;
+}
 
-function TimelineWrapper({ children, className = '' }: React.HTMLAttributes<HTMLElement>) {
+function TimelineWrapper({ children, className = '' }: PropsWithChildren<TimelineWrapperProps>) {
   return (
     <ul className={twMerge(`w-full flex flex-col ${className}`)}>
       {children}
@@ -18,7 +21,12 @@ function TimelineWrapper({ children, className = '' }: React.HTMLAttributes<HTML
   );
 }
 
-export function Timeline({ eventsInput, settlementId }: { eventsInput: Event[], settlementId: string; }) {
+interface TimelineProps { 
+  eventsInput: Event[];
+  settlementId: string;
+}
+
+export function Timeline({ eventsInput, settlementId }: TimelineProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [availableEventTypes, setAvailableEventTypes] = useState<EventType[]>([]);
   const [events, setEvents] = useState<Event[]>(eventsInput);

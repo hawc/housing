@@ -3,7 +3,6 @@
 import { CopyrightIcon } from 'lucide-react';
 
 import type { Architect, BaseSettlement } from '@/lib/types';
-import { LOCALE, sortAlphabetically } from '@/lib/utils';
 
 import { Box, Container } from '@/components/blocks/Box';
 import { ContactLink } from '@/components/blocks/ContactLink';
@@ -15,6 +14,9 @@ import { Headline } from '@/components/Headline';
 import { CesiumMap } from '@/components/settlements/CesiumMap';
 import { SettlementMap } from '@/components/settlements/SettlementMap';
 import { SettlementMeta } from '@/components/settlements/SettlementsMeta';
+import { sortAlphabetically } from '@/utils/sortAlphabetically';
+
+const LOCALE = 'de';
 
 const isPhoto = (resource) => resource.resourceType.name === 'Foto';
 const isNotPhoto = (resource) => resource.resourceType.name !== 'Foto';

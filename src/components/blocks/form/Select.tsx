@@ -1,9 +1,8 @@
 'use client';
 
+import { sortAlphabetically } from '@/utils/sortAlphabetically';
 import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
-
-import { sortAlphabetically } from '@/lib/utils';
 
 interface Option {
   id: string;

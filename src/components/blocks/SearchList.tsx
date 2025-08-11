@@ -1,18 +1,22 @@
 import { twMerge } from 'tailwind-merge';
 
 import type { Location } from '@/lib/types';
-import { groupBy, isSettlementFound, slugify, sortAlphabetically } from '@/lib/utils';
 
 import { InputGhost } from '@/components/blocks/form/Input';
 import { Link } from '@/components/blocks/Link';
 import { List, ListItem } from '@/components/blocks/List';
 import { Headline } from '@/components/Headline';
 import { Sorting } from '@/components/settlements/List';
+import { groupBy } from '@/utils/groupBy';
+import { isSettlementFound } from '@/utils/isSettlementFound';
+import { sortAlphabetically } from '@/utils/sortAlphabetically';
+import { useMemo } from 'react';
+import slugify from 'slugify';
 
 export type SearchableItem = { name: string; slug: string, location?: Location | null; };
 
 export type SearchableItemsList = SearchableItem[];
-interface SearchListProps extends React.HTMLAttributes<HTMLElement> {
+interface SearchListProps {
   items: SearchableItemsList;
   path: string;
   sorting?: Sorting;
@@ -20,7 +24,7 @@ interface SearchListProps extends React.HTMLAttributes<HTMLElement> {
   searchTerm?: string;
   loading?: boolean;
 }
-interface SearchInputProps extends React.HTMLAttributes<HTMLElement> {
+interface SearchInputProps {
   className?: string;
   searchTerm?: string;
   placeholder?: string;
@@ -28,20 +32,21 @@ interface SearchInputProps extends React.HTMLAttributes<HTMLElement> {
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
 }
 
-export function SearchInput({ className = '', searchTerm = '', placeholder = 'Suchbegriff eingeben', loading = false, onChange = () => { return; }, ...rest }: SearchInputProps) {
+export function SearchInput({ searchTerm = '', placeholder = 'Suchbegriff eingeben', loading = false, onChange }: SearchInputProps) {
   return (
     <InputGhost
       placeholder={placeholder}
       value={searchTerm}
       onChange={onChange}
       style={{ outlineOffset: '-2px' }}
-      className={twMerge(`w-auto -mx-3 -mt-2 md:-mx-5 md:-mt-4 mb-4 px-5 py-4 font-normal border-0 border-b border-text border-solid ${loading ? 'pointer-events-none' : ''} ${className}`)}
-      {...rest} />
+      className={twMerge(`w-auto -mx-3 -mt-2 md:-mx-5 md:-mt-4 mb-4 px-5 py-4 font-normal border-0 border-b border-text border-solid ${loading ? 'pointer-events-none' : ''}`)}/>
   );
 }
 
-export function SearchList({ items, path, className = '', searchTerm = '', loading = false, ...rest }: SearchListProps) {
-  const sortedList = sortAlphabetically(items.filter(item => slugify(item.name).includes(slugify(searchTerm))));
+export function SearchList({ items, path, className = '', searchTerm = '', loading = false }: SearchListProps) {
+  const sortedList = useMemo(() => {
+    return sortAlphabetically(items.filter(item => slugify(item.name).includes(slugify(searchTerm))));
+  }, [items, searchTerm]);
 
   if (sortedList.length === 0) {
     return (
@@ -50,7 +55,7 @@ export function SearchList({ items, path, className = '', searchTerm = '', loadi
   }
 
   return (
-    <div className={className} {...rest}>
+    <div className={className}>
       <List className='md:columns-2'>
         {sortedList.map(item => (
           loading ? (
@@ -70,9 +75,17 @@ export function SearchList({ items, path, className = '', searchTerm = '', loadi
   );
 }
 
+interface SettlementsListProps {
+  items: SearchableItemsList;
+  searchTerm: string;
+  loading: boolean;
+  path: string;
+}
 
-function SettlementsList({ items, searchTerm, loading, path }: { items: SearchableItemsList; searchTerm: string; loading: boolean; path: string; }) {
-  const sortedList = sortAlphabetically(items.filter(item => isSettlementFound(item.name, item.location?.city, searchTerm)));
+function SettlementsList({ items, searchTerm, loading, path }: SettlementsListProps) {
+  const sortedList = useMemo(() => {
+    return sortAlphabetically(items.filter(item => isSettlementFound(item.name, item.location?.city, searchTerm)));
+  }, [items, searchTerm]);
 
   if (sortedList.length === 0) {
     return (
@@ -101,8 +114,18 @@ function SettlementsList({ items, searchTerm, loading, path }: { items: Searchab
   );
 }
 
-function GroupedSettlementsList({ items, searchTerm, loading, path, sorting }: { items: SearchableItemsList; searchTerm: string; loading: boolean; path: string; sorting: Sorting }) {
-  const searchResults = items.filter(item => isSettlementFound(item.name, item.location?.city ?? '', searchTerm));
+interface GroupedSettlementsListProps {
+  items: SearchableItemsList;
+  searchTerm: string;
+  loading: boolean;
+  path: string;
+  sorting: Sorting;
+}
+
+function GroupedSettlementsList({ items, searchTerm, loading, path, sorting }: GroupedSettlementsListProps) {
+  const searchResults = useMemo(() => { 
+    return items.filter(item => isSettlementFound(item.name, item.location?.city ?? '', searchTerm));
+  }, [items, searchTerm]);
 
   if (searchResults.length === 0) {
     return (
@@ -142,9 +165,9 @@ function GroupedSettlementsList({ items, searchTerm, loading, path, sorting }: {
   );
 }
 
-export function SettlementsSearchList({ items, sorting = 'alphabetic', path, className = '', searchTerm = '', loading = false, ...rest }: SearchListProps) {
+export function SettlementsSearchList({ items, sorting = 'alphabetic', path, className = '', searchTerm = '', loading = false }: SearchListProps) {
   return (
-    <div className={className} {...rest}>
+    <div className={className}>
       {!sorting || sorting === 'alphabetic' && (
         <SettlementsList items={items} searchTerm={searchTerm} loading={loading} path={path} />
       )}

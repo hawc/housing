@@ -1,42 +1,52 @@
 import { BuildingIcon, CircleDotDashedIcon, HomeIcon } from 'lucide-react';
 
 import type { Event } from '@/lib/types';
-import { dateIsValid, sortByDate } from '@/lib/utils';
 
 import { Link } from '@/components/blocks/Link';
 import { Tooltip } from '@/components/blocks/Tooltip';
 import { Headline } from '@/components/Headline';
+import { isDateValid } from '@/utils/isDateValid';
+import { sortByDate } from '@/utils/sortByDate';
+import { PropsWithChildren, useMemo } from 'react';
 
-const IconComponent = ({ type, className }: { type: string, className: string; }) => {
+interface IconComponentProps { 
+  type: string;
+  className: string;
+}
+
+function IconComponent({ type, className }: IconComponentProps) {
   switch (type) {
     case 'Planung': return <CircleDotDashedIcon className={className} />;
     case 'Fertigstellung': return <BuildingIcon className={className} />;
     default: return <HomeIcon className={className} />;
   }
-};
+}
 
-function TimelineItem({ children }: React.HTMLAttributes<HTMLElement>) {
+function TimelineItem({ children }: PropsWithChildren) {
   return (
     <li className="flex relative flex-col pb-3 last:pb-0">
       {children}
-    </li>);
+    </li>
+  );
 }
 
-function TimelineIcon({ children }: React.HTMLAttributes<HTMLElement>) {
+function TimelineIcon({ children }: PropsWithChildren) {
   return (
     <span className="w-max relative z-[2] flex-shrink-0 rounded-full overflow-hidden bg-bg text-grey-light p-2 self-start">
       {children}
-    </span>);
+    </span>
+  );
 }
 
-function TimelineHeader({ children }: React.HTMLAttributes<HTMLElement>) {
+function TimelineHeader({ children }: PropsWithChildren) {
   return (
     <div className="flex items-center gap-4">
       {children}
-    </div>);
+    </div>
+  );
 }
 
-function TimelineBody({ children }: React.HTMLAttributes<HTMLElement>) {
+function TimelineBody({ children }: PropsWithChildren) {
   return (
     <div className="flex gap-4">
       <span className="pointer-events-none invisible h-full flex-shrink-0" style={{ width: '40px' }}></span>
@@ -47,7 +57,7 @@ function TimelineBody({ children }: React.HTMLAttributes<HTMLElement>) {
   );
 }
 
-function TimelineWrapper({ children }: React.HTMLAttributes<HTMLElement>) {
+function TimelineWrapper({ children }: PropsWithChildren) {
   return (
     <ul className="w-full flex flex-col">
       {children}
@@ -63,10 +73,18 @@ function TimelineConnector() {
   );
 }
 
-export function Timeline({ events }: { events: Event[]; }) {
+interface TimelineProps {
+  events: Event[];
+}
+
+export function Timeline({ events }: TimelineProps) {
+  const filteredEvents = useMemo(() => {
+    return sortByDate(events, 'eventDate').filter(event => isDateValid(event.eventDate));
+  }, [events]);
+  
   return (
     <TimelineWrapper>
-      {sortByDate(events, 'eventDate').filter(event => dateIsValid(event.eventDate)).map((event: Event, index: number) => (
+      {filteredEvents.map((event: Event, index: number) => (
         <TimelineItem key={index}>
           {index < events.length - 1 && (
             <TimelineConnector />

@@ -11,7 +11,7 @@ import './map.css';
 import type { BaseLocation, Location } from '@/lib/types';
 
 import { MapTooltip } from '@/components/settlements/MapTooltip';
-import { isSettlementFound } from '@/lib/utils';
+import { isSettlementFound } from '@/utils/isSettlementFound';
 import { ClipLayerSpecification } from 'mapbox-gl';
 import { Layer, Source } from 'react-map-gl/mapbox';
 

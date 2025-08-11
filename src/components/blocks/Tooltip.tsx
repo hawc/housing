@@ -13,6 +13,7 @@ export function Tooltip({ children, text = '' }: PropsWithChildren<TooltipProps>
 
       return;
     }
+    
     setHasClickedMarker(true);
     navigator.clipboard.writeText(text);
 

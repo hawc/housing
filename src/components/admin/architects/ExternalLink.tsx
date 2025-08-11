@@ -7,11 +7,11 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { fetchData } from '@/lib/fetch';
 import type { ExternalLink, Platform } from '@/lib/types';
-import { getUniqueLabel } from '@/lib/utils';
 
 import { Button } from '@/components/blocks/form/Button';
 import { InputGhost } from '@/components/blocks/form/Input';
 import { TextareaGhost } from '@/components/blocks/form/Textarea';
+import { getUniqueLabel } from '@/utils/getUniqueLabel';
 
 interface EditExternalLinkProps extends React.HTMLAttributes<HTMLElement> {
   externalLinkInput: ExternalLink | undefined;

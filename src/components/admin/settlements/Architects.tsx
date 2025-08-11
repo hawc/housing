@@ -4,11 +4,11 @@ import { Fragment, useCallback, useEffect, useState } from 'react';
 
 import { fetchData } from '@/lib/fetch';
 import type { Architect, BaseArchitect } from '@/lib/types';
-import { sortAlphabetically } from '@/lib/utils';
 
 import { Button } from '@/components/blocks/form/Button';
 import { InputGhost } from '@/components/blocks/form/Input';
 import { Select } from '@/components/blocks/form/Select';
+import { sortAlphabetically } from '@/utils/sortAlphabetically';
 
 
 interface ArchitectsItemProps extends React.HTMLAttributes<HTMLElement> {

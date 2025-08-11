@@ -1,5 +1,5 @@
 import { UpdateMap } from '@/app/updates/utils/groupUpdatesByDate';
-import { mergeArrayObjects } from '@/lib/utils';
+import { mergeArrayObjects } from '@/utils/mergeArrayObjects';
 
 export function mergeAndSortUpdates(settlementUpdates: UpdateMap, architectUpdates: UpdateMap) {
    const allUpdates = mergeArrayObjects(

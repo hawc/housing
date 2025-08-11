@@ -7,11 +7,12 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { fetchData } from '@/lib/fetch';
 import type { Detail, DetailType } from '@/lib/types';
-import { dateIsValid, getUniqueLabel } from '@/lib/utils';
 
 import { Button } from '@/components/blocks/form/Button';
 import { InputGhost } from '@/components/blocks/form/Input';
 import { Select } from '@/components/blocks/form/Select';
+import { getUniqueLabel } from '@/utils/getUniqueLabel';
+import { isDateValid } from '@/utils/isDateValid';
 
 interface EditDetailProps extends React.HTMLAttributes<HTMLElement> {
   detailInput: Detail | undefined;
@@ -143,7 +144,7 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, on
             id={getUniqueLabel('detailDate', uuid)}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={detail?.detailDate}
-            onChange={(event) => setDetail({ detailDate: dateIsValid(event.target.value) ? new Date(new Date(event.target.value).toUTCString()).toISOString() : undefined })} />
+            onChange={(event) => setDetail({ detailDate: isDateValid(event.target.value) ? new Date(new Date(event.target.value).toUTCString()).toISOString() : undefined })} />
         </div>
         <div className='basis-full'>
           <label htmlFor={getUniqueLabel('detailSource', uuid)}>Quelle:</label>

@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server';
 import { platformsInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
 import { baseTransformers } from '@/lib/transformers';
-import { slugify } from '@/lib/utils';
+import { slugify } from '@/utils/slugify';
 
 async function addPlatform(
   data: Prisma.PlatformsUncheckedCreateInput

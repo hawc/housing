@@ -7,7 +7,7 @@ import { Headline } from '@/components/Headline';
 import Layout from '@/components/layout/Layout';
 import { fetchData } from '@/lib/fetch';
 import { Platform } from '@/lib/types';
-import { sortAlphabetically } from '@/lib/utils';
+import { sortAlphabetically } from '@/utils/sortAlphabetically';
 
 export async function generateMetadata(props): Promise<Metadata> {
   const searchParams = await props.searchParams;

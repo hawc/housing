@@ -1,10 +1,12 @@
 'use client';
+
 import type { Detail } from '@/lib/types';
 
 import { Link } from '@/components/blocks/Link';
 import { Tooltip } from '@/components/blocks/Tooltip';
+import { useMemo } from 'react';
 
-interface DetailsListProps extends React.HTMLAttributes<HTMLElement> {
+interface DetailsListProps {
   details: Detail[];
 }
 
@@ -27,6 +29,10 @@ function sortByTypeAndDate(a: Detail, b: Detail) {
 }
 
 export function DetailsList({ details }: DetailsListProps) {
+  const sortedDetails = useMemo(() => {
+    return details.sort(sortByTypeAndDate);
+  }, [details]);
+  
   return (
     <div>
       <table className='table-auto w-full'>
@@ -36,7 +42,7 @@ export function DetailsList({ details }: DetailsListProps) {
           </tr>
         </thead>
         <tbody>
-          {details.sort(sortByTypeAndDate).map((detail: Detail) => (
+          {sortedDetails.map((detail: Detail) => (
             <tr key={detail.id}>
               <td className='pr-4'>{detail.name}{detail.detailDate ? ` (${new Date(detail.detailDate).getFullYear()})` : ''}:</td>
               <td>

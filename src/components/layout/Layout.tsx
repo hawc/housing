@@ -1,12 +1,13 @@
 import { Footer } from '@/components/blocks/Footer';
 import { Header } from '@/components/blocks/Header';
+import { PropsWithChildren, ReactNode } from 'react';
 
-type LayoutProps = React.PropsWithChildren & {
-  breadcrumbs?: React.ReactNode;
+interface LayoutProps {
+  breadcrumbs?: ReactNode;
   isHome?: boolean;
 }
 
-export default function Layout({ children, breadcrumbs, isHome = false }: LayoutProps) {
+export default function Layout({ children, breadcrumbs, isHome = false }: PropsWithChildren<LayoutProps>) {
   return (
     <>
       <Header />
