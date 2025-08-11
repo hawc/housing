@@ -16,23 +16,24 @@ import type { ImageResponse } from '@/app/api/upload/route';
 import { LightBox } from '@/components/blocks/LightBox';
 import { getUniqueLabel } from '@/utils/getUniqueLabel';
 
-interface EditResourceProps extends React.HTMLAttributes<HTMLElement> {
+interface EditResourceProps {
   resourceInput: Resource | undefined;
   availableResourceTypes: ResourceType[];
   settlementId: string;
   settlementSlug: string;
+  className?: string;
   onUpdate: (resourceId: string | undefined) => void;
 }
 
-async function updateResource(id: string, data) {
+async function updateResource(id: string, data: unknown) {
   return await fetchData<Resource>(`/api/resources/update/${id}`, undefined, { method: 'POST', body: JSON.stringify(data) });
 }
 
-async function addResource(data) {
+async function addResource(data: unknown) {
   return await fetchData<Resource>('/api/resources/add', undefined, { method: 'POST', body: JSON.stringify(data) });
 }
 
-export function EditResource({ resourceInput, availableResourceTypes, settlementId, settlementSlug, onUpdate, ...rest }: EditResourceProps) {
+export function EditResource({ resourceInput, availableResourceTypes, settlementId, settlementSlug, className, onUpdate }: EditResourceProps) {
   const [resource, setCurrentResource] = useState<Resource | undefined>(resourceInput);
   const [resourceType, setResourceType] = useState<ResourceType>(resource?.resourceType ?? availableResourceTypes[0]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -100,7 +101,7 @@ export function EditResource({ resourceInput, availableResourceTypes, settlement
   }
 
   return (
-    <div {...rest}>
+    <div className={className}>
       {resource?.resourceType?.name === 'Foto' && resource?.url && (
         <LightBox src={resource?.url} className="mb-2" />
       )}

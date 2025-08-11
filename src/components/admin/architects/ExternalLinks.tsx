@@ -7,7 +7,7 @@ import type { ExternalLink } from '@/lib/types';
 
 import { EditExternalLink } from '@/components/admin/architects/ExternalLink';
 
-interface ExternalLinksListProps extends React.HTMLAttributes<HTMLElement> {
+interface ExternalLinksListProps {
   externalLinksInput: ExternalLink[];
   architectId: string;
 }

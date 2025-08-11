@@ -21,9 +21,11 @@ import { InputGhost } from '@/components/blocks/form/Input';
 import { TextareaGhost } from '@/components/blocks/form/Textarea';
 import { Headline } from '@/components/Headline';
 
-export type Partial<T> = { [P in keyof T]?: T[P] };
+interface SettlementEditProps {
+  settlementInput?: BaseSettlement;
+}
 
-export function SettlementEdit({ settlementInput }: { settlementInput: BaseSettlement | undefined; }) {
+export function SettlementEdit({ settlementInput }: SettlementEditProps) {
   const router = useRouter();
   const [settlement, setSettlement] = useState<BaseSettlement | undefined>(settlementInput);
   const [loading, setLoading] = useState<boolean>(false);

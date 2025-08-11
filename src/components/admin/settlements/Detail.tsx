@@ -14,10 +14,11 @@ import { Select } from '@/components/blocks/form/Select';
 import { getUniqueLabel } from '@/utils/getUniqueLabel';
 import { isDateValid } from '@/utils/isDateValid';
 
-interface EditDetailProps extends React.HTMLAttributes<HTMLElement> {
+interface EditDetailProps {
   detailInput: Detail | undefined;
   availableDetailTypes: DetailType[];
   settlementId: string;
+  className?: string;
   onUpdate: (detailId: string | undefined) => void;
 }
 
@@ -42,7 +43,7 @@ async function addDetail(data: Prisma.DetailsUncheckedCreateInput) {
   return await fetchData<Detail>('/api/details/add', undefined, { method: 'POST', body: JSON.stringify(data) });
 }
 
-export function EditDetail({ detailInput, availableDetailTypes, settlementId, onUpdate, ...rest }: EditDetailProps) {
+export function EditDetail({ detailInput, availableDetailTypes, settlementId, className, onUpdate }: EditDetailProps) {
   const [detail, setCurrentDetail] = useState<Detail | undefined>(detailInput);
   const [detailTypeId, setDetailTypeId] = useState<string>(detail?.detailType?.id ?? '');
   const [loading, setLoading] = useState<boolean>(false);
@@ -96,7 +97,7 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, on
   }
 
   return (
-    <div {...rest}>
+    <div className={className}>
       <div className='flex gap-4'>
         <div className='basis-full'>
           <label htmlFor={getUniqueLabel('detailType', uuid)}>Typ:</label>

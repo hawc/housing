@@ -2,7 +2,7 @@
 
 import type { Prisma } from '@prisma/client';
 import { BuildingIcon, CircleDotDashedIcon, HomeIcon, Loader2Icon } from 'lucide-react';
-import { useState } from 'react';
+import { PropsWithChildren, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { fetchData } from '@/lib/fetch';
@@ -16,7 +16,7 @@ import { getUniqueLabel } from '@/utils/getUniqueLabel';
 import { isDateValid } from '@/utils/isDateValid';
 
 
-interface EditEventProps extends React.HTMLAttributes<HTMLElement> {
+interface EditEventProps {
   eventInput: Event | undefined;
   availableEventTypes: EventType[];
   settlementId: string;
@@ -31,28 +31,28 @@ function IconComponent({ type, className }: { type: string, className: string; }
   }
 }
 
-function TimelineItem({ children }: React.HTMLAttributes<HTMLElement>) {
+function TimelineItem({ children }: PropsWithChildren) {
   return (
     <li className='flex relative flex-col'>
       {children}
     </li>);
 }
 
-function TimelineIcon({ children }: React.HTMLAttributes<HTMLElement>) {
+function TimelineIcon({ children }: PropsWithChildren) {
   return (
     <span className='w-max relative z-[2] flex-shrink-0 rounded-full overflow-hidden bg-bg text-grey-light p-2 self-start'>
       {children}
     </span>);
 }
 
-function TimelineHeader({ children }: React.HTMLAttributes<HTMLElement>) {
+function TimelineHeader({ children }: PropsWithChildren) {
   return (
     <div className='flex items-center gap-4'>
       {children}
     </div>);
 }
 
-function TimelineBody({ children }: React.HTMLAttributes<HTMLElement>) {
+function TimelineBody({ children }: PropsWithChildren) {
   return (
     <div className='flex gap-4'>
       <span className='pointer-events-none invisible h-full flex-shrink-0' style={{ width: '40px' }}></span>

@@ -1,7 +1,7 @@
 'use client';
 
 import { PlusIcon, XIcon } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { MouseEventHandler, useEffect, useState } from 'react';
 
 import { fetchData } from '@/lib/fetch';
 import type { BaseTag, Tag } from '@/lib/types';
@@ -12,7 +12,7 @@ import { sortAlphabetically } from '@/utils/sortAlphabetically';
 
 interface TagItemProps {
   tag: Tag;
-  onClick: (...args: unknown[]) => void | Promise<void>;
+  onClick: MouseEventHandler<HTMLButtonElement>;
 }
 
 function TagItem({ tag, onClick }: TagItemProps) {
@@ -33,7 +33,7 @@ function NewTagItem({ availableTags, onAdd }: NewTagItemProps) {
   const [currentTag, setCurrentTag] = useState<Tag | undefined>();
   const [loading, setLoading] = useState<boolean>(false);
 
-  const setTag = (id: string) => {
+  function setTag(id: string) {
     setCurrentTag(availableTags.find(availableTag => availableTag.id === id));
   };
 

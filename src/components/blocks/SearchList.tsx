@@ -13,7 +13,11 @@ import { sortAlphabetically } from '@/utils/sortAlphabetically';
 import { useMemo } from 'react';
 import slugify from 'slugify';
 
-export type SearchableItem = { name: string; slug: string, location?: Location | null; };
+export interface SearchableItem {
+  name: string;
+  slug: string;
+  location?: Location | null;
+};
 
 export type SearchableItemsList = SearchableItem[];
 interface SearchListProps {

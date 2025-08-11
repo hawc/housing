@@ -7,7 +7,7 @@ import type { Resource, ResourceType } from '@/lib/types';
 
 import { EditResource } from '@/components/admin/settlements/Resource';
 
-interface ResourcesListProps extends React.HTMLAttributes<HTMLElement> {
+interface ResourcesListProps {
   resourcesInput: Resource[];
   settlementId: string;
   settlementSlug: string;
@@ -41,8 +41,7 @@ export function ResourcesList({ resourcesInput, settlementId, settlementSlug }: 
   return (
     <div className={`transition-filter ${loading ? 'blur-sm pointer-events-none' : ''}`}>
       {sortedResources?.map((resource: Resource) => (
-        <div
-          key={resource.id}>
+        <div key={resource.id}>
           <EditResource
             onUpdate={() => getResources(settlementId)}
             settlementSlug={settlementSlug}

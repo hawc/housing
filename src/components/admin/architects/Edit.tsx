@@ -3,7 +3,7 @@
 import { Loader2Icon } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 
 import { fetchData } from '@/lib/fetch';
 import type { Architect, BaseArchitect } from '@/lib/types';
@@ -15,8 +15,6 @@ import { InputGhost } from '@/components/blocks/form/Input';
 import { TextareaGhost } from '@/components/blocks/form/Textarea';
 import { Headline } from '@/components/Headline';
 
-
-export type Partial<T> = { [P in keyof T]?: T[P] };
 
 async function updateArchitect(slug: string, data: Partial<BaseArchitect>) {
   const response = await fetchData<BaseArchitect>(`/api/architects/update/${slug}`, undefined, { method: 'POST', body: JSON.stringify(data) });
@@ -30,17 +28,14 @@ async function addArchitect(data: Partial<BaseArchitect>) {
   return response;
 }
 
-export function ArchitectEdit({ architectInput }: { architectInput: Architect | undefined }) {
+interface ArchitectEditProps {
+  architectInput?: Architect;
+}
+
+export function ArchitectEdit({ architectInput }: ArchitectEditProps) {
   const router = useRouter();
   const [architect, setArchitect] = useState<BaseArchitect | Architect | undefined>(architectInput);
   const [loading, setLoading] = useState<boolean>(false);
-
-  function updateArchitectData(input: Partial<BaseArchitect>) {
-    setArchitect({
-      ...architect,
-      ...input,
-    } as Architect);
-  }
 
   async function deleteArchitect(slug: string) {
     setLoading(true);
@@ -49,13 +44,17 @@ export function ArchitectEdit({ architectInput }: { architectInput: Architect | 
     setLoading(false);
   }
 
-  async function submitData(architect) {
+  async function submitData(architect?: BaseArchitect | Architect) {
+    if (!architect) {
+      return;
+    }
+
     setLoading(true);
     const data = {
       name: architect.name,
       description: architect.description,
     };
-    if (architect?.slug) {
+    if (architect.slug) {
       const responseArchitect = await updateArchitect(architect.slug, data);
       await setArchitect(responseArchitect);
     } else {
@@ -67,6 +66,20 @@ export function ArchitectEdit({ architectInput }: { architectInput: Architect | 
     setLoading(false);
   }
 
+  const handleChangeName = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    setArchitect({
+      ...architect,
+      name: event.target.value,
+    } as Architect);
+  }, [architect]);
+
+  const handleChangeDescription = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
+    setArchitect({
+      ...architect,
+      description: event.target.value,
+    } as Architect);
+  }, [architect]);
+
   return (
     <>
       <Box ghost>
@@ -74,7 +87,7 @@ export function ArchitectEdit({ architectInput }: { architectInput: Architect | 
           <Headline type='h1' className='grow'>
             <InputGhost
               className='text-inherit'
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => updateArchitectData({ name: event.target.value })}
+              onChange={handleChangeName}
               value={architect?.name ?? ''} />
           </Headline>
         </div>
@@ -84,7 +97,7 @@ export function ArchitectEdit({ architectInput }: { architectInput: Architect | 
           <Box>
             <div>
               <TextareaGhost
-                onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => updateArchitectData({ description: event.target.value })}
+                onChange={handleChangeDescription}
                 value={architect?.description ?? ''} />
             </div>
           </Box>

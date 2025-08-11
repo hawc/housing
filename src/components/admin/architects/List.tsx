@@ -11,7 +11,11 @@ import { SearchInput, SearchList } from '@/components/blocks/SearchList';
 import { Headline } from '@/components/Headline';
 import { useRouter } from 'next/navigation';
 
-export function ListArchitects({ architectsInput }: { architectsInput: BaseArchitect[] }) {
+interface ListArchitectsProps {
+  architectsInput: BaseArchitect[];
+}
+
+export function ListArchitects({ architectsInput }: ListArchitectsProps) {
   const [searchTerm, setSearchTerm] = useState('');
 
   const router = useRouter();

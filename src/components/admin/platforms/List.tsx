@@ -108,7 +108,7 @@ export function EditPlatform({ platform, getPlatforms }: EditPlatformProps) {
 }
 
 interface ListPlatformsProps {
-  platformsInput: Platform[]
+  platformsInput: Platform[];
 }
 
 export function ListPlatforms({ platformsInput }: ListPlatformsProps) {

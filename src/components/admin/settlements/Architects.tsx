@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, Fragment, useCallback, useEffect, useState } from 'react';
 
 import { fetchData } from '@/lib/fetch';
 import type { Architect, BaseArchitect } from '@/lib/types';
@@ -11,14 +11,14 @@ import { Select } from '@/components/blocks/form/Select';
 import { sortAlphabetically } from '@/utils/sortAlphabetically';
 
 
-interface ArchitectsItemProps extends React.HTMLAttributes<HTMLElement> {
+interface ArchitectsItemProps {
   architect: Architect;
   settlementId: string;
   removeArchitect: (id, settlementId) => void;
   updateArchitectOnSettlement: (id, settlementId, role) => void;
 }
 
-interface ArchitectsListProps extends React.HTMLAttributes<HTMLElement> {
+interface ArchitectsListProps {
   architects: Architect[];
   settlementId: string;
   getSettlement: () => Promise<void>;
@@ -99,7 +99,7 @@ export function ArchitectsList({ architects, settlementId, getSettlement }: Arch
     setLoading(false);
   }, [getSettlement]);
 
-  const handleSetArchitectRole = useCallback((event) => {
+  const handleSetArchitectRole = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const role = event.target.value;
 
     if (!role || !currentArchitect?.id) {
