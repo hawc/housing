@@ -39,12 +39,9 @@
     "next": "15.3.4",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "react-icons": "^4.12.0",
     "react-map-gl": "8.0.4",
-    "resium": "^1.17.3",
     "slugify": "^1.6.6",
     "tailwind-merge": "^2.0.0",
-    "three": "^0.158.0",
     "uuid": "^10.0.0"
   },
   "devDependencies": {
@@ -55,7 +52,6 @@
     "@types/mapbox-gl": "^2.7.18",
     "@types/node": "^20.19.1",
     "@types/react": "19.1.8",
-    "@types/three": "^0.158.2",
     "autoprefixer": "^10.4.14",
     "eslint": "9.30.1",
     "eslint-config-next": "15.3.5",
@@ -64,7 +60,6 @@
     "next-sitemap": "4.2.3",
     "postcss": "^8.4.21",
     "prisma": "^4.13.0",
-    "supports-color": "^8.1.1",
     "tailwindcss": "^3.3.1",
     "ts-node": "^10.9.2",
     "typescript": "^4.9.5"
