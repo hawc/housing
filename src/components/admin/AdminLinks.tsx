@@ -10,7 +10,7 @@ export function AdminLinks() {
   const { user, isLoading } = useUser();
 
   if (isLoading || !user) {
-    return <></>;
+    return null;
   }
 
   return (

@@ -48,7 +48,7 @@ export function CesiumWrapper({ position }: CesiumWrapperProps) {
   }, [enable3D, loadCesium, setCesiumJs]);
 
   if (!cesiumJs) {
-    return;
+    return null;
   }
 
   return <CesiumContainer CesiumJs={cesiumJs} position={position} isRotating />;
