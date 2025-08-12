@@ -4,8 +4,8 @@ import { useState } from 'react';
 
 import type { BaseArchitect } from '@/lib/types';
 
-import { Box } from '@/components/blocks/Box';
-import { SearchInput, SearchList } from '@/components/blocks/SearchList';
+import { Box } from '@/components/common/Box';
+import { SearchInput, SearchList } from '@/components/common/SearchList';
 import { Headline } from '@/components/Headline';
 
 interface ListArchitectsProps {

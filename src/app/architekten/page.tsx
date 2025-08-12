@@ -4,9 +4,9 @@ import { fetchData } from '@/lib/fetch';
 import type { BaseArchitect } from '@/lib/types';
 
 import { ListArchitects } from '@/components/architects/List';
-import { Container } from '@/components/blocks/Box';
-import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcrumbs';
-import { ContactLink } from '@/components/blocks/ContactLink';
+import { Container } from '@/components/common/Box';
+import { Breadcrumb, Breadcrumbs } from '@/components/common/breadcrumbs/Breadcrumbs';
+import { ContactLink } from '@/components/common/ContactLink';
 import Layout from '@/components/layout/Layout';
 
 export const metadata: Metadata = {

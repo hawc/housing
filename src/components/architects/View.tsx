@@ -1,8 +1,8 @@
 import type { BaseArchitect } from '@/lib/types';
 
-import { Box, Container } from '@/components/blocks/Box';
-import { ContactLink } from '@/components/blocks/ContactLink';
-import { Link } from '@/components/blocks/Link';
+import { Box, Container } from '@/components/common/Box';
+import { ContactLink } from '@/components/common/ContactLink';
+import { Link } from '@/components/common/Link';
 import { Headline } from '@/components/Headline';
 import { SettlementsMap } from '@/components/settlements/SettlementsMap';
 import { useMemo } from 'react';

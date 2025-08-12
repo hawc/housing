@@ -1,4 +1,4 @@
-import { Button } from '@/components/blocks/form/Button';
+import { Button } from '@/components/common/form/Button';
 import { Tag } from '@/lib/types';
 import { XIcon } from 'lucide-react';
 import { MouseEventHandler } from 'react';

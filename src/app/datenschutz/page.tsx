@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
-import { Box } from '@/components/blocks/Box';
-import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcrumbs';
+import { Box } from '@/components/common/Box';
+import { Breadcrumb, Breadcrumbs } from '@/components/common/breadcrumbs/Breadcrumbs';
 import { Headline } from '@/components/Headline';
 import Layout from '@/components/layout/Layout';
 

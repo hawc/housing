@@ -1,5 +1,5 @@
-import { Footer } from '@/components/blocks/Footer';
-import { Header } from '@/components/blocks/Header';
+import { Footer } from '@/components/common/Footer';
+import { Header } from '@/components/common/Header';
 import { PropsWithChildren, ReactNode } from 'react';
 
 interface LayoutProps {

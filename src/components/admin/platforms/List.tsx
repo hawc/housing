@@ -8,8 +8,8 @@ import type { Platform } from '@/lib/types';
 
 import { AddPlatform } from '@/components/admin/platforms/Add';
 import { EditPlatform } from '@/components/admin/platforms/Edit';
-import { Box, Container } from '@/components/blocks/Box';
-import { Button } from '@/components/blocks/form/Button';
+import { Box, Container } from '@/components/common/Box';
+import { Button } from '@/components/common/form/Button';
 import { Headline } from '@/components/Headline';
 import { sortAlphabetically } from '@/utils/sortAlphabetically';
 

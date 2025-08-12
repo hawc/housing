@@ -1,5 +1,5 @@
-import { Button } from '@/components/blocks/form/Button';
-import { InputGhost } from '@/components/blocks/form/Input';
+import { Button } from '@/components/common/form/Button';
+import { InputGhost } from '@/components/common/form/Input';
 import { Architect } from '@/lib/types';
 import { useState } from 'react';
 

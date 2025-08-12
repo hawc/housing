@@ -13,7 +13,7 @@ if (typeof window !== 'undefined') {
   window.CESIUM_BASE_URL = '/cesium';
 }
 
-const CesiumDynamicComponent = dynamic(() => import('./CesiumComponent'), {
+const CesiumContainer = dynamic(() => import('./CesiumContainer'), {
   ssr: false,
 });
 
@@ -49,7 +49,7 @@ export function CesiumWrapper({ position }: CesiumWrapperProps) {
 
   return (
     cesiumJs &&
-    <CesiumDynamicComponent
+    <CesiumContainer
       CesiumJs={cesiumJs}
       position={position}
       isRotating

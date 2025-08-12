@@ -2,8 +2,8 @@
 
 import { useUser } from '@auth0/nextjs-auth0/client';
 
-import { Box } from '@/components/blocks/Box';
-import { Link } from '@/components/blocks/Link';
+import { Box } from '@/components/common/Box';
+import { Link } from '@/components/common/Link';
 import { Headline } from '@/components/Headline';
 
 export function AdminLinks() {

@@ -8,9 +8,9 @@ import { v4 as uuidv4 } from 'uuid';
 import { fetchData } from '@/lib/fetch';
 import type { Detail, DetailType } from '@/lib/types';
 
-import { Button } from '@/components/blocks/form/Button';
-import { InputGhost } from '@/components/blocks/form/Input';
-import { Select } from '@/components/blocks/form/Select';
+import { Button } from '@/components/common/form/Button';
+import { InputGhost } from '@/components/common/form/Input';
+import { Select } from '@/components/common/form/Select';
 import { getUniqueLabel } from '@/utils/getUniqueLabel';
 import { isDateValid } from '@/utils/isDateValid';
 

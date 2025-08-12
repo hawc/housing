@@ -5,8 +5,8 @@ import { fetchData } from '@/lib/fetch';
 import type { BaseArchitect } from '@/lib/types';
 
 import { Architect } from '@/components/architects/View';
-import { Box } from '@/components/blocks/Box';
-import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcrumbs';
+import { Box } from '@/components/common/Box';
+import { Breadcrumb, Breadcrumbs } from '@/components/common/breadcrumbs/Breadcrumbs';
 import Layout from '@/components/layout/Layout';
 import { formatDate } from '@/utils/formatDate';
 

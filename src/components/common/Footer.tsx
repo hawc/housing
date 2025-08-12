@@ -1,5 +1,5 @@
-import { Box, Container } from '@/components/blocks/Box';
-import { Link } from '@/components/blocks/Link';
+import { Box, Container } from '@/components/common/Box';
+import { Link } from '@/components/common/Link';
 import { LoginButton } from '@/components/LoginButton';
 
 export function Footer() {

@@ -2,8 +2,8 @@
 
 import type { Detail } from '@/lib/types';
 
-import { Link } from '@/components/blocks/Link';
-import { Tooltip } from '@/components/blocks/Tooltip';
+import { Link } from '@/components/common/Link';
+import { Tooltip } from '@/components/common/Tooltip';
 import { useMemo } from 'react';
 
 interface DetailsListProps {

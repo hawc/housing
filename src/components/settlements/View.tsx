@@ -4,12 +4,12 @@ import { CopyrightIcon } from 'lucide-react';
 
 import type { Architect, BaseSettlement } from '@/lib/types';
 
-import { Box, Container } from '@/components/blocks/Box';
-import { ContactLink } from '@/components/blocks/ContactLink';
-import { DetailsList } from '@/components/blocks/DetailsList';
-import { LightBox } from '@/components/blocks/LightBox';
-import { Link as LinkElement } from '@/components/blocks/Link';
-import { Timeline } from '@/components/blocks/Timeline';
+import { Box, Container } from '@/components/common/Box';
+import { ContactLink } from '@/components/common/ContactLink';
+import { DetailsList } from '@/components/common/DetailsList';
+import { LightBox } from '@/components/common/LightBox';
+import { Link as LinkElement } from '@/components/common/Link';
+import { Timeline } from '@/components/common/Timeline';
 import { Headline } from '@/components/Headline';
 import { CesiumMap } from '@/components/settlements/CesiumMap';
 import { SettlementMap } from '@/components/settlements/SettlementMap';

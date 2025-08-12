@@ -7,13 +7,13 @@ import { v4 as uuidv4 } from 'uuid';
 import { fetchData } from '@/lib/fetch';
 import type { Resource, ResourceType } from '@/lib/types';
 
-import { Button } from '@/components/blocks/form/Button';
-import { InputGhost } from '@/components/blocks/form/Input';
-import { Select } from '@/components/blocks/form/Select';
-import Upload from '@/components/blocks/form/Upload';
+import { Button } from '@/components/common/form/Button';
+import { InputGhost } from '@/components/common/form/Input';
+import { Select } from '@/components/common/form/Select';
+import Upload from '@/components/common/form/Upload';
 
 import type { ImageResponse } from '@/app/api/upload/route';
-import { LightBox } from '@/components/blocks/LightBox';
+import { LightBox } from '@/components/common/LightBox';
 import { getUniqueLabel } from '@/utils/getUniqueLabel';
 
 async function updateResource(id: string, data: unknown) {

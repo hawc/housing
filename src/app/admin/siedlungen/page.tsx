@@ -4,7 +4,7 @@ import type { BaseSettlement } from '@/lib/types';
 
 import LoginPageFrame from '@/components/admin/LoginPageFrame';
 import { ListSettlements } from '@/components/admin/settlements/List';
-import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcrumbs';
+import { Breadcrumb, Breadcrumbs } from '@/components/common/breadcrumbs/Breadcrumbs';
 import Layout from '@/components/layout/Layout';
 
 async function getSettlements() {

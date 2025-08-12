@@ -5,8 +5,8 @@ import { useMemo, useState } from 'react';
 import type { BaseLocation, BaseSettlement } from '@/lib/types';
 import useDebounce from '@/lib/useDebounce';
 
-import { Box } from '@/components/blocks/Box';
-import { SearchInput, SettlementsSearchList } from '@/components/blocks/SearchList';
+import { Box } from '@/components/common/Box';
+import { SearchInput, SettlementsSearchList } from '@/components/common/SearchList';
 import { Headline } from '@/components/Headline';
 import { SettlementsMap } from '@/components/settlements/SettlementsMap';
 

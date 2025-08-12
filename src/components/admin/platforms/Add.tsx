@@ -1,6 +1,6 @@
-import { Button } from '@/components/blocks/form/Button';
-import { InputGhost } from '@/components/blocks/form/Input';
-import { TextareaGhost } from '@/components/blocks/form/Textarea';
+import { Button } from '@/components/common/form/Button';
+import { InputGhost } from '@/components/common/form/Input';
+import { TextareaGhost } from '@/components/common/form/Textarea';
 import { Headline } from '@/components/Headline';
 import { fetchData } from '@/lib/fetch';
 import { Platform } from '@/lib/types';

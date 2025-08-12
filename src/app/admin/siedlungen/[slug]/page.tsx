@@ -5,7 +5,7 @@ import type { BaseSettlement } from '@/lib/types';
 
 import LoginPageFrame from '@/components/admin/LoginPageFrame';
 import { SettlementEdit } from '@/components/admin/settlements/Edit';
-import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcrumbs';
+import { Breadcrumb, Breadcrumbs } from '@/components/common/breadcrumbs/Breadcrumbs';
 import Layout from '@/components/layout/Layout';
 
 export async function generateStaticParams() {

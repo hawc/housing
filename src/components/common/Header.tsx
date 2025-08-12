@@ -1,4 +1,4 @@
-import { Link } from '@/components/blocks/Link';
+import { Link } from '@/components/common/Link';
 
 export function Header() {
   return (

@@ -2,8 +2,8 @@
 
 import { usePathname } from 'next/navigation';
 
-import { Box } from '@/components/blocks/Box';
-import { Link } from '@/components/blocks/Link';
+import { Box } from '@/components/common/Box';
+import { Link } from '@/components/common/Link';
 
 export function ContactLink() {
   const pathname = usePathname();

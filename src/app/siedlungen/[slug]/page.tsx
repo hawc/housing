@@ -5,8 +5,8 @@ import { fetchData } from '@/lib/fetch';
 import { SettingsProvider } from '@/lib/settingsContext';
 import type { BaseSettlement } from '@/lib/types';
 
-import { Box } from '@/components/blocks/Box';
-import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcrumbs';
+import { Box } from '@/components/common/Box';
+import { Breadcrumb, Breadcrumbs } from '@/components/common/breadcrumbs/Breadcrumbs';
 import Layout from '@/components/layout/Layout';
 import { Settlement } from '@/components/settlements/View';
 import { formatDate } from '@/utils/formatDate';

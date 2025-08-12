@@ -1,4 +1,4 @@
-import { SearchableItem, SearchableItemsList } from '@/components/blocks/SearchList';
+import { SearchableItem, SearchableItemsList } from '@/components/common/SearchList';
 
 interface GroupedItems {
   [key: string]: SearchableItem[];

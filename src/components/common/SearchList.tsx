@@ -2,9 +2,9 @@ import { twMerge } from 'tailwind-merge';
 
 import type { Location } from '@/lib/types';
 
-import { InputGhost } from '@/components/blocks/form/Input';
-import { Link } from '@/components/blocks/Link';
-import { List, ListItem } from '@/components/blocks/List';
+import { InputGhost } from '@/components/common/form/Input';
+import { Link } from '@/components/common/Link';
+import { List, ListItem } from '@/components/common/List';
 import { Headline } from '@/components/Headline';
 import { Sorting } from '@/components/settlements/List';
 import { groupBy } from '@/utils/groupBy';

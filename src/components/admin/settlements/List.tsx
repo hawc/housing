@@ -5,9 +5,9 @@ import { useCallback, useState } from 'react';
 
 import type { BaseSettlement } from '@/lib/types';
 
-import { Box } from '@/components/blocks/Box';
-import { Button } from '@/components/blocks/form/Button';
-import { SearchInput, SettlementsSearchList } from '@/components/blocks/SearchList';
+import { Box } from '@/components/common/Box';
+import { Button } from '@/components/common/form/Button';
+import { SearchInput, SettlementsSearchList } from '@/components/common/SearchList';
 import { Headline } from '@/components/Headline';
 import { useRouter } from 'next/navigation';
 

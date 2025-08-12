@@ -3,7 +3,7 @@ import type { BaseTag } from '@/lib/types';
 
 import LoginPageFrame from '@/components/admin/LoginPageFrame';
 import { ListTags } from '@/components/admin/tags/List';
-import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcrumbs';
+import { Breadcrumb, Breadcrumbs } from '@/components/common/breadcrumbs/Breadcrumbs';
 import Layout from '@/components/layout/Layout';
 
 async function getTags() {

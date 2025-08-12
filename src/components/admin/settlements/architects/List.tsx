@@ -6,9 +6,9 @@ import { fetchData } from '@/lib/fetch';
 import type { Architect, BaseArchitect } from '@/lib/types';
 
 import { ArchitectsItem } from '@/components/admin/settlements/architects/Item';
-import { Button } from '@/components/blocks/form/Button';
-import { InputGhost } from '@/components/blocks/form/Input';
-import { Select } from '@/components/blocks/form/Select';
+import { Button } from '@/components/common/form/Button';
+import { InputGhost } from '@/components/common/form/Input';
+import { Select } from '@/components/common/form/Select';
 import { sortAlphabetically } from '@/utils/sortAlphabetically';
 
 async function getArchitects() {

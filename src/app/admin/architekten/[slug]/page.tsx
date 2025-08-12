@@ -5,7 +5,7 @@ import type { BaseArchitect } from '@/lib/types';
 
 import { ArchitectEdit } from '@/components/admin/architects/Edit';
 import LoginPageFrame from '@/components/admin/LoginPageFrame';
-import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcrumbs';
+import { Breadcrumb, Breadcrumbs } from '@/components/common/breadcrumbs/Breadcrumbs';
 import Layout from '@/components/layout/Layout';
 
 export async function generateMetadata(props): Promise<Metadata> {

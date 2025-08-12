@@ -1,8 +1,8 @@
 
 import type { BaseLocation, Location } from '@/lib/types';
 
-import { Box } from '@/components/blocks/Box';
-import { CesiumWrapper } from '@/components/blocks/CesiumWrapper';
+import { Box } from '@/components/common/Box';
+import { CesiumWrapper } from '@/components/common/CesiumWrapper';
 
 interface CesiumMapProps {
   locationInput: BaseLocation | Location;

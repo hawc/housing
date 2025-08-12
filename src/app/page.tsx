@@ -1,8 +1,8 @@
 
 import { AdminLinks } from '@/components/admin/AdminLinks';
-import { Box, Container } from '@/components/blocks/Box';
-import { Link as StyledLink } from '@/components/blocks/Link';
-import { List, ListItem } from '@/components/blocks/List';
+import { Box, Container } from '@/components/common/Box';
+import { Link as StyledLink } from '@/components/common/Link';
+import { List, ListItem } from '@/components/common/List';
 import { Headline } from '@/components/Headline';
 import Layout from '@/components/layout/Layout';
 

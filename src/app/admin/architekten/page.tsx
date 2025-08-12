@@ -3,7 +3,7 @@ import type { BaseArchitect } from '@/lib/types';
 
 import { ListArchitects } from '@/components/admin/architects/List';
 import LoginPageFrame from '@/components/admin/LoginPageFrame';
-import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcrumbs';
+import { Breadcrumb, Breadcrumbs } from '@/components/common/breadcrumbs/Breadcrumbs';
 import Layout from '@/components/layout/Layout';
 
 async function getArchitects() {

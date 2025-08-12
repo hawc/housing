@@ -9,10 +9,10 @@ import { fetchData } from '@/lib/fetch';
 import type { Event, EventType } from '@/lib/types';
 
 import { TimelineIcon } from '@/components/admin/settlements/timeline/Icon';
-import { Button } from '@/components/blocks/form/Button';
-import { InputGhost } from '@/components/blocks/form/Input';
-import { Select } from '@/components/blocks/form/Select';
-import { TextareaGhost } from '@/components/blocks/form/Textarea';
+import { Button } from '@/components/common/form/Button';
+import { InputGhost } from '@/components/common/form/Input';
+import { Select } from '@/components/common/form/Select';
+import { TextareaGhost } from '@/components/common/form/Textarea';
 import { getUniqueLabel } from '@/utils/getUniqueLabel';
 import { isDateValid } from '@/utils/isDateValid';
 

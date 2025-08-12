@@ -3,7 +3,6 @@
 import type { BoundingSphere, Cesium3DTileset, Viewer } from 'cesium';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 
-// This is required to get the stylings for default Cesium UI and controls
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 
 import { SettingsContext } from '@/lib/settingsContext';
@@ -12,17 +11,17 @@ import { Coordinates } from '@/components/settlements/Map';
 
 import type { CesiumType } from '@/types/cesium';
 
-interface CesiumComponentProps {
-  CesiumJs: CesiumType,
-  position: Coordinates,
-  isRotating,
+interface CesiumContainerProps {
+  CesiumJs: CesiumType;
+  position: Coordinates;
+  isRotating: boolean;
 }
 
-function CesiumComponent({
+function CesiumContainer({
   CesiumJs,
   position,
   isRotating,
-}: CesiumComponentProps) {
+}: CesiumContainerProps) {
   const { setIs3DLoading, setEnable3D } = useContext(SettingsContext);
   const cesiumViewer = useRef<Viewer | null>(null);
   const cesiumContainerRef = useRef<HTMLDivElement>(null);
@@ -139,4 +138,4 @@ function CesiumComponent({
   );
 }
 
-export default CesiumComponent;
+export default CesiumContainer;

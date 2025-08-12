@@ -5,9 +5,9 @@ import { useCallback, useState } from 'react';
 
 import type { BaseArchitect } from '@/lib/types';
 
-import { Box, Container } from '@/components/blocks/Box';
-import { Button } from '@/components/blocks/form/Button';
-import { SearchInput, SearchList } from '@/components/blocks/SearchList';
+import { Box, Container } from '@/components/common/Box';
+import { Button } from '@/components/common/form/Button';
+import { SearchInput, SearchList } from '@/components/common/SearchList';
 import { Headline } from '@/components/Headline';
 import { useRouter } from 'next/navigation';
 

@@ -6,7 +6,7 @@ import { useCallback, useContext } from 'react';
 import { SettingsContext } from '@/lib/settingsContext';
 import type { Location } from '@/lib/types';
 
-import { Button } from '@/components/blocks/form/Button';
+import { Button } from '@/components/common/form/Button';
 
 interface SettlementsMetaProps {
   location: Location | null;

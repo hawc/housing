@@ -15,10 +15,10 @@ import { Location } from '@/components/admin/settlements/Location';
 import { ResourcesList } from '@/components/admin/settlements/resources/List';
 import { TagList } from '@/components/admin/settlements/tags/List';
 import { Timeline } from '@/components/admin/settlements/timeline/Timeline';
-import { Box, Container } from '@/components/blocks/Box';
-import { Button } from '@/components/blocks/form/Button';
-import { InputGhost } from '@/components/blocks/form/Input';
-import { TextareaGhost } from '@/components/blocks/form/Textarea';
+import { Box, Container } from '@/components/common/Box';
+import { Button } from '@/components/common/form/Button';
+import { InputGhost } from '@/components/common/form/Input';
+import { TextareaGhost } from '@/components/common/form/Textarea';
 import { Headline } from '@/components/Headline';
 
 interface SettlementEditProps {

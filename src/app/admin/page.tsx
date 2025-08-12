@@ -1,6 +1,6 @@
 import LoginPageFrame from '@/components/admin/LoginPageFrame';
-import { Link } from '@/components/blocks/Link';
-import { List, ListItem } from '@/components/blocks/List';
+import { Link } from '@/components/common/Link';
+import { List, ListItem } from '@/components/common/List';
 import Layout from '@/components/layout/Layout';
 
 export default function Admin() {

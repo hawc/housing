@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 
-import { Box } from '@/components/blocks/Box';
-import { Breadcrumb, Breadcrumbs } from '@/components/blocks/breadcrumbs/Breadcrumbs';
-import { Link } from '@/components/blocks/Link';
+import { Box } from '@/components/common/Box';
+import { Breadcrumb, Breadcrumbs } from '@/components/common/breadcrumbs/Breadcrumbs';
+import { Link } from '@/components/common/Link';
 import { Headline } from '@/components/Headline';
 import Layout from '@/components/layout/Layout';
 import { fetchData } from '@/lib/fetch';

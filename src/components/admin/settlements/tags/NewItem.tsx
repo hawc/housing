@@ -5,8 +5,8 @@ import { ChangeEvent, useCallback, useState } from 'react';
 
 import type { Tag } from '@/lib/types';
 
-import { Button } from '@/components/blocks/form/Button';
-import { Select } from '@/components/blocks/form/Select';
+import { Button } from '@/components/common/form/Button';
+import { Select } from '@/components/common/form/Select';
 
 interface NewTagItemProps {
   availableTags: Tag[];

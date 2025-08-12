@@ -7,7 +7,7 @@ import { twMerge } from 'tailwind-merge';
 
 import './LightBox.css';
 
-import { Button } from '@/components/blocks/form/Button';
+import { Button } from '@/components/common/form/Button';
 
 interface LightBoxProps extends HTMLAttributes<HTMLElement> {
   src: string;

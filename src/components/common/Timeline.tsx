@@ -2,8 +2,8 @@ import { BuildingIcon, CircleDotDashedIcon, HomeIcon } from 'lucide-react';
 
 import type { Event } from '@/lib/types';
 
-import { Link } from '@/components/blocks/Link';
-import { Tooltip } from '@/components/blocks/Tooltip';
+import { Link } from '@/components/common/Link';
+import { Tooltip } from '@/components/common/Tooltip';
 import { Headline } from '@/components/Headline';
 import { isDateValid } from '@/utils/isDateValid';
 import { sortByDate } from '@/utils/sortByDate';

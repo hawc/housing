@@ -5,7 +5,7 @@ import type { PropsWithChildren } from 'react';
 
 import styles from './Breadcrumbs.module.css';
 
-import { CurrentPage } from '@/components/blocks/breadcrumbs/CurrentPage';
+import { CurrentPage } from '@/components/common/breadcrumbs/CurrentPage';
 
 type BreadcrumbsProps = PropsWithChildren;
 
