@@ -10,13 +10,16 @@ async function addSettlementsOnTag(
 ) {
   return await prisma.settlementsOnTags.create({
     data: data,
-    include: settlementsOnTagsInclude
+    include: settlementsOnTagsInclude,
   });
 }
 
 export async function GET(_req: NextRequest, props) {
   const params = await props.params;
-  await addSettlementsOnTag({ settlementId: params.settlementId, tagId: params.tagId });
+  await addSettlementsOnTag({
+    settlementId: params.settlementId,
+    tagId: params.tagId,
+  });
 
   return NextResponse.json('');
 }

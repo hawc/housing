@@ -6,9 +6,12 @@ interface EventIconProps {
 
 function EventIcon({ type }: EventIconProps) {
   switch (type) {
-    case 'Planung': return <CircleDotDashedIcon className='h-4 w-4' />;
-    case 'Fertigstellung': return <BuildingIcon className='h-4 w-4' />;
-    default: return <HomeIcon className='h-4 w-4' />;
+    case 'Planung':
+      return <CircleDotDashedIcon className='h-4 w-4' />;
+    case 'Fertigstellung':
+      return <BuildingIcon className='h-4 w-4' />;
+    default:
+      return <HomeIcon className='h-4 w-4' />;
   }
 }
 

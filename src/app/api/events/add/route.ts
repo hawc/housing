@@ -6,9 +6,7 @@ import { eventsInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
 import { baseTransformers } from '@/lib/transformers';
 
-async function addEvent(
-  data: Prisma.EventsUncheckedCreateInput
-) {
+async function addEvent(data: Prisma.EventsUncheckedCreateInput) {
   return await prisma.events.create({
     data: {
       name: data.name,
@@ -16,9 +14,9 @@ async function addEvent(
       source: data.source,
       settlementId: data.settlementId,
       eventTypeId: data.eventTypeId,
-      eventDate: data.eventDate
+      eventDate: data.eventDate,
     },
-    include: eventsInclude
+    include: eventsInclude,
   });
 }
 

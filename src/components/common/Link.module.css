@@ -24,7 +24,8 @@
 
 .link + span {
   align-self: center;
-  transition: transform 0.4s ease-out, background-size 0.4s ease-out, background-position-x 0.4s ease-out;
+  transition: transform 0.4s ease-out, background-size 0.4s ease-out,
+    background-position-x 0.4s ease-out;
   transform: translateX(6px);
   transform-origin: center left;
   background-color: var(--text);

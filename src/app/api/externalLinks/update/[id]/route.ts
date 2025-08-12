@@ -13,13 +13,16 @@ async function updateExternalLink(
   return await prisma.externalLinks.update({
     where,
     data,
-    include: externalLinksInclude
+    include: externalLinksInclude,
   });
 }
 
 export async function POST(req: NextRequest, props) {
   const params = await props.params;
-  const externalLink = await updateExternalLink({ id: params.id }, await req.json());
+  const externalLink = await updateExternalLink(
+    { id: params.id },
+    await req.json()
+  );
 
   if (!externalLink) {
     return NextResponse.json('');

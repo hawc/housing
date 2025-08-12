@@ -7,16 +7,14 @@ import prisma from '@/lib/prisma';
 import { baseTransformers } from '@/lib/transformers';
 import { slugify } from '@/utils/slugify';
 
-async function createArchitect(
-  data: Prisma.ArchitectsCreateInput
-) {
+async function createArchitect(data: Prisma.ArchitectsCreateInput) {
   return await prisma.architects.create({
     data: {
       name: data.name,
       slug: slugify(data.name),
-      description: data.description
+      description: data.description,
     },
-    include: architectsInclude
+    include: architectsInclude,
   });
 }
 

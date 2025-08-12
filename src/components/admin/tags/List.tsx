@@ -14,7 +14,7 @@ import { Headline } from '@/components/Headline';
 import { sortAlphabetically } from '@/utils/sortAlphabetically';
 
 interface ListTagsProps {
-  tagsInput: BaseTag[]
+  tagsInput: BaseTag[];
 }
 
 export function ListTags({ tagsInput }: ListTagsProps) {
@@ -33,10 +33,15 @@ export function ListTags({ tagsInput }: ListTagsProps) {
     <>
       <Box ghost>
         <div className='flex mt-6'>
-          <Headline type='h1' className='mb-0 inline-block'>Tags</Headline>
+          <Headline type='h1' className='mb-0 inline-block'>
+            Tags
+          </Headline>
           <div>
             <Button className='ml-3 p-2 rounded-full' onClick={getTags}>
-              <RotateCwIcon className={`align-text-bottom ${loading && 'animate-spin'}`} size={15} />
+              <RotateCwIcon
+                className={`align-text-bottom ${loading && 'animate-spin'}`}
+                size={15}
+              />
             </Button>
           </div>
         </div>

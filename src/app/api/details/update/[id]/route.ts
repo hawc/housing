@@ -13,7 +13,7 @@ async function updateDetail(
   return await prisma.details.update({
     where,
     data,
-    include: detailsInclude
+    include: detailsInclude,
   });
 }
 

@@ -10,14 +10,18 @@ async function addSettlementsOnArchitect(
 ) {
   return await prisma.settlementsOnArchitects.create({
     data: data,
-    include: settlementsOnArchitectsInclude
+    include: settlementsOnArchitectsInclude,
   });
 }
 
 export async function POST(req: NextRequest, props) {
   const params = await props.params;
   const data = await req.json();
-  await addSettlementsOnArchitect({ settlementId: params.settlementId, architectId: params.architectId, ...data });
+  await addSettlementsOnArchitect({
+    settlementId: params.settlementId,
+    architectId: params.architectId,
+    ...data,
+  });
 
   return NextResponse.json('');
 }

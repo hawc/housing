@@ -1,4 +1,9 @@
-const DATE_OPTIONS: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+const DATE_OPTIONS: Intl.DateTimeFormatOptions = {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+};
 
 export function formatDate(date: Date) {
   return new Date(date).toLocaleDateString('de-de', DATE_OPTIONS);

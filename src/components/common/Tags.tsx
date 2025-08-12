@@ -6,7 +6,7 @@ interface TagItemProps {
 
 function TagItem({ tag }: TagItemProps) {
   return (
-    <li className="flex mr-1 mb-1 py-1 px-3 italic text-xs font-semibold border-2 border-text rounded-full">
+    <li className='flex mr-1 mb-1 py-1 px-3 italic text-xs font-semibold border-2 border-text rounded-full'>
       {tag.name}
     </li>
   );

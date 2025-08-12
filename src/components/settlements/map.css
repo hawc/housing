@@ -1,5 +1,4 @@
-@import url("https://api.tiles.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css");
-
+@import url('https://api.tiles.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css');
 
 .marker::before {
   content: '';
@@ -65,5 +64,4 @@
   right: -1px;
   background-color: var(--black);
   border: 1px solid var(--white);
-  
 }

@@ -8,9 +8,9 @@ import { baseTransformers } from '@/lib/transformers';
 async function findEventTypes() {
   return await prisma.eventTypes.findMany({
     where: {
-      published: true
+      published: true,
     },
-    include: eventTypesInclude
+    include: eventTypesInclude,
   });
 }
 

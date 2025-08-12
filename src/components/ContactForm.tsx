@@ -38,8 +38,8 @@ export function ContactForm() {
       pageTitle: function () {
         return document.title;
       },
-      from
-    }
+      from,
+    },
   });
 
   function getFieldErrors(fieldName: string) {
@@ -72,11 +72,15 @@ export function ContactForm() {
         <p>Danke für Ihre Nachricht!</p>
         <p>
           {from && (
-            <Link arrow back href={from}>Zurück zur vorherigen Seite</Link>
+            <Link arrow back href={from}>
+              Zurück zur vorherigen Seite
+            </Link>
           )}
         </p>
         <p>
-          <Link arrow back href="/">Zurück zur Startseite</Link>
+          <Link arrow back href='/'>
+            Zurück zur Startseite
+          </Link>
         </p>
       </div>
     );
@@ -86,51 +90,52 @@ export function ContactForm() {
     <form onSubmit={handleSubmit}>
       <div className='md:flex md:gap-4'>
         <div className='basis-full'>
-          <label htmlFor="name">
-            Name
-          </label>
+          <label htmlFor='name'>Name</label>
           <InputGhost
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
-            id="name"
-            type="name"
-            name="name"
+            id='name'
+            type='name'
+            name='name'
             value={name}
-            onChange={e => setName(e.target.value)}
+            onChange={(e) => setName(e.target.value)}
           />
           {getFieldErrors('name')}
         </div>
         <div className='basis-full'>
-          <label htmlFor="email">
-            E-Mail-Adresse
-          </label>
+          <label htmlFor='email'>E-Mail-Adresse</label>
           <InputGhost
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
-            id="email"
-            type="email"
-            name="email"
+            id='email'
+            type='email'
+            name='email'
             value={email}
-            onChange={e => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
           />
           {getFieldErrors('email')}
         </div>
       </div>
-      <label htmlFor="message">
-        Nachricht
-      </label>
+      <label htmlFor='message'>Nachricht</label>
       <TextareaGhost
         className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
-        id="message"
-        name="message"
+        id='message'
+        name='message'
         value={message}
-        onChange={e => setMessage(e.target.value)}
+        onChange={(e) => setMessage(e.target.value)}
       />
       {getFieldErrors('message')}
       {getFormErrors()}
-      <Button type="submit" className='w-full md:w-auto' disabled={state.submitting || !name || !email || !message}>
+      <Button
+        type='submit'
+        className='w-full md:w-auto'
+        disabled={state.submitting || !name || !email || !message}
+      >
         Absenden
       </Button>
       {(!name || !email || !message) && (
-        <span className='pt-2 md:pt-0 md:pl-4 block md:inline'><InfoIcon size={22} className='inline mr-2' />Bitte fülle alle Felder aus.</span>
+        <span className='pt-2 md:pt-0 md:pl-4 block md:inline'>
+          <InfoIcon size={22} className='inline mr-2' />
+          Bitte fülle alle Felder aus.
+        </span>
       )}
     </form>
   );

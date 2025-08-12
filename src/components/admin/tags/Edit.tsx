@@ -21,7 +21,7 @@ export function EditTag({ tag, getTags }: EditTagProps) {
   function updateTag(updatedTag: Partial<Tag>) {
     setCurrentTag({
       ...currentTag,
-      ...updatedTag
+      ...updatedTag,
     });
   }
 
@@ -36,13 +36,28 @@ export function EditTag({ tag, getTags }: EditTagProps) {
     <>
       <div className='flex'>
         <Headline type='h6' tag='h2' className='grow'>
-          <InputGhost value={tag.name} onChange={(event) => updateTag({ name: event.target.value })} className='mb-1' />
+          <InputGhost
+            value={tag.name}
+            onChange={(event) => updateTag({ name: event.target.value })}
+            className='mb-1'
+          />
         </Headline>
-        <Button disabled={loading} onClick={() => deleteTag(tag.id)} className='ml-3 p-2 rounded-full'>
-          {loading ? <Loader2Icon size={15} className='animate-spin' /> : <XIcon size={15} />}
+        <Button
+          disabled={loading}
+          onClick={() => deleteTag(tag.id)}
+          className='ml-3 p-2 rounded-full'
+        >
+          {loading ? (
+            <Loader2Icon size={15} className='animate-spin' />
+          ) : (
+            <XIcon size={15} />
+          )}
         </Button>
       </div>
-      <TextareaGhost value={tag.description} onChange={(event) => updateTag({ description: event.target.value })} />
+      <TextareaGhost
+        value={tag.description}
+        onChange={(event) => updateTag({ description: event.target.value })}
+      />
     </>
   );
 }

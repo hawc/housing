@@ -7,18 +7,16 @@ import prisma from '@/lib/prisma';
 import { baseTransformers } from '@/lib/transformers';
 import { slugify } from '@/utils/slugify';
 
-async function addPlatform(
-  data: Prisma.PlatformsUncheckedCreateInput
-) {
+async function addPlatform(data: Prisma.PlatformsUncheckedCreateInput) {
   return await prisma.platforms.create({
     data: {
       name: data.name,
       slug: slugify(data.name),
       description: data.description,
       url: data.url,
-      urlIdentifier: data.urlIdentifier
+      urlIdentifier: data.urlIdentifier,
     },
-    include: platformsInclude
+    include: platformsInclude,
   });
 }
 

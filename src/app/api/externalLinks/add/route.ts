@@ -6,18 +6,16 @@ import { externalLinksInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
 import { baseTransformers } from '@/lib/transformers';
 
-async function addExternalLink(
-  data: Prisma.ExternalLinksUncheckedCreateInput
-) {
+async function addExternalLink(data: Prisma.ExternalLinksUncheckedCreateInput) {
   return await prisma.externalLinks.create({
     data: {
       name: data.name,
       description: data.description,
       url: data.url,
       architectId: data.architectId,
-      platformId: data.platformId
+      platformId: data.platformId,
     },
-    include: externalLinksInclude
+    include: externalLinksInclude,
   });
 }
 

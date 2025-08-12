@@ -27,12 +27,21 @@ function getDescriptionInputType(detailType?: DetailType['name']) {
   }
 }
 
-async function updateDetail(id: string, data: Prisma.DetailsUncheckedUpdateInput) {
-  return await fetchData<Detail>(`/api/details/update/${id}`, undefined, { method: 'POST', body: JSON.stringify(data) });
+async function updateDetail(
+  id: string,
+  data: Prisma.DetailsUncheckedUpdateInput
+) {
+  return await fetchData<Detail>(`/api/details/update/${id}`, undefined, {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
 }
 
 async function addDetail(data: Prisma.DetailsUncheckedCreateInput) {
-  return await fetchData<Detail>('/api/details/add', undefined, { method: 'POST', body: JSON.stringify(data) });
+  return await fetchData<Detail>('/api/details/add', undefined, {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
 }
 
 interface EditDetailProps {
@@ -43,13 +52,23 @@ interface EditDetailProps {
   onUpdate: (detailId: string | undefined) => void;
 }
 
-export function EditDetail({ detailInput, availableDetailTypes, settlementId, className, onUpdate }: EditDetailProps) {
+export function EditDetail({
+  detailInput,
+  availableDetailTypes,
+  settlementId,
+  className,
+  onUpdate,
+}: EditDetailProps) {
   const [detail, setCurrentDetail] = useState<Detail | undefined>(detailInput);
-  const [detailTypeId, setDetailTypeId] = useState<string>(detail?.detailType?.id ?? '');
+  const [detailTypeId, setDetailTypeId] = useState<string>(
+    detail?.detailType?.id ?? ''
+  );
   const [loading, setLoading] = useState<boolean>(false);
   const [uuid] = useState<string>(uuidv4());
 
-  const detailTypeName = availableDetailTypes.find(type => type.id === detailTypeId)?.name;
+  const detailTypeName = availableDetailTypes.find(
+    (type) => type.id === detailTypeId
+  )?.name;
 
   function setDetail(input: Partial<Detail>) {
     setCurrentDetail({
@@ -66,7 +85,11 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, cl
     setLoading(false);
   }
 
-  async function submitData(detail: Detail, detailTypeId: string, settlementId: string) {
+  async function submitData(
+    detail: Detail,
+    detailTypeId: string,
+    settlementId: string
+  ) {
     setLoading(true);
     let response;
     if (detail?.id) {
@@ -87,7 +110,7 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, cl
         source: detail.source,
         detailDate: detail.detailDate ? new Date(detail.detailDate) : undefined,
         detailTypeId: detailTypeId,
-        settlementId: settlementId
+        settlementId: settlementId,
       };
       response = await addDetail(data);
     }
@@ -106,7 +129,8 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, cl
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={detail?.detailType?.id ?? ''}
             options={availableDetailTypes}
-            onChange={(detail) => setDetailTypeId(detail.target.value)} />
+            onChange={(detail) => setDetailTypeId(detail.target.value)}
+          />
         </div>
         <div className='basis-full'>
           <label htmlFor={getUniqueLabel('detailName', uuid)}>Name:</label>
@@ -115,26 +139,33 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, cl
             placeholder={detailTypeName}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={detail?.name ?? ''}
-            onChange={(event) => setDetail({ name: event.target.value })} />
+            onChange={(event) => setDetail({ name: event.target.value })}
+          />
         </div>
       </div>
       <div className='flex gap-4'>
         <div className='basis-full'>
-          <label htmlFor={getUniqueLabel('detailDescription', uuid)}>Wert:</label>
+          <label htmlFor={getUniqueLabel('detailDescription', uuid)}>
+            Wert:
+          </label>
           <InputGhost
             id={getUniqueLabel('detailDescription', uuid)}
             type={getDescriptionInputType(detail?.detailType?.name)}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={detail?.description ?? ''}
-            onChange={(event) => setDetail({ description: event.target.value })} />
+            onChange={(event) => setDetail({ description: event.target.value })}
+          />
         </div>
         <div className='basis-full'>
-          <label htmlFor={getUniqueLabel('detailAnnotation', uuid)}>Anmerkung:</label>
+          <label htmlFor={getUniqueLabel('detailAnnotation', uuid)}>
+            Anmerkung:
+          </label>
           <InputGhost
             id={getUniqueLabel('detailAnnotation', uuid)}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={detail?.annotation ?? ''}
-            onChange={(event) => setDetail({ annotation: event.target.value })} />
+            onChange={(event) => setDetail({ annotation: event.target.value })}
+          />
         </div>
       </div>
       <div className='flex gap-4'>
@@ -145,7 +176,16 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, cl
             id={getUniqueLabel('detailDate', uuid)}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={detail?.detailDate}
-            onChange={(event) => setDetail({ detailDate: isDateValid(event.target.value) ? new Date(new Date(event.target.value).toUTCString()).toISOString() : undefined })} />
+            onChange={(event) =>
+              setDetail({
+                detailDate: isDateValid(event.target.value)
+                  ? new Date(
+                      new Date(event.target.value).toUTCString()
+                    ).toISOString()
+                  : undefined,
+              })
+            }
+          />
         </div>
         <div className='basis-full'>
           <label htmlFor={getUniqueLabel('detailSource', uuid)}>Quelle:</label>
@@ -153,22 +193,37 @@ export function EditDetail({ detailInput, availableDetailTypes, settlementId, cl
             id={getUniqueLabel('detailSource', uuid)}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={detail?.source ?? ''}
-            onChange={(event) => setDetail({ source: event.target.value })} />
+            onChange={(event) => setDetail({ source: event.target.value })}
+          />
         </div>
       </div>
       <div className='flex gap-4 flex-col lg:flex-row mt-2'>
         <Button
           className='w-full'
-          onClick={() => detail && submitData(detail, detailTypeId, settlementId)}
-          disabled={loading || (!detail?.name && !detailTypeName)}><>{detail?.id ? 'Speichern' : 'Hinzufügen'}
-            {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
+          onClick={() =>
+            detail && submitData(detail, detailTypeId, settlementId)
+          }
+          disabled={loading || (!detail?.name && !detailTypeName)}
+        >
+          <>
+            {detail?.id ? 'Speichern' : 'Hinzufügen'}
+            {loading && (
+              <Loader2Icon className='inline-block animate-spin align-sub leading-none' />
+            )}
+          </>
         </Button>
         {detail?.id && (
           <Button
             className='w-full bg-text text-bg border border-text'
             onClick={() => deleteDetail(detail.id)}
-            disabled={loading || (!detail?.name && !detailTypeName)}><>Löschen
-              {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
+            disabled={loading || (!detail?.name && !detailTypeName)}
+          >
+            <>
+              Löschen
+              {loading && (
+                <Loader2Icon className='inline-block animate-spin align-sub leading-none' />
+              )}
+            </>
           </Button>
         )}
       </div>

@@ -14,7 +14,12 @@ interface LightBoxProps extends HTMLAttributes<HTMLElement> {
   alt?: string;
 }
 
-export function LightBox({ src, alt, className, ...rest }: PropsWithChildren<LightBoxProps>) {
+export function LightBox({
+  src,
+  alt,
+  className,
+  ...rest
+}: PropsWithChildren<LightBoxProps>) {
   const [isOpen, setIsOpen] = useState(false);
   const button = useRef(null);
 
@@ -25,14 +30,16 @@ export function LightBox({ src, alt, className, ...rest }: PropsWithChildren<Lig
         className={twMerge(`image ${className}`)}
         alt={alt ?? 'Siedlungsansicht'}
         loading='lazy'
-        onClick={() => setIsOpen(true)} />
+        onClick={() => setIsOpen(true)}
+      />
       {isOpen && (
         <dialog
           ref={button}
           open
           className={twMerge(`lightbox ${className}`)}
           onClick={() => setIsOpen(false)}
-          {...rest}>
+          {...rest}
+        >
           <Button
             ghost
             autoFocus
@@ -41,9 +48,9 @@ export function LightBox({ src, alt, className, ...rest }: PropsWithChildren<Lig
               if (e.key === 'Escape') {
                 setIsOpen(false);
               }
-            }
-            }
-            className='lightbox-close p-1 top-1 right-1'>
+            }}
+            className='lightbox-close p-1 top-1 right-1'
+          >
             <XIcon />
           </Button>
           <div className='lightbox-wrapper sm:p-3 p-1'>
@@ -51,7 +58,8 @@ export function LightBox({ src, alt, className, ...rest }: PropsWithChildren<Lig
               src={src}
               className='lightbox-image'
               alt={alt ?? 'Siedlungsansicht'}
-              loading='lazy' />
+              loading='lazy'
+            />
           </div>
         </dialog>
       )}

@@ -9,7 +9,7 @@ import { SearchInput, SearchList } from '@/components/common/SearchList';
 import { Headline } from '@/components/Headline';
 
 interface ListArchitectsProps {
-  architects: BaseArchitect[]
+  architects: BaseArchitect[];
 }
 
 export function ListArchitects({ architects }: ListArchitectsProps) {
@@ -19,7 +19,9 @@ export function ListArchitects({ architects }: ListArchitectsProps) {
     <>
       <Box ghost>
         <div className='flex mt-6'>
-          <Headline type='h1' className='mb-0 inline-block'>Architekt*innen</Headline>
+          <Headline type='h1' className='mb-0 inline-block'>
+            Architekt*innen
+          </Headline>
         </div>
       </Box>
       <Box>
@@ -27,7 +29,8 @@ export function ListArchitects({ architects }: ListArchitectsProps) {
           <SearchInput
             searchTerm={searchTerm}
             onChange={(event) => setSearchTerm(event.target.value)}
-            placeholder='Nach Architekt*innen suchen' />
+            placeholder='Nach Architekt*innen suchen'
+          />
           {!architects ? (
             <>Keine Architekt*innen gefunden.</>
           ) : (
@@ -35,7 +38,8 @@ export function ListArchitects({ architects }: ListArchitectsProps) {
               className='transition-filter'
               path='/architekten/'
               searchTerm={searchTerm}
-              items={architects} />
+              items={architects}
+            />
           )}
         </div>
       </Box>

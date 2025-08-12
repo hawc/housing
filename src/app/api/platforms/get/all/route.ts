@@ -8,9 +8,9 @@ import { baseTransformers } from '@/lib/transformers';
 async function findPlatforms() {
   return await prisma.platforms.findMany({
     where: {
-      published: true
+      published: true,
     },
-    include: platformsInclude
+    include: platformsInclude,
   });
 }
 

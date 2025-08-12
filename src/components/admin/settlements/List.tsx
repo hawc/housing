@@ -7,7 +7,10 @@ import type { BaseSettlement } from '@/lib/types';
 
 import { Box } from '@/components/common/Box';
 import { Button } from '@/components/common/form/Button';
-import { SearchInput, SettlementsSearchList } from '@/components/common/SearchList';
+import {
+  SearchInput,
+  SettlementsSearchList,
+} from '@/components/common/SearchList';
 import { Headline } from '@/components/Headline';
 import { useRouter } from 'next/navigation';
 
@@ -28,7 +31,9 @@ export function ListSettlements({ settlementsInput }: ListSettlementsProps) {
     <>
       <Box ghost>
         <div className='flex mt-6'>
-          <Headline type='h1' className='mb-0 inline-block'>Siedlungen</Headline>
+          <Headline type='h1' className='mb-0 inline-block'>
+            Siedlungen
+          </Headline>
           <div>
             <Button className='ml-3 p-2 rounded-full' onClick={addSettlement}>
               <PlusIcon className='align-text-bottom' size={15} />
@@ -37,18 +42,20 @@ export function ListSettlements({ settlementsInput }: ListSettlementsProps) {
         </div>
       </Box>
       <Box>
-        <div className="flex flex-col">
+        <div className='flex flex-col'>
           <SearchInput
             searchTerm={searchTerm}
             onChange={(event) => setSearchTerm(event.target.value)}
-            placeholder='Nach Siedlungen suchen' />
+            placeholder='Nach Siedlungen suchen'
+          />
           {!settlementsInput ? (
             <>Keine Siedlungen gefunden.</>
           ) : (
             <SettlementsSearchList
               searchTerm={searchTerm}
               path='/admin/siedlungen/'
-              items={settlementsInput} />
+              items={settlementsInput}
+            />
           )}
         </div>
       </Box>

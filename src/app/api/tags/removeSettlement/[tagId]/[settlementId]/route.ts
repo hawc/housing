@@ -4,14 +4,13 @@ import { NextResponse } from 'next/server';
 
 import prisma from '@/lib/prisma';
 
-
 async function updateTag(
   where: Prisma.TagsWhereUniqueInput,
   data: Prisma.TagsUpdateInput
 ) {
   return await prisma.tags.update({
     where,
-    data
+    data,
   });
 }
 
@@ -23,9 +22,9 @@ export async function GET(_req: NextRequest, props) {
         settlementId_tagId: {
           tagId: params.tagId,
           settlementId: params.settlementId,
-        }
-      }
-    }
+        },
+      },
+    },
   };
   await updateTag({ id: params.tagId }, data);
 

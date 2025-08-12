@@ -10,12 +10,19 @@ interface LinkProps extends React.HTMLAttributes<HTMLElement> {
   highlight?: boolean;
 }
 
-export function Link({ href, children, arrow = false, back = false, highlight = false, ...rest }: LinkProps) {
+export function Link({
+  href,
+  children,
+  arrow = false,
+  back = false,
+  highlight = false,
+  ...rest
+}: LinkProps) {
   const isExternal = href.includes('http');
 
   let content = children;
   if (!children) {
-    const matches = href.matchAll(/^(?:https?:\/\/)?(?:www\.)?([^:/\n?]+)/img);
+    const matches = href.matchAll(/^(?:https?:\/\/)?(?:www\.)?([^:/\n?]+)/gim);
 
     for (const match of matches) {
       if (match[1]) {
@@ -29,9 +36,27 @@ export function Link({ href, children, arrow = false, back = false, highlight = 
       {...rest}
       target={isExternal ? '_blank' : '_self'}
       rel={isExternal ? 'noopener' : undefined}
-      className={twMerge(`font-bold tracking-wide inline-flex place-content-start ${(arrow && back) ? 'flex-row-reverse' : ''} ${rest.className}`)}
-      href={href}>
-      <><span className={`${styles.link} ${highlight ? styles.highlight : ''} ${back ? styles.linkArrowBack : isExternal ? `${styles.linkArrow} ${styles.externalLink}` : styles.linkArrow}`}>{content}</span>{(arrow || back) && (<span></span>)}</>
+      className={twMerge(
+        `font-bold tracking-wide inline-flex place-content-start ${
+          arrow && back ? 'flex-row-reverse' : ''
+        } ${rest.className}`
+      )}
+      href={href}
+    >
+      <>
+        <span
+          className={`${styles.link} ${highlight ? styles.highlight : ''} ${
+            back
+              ? styles.linkArrowBack
+              : isExternal
+              ? `${styles.linkArrow} ${styles.externalLink}`
+              : styles.linkArrow
+          }`}
+        >
+          {content}
+        </span>
+        {(arrow || back) && <span></span>}
+      </>
     </NextLink>
   );
 }

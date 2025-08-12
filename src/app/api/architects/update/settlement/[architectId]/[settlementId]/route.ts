@@ -10,18 +10,21 @@ async function updateSettlementsOnArchitect(
 ) {
   return await prisma.settlementsOnArchitects.update({
     where,
-    data
+    data,
   });
 }
 
 export async function POST(req: NextRequest, props) {
   const params = await props.params;
-  await updateSettlementsOnArchitect({
-    settlementId_architectId: {
-      settlementId: params.settlementId,
-      architectId: params.architectId,
-    }
-  }, await req.json());
+  await updateSettlementsOnArchitect(
+    {
+      settlementId_architectId: {
+        settlementId: params.settlementId,
+        architectId: params.architectId,
+      },
+    },
+    await req.json()
+  );
 
   return NextResponse.json('');
 }

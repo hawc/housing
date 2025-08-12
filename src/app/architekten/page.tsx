@@ -5,7 +5,10 @@ import type { BaseArchitect } from '@/lib/types';
 
 import { ListArchitects } from '@/components/architects/List';
 import { Container } from '@/components/common/Box';
-import { Breadcrumb, Breadcrumbs } from '@/components/common/breadcrumbs/Breadcrumbs';
+import {
+  Breadcrumb,
+  Breadcrumbs,
+} from '@/components/common/breadcrumbs/Breadcrumbs';
 import { ContactLink } from '@/components/common/ContactLink';
 import Layout from '@/components/layout/Layout';
 
@@ -14,7 +17,10 @@ export const metadata: Metadata = {
 };
 
 async function getArchitects() {
-  const architects = await fetchData<BaseArchitect[], BaseArchitect[]>('/api/architects/get/all', []);
+  const architects = await fetchData<BaseArchitect[], BaseArchitect[]>(
+    '/api/architects/get/all',
+    []
+  );
 
   return architects;
 }
@@ -23,12 +29,14 @@ export default async function Architects() {
   const architects = await getArchitects();
 
   return (
-    <Layout breadcrumbs={
-      <Breadcrumbs>
-        <Breadcrumb href="/">Startseite</Breadcrumb>
-        <Breadcrumb>Architekt*innen</Breadcrumb>
-      </Breadcrumbs>
-    }>
+    <Layout
+      breadcrumbs={
+        <Breadcrumbs>
+          <Breadcrumb href='/'>Startseite</Breadcrumb>
+          <Breadcrumb>Architekt*innen</Breadcrumb>
+        </Breadcrumbs>
+      }
+    >
       <section>
         <ListArchitects architects={architects} />
       </section>

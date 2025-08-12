@@ -13,7 +13,7 @@ async function updateEvent(
   return await prisma.events.update({
     where,
     data,
-    include: eventsInclude
+    include: eventsInclude,
   });
 }
 

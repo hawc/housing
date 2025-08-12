@@ -12,7 +12,12 @@ interface TagListProps {
   getSettlement: () => Promise<void>;
 }
 
-export function TagList({ existingTags, settlementId, className = '', getSettlement }: TagListProps) {
+export function TagList({
+  existingTags,
+  settlementId,
+  className = '',
+  getSettlement,
+}: TagListProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [availableTags, setAvailableTags] = useState<Tag[]>([]);
 
@@ -34,7 +39,10 @@ export function TagList({ existingTags, settlementId, className = '', getSettlem
     setLoading(true);
     const tags = await fetchData<BaseTag[], BaseTag[]>('/api/tags/get/all', []);
     if (tags.length > 0) {
-      const filteredTags = tags.filter((tag: Tag) => !existingTags.map(existingTag => existingTag.id).includes(tag.id));
+      const filteredTags = tags.filter(
+        (tag: Tag) =>
+          !existingTags.map((existingTag) => existingTag.id).includes(tag.id)
+      );
       setAvailableTags(filteredTags);
     }
     setLoading(false);
@@ -51,7 +59,10 @@ export function TagList({ existingTags, settlementId, className = '', getSettlem
         <TagItem onClick={() => removeTag(tag.id)} key={tag.id} tag={tag} />
       ))}
       {!loading && availableTags.length > 0 && (
-        <NewTagItem onAdd={(tagId) => addTag(tagId, settlementId)} availableTags={availableTags} />
+        <NewTagItem
+          onAdd={(tagId) => addTag(tagId, settlementId)}
+          availableTags={availableTags}
+        />
       )}
     </ul>
   );

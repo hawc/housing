@@ -28,7 +28,9 @@ export function ListArchitects({ architectsInput }: ListArchitectsProps) {
     <>
       <Box ghost>
         <div className='flex mt-6'>
-          <Headline type='h1' className='mb-0 inline-block'>Architekt*innen</Headline>
+          <Headline type='h1' className='mb-0 inline-block'>
+            Architekt*innen
+          </Headline>
           <div>
             <Button className='ml-3 p-2 rounded-full' onClick={addArchitect}>
               <PlusIcon className='align-text-bottom' size={15} />
@@ -38,18 +40,20 @@ export function ListArchitects({ architectsInput }: ListArchitectsProps) {
       </Box>
       <Container>
         <Box>
-          <div className="flex flex-col transition-filter">
+          <div className='flex flex-col transition-filter'>
             <SearchInput
               searchTerm={searchTerm}
               onChange={(event) => setSearchTerm(event.target.value)}
-              placeholder='Nach Architekt*innen suchen' />
+              placeholder='Nach Architekt*innen suchen'
+            />
             {!architectsInput ? (
               <>Keine Architekt*innen gefunden.</>
             ) : (
               <SearchList
                 path='/admin/architekten/'
                 searchTerm={searchTerm}
-                items={architectsInput} />
+                items={architectsInput}
+              />
             )}
           </div>
         </Box>

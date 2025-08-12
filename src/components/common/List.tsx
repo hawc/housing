@@ -10,15 +10,28 @@ interface ListProps {
   numbered?: boolean;
 }
 
-export function ListItem({ children, plain }: PropsWithChildren<ListItemProps>) {
+export function ListItem({
+  children,
+  plain,
+}: PropsWithChildren<ListItemProps>) {
   return (
-    <li className={twMerge(`leading-relaxed ${plain ? 'list-none' : 'ml-5 pl-1 marker:text-highlight'}`)}>
+    <li
+      className={twMerge(
+        `leading-relaxed ${
+          plain ? 'list-none' : 'ml-5 pl-1 marker:text-highlight'
+        }`
+      )}
+    >
       {children}
     </li>
   );
 }
 
-export function List({ children, numbered = false, className = '' }: PropsWithChildren<ListProps>) {
+export function List({
+  children,
+  numbered = false,
+  className = '',
+}: PropsWithChildren<ListProps>) {
   if (numbered) {
     return (
       <ol className={twMerge(`list-decimal list-outside ml-5 ${className}`)}>

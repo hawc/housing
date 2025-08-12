@@ -17,19 +17,19 @@ export function LoginButton({ className = '' }: LoginButtonProps) {
 
   return (
     <span className={`p-1 md:p-2 hidden md:block ${className}`}>
-      {isLoading ? <Loader2Icon className='animate-spin' /> :
-        user ? (
-          <Link href="/api/auth/logout">
-            <LogOutIcon />
-            <span className='sr-only'>Logout</span>
-          </Link>
-        ) : (
-          <Link href="/api/auth/login">
-            <LogInIcon />
-            <span className='sr-only'>Login</span>
-          </Link>
-        )
-      }
+      {isLoading ? (
+        <Loader2Icon className='animate-spin' />
+      ) : user ? (
+        <Link href='/api/auth/logout'>
+          <LogOutIcon />
+          <span className='sr-only'>Logout</span>
+        </Link>
+      ) : (
+        <Link href='/api/auth/login'>
+          <LogInIcon />
+          <span className='sr-only'>Login</span>
+        </Link>
+      )}
     </span>
   );
 }

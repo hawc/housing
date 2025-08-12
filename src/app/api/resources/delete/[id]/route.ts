@@ -5,15 +5,13 @@ import { NextResponse } from 'next/server';
 import { resourcesInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
 
-async function deleteResource(
-  where: Prisma.ResourcesWhereUniqueInput
-) {
+async function deleteResource(where: Prisma.ResourcesWhereUniqueInput) {
   return await prisma.resources.update({
     where,
     data: {
-      published: false
+      published: false,
     },
-    include: resourcesInclude
+    include: resourcesInclude,
   });
 }
 

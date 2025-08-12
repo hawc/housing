@@ -10,7 +10,7 @@ async function updateArchitect(
 ) {
   return await prisma.architects.update({
     where,
-    data
+    data,
   });
 }
 
@@ -22,9 +22,9 @@ export async function GET(_req: NextRequest, props) {
         settlementId_architectId: {
           architectId: params.architectId,
           settlementId: params.settlementId,
-        }
-      }
-    }
+        },
+      },
+    },
   };
   await updateArchitect({ id: params.architectId }, data);
 

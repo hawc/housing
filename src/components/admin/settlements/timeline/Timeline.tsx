@@ -9,26 +9,34 @@ import { Event as EventComponent } from '@/components/admin/settlements/timeline
 import { sortByDate } from '@/utils/sortByDate';
 import { twMerge } from 'tailwind-merge';
 
-interface TimelineProps { 
+interface TimelineProps {
   eventsInput?: Event[];
   settlementId: string;
 }
 
 export function Timeline({ eventsInput, settlementId }: TimelineProps) {
   const [loading, setLoading] = useState<boolean>(false);
-  const [availableEventTypes, setAvailableEventTypes] = useState<EventType[]>([]);
+  const [availableEventTypes, setAvailableEventTypes] = useState<EventType[]>(
+    []
+  );
   const [events, setEvents] = useState<Event[] | undefined>(eventsInput);
 
   async function getAvailableEventTypes() {
     setLoading(true);
-    const eventTypes = await fetchData<EventType[], EventType[]>('/api/eventTypes/get/all', []);
+    const eventTypes = await fetchData<EventType[], EventType[]>(
+      '/api/eventTypes/get/all',
+      []
+    );
     setAvailableEventTypes(eventTypes);
     setLoading(false);
   }
 
   async function getEvents(settlementId: string) {
     setLoading(true);
-    const events = await fetchData<Event[], Event[]>(`/api/events/get/settlement/${settlementId}/all`, []);
+    const events = await fetchData<Event[], Event[]>(
+      `/api/events/get/settlement/${settlementId}/all`,
+      []
+    );
     setEvents(events);
     setLoading(false);
   }
@@ -46,14 +54,23 @@ export function Timeline({ eventsInput, settlementId }: TimelineProps) {
   }, [events]);
 
   return (
-    <ul className={twMerge(`w-full flex flex-col ${loading ? 'transition-filter pointer-events-none blur-sm' : 'transition-filter'}`)}>
+    <ul
+      className={twMerge(
+        `w-full flex flex-col ${
+          loading
+            ? 'transition-filter pointer-events-none blur-sm'
+            : 'transition-filter'
+        }`
+      )}
+    >
       {sortedEvents.map((event: Event) => (
         <div key={event.id}>
           <EventComponent
             settlementId={settlementId}
             availableEventTypes={availableEventTypes}
             eventInput={event}
-            onUpdate={() => getEvents(settlementId)} />
+            onUpdate={() => getEvents(settlementId)}
+          />
           <hr className='mb-4 mt-6 border' />
         </div>
       ))}
@@ -62,7 +79,8 @@ export function Timeline({ eventsInput, settlementId }: TimelineProps) {
         settlementId={settlementId}
         availableEventTypes={availableEventTypes}
         eventInput={undefined}
-        onUpdate={() => getEvents(settlementId)} />
+        onUpdate={() => getEvents(settlementId)}
+      />
     </ul>
   );
 }

@@ -8,9 +8,9 @@ import { baseTransformers } from '@/lib/transformers';
 async function findArchitects() {
   return await prisma.architects.findMany({
     where: {
-      published: true
+      published: true,
     },
-    include: architectsInclude
+    include: architectsInclude,
   });
 }
 

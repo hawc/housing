@@ -2,7 +2,10 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 
 import { Box } from '@/components/common/Box';
-import { Breadcrumb, Breadcrumbs } from '@/components/common/breadcrumbs/Breadcrumbs';
+import {
+  Breadcrumb,
+  Breadcrumbs,
+} from '@/components/common/breadcrumbs/Breadcrumbs';
 import { ContactForm } from '@/components/ContactForm';
 import { Headline } from '@/components/Headline';
 import Layout from '@/components/layout/Layout';
@@ -11,19 +14,22 @@ export async function generateMetadata(props): Promise<Metadata> {
   const searchParams = await props.searchParams;
   return {
     title: 'Kontakt',
-    alternates: searchParams.from ? { canonical: `${process.env.BASE_URL}/kontakt` } : undefined
+    alternates: searchParams.from
+      ? { canonical: `${process.env.BASE_URL}/kontakt` }
+      : undefined,
   };
 }
 
-
 export default function Kontakt() {
   return (
-    <Layout breadcrumbs={
-      <Breadcrumbs>
-        <Breadcrumb href="/">Startseite</Breadcrumb>
-        <Breadcrumb>Kontakt</Breadcrumb>
-      </Breadcrumbs>
-    }>
+    <Layout
+      breadcrumbs={
+        <Breadcrumbs>
+          <Breadcrumb href='/'>Startseite</Breadcrumb>
+          <Breadcrumb>Kontakt</Breadcrumb>
+        </Breadcrumbs>
+      }
+    >
       <section>
         <Box ghost>
           <div className='flex mt-6'>
@@ -31,8 +37,10 @@ export default function Kontakt() {
           </div>
         </Box>
         <Box ghost>
-          <p className="mb-4">
-            Wir schätzen dein Feedback sehr und freuen uns über alle Fragen oder Hinweise. Wir versuchen deine Nachricht schnellstmöglich zu beantworten.
+          <p className='mb-4'>
+            Wir schätzen dein Feedback sehr und freuen uns über alle Fragen oder
+            Hinweise. Wir versuchen deine Nachricht schnellstmöglich zu
+            beantworten.
           </p>
         </Box>
         <Box>

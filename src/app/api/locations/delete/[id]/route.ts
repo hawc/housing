@@ -5,16 +5,13 @@ import { NextResponse } from 'next/server';
 import { locationsInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
 
-
-async function deleteLocation(
-  where: Prisma.LocationsWhereUniqueInput
-) {
+async function deleteLocation(where: Prisma.LocationsWhereUniqueInput) {
   return await prisma.locations.update({
     where,
     data: {
-      published: false
+      published: false,
     },
-    include: locationsInclude
+    include: locationsInclude,
   });
 }
 

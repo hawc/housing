@@ -10,10 +10,10 @@ async function findLocations() {
     where: {
       published: true,
       settlement: {
-        published: true
-      }
+        published: true,
+      },
     },
-    include: locationsInclude
+    include: locationsInclude,
   });
 }
 

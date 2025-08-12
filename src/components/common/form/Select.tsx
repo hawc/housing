@@ -19,7 +19,14 @@ interface SelectProps<T> {
   options: (Option & T)[];
 }
 
-export function Select<T>({ id, value = '', className, disabled = false, options, onChange }: SelectProps<T>) {
+export function Select<T>({
+  id,
+  value = '',
+  className,
+  disabled = false,
+  options,
+  onChange,
+}: SelectProps<T>) {
   const [currentValue, setCurrentValue] = useState<string>(value);
 
   const onSelectChange = (event) => {
@@ -34,12 +41,19 @@ export function Select<T>({ id, value = '', className, disabled = false, options
       onChange={onSelectChange}
       disabled={disabled}
       style={{ backgroundPosition: 'right 0.25rem center' }}
-      className={twMerge(`appearance-none inline-block bg-transparent w-full border-none p-0 pr-6 text-inherit max-w-full ${disabled ? 'opacity-50' : ''} ${className}`)}
+      className={twMerge(
+        `appearance-none inline-block bg-transparent w-full border-none p-0 pr-6 text-inherit max-w-full ${
+          disabled ? 'opacity-50' : ''
+        } ${className}`
+      )}
     >
       <option value=''>Bitte auswählen</option>
-      {options?.length && sortAlphabetically(options).map(option => (
-        <option key={option.id} value={option.id}>{option.name}</option>
-      ))}
+      {options?.length &&
+        sortAlphabetically(options).map((option) => (
+          <option key={option.id} value={option.id}>
+            {option.name}
+          </option>
+        ))}
     </select>
   );
 }

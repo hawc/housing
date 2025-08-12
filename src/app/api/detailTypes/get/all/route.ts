@@ -8,9 +8,9 @@ import { baseTransformers } from '@/lib/transformers';
 async function findDetailTypes() {
   return await prisma.detailTypes.findMany({
     where: {
-      published: true
+      published: true,
     },
-    include: detailTypesInclude
+    include: detailTypesInclude,
   });
 }
 

@@ -1,6 +1,10 @@
 import logger from '@/lib/logger';
 
-export async function fetchData<T, D = undefined>(path: string, fallback?: D, data: RequestInit = { method: 'GET' }): Promise<T | D> {
+export async function fetchData<T, D = undefined>(
+  path: string,
+  fallback?: D,
+  data: RequestInit = { method: 'GET' }
+): Promise<T | D> {
   let response;
 
   try {

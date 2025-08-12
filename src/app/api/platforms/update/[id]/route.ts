@@ -13,7 +13,7 @@ async function updatePlatform(
   return await prisma.platforms.update({
     where,
     data,
-    include: platformsInclude
+    include: platformsInclude,
   });
 }
 

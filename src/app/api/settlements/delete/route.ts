@@ -5,16 +5,13 @@ import { NextResponse } from 'next/server';
 import { settlementsInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
 
-
-async function deleteSettlement(
-  where: Prisma.SettlementsWhereUniqueInput
-) {
+async function deleteSettlement(where: Prisma.SettlementsWhereUniqueInput) {
   return await prisma.settlements.update({
     where,
     data: {
-      published: false
+      published: false,
     },
-    include: settlementsInclude
+    include: settlementsInclude,
   });
 }
 

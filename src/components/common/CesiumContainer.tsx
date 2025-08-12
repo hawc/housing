@@ -35,7 +35,7 @@ function CesiumContainer({
 
   const cleanUpPrimitives = useCallback(() => {
     // Cleans up potentially already-existing primitives.
-    addedScenePrimitives.current.forEach(scenePrimitive => {
+    addedScenePrimitives.current.forEach((scenePrimitive) => {
       if (cesiumViewer.current !== null) {
         cesiumViewer.current.scene.primitives.remove(scenePrimitive);
       }
@@ -65,7 +65,12 @@ function CesiumContainer({
         setIsInitialized(true);
       }, 1000);
     }
-  }, [CesiumJs.Cesium3DTileset, cleanUpPrimitives, setEnable3D, setIs3DLoading]);
+  }, [
+    CesiumJs.Cesium3DTileset,
+    cleanUpPrimitives,
+    setEnable3D,
+    setIs3DLoading,
+  ]);
 
   useEffect(() => {
     if (cesiumViewer.current === null && cesiumContainerRef.current) {
@@ -87,7 +92,8 @@ function CesiumContainer({
         infoBox: false,
       });
 
-      cesiumViewer.current.clock.clockStep = CesiumJs.ClockStep.SYSTEM_CLOCK_MULTIPLIER;
+      cesiumViewer.current.clock.clockStep =
+        CesiumJs.ClockStep.SYSTEM_CLOCK_MULTIPLIER;
     }
   }, [CesiumJs]);
 
@@ -106,19 +112,28 @@ function CesiumContainer({
       }
       if (cesiumViewer.current !== null) {
         if (isRotating) {
-          removeListener.current = cesiumViewer.current.clock.onTick.addEventListener(() => {
-            if (cesiumViewer.current?.scene) {
-              const center = CesiumJs.Cartesian3.fromDegrees(position.lng, position.lat, 0);
-              const clampedHeight = cesiumViewer.current.scene.clampToHeight(center);
-              const rotation = -1; //counter-clockwise, +1 would be clockwise
-              heading.current = heading.current + rotation * (Math.PI / 2400);
-              cesiumViewer.current.camera.lookAt(clampedHeight ?? center, new CesiumJs.HeadingPitchRange(
-                heading.current,
-                -CesiumJs.Math.PI_OVER_SIX,
-                1000.0
-              ));
-            }
-          });
+          removeListener.current =
+            cesiumViewer.current.clock.onTick.addEventListener(() => {
+              if (cesiumViewer.current?.scene) {
+                const center = CesiumJs.Cartesian3.fromDegrees(
+                  position.lng,
+                  position.lat,
+                  0
+                );
+                const clampedHeight =
+                  cesiumViewer.current.scene.clampToHeight(center);
+                const rotation = -1; //counter-clockwise, +1 would be clockwise
+                heading.current = heading.current + rotation * (Math.PI / 2400);
+                cesiumViewer.current.camera.lookAt(
+                  clampedHeight ?? center,
+                  new CesiumJs.HeadingPitchRange(
+                    heading.current,
+                    -CesiumJs.Math.PI_OVER_SIX,
+                    1000.0
+                  )
+                );
+              }
+            });
         }
       }
     }
@@ -132,7 +147,7 @@ function CesiumContainer({
         minHeight: isInitialized ? 'calc(100px + 1.5rem)' : 0,
         transition: 'opacity 1s, height 1s',
         height: isInitialized ? 'calc(100px + 40vw)' : '100px',
-        marginBottom: '-100px'
+        marginBottom: '-100px',
       }}
       className={isInitialized ? 'opacity-100' : 'opacity-0'}
     />

@@ -12,32 +12,32 @@ const Bricolage = localFont({
     {
       path: '../../public/fonts/BricolageGrotesque/BricolageGrotesque-ExtraLight.ttf',
       weight: '100', // thin
-      style: 'normal'
+      style: 'normal',
     },
     {
       path: '../../public/fonts/BricolageGrotesque/BricolageGrotesque-Regular.ttf',
       weight: '400', // normal
-      style: 'normal'
+      style: 'normal',
     },
     {
       path: '../../public/fonts/BricolageGrotesque/BricolageGrotesque-SemiBold.ttf',
       weight: '600', // semibold
-      style: 'normal'
+      style: 'normal',
     },
     {
       path: '../../public/fonts/BricolageGrotesque/BricolageGrotesque-Bold.ttf',
       weight: '700', // bold
-      style: 'normal'
+      style: 'normal',
     },
   ],
   display: 'swap',
-  variable: '--font-bricolage'
+  variable: '--font-bricolage',
 });
 
 export const metadata: Metadata = {
   title: {
     template: '%s | Großwohnsiedlungen',
-    default: 'Archiv deutscher Großwohnsiedlungen'
+    default: 'Archiv deutscher Großwohnsiedlungen',
   },
   description: 'Archiv deutscher Großwohnsiedlungen nach 1945.',
   keywords: ['Architektur', 'Großwohnsiedlungen', 'Plattenbau', 'Großsiedlung'],
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: {
       template: '%s | Großwohnsiedlungen',
-      default: 'Archiv deutscher Großwohnsiedlungen'
+      default: 'Archiv deutscher Großwohnsiedlungen',
     },
     description: 'Archiv deutscher Großwohnsiedlungen nach 1945.',
     url: new URL(process.env.BASE_URL ?? ''),
@@ -66,15 +66,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: PropsWithChildren) {
+export default function RootLayout({ children }: PropsWithChildren) {
   const isProd = process.env.NODE_ENV === 'production';
 
   const content = (
-    <div className={`${Bricolage.variable} font-primary`}>
-      {children}
-    </div>
+    <div className={`${Bricolage.variable} font-primary`}>{children}</div>
   );
 
   return (
@@ -89,7 +85,9 @@ export default function RootLayout({
               {content}
               <SpeedInsights />
             </PiwikProProvider>
-          ) : content}
+          ) : (
+            content
+          )}
         </body>
       </html>
     </UserProvider>

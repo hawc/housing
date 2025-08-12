@@ -20,19 +20,35 @@ interface InputProps {
   onChange?: ChangeEventHandler<HTMLInputElement>;
 }
 
-export function InputGhost({ id, placeholder, className = '', value = '', name = '', type = 'text', disabled = false, maxLength = 1000, style, onChange }: InputProps) {
+export function InputGhost({
+  id,
+  placeholder,
+  className = '',
+  value = '',
+  name = '',
+  type = 'text',
+  disabled = false,
+  maxLength = 1000,
+  style,
+  onChange,
+}: InputProps) {
   return (
     <input
-      className={twMerge(`appearance-none inline-block bg-transparent w-full border-none p-0 ${disabled ? 'opacity-50' : ''} ${className}`)}
+      className={twMerge(
+        `appearance-none inline-block bg-transparent w-full border-none p-0 ${
+          disabled ? 'opacity-50' : ''
+        } ${className}`
+      )}
       defaultValue={type === 'date' && value ? formatDate(value) : value}
       id={id}
       placeholder={placeholder}
       type={type}
       name={name}
       style={style}
-      lang="de-DE"
+      lang='de-DE'
       onChange={onChange}
       maxLength={maxLength}
-      disabled={disabled} />
+      disabled={disabled}
+    />
   );
 }

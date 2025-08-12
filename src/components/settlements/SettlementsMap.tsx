@@ -10,10 +10,18 @@ interface SettlementsMapProps {
   searchTerm?: string;
 }
 
-export function SettlementsMap({ locationsInput, searchTerm }: SettlementsMapProps) {
+export function SettlementsMap({
+  locationsInput,
+  searchTerm,
+}: SettlementsMapProps) {
   return (
     <Box ghost>
-      <Map markers={locationsInput} center={{ lat: 51.165707, lng: 10.452764 }} zoom={4} searchTerm={searchTerm} />
+      <Map
+        markers={locationsInput}
+        center={{ lat: 51.165707, lng: 10.452764 }}
+        zoom={4}
+        searchTerm={searchTerm}
+      />
     </Box>
   );
 }

@@ -3,16 +3,16 @@ import { NextResponse } from 'next/server';
 import { saveToCloudinary } from '@/lib/cloudinary';
 
 export interface ImageResponse {
-  width: number,
-  height: number,
-  format: string,
-  resource_type: string,
-  created_at: string,
-  tags: string[],
-  bytes: number,
-  placeholder: boolean,
-  url: string,
-  folder: string,
+  width: number;
+  height: number;
+  format: string;
+  resource_type: string;
+  created_at: string;
+  tags: string[];
+  bytes: number;
+  placeholder: boolean;
+  url: string;
+  folder: string;
 }
 
 export async function POST(req: Request) {
@@ -22,13 +22,25 @@ export async function POST(req: Request) {
   const images: ImageResponse[] = [];
   try {
     for (const formDataEntryValue of formDataImages) {
-      if (typeof formDataEntryValue === 'object' && formDataEntryValue && 'arrayBuffer' in formDataEntryValue) {
+      if (
+        typeof formDataEntryValue === 'object' &&
+        formDataEntryValue &&
+        'arrayBuffer' in formDataEntryValue
+      ) {
         const file = formDataEntryValue;
         const fileType = 'image';
         const name = file.name.split('.')[0];
         const ext = file.name.split('.')[1];
         const buffer = Buffer.from(await file.arrayBuffer());
-        const cloudinaryResponse = await saveToCloudinary({ src: `data:${fileType}/${ext};base64,${Buffer.from(buffer).toString('base64')}`, name: name }, formDataCategory);
+        const cloudinaryResponse = await saveToCloudinary(
+          {
+            src: `data:${fileType}/${ext};base64,${Buffer.from(buffer).toString(
+              'base64'
+            )}`,
+            name: name,
+          },
+          formDataCategory
+        );
         if (cloudinaryResponse?.secure_url) {
           images.push({
             width: cloudinaryResponse.width,

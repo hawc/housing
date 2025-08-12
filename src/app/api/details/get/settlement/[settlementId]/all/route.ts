@@ -6,12 +6,10 @@ import { detailsInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
 import { baseTransformers } from '@/lib/transformers';
 
-async function findDetails(
-  where: Prisma.DetailsWhereInput
-) {
+async function findDetails(where: Prisma.DetailsWhereInput) {
   return await prisma.details.findMany({
     where,
-    include: detailsInclude
+    include: detailsInclude,
   });
 }
 

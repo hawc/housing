@@ -6,9 +6,7 @@ import { detailsInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
 import { baseTransformers } from '@/lib/transformers';
 
-async function addDetail(
-  data: Prisma.DetailsUncheckedCreateInput
-) {
+async function addDetail(data: Prisma.DetailsUncheckedCreateInput) {
   return await prisma.details.create({
     data: {
       name: data.name,
@@ -17,9 +15,9 @@ async function addDetail(
       source: data.source,
       settlementId: data.settlementId,
       detailTypeId: data.detailTypeId,
-      detailDate: data.detailDate
+      detailDate: data.detailDate,
     },
-    include: detailsInclude
+    include: detailsInclude,
   });
 }
 

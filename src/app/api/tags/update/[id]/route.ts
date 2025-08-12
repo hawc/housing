@@ -13,7 +13,7 @@ async function updateTag(
   return await prisma.tags.update({
     where,
     data,
-    include: tagsInclude
+    include: tagsInclude,
   });
 }
 

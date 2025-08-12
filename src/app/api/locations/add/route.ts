@@ -6,9 +6,7 @@ import { locationsInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
 import { baseTransformers } from '@/lib/transformers';
 
-async function createLocation(
-  data: Prisma.LocationsCreateInput
-) {
+async function createLocation(data: Prisma.LocationsCreateInput) {
   return await prisma.locations.create({
     data: {
       lat: data.lat,
@@ -21,7 +19,7 @@ async function createLocation(
       state: data.state,
       settlement: data.settlement,
     },
-    include: locationsInclude
+    include: locationsInclude,
   });
 }
 

@@ -13,7 +13,7 @@ interface ArchitectProps {
 
 export function Architect({ architect }: ArchitectProps) {
   const locations = useMemo(() => {
-    return architect.settlements.flatMap(settlement => {
+    return architect.settlements.flatMap((settlement) => {
       if (!settlement.location) {
         return [];
       }
@@ -22,7 +22,7 @@ export function Architect({ architect }: ArchitectProps) {
         ...settlement.location,
         settlement: {
           name: settlement.name,
-          slug: settlement.slug
+          slug: settlement.slug,
         },
       };
     });
@@ -31,26 +31,41 @@ export function Architect({ architect }: ArchitectProps) {
   return (
     <>
       <div className='flex mt-6'>
-        <Headline type='h1' className='inline-block'>{architect.name}</Headline>
+        <Headline type='h1' className='inline-block'>
+          {architect.name}
+        </Headline>
       </div>
       <Container>
-        <Box ghost className="mb-4">
+        <Box ghost className='mb-4'>
           {architect.description ? (
-            <div dangerouslySetInnerHTML={{ __html: architect.description }}></div>
+            <div
+              dangerouslySetInnerHTML={{ __html: architect.description }}
+            ></div>
           ) : (
-            <p>{'Für diese*n Architekt*in haben wir bisher keine Beschreibung.'}</p>
+            <p>
+              {'Für diese*n Architekt*in haben wir bisher keine Beschreibung.'}
+            </p>
           )}
         </Box>
         {locations.length > 0 && (
           <>
             <Box>
               <Headline type='h2'>Siedlungen</Headline>
-              {architect.settlements.map(settlement => (
+              {architect.settlements.map((settlement) => (
                 <div key={settlement.slug}>
-                  <Link className='inline-block mr-2' href={`/siedlungen/${settlement.slug}`}>
+                  <Link
+                    className='inline-block mr-2'
+                    href={`/siedlungen/${settlement.slug}`}
+                  >
                     {settlement.name}
-                  </Link>{'location' in settlement && settlement.location && (
-                    <><span className='sr-only'>, </span><span className='font-thin tracking-wide'>{settlement.location.city}</span></>
+                  </Link>
+                  {'location' in settlement && settlement.location && (
+                    <>
+                      <span className='sr-only'>, </span>
+                      <span className='font-thin tracking-wide'>
+                        {settlement.location.city}
+                      </span>
+                    </>
                   )}
                 </div>
               ))}
@@ -64,9 +79,14 @@ export function Architect({ architect }: ArchitectProps) {
           <Box>
             <div>
               <Headline type='h2'>Weblinks</Headline>
-              {architect.urls.map(externalLink => (
+              {architect.urls.map((externalLink) => (
                 <div key={externalLink.id}>
-                  <Link href={externalLink.url} className='inline'>{externalLink.platform?.name || externalLink.name}</Link> {externalLink.description && <>({externalLink.description})</>}
+                  <Link href={externalLink.url} className='inline'>
+                    {externalLink.platform?.name || externalLink.name}
+                  </Link>{' '}
+                  {externalLink.description && (
+                    <>({externalLink.description})</>
+                  )}
                 </div>
               ))}
             </div>

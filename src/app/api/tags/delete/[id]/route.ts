@@ -5,15 +5,13 @@ import { NextResponse } from 'next/server';
 import { tagsInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
 
-async function deleteTag(
-  where: Prisma.TagsWhereUniqueInput
-) {
+async function deleteTag(where: Prisma.TagsWhereUniqueInput) {
   return await prisma.tags.update({
     where,
     data: {
-      published: false
+      published: false,
     },
-    include: tagsInclude
+    include: tagsInclude,
   });
 }
 

@@ -19,7 +19,7 @@ export function EditPlatform({ platform, getPlatforms }: EditPlatformProps) {
   function updatePlatform(updatedPlatform: Partial<Platform>) {
     setCurrentPlatform({
       ...currentPlatform,
-      ...updatedPlatform
+      ...updatedPlatform,
     });
   }
 
@@ -32,7 +32,10 @@ export function EditPlatform({ platform, getPlatforms }: EditPlatformProps) {
 
   async function submitPlatform(platform: Partial<Platform>) {
     setLoading(true);
-    await fetchData(`/api/platforms/update/${platform.id}`, undefined, { method: 'POST', body: JSON.stringify(platform) });
+    await fetchData(`/api/platforms/update/${platform.id}`, undefined, {
+      method: 'POST',
+      body: JSON.stringify(platform),
+    });
     await getPlatforms();
     setLoading(false);
   }
@@ -41,17 +44,54 @@ export function EditPlatform({ platform, getPlatforms }: EditPlatformProps) {
     <>
       <div className='flex'>
         <Headline type='h6' tag='h2' className='grow'>
-          <InputGhost value={platform.name} onChange={(event) => updatePlatform({ name: event.target.value })} className='mb-1' />
+          <InputGhost
+            value={platform.name}
+            onChange={(event) => updatePlatform({ name: event.target.value })}
+            className='mb-1'
+          />
         </Headline>
-        <Button disabled={loading} onClick={() => deletePlatform(platform.id)} className='ml-3 p-2 rounded-full'>
-          {loading ? <Loader2Icon size={15} className='animate-spin' /> : <XIcon size={15} />}
+        <Button
+          disabled={loading}
+          onClick={() => deletePlatform(platform.id)}
+          className='ml-3 p-2 rounded-full'
+        >
+          {loading ? (
+            <Loader2Icon size={15} className='animate-spin' />
+          ) : (
+            <XIcon size={15} />
+          )}
         </Button>
       </div>
-      <InputGhost value={platform.url} onChange={(event) => updatePlatform({ url: event.target.value })} className='mb-1' />
-      <InputGhost placeholder='URL-Matcher' value={platform.urlIdentifier} onChange={(event) => updatePlatform({ urlIdentifier: event.target.value })} className='mb-1' />
-      <TextareaGhost value={platform.description} onChange={(event) => updatePlatform({ description: event.target.value })} className='mb-1' />
-      <Button disabled={loading} onClick={() => submitPlatform(currentPlatform)}>
-        <>Plattform speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
+      <InputGhost
+        value={platform.url}
+        onChange={(event) => updatePlatform({ url: event.target.value })}
+        className='mb-1'
+      />
+      <InputGhost
+        placeholder='URL-Matcher'
+        value={platform.urlIdentifier}
+        onChange={(event) =>
+          updatePlatform({ urlIdentifier: event.target.value })
+        }
+        className='mb-1'
+      />
+      <TextareaGhost
+        value={platform.description}
+        onChange={(event) =>
+          updatePlatform({ description: event.target.value })
+        }
+        className='mb-1'
+      />
+      <Button
+        disabled={loading}
+        onClick={() => submitPlatform(currentPlatform)}
+      >
+        <>
+          Plattform speichern{' '}
+          {loading && (
+            <Loader2Icon className='inline-block animate-spin align-sub leading-none' />
+          )}
+        </>
       </Button>
     </>
   );

@@ -12,13 +12,20 @@ interface ExternalLinksListProps {
   architectId: string;
 }
 
-export function ExternalLinksList({ externalLinksInput, architectId }: ExternalLinksListProps) {
+export function ExternalLinksList({
+  externalLinksInput,
+  architectId,
+}: ExternalLinksListProps) {
   const [loading, setLoading] = useState<boolean>(false);
-  const [externalLinks, setExternalLinks] = useState<ExternalLink[]>(externalLinksInput);
+  const [externalLinks, setExternalLinks] =
+    useState<ExternalLink[]>(externalLinksInput);
 
   async function getExternalLinks(architectId: string) {
     setLoading(true);
-    const externalLinks = await fetchData<ExternalLink[], ExternalLink[]>(`/api/externalLinks/get/architect/${architectId}/all`, []);
+    const externalLinks = await fetchData<ExternalLink[], ExternalLink[]>(
+      `/api/externalLinks/get/architect/${architectId}/all`,
+      []
+    );
     setExternalLinks(externalLinks);
     setLoading(false);
   }
@@ -28,14 +35,19 @@ export function ExternalLinksList({ externalLinksInput, architectId }: ExternalL
   }, [architectId]);
 
   return (
-    <div className={`transition-filter ${loading ? 'blur-sm pointer-events-none' : ''}`}>
+    <div
+      className={`transition-filter ${
+        loading ? 'blur-sm pointer-events-none' : ''
+      }`}
+    >
       {externalLinks?.map((externalLink: ExternalLink) => (
         <div key={externalLink.id}>
           <EditExternalLink
             onUpdate={handleUpdate}
             className='mb-4'
             externalLinkInput={externalLink}
-            architectId={architectId} />
+            architectId={architectId}
+          />
           <hr className='mb-4 mt-6 border' />
         </div>
       ))}
@@ -43,7 +55,8 @@ export function ExternalLinksList({ externalLinksInput, architectId }: ExternalL
         key={externalLinks.length}
         onUpdate={handleUpdate}
         externalLinkInput={undefined}
-        architectId={architectId} />
+        architectId={architectId}
+      />
     </div>
   );
 }

@@ -13,13 +13,16 @@ async function updateSettlement(
   return await prisma.settlements.update({
     where,
     data,
-    include: settlementsInclude
+    include: settlementsInclude,
   });
 }
 
 export async function POST(req: NextRequest, props) {
   const params = await props.params;
-  const settlement = await updateSettlement({ slug: params.slug }, await req.json());
+  const settlement = await updateSettlement(
+    { slug: params.slug },
+    await req.json()
+  );
 
   if (!settlement) {
     return NextResponse.json('');

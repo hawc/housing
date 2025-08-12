@@ -20,25 +20,51 @@ interface EditExternalLinkProps {
   onUpdate: (externalLinkId: string | undefined) => void;
 }
 
-async function getRelatedPlatform(data: Prisma.ExternalLinksUncheckedUpdateInput) {
-  const platforms = await fetchData<Platform[], Platform[]>('/api/platforms/get/all', []);
-  return platforms.find(platform => platform.urlIdentifier && String(data.url).includes(platform.urlIdentifier));
+async function getRelatedPlatform(
+  data: Prisma.ExternalLinksUncheckedUpdateInput
+) {
+  const platforms = await fetchData<Platform[], Platform[]>(
+    '/api/platforms/get/all',
+    []
+  );
+  return platforms.find(
+    (platform) =>
+      platform.urlIdentifier &&
+      String(data.url).includes(platform.urlIdentifier)
+  );
 }
 
-async function updateExternalLink(id: string, data: Prisma.ExternalLinksUncheckedUpdateInput) {
+async function updateExternalLink(
+  id: string,
+  data: Prisma.ExternalLinksUncheckedUpdateInput
+) {
   const relatedPlatform = await getRelatedPlatform(data);
   data.platformId = relatedPlatform ? relatedPlatform.id : null;
-  return await fetchData<ExternalLink>(`/api/externalLinks/update/${id}`, undefined, { method: 'POST', body: JSON.stringify(data) });
+  return await fetchData<ExternalLink>(
+    `/api/externalLinks/update/${id}`,
+    undefined,
+    { method: 'POST', body: JSON.stringify(data) }
+  );
 }
 
 async function addExternalLink(data: Prisma.ExternalLinksUncheckedCreateInput) {
   const relatedPlatform = await getRelatedPlatform(data);
   data.platformId = relatedPlatform ? relatedPlatform.id : null;
-  return await fetchData<ExternalLink>('/api/externalLinks/add', undefined, { method: 'POST', body: JSON.stringify(data) });
+  return await fetchData<ExternalLink>('/api/externalLinks/add', undefined, {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
 }
 
-export function EditExternalLink({ externalLinkInput, architectId, onUpdate, className }: EditExternalLinkProps) {
-  const [externalLink, setCurrentExternalLink] = useState<ExternalLink | undefined>(externalLinkInput);
+export function EditExternalLink({
+  externalLinkInput,
+  architectId,
+  onUpdate,
+  className,
+}: EditExternalLinkProps) {
+  const [externalLink, setCurrentExternalLink] = useState<
+    ExternalLink | undefined
+  >(externalLinkInput);
   const [loading, setLoading] = useState<boolean>(false);
   const [uuid] = useState<string>(uuidv4());
 
@@ -86,22 +112,30 @@ export function EditExternalLink({ externalLinkInput, architectId, onUpdate, cla
     <div className={className}>
       <div className='flex gap-4'>
         <div className='basis-full'>
-          <label htmlFor={getUniqueLabel('externalLinkName', uuid)}>Name:</label>
+          <label htmlFor={getUniqueLabel('externalLinkName', uuid)}>
+            Name:
+          </label>
           <InputGhost
             id={getUniqueLabel('externalLinkName', uuid)}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={externalLink?.name ?? ''}
-            onChange={(event) => setExternalLink({ name: event.target.value })} />
+            onChange={(event) => setExternalLink({ name: event.target.value })}
+          />
         </div>
       </div>
       <div className='flex gap-4'>
         <div className='basis-full'>
-          <label htmlFor={getUniqueLabel('externalLinkDescription', uuid)}>Beschreibung:</label>
+          <label htmlFor={getUniqueLabel('externalLinkDescription', uuid)}>
+            Beschreibung:
+          </label>
           <TextareaGhost
             id={getUniqueLabel('externalLinkDescription', uuid)}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={externalLink?.description ?? ''}
-            onChange={(event) => setExternalLink({ description: event.target.value })} />
+            onChange={(event) =>
+              setExternalLink({ description: event.target.value })
+            }
+          />
         </div>
         <div className='basis-full'>
           <label htmlFor={getUniqueLabel('externalLinkUrl', uuid)}>URL:</label>
@@ -109,27 +143,39 @@ export function EditExternalLink({ externalLinkInput, architectId, onUpdate, cla
             id={getUniqueLabel('externalLinkUrl', uuid)}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={externalLink?.url ?? ''}
-            onChange={(event) => setExternalLink({ url: event.target.value })} />
-          <label htmlFor={getUniqueLabel('externalLinkUrl', uuid)}>Plattform:</label>
+            onChange={(event) => setExternalLink({ url: event.target.value })}
+          />
+          <label htmlFor={getUniqueLabel('externalLinkUrl', uuid)}>
+            Plattform:
+          </label>
           <InputGhost
             id={getUniqueLabel('externalLinkPlatform', uuid)}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={externalLink?.platform?.name ?? ''}
-            disabled />
+            disabled
+          />
         </div>
       </div>
       <div className='flex gap-4 flex-col lg:flex-row mt-2'>
         <Button
           className='w-full'
           onClick={() => externalLink && submitData(externalLink, architectId)}
-          disabled={loading || !(externalLink?.url)}><>{externalLink?.id ? 'Speichern' : 'Hinzufügen'}
-            {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
+          disabled={loading || !externalLink?.url}
+        >
+          <>
+            {externalLink?.id ? 'Speichern' : 'Hinzufügen'}
+            {loading && (
+              <Loader2Icon className='inline-block animate-spin align-sub leading-none' />
+            )}
+          </>
         </Button>
         {externalLink?.id && (
           <Button
             className='w-full bg-text text-bg border border-text'
             onClick={() => deleteExternalLink(externalLink.id)}
-            disabled={loading}><>Löschen</>
+            disabled={loading}
+          >
+            <>Löschen</>
           </Button>
         )}
       </div>

@@ -6,18 +6,18 @@ import { externalLinksInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
 import { baseTransformers } from '@/lib/transformers';
 
-async function findExternalLinks(
-  where: Prisma.ExternalLinksWhereInput
-) {
+async function findExternalLinks(where: Prisma.ExternalLinksWhereInput) {
   return await prisma.externalLinks.findMany({
     where,
-    include: externalLinksInclude
+    include: externalLinksInclude,
   });
 }
 
 export async function GET(_req: NextRequest, props) {
   const params = await props.params;
-  const externalLinks = await findExternalLinks({ architectId: params.architectId });
+  const externalLinks = await findExternalLinks({
+    architectId: params.architectId,
+  });
   if (!externalLinks) {
     return NextResponse.json([]);
   }

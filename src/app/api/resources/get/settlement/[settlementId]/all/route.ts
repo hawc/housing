@@ -6,12 +6,10 @@ import { resourcesInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
 import { baseTransformers } from '@/lib/transformers';
 
-async function findResources(
-  where: Prisma.ResourcesWhereInput
-) {
+async function findResources(where: Prisma.ResourcesWhereInput) {
   return await prisma.resources.findMany({
     where,
-    include: resourcesInclude
+    include: resourcesInclude,
   });
 }
 

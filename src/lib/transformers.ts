@@ -1,5 +1,57 @@
-import type { ArchitectsInclude, ArchitectsSelect, DetailsInclude, DetailsSelect, DetailsTypesSelect, DetailTypesInclude, EventsInclude, EventsSelect, EventTypesInclude, EventTypesSelect, ExternalLinksSelect, LocationsInclude, LocationsSelect, PlatformsSelect, ResourcesInclude, ResourcesSelect, ResourceTypesInclude, ResourceTypesSelect, SettlementsInclude, SettlementsOnArchitectsInclude, SettlementsOnTagsInclude, SettlementsSelect, SettlementTypesSelect, TagsInclude, TagsSelect } from '@/lib/db';
-import type { Architect, BaseArchitect, BaseDetail, BaseDetailType, BaseEvent, BaseEventType, BaseLocation, BaseResource, BaseResourceType, BaseSettlement, BaseSettlementOnArchitect, BaseSettlementOnTag, BaseTag, Detail, DetailType, Event, EventType, ExternalLink, Location, Platform, Resource, ResourceType, Settlement, SettlementType, Tag } from '@/lib/types';
+import type {
+  ArchitectsInclude,
+  ArchitectsSelect,
+  DetailsInclude,
+  DetailsSelect,
+  DetailsTypesSelect,
+  DetailTypesInclude,
+  EventsInclude,
+  EventsSelect,
+  EventTypesInclude,
+  EventTypesSelect,
+  ExternalLinksSelect,
+  LocationsInclude,
+  LocationsSelect,
+  PlatformsSelect,
+  ResourcesInclude,
+  ResourcesSelect,
+  ResourceTypesInclude,
+  ResourceTypesSelect,
+  SettlementsInclude,
+  SettlementsOnArchitectsInclude,
+  SettlementsOnTagsInclude,
+  SettlementsSelect,
+  SettlementTypesSelect,
+  TagsInclude,
+  TagsSelect,
+} from '@/lib/db';
+import type {
+  Architect,
+  BaseArchitect,
+  BaseDetail,
+  BaseDetailType,
+  BaseEvent,
+  BaseEventType,
+  BaseLocation,
+  BaseResource,
+  BaseResourceType,
+  BaseSettlement,
+  BaseSettlementOnArchitect,
+  BaseSettlementOnTag,
+  BaseTag,
+  Detail,
+  DetailType,
+  Event,
+  EventType,
+  ExternalLink,
+  Location,
+  Platform,
+  Resource,
+  ResourceType,
+  Settlement,
+  SettlementType,
+  Tag,
+} from '@/lib/types';
 import { Prisma } from '@prisma/client';
 import { Polygon } from 'geojson';
 
@@ -7,7 +59,7 @@ function parsePrismaJson<T>(json: Prisma.JsonValue) {
   if (!json) {
     return undefined;
   }
-  
+
   return json as T;
 }
 
@@ -43,16 +95,22 @@ export const baseTransformers = {
       name: externalLink.name ?? '',
       description: externalLink.description ?? '',
       url: externalLink.url ?? '',
-      platform: externalLink.platform ? transformers.platform(externalLink.platform) : undefined,
+      platform: externalLink.platform
+        ? transformers.platform(externalLink.platform)
+        : undefined,
     };
   },
-  settlementOnTag: (settlementOnTag: SettlementsOnTagsInclude): BaseSettlementOnTag => {
+  settlementOnTag: (
+    settlementOnTag: SettlementsOnTagsInclude
+  ): BaseSettlementOnTag => {
     return {
       tag: transformers.tag(settlementOnTag.tag),
       settlement: transformers.settlement(settlementOnTag.settlement),
     };
   },
-  settlementOnArchitect: (settlementOnArchitect: SettlementsOnArchitectsInclude): BaseSettlementOnArchitect => {
+  settlementOnArchitect: (
+    settlementOnArchitect: SettlementsOnArchitectsInclude
+  ): BaseSettlementOnArchitect => {
     return {
       architect: transformers.architect(settlementOnArchitect.architect),
       settlement: transformers.settlement(settlementOnArchitect.settlement),
@@ -66,12 +124,23 @@ export const baseTransformers = {
       slug: settlement.slug,
       description: settlement.description ?? '',
       details: settlement.details.map(transformers.detail),
-      types: settlement.settlementTypes.map(settlementsOnSettlementType => transformers.settlementType(settlementsOnSettlementType.settlementType)),
-      architects: settlement.architects.map(settlementsOnArchitect => transformers.architect(settlementsOnArchitect.architect, settlementsOnArchitect.role)),
+      types: settlement.settlementTypes.map((settlementsOnSettlementType) =>
+        transformers.settlementType(settlementsOnSettlementType.settlementType)
+      ),
+      architects: settlement.architects.map((settlementsOnArchitect) =>
+        transformers.architect(
+          settlementsOnArchitect.architect,
+          settlementsOnArchitect.role
+        )
+      ),
       resources: settlement.resources.map(transformers.resource),
-      tags: settlement.tags.map(tagRelation => transformers.tag(tagRelation.tag)),
+      tags: settlement.tags.map((tagRelation) =>
+        transformers.tag(tagRelation.tag)
+      ),
       events: settlement.events.map(transformers.event),
-      location: settlement.location ? transformers.location(settlement.location) : null,
+      location: settlement.location
+        ? transformers.location(settlement.location)
+        : null,
       createdAt: settlement.createdAt,
       updatedAt: settlement.updatedAt,
     };
@@ -83,7 +152,9 @@ export const baseTransformers = {
       slug: architect.slug,
       description: architect.description ?? '',
       urls: architect.urls.map(transformers.externalLink),
-      settlements: architect.settlements.map((settlementsOnArchitect) => transformers.settlement(settlementsOnArchitect.settlement)),
+      settlements: architect.settlements.map((settlementsOnArchitect) =>
+        transformers.settlement(settlementsOnArchitect.settlement)
+      ),
       createdAt: architect.createdAt,
       updatedAt: architect.updatedAt,
     };
@@ -93,7 +164,9 @@ export const baseTransformers = {
       id: tag.id,
       name: tag.name,
       description: tag.description ?? '',
-      settlements: tag.settlements.map((settlementsOnTag) => transformers.settlement(settlementsOnTag.settlement)),
+      settlements: tag.settlements.map((settlementsOnTag) =>
+        transformers.settlement(settlementsOnTag.settlement)
+      ),
     };
   },
   eventType: (eventType: EventTypesInclude): BaseEventType => {
@@ -110,7 +183,7 @@ export const baseTransformers = {
       description: event.description ?? '',
       source: event.source ?? '',
       eventDate: event.eventDate?.toDateString() ?? '',
-      eventType: transformers.eventType(event.eventType)
+      eventType: transformers.eventType(event.eventType),
     };
   },
   detailType: (detailType: DetailTypesInclude): BaseDetailType => {
@@ -128,7 +201,7 @@ export const baseTransformers = {
       annotation: detail.annotation ?? '',
       source: detail.source ?? '',
       detailDate: detail.detailDate?.toDateString() ?? '',
-      detailType: transformers.detailType(detail.detailType)
+      detailType: transformers.detailType(detail.detailType),
     };
   },
   resourceType: (resourceType: ResourceTypesInclude): BaseResourceType => {
@@ -147,7 +220,7 @@ export const baseTransformers = {
       url: resource.url,
       license: resource.license ?? '',
       copyright: resource.copyright ?? '',
-      resourceType: transformers.resourceType(resource.resourceType)
+      resourceType: transformers.resourceType(resource.resourceType),
     };
   },
 };
@@ -159,8 +232,13 @@ export const transformers = {
       name: settlement.name,
       slug: settlement.slug,
       description: settlement.description ?? '',
-      tags: settlement.tags.map(settlementsOnTag => transformers.tag(settlementsOnTag.tag)),
-      location: 'location' in settlement && settlement.location ? transformers.location(settlement.location) : null,
+      tags: settlement.tags.map((settlementsOnTag) =>
+        transformers.tag(settlementsOnTag.tag)
+      ),
+      location:
+        'location' in settlement && settlement.location
+          ? transformers.location(settlement.location)
+          : null,
     };
   },
   architect: (architect: ArchitectsSelect, role?: string | null): Architect => {
@@ -206,7 +284,9 @@ export const transformers = {
       name: externalLink.name ?? '',
       description: externalLink.description ?? '',
       url: externalLink.url ?? '',
-      platform: externalLink.platform ? transformers.platform(externalLink.platform) : undefined,
+      platform: externalLink.platform
+        ? transformers.platform(externalLink.platform)
+        : undefined,
     };
   },
   location: (location: LocationsSelect): Location => {
@@ -267,7 +347,7 @@ export const transformers = {
       description: event.description ?? '',
       source: event.source ?? '',
       eventDate: event.eventDate?.toDateString() ?? '',
-      eventType: transformers.eventType(event.eventType)
+      eventType: transformers.eventType(event.eventType),
     };
   },
   eventType: (eventType: EventTypesSelect): EventType => {

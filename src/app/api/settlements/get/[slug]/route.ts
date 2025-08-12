@@ -6,12 +6,10 @@ import { settlementsInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
 import { baseTransformers } from '@/lib/transformers';
 
-async function findSettlement(
-  where: Prisma.SettlementsWhereUniqueInput
-) {
+async function findSettlement(where: Prisma.SettlementsWhereUniqueInput) {
   return await prisma.settlements.findUnique({
     where,
-    include: settlementsInclude
+    include: settlementsInclude,
   });
 }
 

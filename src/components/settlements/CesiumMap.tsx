@@ -1,4 +1,3 @@
-
 import type { BaseLocation, Location } from '@/lib/types';
 
 import { Box } from '@/components/common/Box';
@@ -11,7 +10,9 @@ interface CesiumMapProps {
 export function CesiumMap({ locationInput }: CesiumMapProps) {
   return (
     <Box ghost>
-      <CesiumWrapper position={{ lat: locationInput.lat, lng: locationInput.lng }} />
+      <CesiumWrapper
+        position={{ lat: locationInput.lat, lng: locationInput.lng }}
+      />
     </Box>
   );
 }

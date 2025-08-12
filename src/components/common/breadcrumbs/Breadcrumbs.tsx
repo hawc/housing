@@ -17,13 +17,21 @@ interface BreadcrumbProps extends LinkWithChildren {
 
 export function Breadcrumbs({ children }: BreadcrumbsProps) {
   return (
-    <nav aria-label="Breadcrumb"><ol className='my-4 flex text-xs gap-2'>{children}</ol></nav>
+    <nav aria-label='Breadcrumb'>
+      <ol className='my-4 flex text-xs gap-2'>{children}</ol>
+    </nav>
   );
 }
 
 export function Breadcrumb({ children, href, ...rest }: BreadcrumbProps) {
   if (href) {
-    return <li><NextLink className={styles['has-arrow']} href={href} {...rest}><span className='underline underline-offset-4'>{children}</span></NextLink></li>;
+    return (
+      <li>
+        <NextLink className={styles['has-arrow']} href={href} {...rest}>
+          <span className='underline underline-offset-4'>{children}</span>
+        </NextLink>
+      </li>
+    );
   }
 
   return <CurrentPage>{children}</CurrentPage>;

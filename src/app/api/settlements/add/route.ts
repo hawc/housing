@@ -7,16 +7,14 @@ import prisma from '@/lib/prisma';
 import { baseTransformers } from '@/lib/transformers';
 import { slugify } from '@/utils/slugify';
 
-async function createSettlement(
-  data: Prisma.SettlementsCreateInput
-) {
+async function createSettlement(data: Prisma.SettlementsCreateInput) {
   return await prisma.settlements.create({
     data: {
       name: data.name,
       slug: slugify(data.name),
-      description: data.description
+      description: data.description,
     },
-    include: settlementsInclude
+    include: settlementsInclude,
   });
 }
 

@@ -19,11 +19,16 @@ interface UploadInputLabelProps {
 function UploadInputLabel({ uploadImages }: UploadInputLabelProps) {
   return uploadImages.length ? (
     <div className='block whitespace-nowrap text-ellipsis overflow-hidden'>
-      {uploadImages.length === 1 ? uploadImages[0].name : `${uploadImages.length} Dateien`}
+      {uploadImages.length === 1
+        ? uploadImages[0].name
+        : `${uploadImages.length} Dateien`}
     </div>
   ) : (
     <div className='flex justify-between'>
-      <span>auswählen</span><span className='flex items-center'><PlusIcon /></span>
+      <span>auswählen</span>
+      <span className='flex items-center'>
+        <PlusIcon />
+      </span>
     </div>
   );
 }
@@ -36,12 +41,20 @@ interface UploadProps {
   id?: string;
 }
 
-export default function Upload({ onUpload, category, id, multiple = false, className = '' }: UploadProps) {
+export default function Upload({
+  onUpload,
+  category,
+  id,
+  multiple = false,
+  className = '',
+}: UploadProps) {
   const [uploadImages, setUploadImages] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
   const input = useRef<HTMLInputElement>(null);
 
-  async function updateSelectedImages(event: React.ChangeEvent<HTMLInputElement>) {
+  async function updateSelectedImages(
+    event: React.ChangeEvent<HTMLInputElement>
+  ) {
     onUpload([]);
     if (event.target.files) {
       const files = Array.from(event.target.files);
@@ -60,7 +73,11 @@ export default function Upload({ onUpload, category, id, multiple = false, class
       formData.append('image', image);
     });
     formData.append('category', category);
-    const result = await fetchData<UploadResponse, UploadResponse>('/api/upload', { success: false, images: [] }, { method: 'POST', body: formData });
+    const result = await fetchData<UploadResponse, UploadResponse>(
+      '/api/upload',
+      { success: false, images: [] },
+      { method: 'POST', body: formData }
+    );
 
     if (result.success) {
       onUpload(result.images);
@@ -75,11 +92,15 @@ export default function Upload({ onUpload, category, id, multiple = false, class
   return (
     <div
       onClick={handleUploadClick}
-      className={`flex flex-row cursor-default ${className}`}>
+      className={`flex flex-row cursor-default ${className}`}
+    >
       <div className='flex-grow border-2 py-1 px-3 border-highlight max-w-full'>
         {uploading ? (
           <div className='flex justify-between'>
-            <span>Lädt...</span><span className='flex items-center'><Loader2Icon className='animate-spin' /></span>
+            <span>Lädt...</span>
+            <span className='flex items-center'>
+              <Loader2Icon className='animate-spin' />
+            </span>
           </div>
         ) : (
           <UploadInputLabel uploadImages={uploadImages} />
@@ -94,7 +115,8 @@ export default function Upload({ onUpload, category, id, multiple = false, class
         accept='image/png, image/jpeg'
         multiple={multiple}
         hidden
-        onChange={updateSelectedImages} />
+        onChange={updateSelectedImages}
+      />
     </div>
   );
 }

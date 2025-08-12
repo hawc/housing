@@ -17,9 +17,5 @@ export default function LoginPageFrame({ children }: PropsWithChildren) {
     return <>Bitte einloggen.</>;
   }
 
-  return (
-    <>
-      {children}
-    </>
-  );
+  return <>{children}</>;
 }

@@ -5,15 +5,13 @@ import { NextResponse } from 'next/server';
 import { eventsInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
 
-async function deleteEvent(
-  where: Prisma.EventsWhereUniqueInput
-) {
+async function deleteEvent(where: Prisma.EventsWhereUniqueInput) {
   return await prisma.events.update({
     where,
     data: {
-      published: false
+      published: false,
     },
-    include: eventsInclude
+    include: eventsInclude,
   });
 }
 

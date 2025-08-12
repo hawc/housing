@@ -17,7 +17,7 @@ export interface SearchableItem {
   name: string;
   slug: string;
   location?: Location | null;
-};
+}
 
 export type SearchableItemsList = SearchableItem[];
 interface SearchListProps {
@@ -36,35 +36,53 @@ interface SearchInputProps {
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
 }
 
-export function SearchInput({ searchTerm = '', placeholder = 'Suchbegriff eingeben', loading = false, onChange }: SearchInputProps) {
+export function SearchInput({
+  searchTerm = '',
+  placeholder = 'Suchbegriff eingeben',
+  loading = false,
+  onChange,
+}: SearchInputProps) {
   return (
     <InputGhost
       placeholder={placeholder}
       value={searchTerm}
       onChange={onChange}
       style={{ outlineOffset: '-2px' }}
-      className={twMerge(`w-auto -mx-3 -mt-2 md:-mx-5 md:-mt-4 mb-4 px-5 py-4 font-normal border-0 border-b border-text border-solid ${loading ? 'pointer-events-none' : ''}`)}/>
+      className={twMerge(
+        `w-auto -mx-3 -mt-2 md:-mx-5 md:-mt-4 mb-4 px-5 py-4 font-normal border-0 border-b border-text border-solid ${
+          loading ? 'pointer-events-none' : ''
+        }`
+      )}
+    />
   );
 }
 
-export function SearchList({ items, path, className = '', searchTerm = '', loading = false }: SearchListProps) {
+export function SearchList({
+  items,
+  path,
+  className = '',
+  searchTerm = '',
+  loading = false,
+}: SearchListProps) {
   const sortedList = useMemo(() => {
-    return sortAlphabetically(items.filter(item => slugify(item.name).includes(slugify(searchTerm))));
+    return sortAlphabetically(
+      items.filter((item) => slugify(item.name).includes(slugify(searchTerm)))
+    );
   }, [items, searchTerm]);
 
   if (sortedList.length === 0) {
-    return (
-      <span className='leading-relaxed'>Keine Suchergebnisse</span>
-    );
+    return <span className='leading-relaxed'>Keine Suchergebnisse</span>;
   }
 
   return (
     <div className={className}>
       <List className='md:columns-2'>
-        {sortedList.map(item => (
+        {sortedList.map((item) =>
           loading ? (
             <ListItem plain key={item.slug}>
-              <Link href='#' className='pointer-events-none'>{item.name}</Link>
+              <Link href='#' className='pointer-events-none'>
+                {item.name}
+              </Link>
             </ListItem>
           ) : (
             <ListItem plain key={item.slug}>
@@ -73,7 +91,7 @@ export function SearchList({ items, path, className = '', searchTerm = '', loadi
               </Link>
             </ListItem>
           )
-        ))}
+        )}
       </List>
     </div>
   );
@@ -86,34 +104,49 @@ interface SettlementsListProps {
   path: string;
 }
 
-function SettlementsList({ items, searchTerm, loading, path }: SettlementsListProps) {
+function SettlementsList({
+  items,
+  searchTerm,
+  loading,
+  path,
+}: SettlementsListProps) {
   const sortedList = useMemo(() => {
-    return sortAlphabetically(items.filter(item => isSettlementFound(item.name, item.location?.city, searchTerm)));
+    return sortAlphabetically(
+      items.filter((item) =>
+        isSettlementFound(item.name, item.location?.city, searchTerm)
+      )
+    );
   }, [items, searchTerm]);
 
   if (sortedList.length === 0) {
-    return (
-      <span className='leading-relaxed'>Keine Suchergebnisse</span>
-    );
+    return <span className='leading-relaxed'>Keine Suchergebnisse</span>;
   }
 
   return (
     <List className='md:columns-2'>
-      {sortedList.map(item => (
+      {sortedList.map((item) =>
         loading ? (
           <ListItem plain key={item.slug}>
-            <Link href='#' className='pointer-events-none'>{item.name}</Link>
+            <Link href='#' className='pointer-events-none'>
+              {item.name}
+            </Link>
           </ListItem>
         ) : (
           <ListItem plain key={item.slug}>
             <Link className='inline-block mr-2' href={`${path}${item.slug}`}>
               {item.name}
-            </Link>{'location' in item && item.location && (
-              <><span className='sr-only'>, </span><span className='font-thin tracking-wide'>{item.location.city}</span></>
+            </Link>
+            {'location' in item && item.location && (
+              <>
+                <span className='sr-only'>, </span>
+                <span className='font-thin tracking-wide'>
+                  {item.location.city}
+                </span>
+              </>
             )}
           </ListItem>
         )
-      ))}
+      )}
     </List>
   );
 }
@@ -126,15 +159,21 @@ interface GroupedSettlementsListProps {
   sorting: Sorting;
 }
 
-function GroupedSettlementsList({ items, searchTerm, loading, path, sorting }: GroupedSettlementsListProps) {
-  const searchResults = useMemo(() => { 
-    return items.filter(item => isSettlementFound(item.name, item.location?.city ?? '', searchTerm));
+function GroupedSettlementsList({
+  items,
+  searchTerm,
+  loading,
+  path,
+  sorting,
+}: GroupedSettlementsListProps) {
+  const searchResults = useMemo(() => {
+    return items.filter((item) =>
+      isSettlementFound(item.name, item.location?.city ?? '', searchTerm)
+    );
   }, [items, searchTerm]);
 
   if (searchResults.length === 0) {
-    return (
-      <span className='leading-relaxed'>Keine Suchergebnisse</span>
-    );
+    return <span className='leading-relaxed'>Keine Suchergebnisse</span>;
   }
 
   const isStateSorting = sorting === 'state';
@@ -143,40 +182,79 @@ function GroupedSettlementsList({ items, searchTerm, loading, path, sorting }: G
 
   return (
     <div className='flex flex-col gap-4'>
-      {Object.keys(sortedList).sort().map((key) => (
-        <div key={key}>
-          <Headline type='h3' tag='h2'>{key}</Headline>
-          <List>
-            {sortAlphabetically(sortedList[key]).map(item => (
-              loading ? (
-                <ListItem plain key={item.slug}>
-                  <Link href='#' className='pointer-events-none'>{item.name}</Link>
-                </ListItem>
-              ) : (
-                <ListItem plain key={item.slug}>
-                  <Link className={`inline-block mr-2 ${!isStateSorting && 'font-normal'}`} href={`${path}${item.slug}`}>
-                    {item.name}
-                  </Link>{ isStateSorting && 'location' in item && item.location && item.location.state !== item.location.city && (
-                    <><span className='sr-only'>, </span><span className='font-thin tracking-wide'>{item.location.city}</span></>
-                  )}
-                </ListItem>
-              )
-            ))}
-          </List>
-        </div>
-      ))}
+      {Object.keys(sortedList)
+        .sort()
+        .map((key) => (
+          <div key={key}>
+            <Headline type='h3' tag='h2'>
+              {key}
+            </Headline>
+            <List>
+              {sortAlphabetically(sortedList[key]).map((item) =>
+                loading ? (
+                  <ListItem plain key={item.slug}>
+                    <Link href='#' className='pointer-events-none'>
+                      {item.name}
+                    </Link>
+                  </ListItem>
+                ) : (
+                  <ListItem plain key={item.slug}>
+                    <Link
+                      className={`inline-block mr-2 ${
+                        !isStateSorting && 'font-normal'
+                      }`}
+                      href={`${path}${item.slug}`}
+                    >
+                      {item.name}
+                    </Link>
+                    {isStateSorting &&
+                      'location' in item &&
+                      item.location &&
+                      item.location.state !== item.location.city && (
+                        <>
+                          <span className='sr-only'>, </span>
+                          <span className='font-thin tracking-wide'>
+                            {item.location.city}
+                          </span>
+                        </>
+                      )}
+                  </ListItem>
+                )
+              )}
+            </List>
+          </div>
+        ))}
     </div>
   );
 }
 
-export function SettlementsSearchList({ items, sorting = 'alphabetic', path, className = '', searchTerm = '', loading = false }: SearchListProps) {
+export function SettlementsSearchList({
+  items,
+  sorting = 'alphabetic',
+  path,
+  className = '',
+  searchTerm = '',
+  loading = false,
+}: SearchListProps) {
   return (
     <div className={className}>
-      {!sorting || sorting === 'alphabetic' && (
-        <SettlementsList items={items} searchTerm={searchTerm} loading={loading} path={path} />
-      )}
-      {sorting && ['city' , 'state'].includes(sorting) && (
-        <GroupedSettlementsList items={items} searchTerm={searchTerm} loading={loading} path={path} sorting={sorting} />
+      {!sorting ||
+        (sorting === 'alphabetic' && (
+          <SettlementsList
+            items={items}
+            searchTerm={searchTerm}
+            loading={loading}
+            path={path}
+          />
+        ))}
+      {sorting && ['city', 'state'].includes(sorting) && (
+        <GroupedSettlementsList
+          items={items}
+          searchTerm={searchTerm}
+          loading={loading}
+          path={path}
+          sorting={sorting}
+        />
       )}
     </div>
   );

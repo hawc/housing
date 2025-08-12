@@ -8,9 +8,9 @@ import { baseTransformers } from '@/lib/transformers';
 async function findTags() {
   return await prisma.tags.findMany({
     where: {
-      published: true
+      published: true,
     },
-    include: tagsInclude
+    include: tagsInclude,
   });
 }
 

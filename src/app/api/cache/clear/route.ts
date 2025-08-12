@@ -6,15 +6,15 @@ import prisma from '@/lib/prisma';
 async function clearCache() {
   return await prisma.tags.upsert({
     where: {
-      name: 'flush'
+      name: 'flush',
     },
     update: {
-      published: false
+      published: false,
     },
     create: {
       name: 'flush',
-      published: false
-    }
+      published: false,
+    },
   });
 }
 

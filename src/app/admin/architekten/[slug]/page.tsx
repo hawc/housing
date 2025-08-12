@@ -5,7 +5,10 @@ import type { BaseArchitect } from '@/lib/types';
 
 import { ArchitectEdit } from '@/components/admin/architects/Edit';
 import LoginPageFrame from '@/components/admin/LoginPageFrame';
-import { Breadcrumb, Breadcrumbs } from '@/components/common/breadcrumbs/Breadcrumbs';
+import {
+  Breadcrumb,
+  Breadcrumbs,
+} from '@/components/common/breadcrumbs/Breadcrumbs';
 import Layout from '@/components/layout/Layout';
 
 export async function generateMetadata(props): Promise<Metadata> {
@@ -18,17 +21,21 @@ export async function generateMetadata(props): Promise<Metadata> {
 }
 
 export async function generateStaticParams() {
-  const architects = await fetchData<BaseArchitect[], BaseArchitect[]>('/api/architects/get/all', []);
+  const architects = await fetchData<BaseArchitect[], BaseArchitect[]>(
+    '/api/architects/get/all',
+    []
+  );
 
-  const slugs = architects.map(architect => (
-    { slug: architect.slug }
-  ));
+  const slugs = architects.map((architect) => ({ slug: architect.slug }));
 
   return slugs;
 }
 
 async function getArchitect(slug: string) {
-  const architect = await fetchData<BaseArchitect>(`/api/architects/get/${slug}`, undefined);
+  const architect = await fetchData<BaseArchitect>(
+    `/api/architects/get/${slug}`,
+    undefined
+  );
 
   return architect;
 }
@@ -38,13 +45,15 @@ export default async function ArchitectPage(props) {
   const architect = await getArchitect(params.slug);
 
   return (
-    <Layout breadcrumbs={
-      <Breadcrumbs>
-        <Breadcrumb href="/">Startseite</Breadcrumb>
-        <Breadcrumb href="/admin/architekten">Architekt*innen</Breadcrumb>
-        <Breadcrumb>{architect?.name ?? 'Neu'}</Breadcrumb>
-      </Breadcrumbs>
-    }>
+    <Layout
+      breadcrumbs={
+        <Breadcrumbs>
+          <Breadcrumb href='/'>Startseite</Breadcrumb>
+          <Breadcrumb href='/admin/architekten'>Architekt*innen</Breadcrumb>
+          <Breadcrumb>{architect?.name ?? 'Neu'}</Breadcrumb>
+        </Breadcrumbs>
+      }
+    >
       <LoginPageFrame>
         <section>
           <ArchitectEdit architectInput={architect} />

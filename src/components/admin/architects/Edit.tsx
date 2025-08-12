@@ -15,15 +15,22 @@ import { InputGhost } from '@/components/common/form/Input';
 import { TextareaGhost } from '@/components/common/form/Textarea';
 import { Headline } from '@/components/Headline';
 
-
 async function updateArchitect(slug: string, data: Partial<BaseArchitect>) {
-  const response = await fetchData<BaseArchitect>(`/api/architects/update/${slug}`, undefined, { method: 'POST', body: JSON.stringify(data) });
+  const response = await fetchData<BaseArchitect>(
+    `/api/architects/update/${slug}`,
+    undefined,
+    { method: 'POST', body: JSON.stringify(data) }
+  );
 
   return response;
 }
 
 async function addArchitect(data: Partial<BaseArchitect>) {
-  const response = await fetchData<BaseArchitect>('/api/architects/add', undefined, { method: 'POST', body: JSON.stringify(data) });
+  const response = await fetchData<BaseArchitect>(
+    '/api/architects/add',
+    undefined,
+    { method: 'POST', body: JSON.stringify(data) }
+  );
 
   return response;
 }
@@ -34,7 +41,9 @@ interface ArchitectEditProps {
 
 export function ArchitectEdit({ architectInput }: ArchitectEditProps) {
   const router = useRouter();
-  const [architect, setArchitect] = useState<BaseArchitect | Architect | undefined>(architectInput);
+  const [architect, setArchitect] = useState<
+    BaseArchitect | Architect | undefined
+  >(architectInput);
   const [loading, setLoading] = useState<boolean>(false);
 
   async function deleteArchitect(slug: string) {
@@ -66,19 +75,25 @@ export function ArchitectEdit({ architectInput }: ArchitectEditProps) {
     setLoading(false);
   }
 
-  const handleChangeName = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    setArchitect({
-      ...architect,
-      name: event.target.value,
-    } as Architect);
-  }, [architect]);
+  const handleChangeName = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      setArchitect({
+        ...architect,
+        name: event.target.value,
+      } as Architect);
+    },
+    [architect]
+  );
 
-  const handleChangeDescription = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
-    setArchitect({
-      ...architect,
-      description: event.target.value,
-    } as Architect);
-  }, [architect]);
+  const handleChangeDescription = useCallback(
+    (event: ChangeEvent<HTMLTextAreaElement>) => {
+      setArchitect({
+        ...architect,
+        description: event.target.value,
+      } as Architect);
+    },
+    [architect]
+  );
 
   return (
     <>
@@ -88,7 +103,8 @@ export function ArchitectEdit({ architectInput }: ArchitectEditProps) {
             <InputGhost
               className='text-inherit'
               onChange={handleChangeName}
-              value={architect?.name ?? ''} />
+              value={architect?.name ?? ''}
+            />
           </Headline>
         </div>
       </Box>
@@ -98,7 +114,8 @@ export function ArchitectEdit({ architectInput }: ArchitectEditProps) {
             <div>
               <TextareaGhost
                 onChange={handleChangeDescription}
-                value={architect?.description ?? ''} />
+                value={architect?.description ?? ''}
+              />
             </div>
           </Box>
         </Container>
@@ -108,24 +125,45 @@ export function ArchitectEdit({ architectInput }: ArchitectEditProps) {
               <Headline className='inline-block' tag='h2' type='h3'>
                 Weblinks
               </Headline>
-              {architect?.urls && <ExternalLinksList externalLinksInput={architect.urls} architectId={architect.id} />}
+              {architect?.urls && (
+                <ExternalLinksList
+                  externalLinksInput={architect.urls}
+                  architectId={architect.id}
+                />
+              )}
             </>
           </Box>
         </Container>
         <Container className='md:grid-cols-3'>
           <Box>
-            <Button onClick={() => submitData(architect)} disabled={loading || !architect?.name}>
-              Speichern {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}
+            <Button
+              onClick={() => submitData(architect)}
+              disabled={loading || !architect?.name}
+            >
+              Speichern{' '}
+              {loading && (
+                <Loader2Icon className='inline-block animate-spin align-sub leading-none' />
+              )}
             </Button>
           </Box>
           <Box>
-            <Link href='/admin/architekten' className='inline-block py-1 px-3 text-center border border-text'>Abbrechen</Link>
+            <Link
+              href='/admin/architekten'
+              className='inline-block py-1 px-3 text-center border border-text'
+            >
+              Abbrechen
+            </Link>
           </Box>
           <Box>
             <Button
               className='bg-text text-bg border border-text'
-              onClick={() => architect && deleteArchitect(architect.slug)} disabled={loading || !(architect?.id)}>
-              Löschen {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}
+              onClick={() => architect && deleteArchitect(architect.slug)}
+              disabled={loading || !architect?.id}
+            >
+              Löschen{' '}
+              {loading && (
+                <Loader2Icon className='inline-block animate-spin align-sub leading-none' />
+              )}
             </Button>
           </Box>
         </Container>

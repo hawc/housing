@@ -3,7 +3,10 @@ import type { BaseTag } from '@/lib/types';
 
 import LoginPageFrame from '@/components/admin/LoginPageFrame';
 import { ListTags } from '@/components/admin/tags/List';
-import { Breadcrumb, Breadcrumbs } from '@/components/common/breadcrumbs/Breadcrumbs';
+import {
+  Breadcrumb,
+  Breadcrumbs,
+} from '@/components/common/breadcrumbs/Breadcrumbs';
 import Layout from '@/components/layout/Layout';
 
 async function getTags() {
@@ -16,12 +19,14 @@ export default async function Tags() {
   const tags = await getTags();
 
   return (
-    <Layout breadcrumbs={
-      <Breadcrumbs>
-        <Breadcrumb href="/">Startseite</Breadcrumb>
-        <Breadcrumb>Tags</Breadcrumb>
-      </Breadcrumbs>
-    }>
+    <Layout
+      breadcrumbs={
+        <Breadcrumbs>
+          <Breadcrumb href='/'>Startseite</Breadcrumb>
+          <Breadcrumb>Tags</Breadcrumb>
+        </Breadcrumbs>
+      }
+    >
       <LoginPageFrame>
         <section>
           <ListTags tagsInput={tags} />

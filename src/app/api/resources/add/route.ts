@@ -6,9 +6,7 @@ import { resourcesInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
 import { baseTransformers } from '@/lib/transformers';
 
-async function addResource(
-  data: Prisma.ResourcesUncheckedCreateInput
-) {
+async function addResource(data: Prisma.ResourcesUncheckedCreateInput) {
   return await prisma.resources.create({
     data: {
       name: data.name,
@@ -18,9 +16,9 @@ async function addResource(
       license: data.license,
       copyright: data.copyright,
       resourceTypeId: data.resourceTypeId,
-      settlementId: data.settlementId
+      settlementId: data.settlementId,
     },
-    include: resourcesInclude
+    include: resourcesInclude,
   });
 }
 

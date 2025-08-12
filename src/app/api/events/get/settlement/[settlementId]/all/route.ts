@@ -6,12 +6,10 @@ import { eventsInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
 import { baseTransformers } from '@/lib/transformers';
 
-async function findEvents(
-  where: Prisma.EventsWhereInput
-) {
+async function findEvents(where: Prisma.EventsWhereInput) {
   return await prisma.events.findMany({
     where,
-    include: eventsInclude
+    include: eventsInclude,
   });
 }
 

@@ -51,11 +51,5 @@ export function CesiumWrapper({ position }: CesiumWrapperProps) {
     return;
   }
 
-  return (
-    <CesiumContainer
-      CesiumJs={cesiumJs}
-      position={position}
-      isRotating
-    />
-  );
+  return <CesiumContainer CesiumJs={cesiumJs} position={position} isRotating />;
 }

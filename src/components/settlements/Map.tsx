@@ -16,11 +16,11 @@ import { ClipLayerSpecification } from 'mapbox-gl';
 import { Layer, Source } from 'react-map-gl/mapbox';
 
 const eraser: ClipLayerSpecification = {
-  'id': 'eraser',
-  'type': 'clip',
-  'source': 'eraser',
-  'layout': {
-    'clip-layer-types': ['model']
+  id: 'eraser',
+  type: 'clip',
+  source: 'eraser',
+  layout: {
+    'clip-layer-types': ['model'],
   },
 };
 
@@ -37,7 +37,13 @@ interface MapProps {
   searchTerm?: string;
 }
 
-export default function Map({ markers, center, geo, zoom = 15, searchTerm = '' }: MapProps) {
+export default function Map({
+  markers,
+  center,
+  geo,
+  zoom = 15,
+  searchTerm = '',
+}: MapProps) {
   const router = useRouter();
   const [hasClickedMarker, setHasClickedMarker] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -46,7 +52,6 @@ export default function Map({ markers, center, geo, zoom = 15, searchTerm = '' }
   const handleExpand = useCallback(() => {
     setIsExpanded(!isExpanded);
     const t = setTimeout(() => {
-
       (mapRef.current as null | MapRef)?.resize();
     }, 40);
 
@@ -65,35 +70,38 @@ export default function Map({ markers, center, geo, zoom = 15, searchTerm = '' }
     return {
       type: 'FeatureCollection',
       features: [
-        { 
+        {
           type: 'Feature',
           geometry: masked.geometry,
-          properties: {}
-        }
-      ]
+          properties: {},
+        },
+      ],
     };
   }, [geo]);
 
-  const handleClick = useCallback((marker) => {
-    if (hasClickedMarker) {
-      setHasClickedMarker(false);
+  const handleClick = useCallback(
+    (marker) => {
+      if (hasClickedMarker) {
+        setHasClickedMarker(false);
 
-      return;
-    }
-    setHasClickedMarker(true);
-    navigator.clipboard.writeText(marker.name);
+        return;
+      }
+      setHasClickedMarker(true);
+      navigator.clipboard.writeText(marker.name);
 
-    const t = setTimeout(() => {
-      setHasClickedMarker(false);
-    }, 2000);
+      const t = setTimeout(() => {
+        setHasClickedMarker(false);
+      }, 2000);
 
-    return () => {
-      clearTimeout(t);
-    };
-  }, [hasClickedMarker]);
+      return () => {
+        clearTimeout(t);
+      };
+    },
+    [hasClickedMarker]
+  );
 
   return (
-    <div className="mapbox-map">
+    <div className='mapbox-map'>
       <MapboxMap
         ref={mapRef}
         style={{ height: isExpanded ? '800px' : '400px' }}
@@ -102,43 +110,60 @@ export default function Map({ markers, center, geo, zoom = 15, searchTerm = '' }
           latitude: center.lat,
           zoom: zoom,
         }}
-        mapStyle="mapbox://styles/hawc/clk5ql67s00ie01pdadkx2kbb"
+        mapStyle='mapbox://styles/hawc/clk5ql67s00ie01pdadkx2kbb'
         mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_API_TOKEN}
         cooperativeGestures
         maxZoom={18}
         minZoom={4.3}
       >
-      {maskedGeoCollection && (
-        <Source id="my-data" type="geojson" data={maskedGeoCollection}>
-          <Layer {...eraser} />
-        </Source>
-      )}
-        {markers.map(marker => 'settlement' in marker ? (
-          <Marker
-            key={`${marker.lat}-${marker.lng}`}
-            latitude={marker.lat}
-            longitude={marker.lng}
-            onClick={() => router.push(`/siedlungen/${marker.settlement.slug}`)}
-          >
-            <div
-              className={`relative h-4 w-4 flex items-center cursor-pointer marker ${!isSettlementFound(marker.settlement.name, marker.city, searchTerm) && 'marker-disabled'}`}>
-              <MapTooltip title={marker.settlement.name} />
-            </div>
-          </Marker>
-        ) : (
-          <Marker
-            key={`${marker.lat}-${marker.lng}`}
-            latitude={marker.lat}
-            longitude={marker.lng}
-            onClick={() => handleClick(marker)}
-          >
-            <div className='relative h-4 w-4 flex items-center cursor-pointer marker'>
-              {marker.name && <MapTooltip title={hasClickedMarker ? 'Adresse kopiert' : marker.name} />}
-            </div>
-          </Marker>
-        ))}
+        {maskedGeoCollection && (
+          <Source id='my-data' type='geojson' data={maskedGeoCollection}>
+            <Layer {...eraser} />
+          </Source>
+        )}
+        {markers.map((marker) =>
+          'settlement' in marker ? (
+            <Marker
+              key={`${marker.lat}-${marker.lng}`}
+              latitude={marker.lat}
+              longitude={marker.lng}
+              onClick={() =>
+                router.push(`/siedlungen/${marker.settlement.slug}`)
+              }
+            >
+              <div
+                className={`relative h-4 w-4 flex items-center cursor-pointer marker ${
+                  !isSettlementFound(
+                    marker.settlement.name,
+                    marker.city,
+                    searchTerm
+                  ) && 'marker-disabled'
+                }`}
+              >
+                <MapTooltip title={marker.settlement.name} />
+              </div>
+            </Marker>
+          ) : (
+            <Marker
+              key={`${marker.lat}-${marker.lng}`}
+              latitude={marker.lat}
+              longitude={marker.lng}
+              onClick={() => handleClick(marker)}
+            >
+              <div className='relative h-4 w-4 flex items-center cursor-pointer marker'>
+                {marker.name && (
+                  <MapTooltip
+                    title={hasClickedMarker ? 'Adresse kopiert' : marker.name}
+                  />
+                )}
+              </div>
+            </Marker>
+          )
+        )}
       </MapboxMap>
-      <button className="mapbox-button" type="button" onClick={handleExpand}>{isExpanded ? <ChevronsDownUpIcon /> : <ChevronsUpDownIcon />}</button>
+      <button className='mapbox-button' type='button' onClick={handleExpand}>
+        {isExpanded ? <ChevronsDownUpIcon /> : <ChevronsUpDownIcon />}
+      </button>
     </div>
   );
 }

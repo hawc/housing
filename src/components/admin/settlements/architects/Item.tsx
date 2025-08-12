@@ -10,29 +10,43 @@ interface ArchitectsItemProps {
   updateArchitectOnSettlement: (id, settlementId, role) => void;
 }
 
-export function ArchitectsItem({ architect, settlementId, removeArchitect, updateArchitectOnSettlement, ...rest }: ArchitectsItemProps) {
+export function ArchitectsItem({
+  architect,
+  settlementId,
+  removeArchitect,
+  updateArchitectOnSettlement,
+  ...rest
+}: ArchitectsItemProps) {
   const [role, setRole] = useState(architect.role ?? '');
   return (
-    <div className="grid gap-4" {...rest}>
+    <div className='grid gap-4' {...rest}>
       <div className='flex gap-3 items-center'>
         Name: <div>{architect.name}</div>
       </div>
       <div className='flex gap-4 items-center'>
-        Rolle: <InputGhost
-          className='border-highlight border-2 border-solid p-1' value={architect.role ?? ''} onChange={e => setRole(e.target.value)} />
+        Rolle:{' '}
+        <InputGhost
+          className='border-highlight border-2 border-solid p-1'
+          value={architect.role ?? ''}
+          onChange={(e) => setRole(e.target.value)}
+        />
       </div>
       <div className='flex gap-4'>
         <div className='basis-full'>
           <Button
             className='border-highlight border-2 border-solid w-full'
-            onClick={() => updateArchitectOnSettlement(architect.id, settlementId, role)}>
+            onClick={() =>
+              updateArchitectOnSettlement(architect.id, settlementId, role)
+            }
+          >
             Speichern
           </Button>
         </div>
         <div className='basis-full'>
           <Button
             className='bg-text text-bg border-2 border-solid border-text w-full'
-            onClick={() => removeArchitect(architect.id, settlementId)}>
+            onClick={() => removeArchitect(architect.id, settlementId)}
+          >
             Löschen
           </Button>
         </div>

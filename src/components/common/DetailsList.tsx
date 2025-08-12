@@ -25,14 +25,17 @@ function formatDetail(detailText: string, type: string): string {
 }
 
 function sortByTypeAndDate(a: Detail, b: Detail) {
-  return a.detailType.name.localeCompare(b.detailType.name, 'de') || new Date(a.detailDate).getFullYear() - new Date(b.detailDate).getFullYear();
+  return (
+    a.detailType.name.localeCompare(b.detailType.name, 'de') ||
+    new Date(a.detailDate).getFullYear() - new Date(b.detailDate).getFullYear()
+  );
 }
 
 export function DetailsList({ details }: DetailsListProps) {
   const sortedDetails = useMemo(() => {
     return details.sort(sortByTypeAndDate);
   }, [details]);
-  
+
   return (
     <div>
       <table className='table-auto w-full'>
@@ -44,20 +47,28 @@ export function DetailsList({ details }: DetailsListProps) {
         <tbody>
           {sortedDetails.map((detail: Detail) => (
             <tr key={detail.id}>
-              <td className='pr-4'>{detail.name}{detail.detailDate ? ` (${new Date(detail.detailDate).getFullYear()})` : ''}:</td>
+              <td className='pr-4'>
+                {detail.name}
+                {detail.detailDate
+                  ? ` (${new Date(detail.detailDate).getFullYear()})`
+                  : ''}
+                :
+              </td>
               <td>
                 {formatDetail(detail.description, detail.detailType?.name)}{' '}
                 {detail.annotation && <>({detail.annotation})</>}{' '}
               </td>
-              {detail.source &&
+              {detail.source && (
                 <td className='pl-4'>
                   {detail.source.includes('http') ? (
-                    <Link href={detail.source} title={detail.source}>Quelle</Link>
+                    <Link href={detail.source} title={detail.source}>
+                      Quelle
+                    </Link>
                   ) : (
                     <Tooltip text={detail.source}>Quelle</Tooltip>
                   )}
                 </td>
-              }
+              )}
             </tr>
           ))}
         </tbody>

@@ -13,7 +13,7 @@ async function updateResource(
   return await prisma.resources.update({
     where,
     data,
-    include: resourcesInclude
+    include: resourcesInclude,
   });
 }
 

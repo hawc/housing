@@ -5,15 +5,13 @@ import { NextResponse } from 'next/server';
 import { platformsInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
 
-async function deletePlatform(
-  where: Prisma.PlatformsWhereUniqueInput
-) {
+async function deletePlatform(where: Prisma.PlatformsWhereUniqueInput) {
   return await prisma.platforms.update({
     where,
     data: {
-      published: false
+      published: false,
     },
-    include: platformsInclude
+    include: platformsInclude,
   });
 }
 

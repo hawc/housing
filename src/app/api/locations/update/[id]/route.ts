@@ -13,7 +13,7 @@ async function updateLocation(
   return await prisma.locations.update({
     where,
     data,
-    include: locationsInclude
+    include: locationsInclude,
   });
 }
 

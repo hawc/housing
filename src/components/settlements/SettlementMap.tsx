@@ -15,13 +15,8 @@ interface SettlementMapProps {
 
 export function SettlementMap({ markers, center, geo }: SettlementMapProps) {
   const Map = dynamic(() => import('@/components/settlements/Map'), {
-    ssr: false
+    ssr: false,
   });
 
-  return (
-    <Map
-      markers={markers}
-      center={center}
-      geo={geo} />
-  );
+  return <Map markers={markers} center={center} geo={geo} />;
 }

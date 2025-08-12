@@ -37,9 +37,11 @@ select {
 @layer utilities {
   .animated-underline {
     background-image: linear-gradient(rgba(51, 51, 51, 0), rgba(51, 51, 51, 0)),
-      linear-gradient(to right,
+      linear-gradient(
+        to right,
         var(--color-primary-400),
-        var(--color-primary-500));
+        var(--color-primary-500)
+      );
     background-size: 100% 2px, 0 2px;
     background-position: 100% 100%, 0 100%;
     background-repeat: no-repeat;
@@ -66,7 +68,7 @@ select {
   --black: #121212;
   --orange: #ff4d00;
   --orange-dark: #a83200;
-  --form-bg: rgba(0, 0, 0, .2);
+  --form-bg: rgba(0, 0, 0, 0.2);
   --bg: var(--white);
   --bg-inv: var(--black);
   --text: var(--black);
@@ -87,7 +89,7 @@ select {
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --form-bg: rgba(0, 0, 0, .5);
+    --form-bg: rgba(0, 0, 0, 0.5);
     --bg: var(--black);
     --bg-inv: var(--white);
     --text: var(--white);
@@ -116,14 +118,15 @@ body {
 }
 
 .main-wrapper::before {
-  content: "";
+  content: '';
   position: absolute;
   display: block;
   width: 100vw;
   height: min(var(--header-image-height), 500px);
   top: 1px;
   left: 0;
-  background-image: url(/images/header-01.png), linear-gradient(transparent, var(--bg));
+  background-image: url(/images/header-01.png),
+    linear-gradient(transparent, var(--bg));
   background-size: 100vw;
   background-repeat: no-repeat;
   background-blend-mode: color;

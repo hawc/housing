@@ -23,13 +23,16 @@ export function AddTag({ getTags }: AddTagProps) {
   function setTag(newTag: Partial<Tag>) {
     setCurrentTag({
       ...currentTag,
-      ...newTag
+      ...newTag,
     });
   }
 
   async function submitTag(tag: Partial<Tag>) {
     setLoading(true);
-    await fetchData('/api/tags/add', undefined, { method: 'POST', body: JSON.stringify(tag) });
+    await fetchData('/api/tags/add', undefined, {
+      method: 'POST',
+      body: JSON.stringify(tag),
+    });
     await getTags();
     setLoading(false);
   }
@@ -38,12 +41,26 @@ export function AddTag({ getTags }: AddTagProps) {
     <>
       <div className='flex'>
         <Headline type='h6' tag='h2' className='grow'>
-          <InputGhost placeholder='Neuer Tag' value={currentTag.name} onChange={(event) => setTag({ name: event.target.value })} className='mb-1' />
+          <InputGhost
+            placeholder='Neuer Tag'
+            value={currentTag.name}
+            onChange={(event) => setTag({ name: event.target.value })}
+            className='mb-1'
+          />
         </Headline>
       </div>
-      <TextareaGhost placeholder='Beschreibung' value={currentTag.description} onChange={(event) => setTag({ description: event.target.value })} />
+      <TextareaGhost
+        placeholder='Beschreibung'
+        value={currentTag.description}
+        onChange={(event) => setTag({ description: event.target.value })}
+      />
       <Button disabled={loading} onClick={() => submitTag(currentTag)}>
-        <>Tag hinzufügen {loading && <Loader2Icon className='inline-block animate-spin align-sub leading-none' />}</>
+        <>
+          Tag hinzufügen{' '}
+          {loading && (
+            <Loader2Icon className='inline-block animate-spin align-sub leading-none' />
+          )}
+        </>
       </Button>
     </>
   );

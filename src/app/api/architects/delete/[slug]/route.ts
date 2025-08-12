@@ -5,16 +5,13 @@ import { NextResponse } from 'next/server';
 import { architectsInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
 
-
-async function deleteArchitect(
-  where: Prisma.ArchitectsWhereUniqueInput
-) {
+async function deleteArchitect(where: Prisma.ArchitectsWhereUniqueInput) {
   return await prisma.architects.update({
     where,
     data: {
-      published: false
+      published: false,
     },
-    include: architectsInclude
+    include: architectsInclude,
   });
 }
 

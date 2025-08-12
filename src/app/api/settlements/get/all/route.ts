@@ -8,9 +8,9 @@ import { baseTransformers } from '@/lib/transformers';
 async function findSettlements() {
   return await prisma.settlements.findMany({
     where: {
-      published: true
+      published: true,
     },
-    include: settlementsInclude
+    include: settlementsInclude,
   });
 }
 

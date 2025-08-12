@@ -29,11 +29,25 @@ export function SettlementMeta({ location }: SettlementsMetaProps) {
 
   return (
     <>
-      <div className='flex flex-row gap-1 items-center italic'><MapPinIcon /> {location?.city}</div>
-      <Button ghost className='rounded-full px-2 hidden md:block' onClick={setTopView} disabled={is3DLoading}>
+      <div className='flex flex-row gap-1 items-center italic'>
+        <MapPinIcon /> {location?.city}
+      </div>
+      <Button
+        ghost
+        className='rounded-full px-2 hidden md:block'
+        onClick={setTopView}
+        disabled={is3DLoading}
+      >
         {is3DLoading ? (
-          <div className='flex gap-1'>3D-Ansicht lädt <Loader2Icon className='h-6 self-center animate-spin' /></div>
-        ) : enable3D ? '3D-Ansicht schließen' : '3D-Ansicht öffnen'}
+          <div className='flex gap-1'>
+            3D-Ansicht lädt{' '}
+            <Loader2Icon className='h-6 self-center animate-spin' />
+          </div>
+        ) : enable3D ? (
+          '3D-Ansicht schließen'
+        ) : (
+          '3D-Ansicht öffnen'
+        )}
       </Button>
     </>
   );

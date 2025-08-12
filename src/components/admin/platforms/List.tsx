@@ -24,7 +24,10 @@ export function ListPlatforms({ platformsInput }: ListPlatformsProps) {
   async function getPlatforms() {
     setLoading(true);
     await fetchData('/api/cache/clear');
-    const platforms = await fetchData<Platform[], Platform[]>('/api/platforms/get/all', []);
+    const platforms = await fetchData<Platform[], Platform[]>(
+      '/api/platforms/get/all',
+      []
+    );
     setPlatforms(platforms);
     setLoading(false);
   }
@@ -33,10 +36,15 @@ export function ListPlatforms({ platformsInput }: ListPlatformsProps) {
     <>
       <Box ghost>
         <div className='flex mt-6'>
-          <Headline type='h1' className='mb-0 inline-block'>Plattformen</Headline>
+          <Headline type='h1' className='mb-0 inline-block'>
+            Plattformen
+          </Headline>
           <div>
             <Button className='ml-3 p-2 rounded-full' onClick={getPlatforms}>
-              <RotateCwIcon className={`align-text-bottom ${loading && 'animate-spin'}`} size={15} />
+              <RotateCwIcon
+                className={`align-text-bottom ${loading && 'animate-spin'}`}
+                size={15}
+              />
             </Button>
           </div>
         </div>

@@ -7,13 +7,13 @@ export function Footer() {
     <footer>
       <Container>
         <Box className='bg-black mb-3 md:mb-8'>
-          <div className="flex md:justify-between text-white flex-col md:flex-row items-center leading-loose md:leading-normal">
-            <Link href="/updates">Updates</Link>
-            <Link href="/ressourcen">Ressoucen</Link>
-            <Link href="/kontakt">Kontakt</Link>
-            <Link href="/impressum">Impressum</Link>
-            <Link href="/datenschutz">Datenschutz</Link>
-            <Link href="https://github.com/hawc/housing">Github</Link>
+          <div className='flex md:justify-between text-white flex-col md:flex-row items-center leading-loose md:leading-normal'>
+            <Link href='/updates'>Updates</Link>
+            <Link href='/ressourcen'>Ressoucen</Link>
+            <Link href='/kontakt'>Kontakt</Link>
+            <Link href='/impressum'>Impressum</Link>
+            <Link href='/datenschutz'>Datenschutz</Link>
+            <Link href='https://github.com/hawc/housing'>Github</Link>
             <LoginButton />
           </div>
         </Box>

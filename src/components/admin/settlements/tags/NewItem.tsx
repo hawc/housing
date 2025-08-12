@@ -17,16 +17,21 @@ export function NewTagItem({ availableTags, onAdd }: NewTagItemProps) {
   const [currentTag, setCurrentTag] = useState<Tag | undefined>();
   const [loading, setLoading] = useState<boolean>(false);
 
-  const handleChangeTag = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
-    const id = event.target.value;
-    const selectedTag = availableTags.find(availableTag => availableTag.id === id);
+  const handleChangeTag = useCallback(
+    (event: ChangeEvent<HTMLSelectElement>) => {
+      const id = event.target.value;
+      const selectedTag = availableTags.find(
+        (availableTag) => availableTag.id === id
+      );
 
-    if (!id || !selectedTag) {
-      return;
-    }
+      if (!id || !selectedTag) {
+        return;
+      }
 
-    setCurrentTag(selectedTag);
-  }, [availableTags]);
+      setCurrentTag(selectedTag);
+    },
+    [availableTags]
+  );
 
   const handleAddTag = useCallback(async () => {
     if (!currentTag) {
@@ -39,18 +44,22 @@ export function NewTagItem({ availableTags, onAdd }: NewTagItemProps) {
   }, [currentTag, onAdd]);
 
   return (
-    <li className="flex mr-1 mb-1 py-1.5 px-2 italic text-xs font-bold border-2 border-text rounded-full items-center">
+    <li className='flex mr-1 mb-1 py-1.5 px-2 italic text-xs font-bold border-2 border-text rounded-full items-center'>
       <Select<Tag>
         options={availableTags}
         onChange={handleChangeTag}
         className='italic leading-none'
-        disabled={loading} />
+        disabled={loading}
+      />
       <Button
         ghost
         aria-label='Add Tag'
         className='pl-2 border-0'
         onClick={handleAddTag}
-        disabled={!currentTag?.name || loading}><PlusIcon size={15} /></Button>
+        disabled={!currentTag?.name || loading}
+      >
+        <PlusIcon size={15} />
+      </Button>
     </li>
   );
 }

@@ -6,12 +6,10 @@ import { architectsInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
 import { baseTransformers } from '@/lib/transformers';
 
-async function findArchitect(
-  where: Prisma.ArchitectsWhereUniqueInput
-) {
+async function findArchitect(where: Prisma.ArchitectsWhereUniqueInput) {
   return await prisma.architects.findUnique({
     where,
-    include: architectsInclude
+    include: architectsInclude,
   });
 }
 

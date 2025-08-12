@@ -6,6 +6,7 @@ export function MapTooltip({ title = '' }: MapTooltipProps) {
   return (
     <div
       className='map-tooltip absolute hidden text-center leading-tight text-white text-sm tracking-wide font-primary whitespace-nowrap'
-      dangerouslySetInnerHTML={{ __html: title.replaceAll(', ', '<br />') }}></div>
+      dangerouslySetInnerHTML={{ __html: title.replaceAll(', ', '<br />') }}
+    ></div>
   );
 }
