@@ -24,7 +24,7 @@ const errorMessages = {
   TYPE_EMAIL: 'Das Feld enthält keine valide E-Mail-Adresse.',
   TYPE_NUMERIC: 'Das Feld enthält keine valide Zahl.',
   TYPE_TEXT: 'Das Feld enthält keinen validen Text.',
-};
+} as const;
 
 export function ContactForm() {
   const [name, setName] = useState('');
