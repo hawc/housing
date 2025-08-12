@@ -10,7 +10,7 @@ interface NextImageProps extends ImageProps {
   imgClassName?: string;
   blurClassName?: string;
   useSkeleton?: boolean;
-};
+}
 
 export default function NextImage({
   src,
