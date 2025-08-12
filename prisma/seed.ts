@@ -1,3 +1,4 @@
+import logger from '@/lib/logger';
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
@@ -412,8 +413,8 @@ main()
   .then(async () => {
     await prisma.$disconnect();
   })
-  .catch(async (e) => {
-    console.error(e);
+  .catch(async (error) => {
+    logger(error, 'Seeder error.');
     await prisma.$disconnect();
     process.exit(1);
   });

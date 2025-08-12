@@ -9,6 +9,7 @@ import { SettingsContext } from '@/lib/settingsContext';
 
 import { Coordinates } from '@/components/settlements/Map';
 
+import logger from '@/lib/logger';
 import type { CesiumType } from '@/types/cesium';
 
 interface CesiumContainerProps {
@@ -49,7 +50,7 @@ function CesiumContainer({
       try {
         tileset = await CesiumJs.Cesium3DTileset.fromIonAssetId(2275207);
       } catch (error) {
-        console.error('Could not load tileset.');
+        logger(error, 'Could not load tileset.');
         setEnable3D(false);
         setIs3DLoading(false);
         return;

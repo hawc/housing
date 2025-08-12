@@ -1,4 +1,5 @@
-import type { UploadApiResponse} from 'cloudinary';
+import logger from '@/lib/logger';
+import type { UploadApiResponse } from 'cloudinary';
 import { v2 as cloudinary } from 'cloudinary';
 
 interface UploadImage {
@@ -21,12 +22,12 @@ export async function saveToCloudinary(image: UploadImage, category: string): Pr
     cloudinaryInit = initCloudinary();
   }
 
-  const apiResponse = await cloudinary.uploader.upload(image.src,
+  const apiResponse = await cloudinary.uploader.upload(
+    image.src,
     { filename_override: image.name, use_filename: true, folder: category, resource_type: 'image' },
-    (error, _result) => {
-      // todo: throw error
+    (error) => {
       if (error) {
-        console.error(error);
+        logger(error, 'Error uploading image to cloudinary.');
       }
     });
 

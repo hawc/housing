@@ -1,3 +1,4 @@
+import logger from '@/lib/logger';
 import { handleAuth, handleCallback, handleLogin } from '@auth0/nextjs-auth0/edge';
 
 const redirectUri = `${process.env.AUTH0_BASE_URL}/api/edge-auth/callback`;
@@ -7,8 +8,8 @@ export const GET = handleAuth({
     authorizationParams: { redirect_uri: redirectUri }
   }),
   callback: handleCallback({ redirectUri }),
-  onError(req: Request, error: Error) {
-    console.error(error);
+  onError(_req: Request, error: Error) {
+    logger(error, 'Error logging in.');
   }
 });
 

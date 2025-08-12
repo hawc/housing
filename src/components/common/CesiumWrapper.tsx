@@ -47,8 +47,11 @@ export function CesiumWrapper({ position }: CesiumWrapperProps) {
     }
   }, [enable3D, loadCesium, setCesiumJs]);
 
+  if (!cesiumJs) {
+    return;
+  }
+
   return (
-    cesiumJs &&
     <CesiumContainer
       CesiumJs={cesiumJs}
       position={position}

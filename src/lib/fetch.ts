@@ -1,3 +1,4 @@
+import logger from '@/lib/logger';
 
 export async function fetchData<T, D = undefined>(path: string, fallback?: D, data: RequestInit = { method: 'GET' }): Promise<T | D> {
   let response;
@@ -5,14 +6,14 @@ export async function fetchData<T, D = undefined>(path: string, fallback?: D, da
   try {
     response = await fetch(`${process.env.BASE_URL ?? ''}${path}`, data);
   } catch (error) {
-    console.log('There was an error', error);
+    logger(error, 'There was an error');
   }
 
   if (response?.ok) {
     const responseData: T = await response.json();
     return responseData;
   } else {
-    console.log(`HTTP Response Code: ${response?.status}`);
+    logger(response?.status, 'HTTP response not ok.');
   }
 
   return fallback as D;
