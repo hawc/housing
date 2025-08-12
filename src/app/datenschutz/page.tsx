@@ -6,7 +6,7 @@ import {
   Breadcrumbs,
 } from '@/components/common/breadcrumbs/Breadcrumbs';
 import { Headline } from '@/components/Headline';
-import Layout from '@/components/layout/Layout';
+import { Layout } from '@/components/layout/Layout';
 
 export const metadata: Metadata = {
   title: 'Datenschutzerklärung',

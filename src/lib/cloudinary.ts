@@ -1,4 +1,4 @@
-import logger from '@/lib/logger';
+import { logger } from '@/lib/logger';
 import type { UploadApiResponse } from 'cloudinary';
 import { v2 as cloudinary } from 'cloudinary';
 

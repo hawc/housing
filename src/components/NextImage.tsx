@@ -12,7 +12,7 @@ interface NextImageProps extends ImageProps {
   useSkeleton?: boolean;
 }
 
-export default function NextImage({
+export function NextImage({
   src,
   width,
   height,

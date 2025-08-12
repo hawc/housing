@@ -12,7 +12,7 @@ import {
 } from '@/components/common/breadcrumbs/Breadcrumbs';
 import { Link } from '@/components/common/Link';
 import { Headline } from '@/components/Headline';
-import Layout from '@/components/layout/Layout';
+import { Layout } from '@/components/layout/Layout';
 
 export const metadata: Metadata = {
   title: 'Updates',

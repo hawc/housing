@@ -37,7 +37,7 @@ interface MapProps {
   searchTerm?: string;
 }
 
-export default function Map({
+export function Map({
   markers,
   center,
   geo,

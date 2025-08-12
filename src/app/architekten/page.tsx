@@ -10,7 +10,7 @@ import {
   Breadcrumbs,
 } from '@/components/common/breadcrumbs/Breadcrumbs';
 import { ContactLink } from '@/components/common/ContactLink';
-import Layout from '@/components/layout/Layout';
+import { Layout } from '@/components/layout/Layout';
 
 export const metadata: Metadata = {
   title: 'Architekt*innen',

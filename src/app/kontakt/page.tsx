@@ -8,7 +8,7 @@ import {
 } from '@/components/common/breadcrumbs/Breadcrumbs';
 import { ContactForm } from '@/components/ContactForm';
 import { Headline } from '@/components/Headline';
-import Layout from '@/components/layout/Layout';
+import { Layout } from '@/components/layout/Layout';
 
 export async function generateMetadata(props): Promise<Metadata> {
   const searchParams = await props.searchParams;

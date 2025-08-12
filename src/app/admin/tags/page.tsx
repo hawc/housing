@@ -1,13 +1,13 @@
 import { fetchData } from '@/lib/fetch';
 import type { BaseTag } from '@/lib/types';
 
-import LoginPageFrame from '@/components/admin/LoginPageFrame';
+import { LoginPageFrame } from '@/components/admin/LoginPageFrame';
 import { ListTags } from '@/components/admin/tags/List';
 import {
   Breadcrumb,
   Breadcrumbs,
 } from '@/components/common/breadcrumbs/Breadcrumbs';
-import Layout from '@/components/layout/Layout';
+import { Layout } from '@/components/layout/Layout';
 
 async function getTags() {
   const tags = await fetchData<BaseTag[], BaseTag[]>('/api/tags/get/all', []);

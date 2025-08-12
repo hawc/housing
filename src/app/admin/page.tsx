@@ -1,7 +1,7 @@
-import LoginPageFrame from '@/components/admin/LoginPageFrame';
+import { LoginPageFrame } from '@/components/admin/LoginPageFrame';
 import { Link } from '@/components/common/Link';
 import { List, ListItem } from '@/components/common/List';
-import Layout from '@/components/layout/Layout';
+import { Layout } from '@/components/layout/Layout';
 
 export default function Admin() {
   return (

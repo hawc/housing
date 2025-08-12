@@ -1,4 +1,4 @@
-import logger from '@/lib/logger';
+import { logger } from '@/lib/logger';
 
 export async function fetchData<T, D = undefined>(
   path: string,

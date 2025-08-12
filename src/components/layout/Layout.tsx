@@ -7,7 +7,7 @@ interface LayoutProps {
   isHome?: boolean;
 }
 
-export default function Layout({
+export function Layout({
   children,
   breadcrumbs,
   isHome = false,

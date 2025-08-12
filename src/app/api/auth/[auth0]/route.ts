@@ -1,4 +1,4 @@
-import logger from '@/lib/logger';
+import { logger } from '@/lib/logger';
 import { handleAuth } from '@auth0/nextjs-auth0';
 
 export const GET = handleAuth({

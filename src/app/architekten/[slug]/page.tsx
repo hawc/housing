@@ -10,7 +10,7 @@ import {
   Breadcrumb,
   Breadcrumbs,
 } from '@/components/common/breadcrumbs/Breadcrumbs';
-import Layout from '@/components/layout/Layout';
+import { Layout } from '@/components/layout/Layout';
 import { formatDate } from '@/utils/formatDate';
 
 export async function generateMetadata(props): Promise<Metadata> {

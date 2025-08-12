@@ -41,7 +41,7 @@ interface UploadProps {
   id?: string;
 }
 
-export default function Upload({
+export function Upload({
   onUpload,
   category,
   id,

@@ -32,9 +32,12 @@ export function SettlementEdit({ settlementInput }: SettlementEditProps) {
   );
   const [loading, setLoading] = useState<boolean>(false);
 
-  const Map = dynamic(() => import('@/components/settlements/Map'), {
-    ssr: false,
-  });
+  const Map = dynamic(
+    () => import('@/components/settlements/Map').then((module) => module.Map),
+    {
+      ssr: false,
+    }
+  );
 
   async function submitData(settlement: Partial<BaseSettlement>) {
     setLoading(true);

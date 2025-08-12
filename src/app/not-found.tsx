@@ -2,7 +2,7 @@ import { Box, Container } from '@/components/common/Box';
 import { Link } from '@/components/common/Link';
 import { List, ListItem } from '@/components/common/List';
 import { Headline } from '@/components/Headline';
-import Layout from '@/components/layout/Layout';
+import { Layout } from '@/components/layout/Layout';
 
 export default function NotFound() {
   return (

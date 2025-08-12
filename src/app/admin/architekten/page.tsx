@@ -2,12 +2,12 @@ import { fetchData } from '@/lib/fetch';
 import type { BaseArchitect } from '@/lib/types';
 
 import { ListArchitects } from '@/components/admin/architects/List';
-import LoginPageFrame from '@/components/admin/LoginPageFrame';
+import { LoginPageFrame } from '@/components/admin/LoginPageFrame';
 import {
   Breadcrumb,
   Breadcrumbs,
 } from '@/components/common/breadcrumbs/Breadcrumbs';
-import Layout from '@/components/layout/Layout';
+import { Layout } from '@/components/layout/Layout';
 
 async function getArchitects() {
   const architects = await fetchData<BaseArchitect[], BaseArchitect[]>(

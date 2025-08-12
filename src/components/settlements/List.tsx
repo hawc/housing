@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 
 import type { BaseLocation, BaseSettlement } from '@/lib/types';
-import useDebounce from '@/lib/useDebounce';
+import { useDebounce } from '@/lib/useDebounce';
 
 import { Box } from '@/components/common/Box';
 import {

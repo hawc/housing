@@ -9,7 +9,7 @@ import { SettingsContext } from '@/lib/settingsContext';
 
 import { Coordinates } from '@/components/settlements/Map';
 
-import logger from '@/lib/logger';
+import { logger } from '@/lib/logger';
 import type { CesiumType } from '@/types/cesium';
 
 interface CesiumContainerProps {
@@ -18,7 +18,7 @@ interface CesiumContainerProps {
   isRotating: boolean;
 }
 
-function CesiumContainer({
+export function CesiumContainer({
   CesiumJs,
   position,
   isRotating,
@@ -153,5 +153,3 @@ function CesiumContainer({
     />
   );
 }
-
-export default CesiumContainer;

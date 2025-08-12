@@ -9,7 +9,7 @@ import {
   Breadcrumbs,
 } from '@/components/common/breadcrumbs/Breadcrumbs';
 import { ContactLink } from '@/components/common/ContactLink';
-import Layout from '@/components/layout/Layout';
+import { Layout } from '@/components/layout/Layout';
 import { ListSettlements } from '@/components/settlements/List';
 
 export const metadata: Metadata = {

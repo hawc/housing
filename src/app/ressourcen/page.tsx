@@ -7,7 +7,7 @@ import {
 } from '@/components/common/breadcrumbs/Breadcrumbs';
 import { Link } from '@/components/common/Link';
 import { Headline } from '@/components/Headline';
-import Layout from '@/components/layout/Layout';
+import { Layout } from '@/components/layout/Layout';
 import { fetchData } from '@/lib/fetch';
 import { Platform } from '@/lib/types';
 import { sortAlphabetically } from '@/utils/sortAlphabetically';

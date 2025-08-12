@@ -4,7 +4,7 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import { useRouter } from 'next/navigation';
 import { PropsWithChildren } from 'react';
 
-export default function LoginPageFrame({ children }: PropsWithChildren) {
+export function LoginPageFrame({ children }: PropsWithChildren) {
   const { user, isLoading } = useUser();
   const router = useRouter();
 

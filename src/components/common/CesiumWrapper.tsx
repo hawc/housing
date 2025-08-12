@@ -13,9 +13,12 @@ if (typeof window !== 'undefined') {
   window.CESIUM_BASE_URL = '/cesium';
 }
 
-const CesiumContainer = dynamic(() => import('./CesiumContainer'), {
-  ssr: false,
-});
+const CesiumContainer = dynamic(
+  () => import('./CesiumContainer').then((module) => module.CesiumContainer),
+  {
+    ssr: false,
+  }
+);
 
 interface CesiumWrapperProps {
   position: Coordinates;

@@ -10,7 +10,7 @@ import type { Resource, ResourceType } from '@/lib/types';
 import { Button } from '@/components/common/form/Button';
 import { InputGhost } from '@/components/common/form/Input';
 import { Select } from '@/components/common/form/Select';
-import Upload from '@/components/common/form/Upload';
+import { Upload } from '@/components/common/form/Upload';
 
 import type { ImageResponse } from '@/app/api/upload/route';
 import { LightBox } from '@/components/common/LightBox';
