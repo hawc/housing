@@ -5,7 +5,8 @@ import { useCallback, useState } from 'react';
 
 import type { BaseArchitect } from '@/lib/types';
 
-import { Box, Container } from '@/components/common/Box';
+import { Box } from '@/components/common/Box';
+import { Container } from '@/components/common/Container';
 import { Button } from '@/components/common/form/Button';
 import { SearchInput, SearchList } from '@/components/common/SearchList';
 import { Headline } from '@/components/Headline';

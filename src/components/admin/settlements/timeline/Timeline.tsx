@@ -6,8 +6,8 @@ import { fetchData } from '@/lib/fetch';
 import type { Event, EventType } from '@/lib/types';
 
 import { Event as EventComponent } from '@/components/admin/settlements/timeline/Event';
+import { clsxm } from '@/lib/clsxm';
 import { sortByDate } from '@/utils/sortByDate';
-import { twMerge } from 'tailwind-merge';
 
 interface TimelineProps {
   eventsInput?: Event[];
@@ -55,7 +55,7 @@ export function Timeline({ eventsInput, settlementId }: TimelineProps) {
 
   return (
     <ul
-      className={twMerge(
+      className={clsxm(
         `w-full flex flex-col ${
           loading
             ? 'transition-filter pointer-events-none blur-sm'

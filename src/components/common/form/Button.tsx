@@ -1,5 +1,5 @@
+import { clsxm } from '@/lib/clsxm';
 import { HTMLAttributes, PropsWithChildren } from 'react';
-import { twMerge } from 'tailwind-merge';
 
 interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
   ghost?: boolean;
@@ -20,7 +20,7 @@ export function Button({
 }: PropsWithChildren<ButtonProps>) {
   return (
     <button
-      className={twMerge(
+      className={clsxm(
         `inline-block border-2 border-text ${
           ghost ? '' : 'py-1 px-3 bg-highlight border-highlight'
         } transition-opacity ${disabled ? 'opacity-50' : ''} ${className}`

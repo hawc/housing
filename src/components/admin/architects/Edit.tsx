@@ -9,7 +9,8 @@ import { fetchData } from '@/lib/fetch';
 import type { Architect, BaseArchitect } from '@/lib/types';
 
 import { ExternalLinksList } from '@/components/admin/architects/ExternalLinks';
-import { Box, Container } from '@/components/common/Box';
+import { Box } from '@/components/common/Box';
+import { Container } from '@/components/common/Container';
 import { Button } from '@/components/common/form/Button';
 import { InputGhost } from '@/components/common/form/Input';
 import { TextareaGhost } from '@/components/common/form/Textarea';

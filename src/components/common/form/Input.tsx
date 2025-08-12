@@ -1,6 +1,6 @@
+import { clsxm } from '@/lib/clsxm';
 import { removeTimezoneOffset } from '@/utils/removeTimezoneOffset';
 import { ChangeEventHandler, CSSProperties } from 'react';
-import { twMerge } from 'tailwind-merge';
 
 function formatDate(date: string | number) {
   return new Date(removeTimezoneOffset(date)).toISOString().split('T')[0];
@@ -34,7 +34,7 @@ export function InputGhost({
 }: InputProps) {
   return (
     <input
-      className={twMerge(
+      className={clsxm(
         `appearance-none inline-block bg-transparent w-full border-none p-0 ${
           disabled ? 'opacity-50' : ''
         } ${className}`

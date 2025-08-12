@@ -1,5 +1,5 @@
+import { clsxm } from '@/lib/clsxm';
 import { PropsWithChildren } from 'react';
-import { twMerge } from 'tailwind-merge';
 
 type TagType = 'span' | 'div' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
@@ -28,6 +28,6 @@ export function Headline({
   const headlineClass = type in headlineStyles ? headlineStyles[type] : '';
 
   return (
-    <Tag className={twMerge(`${headlineClass} ${className}`)}>{children}</Tag>
+    <Tag className={clsxm(`${headlineClass} ${className}`)}>{children}</Tag>
   );
 }

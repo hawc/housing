@@ -1,4 +1,4 @@
-import { twMerge } from 'tailwind-merge';
+import { clsxm } from '@/lib/clsxm';
 
 interface TextareaProps extends React.InputHTMLAttributes<HTMLTextAreaElement> {
   className?: string;
@@ -19,7 +19,7 @@ export function TextareaGhost({
   return (
     <textarea
       rows={5}
-      className={twMerge(
+      className={clsxm(
         `appearance-none inline-block border-none bg-transparent w-full p-0 text-inherit ${className}`
       )}
       defaultValue={value}

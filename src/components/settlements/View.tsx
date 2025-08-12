@@ -4,8 +4,9 @@ import { CopyrightIcon } from 'lucide-react';
 
 import type { Architect, BaseSettlement } from '@/lib/types';
 
-import { Box, Container } from '@/components/common/Box';
+import { Box } from '@/components/common/Box';
 import { ContactLink } from '@/components/common/ContactLink';
+import { Container } from '@/components/common/Container';
 import { DetailsList } from '@/components/common/DetailsList';
 import { LightBox } from '@/components/common/LightBox';
 import { Link as LinkElement } from '@/components/common/Link';

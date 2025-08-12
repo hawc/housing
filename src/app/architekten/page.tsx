@@ -4,12 +4,12 @@ import { fetchData } from '@/lib/fetch';
 import type { BaseArchitect } from '@/lib/types';
 
 import { ListArchitects } from '@/components/architects/List';
-import { Container } from '@/components/common/Box';
 import {
   Breadcrumb,
   Breadcrumbs,
 } from '@/components/common/breadcrumbs/Breadcrumbs';
 import { ContactLink } from '@/components/common/ContactLink';
+import { Container } from '@/components/common/Container';
 import { Layout } from '@/components/layout/Layout';
 
 export const metadata: Metadata = {

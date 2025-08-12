@@ -3,11 +3,11 @@
 
 import { XIcon } from 'lucide-react';
 import { HTMLAttributes, PropsWithChildren, useRef, useState } from 'react';
-import { twMerge } from 'tailwind-merge';
 
 import './LightBox.css';
 
 import { Button } from '@/components/common/form/Button';
+import { clsxm } from '@/lib/clsxm';
 
 interface LightBoxProps extends HTMLAttributes<HTMLElement> {
   src: string;
@@ -27,7 +27,7 @@ export function LightBox({
     <>
       <img
         src={src}
-        className={twMerge(`image ${className}`)}
+        className={clsxm(`image ${className}`)}
         alt={alt ?? 'Siedlungsansicht'}
         loading='lazy'
         onClick={() => setIsOpen(true)}
@@ -36,7 +36,7 @@ export function LightBox({
         <dialog
           ref={button}
           open
-          className={twMerge(`lightbox ${className}`)}
+          className={clsxm(`lightbox ${className}`)}
           onClick={() => setIsOpen(false)}
           {...rest}
         >

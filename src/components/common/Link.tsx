@@ -1,6 +1,6 @@
 import { default as NextLink } from 'next/link';
-import { twMerge } from 'tailwind-merge';
 
+import { clsxm } from '@/lib/clsxm';
 import styles from './Link.module.css';
 
 interface LinkProps extends React.HTMLAttributes<HTMLElement> {
@@ -36,7 +36,7 @@ export function Link({
       {...rest}
       target={isExternal ? '_blank' : '_self'}
       rel={isExternal ? 'noopener' : undefined}
-      className={twMerge(
+      className={clsxm(
         `font-bold tracking-wide inline-flex place-content-start ${
           arrow && back ? 'flex-row-reverse' : ''
         } ${rest.className}`

@@ -1,4 +1,5 @@
-import { Box, Container } from '@/components/common/Box';
+import { Box } from '@/components/common/Box';
+import { Container } from '@/components/common/Container';
 import { Link } from '@/components/common/Link';
 import { LoginButton } from '@/components/LoginButton';
 

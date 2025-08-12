@@ -1,7 +1,8 @@
 import type { BaseArchitect } from '@/lib/types';
 
-import { Box, Container } from '@/components/common/Box';
+import { Box } from '@/components/common/Box';
 import { ContactLink } from '@/components/common/ContactLink';
+import { Container } from '@/components/common/Container';
 import { Link } from '@/components/common/Link';
 import { Headline } from '@/components/Headline';
 import { SettlementsMap } from '@/components/settlements/SettlementsMap';

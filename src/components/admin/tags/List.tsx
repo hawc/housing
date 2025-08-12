@@ -8,7 +8,8 @@ import type { BaseTag } from '@/lib/types';
 
 import { AddTag } from '@/components/admin/tags/Add';
 import { EditTag } from '@/components/admin/tags/Edit';
-import { Box, Container } from '@/components/common/Box';
+import { Box } from '@/components/common/Box';
+import { Container } from '@/components/common/Container';
 import { Button } from '@/components/common/form/Button';
 import { Headline } from '@/components/Headline';
 import { sortAlphabetically } from '@/utils/sortAlphabetically';

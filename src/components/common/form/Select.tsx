@@ -1,8 +1,8 @@
 'use client';
 
+import { clsxm } from '@/lib/clsxm';
 import { sortAlphabetically } from '@/utils/sortAlphabetically';
 import { ChangeEventHandler, useState } from 'react';
-import { twMerge } from 'tailwind-merge';
 
 interface Option {
   id: string;
@@ -41,7 +41,7 @@ export function Select<T>({
       onChange={onSelectChange}
       disabled={disabled}
       style={{ backgroundPosition: 'right 0.25rem center' }}
-      className={twMerge(
+      className={clsxm(
         `appearance-none inline-block bg-transparent w-full border-none p-0 pr-6 text-inherit max-w-full ${
           disabled ? 'opacity-50' : ''
         } ${className}`

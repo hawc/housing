@@ -1,5 +1,5 @@
+import { clsxm } from '@/lib/clsxm';
 import { HTMLAttributes, PropsWithChildren } from 'react';
-import { twMerge } from 'tailwind-merge';
 
 interface BoxProps extends HTMLAttributes<HTMLElement> {
   ghost?: boolean;
@@ -17,7 +17,7 @@ export function Box({
   return (
     <Element
       {...rest}
-      className={twMerge(
+      className={clsxm(
         `box flex flex-col ${
           ghost
             ? ''
@@ -29,17 +29,5 @@ export function Box({
     >
       {children}
     </Element>
-  );
-}
-
-export function Container({
-  children,
-  className = '',
-  ...rest
-}: PropsWithChildren<HTMLAttributes<HTMLElement>>) {
-  return (
-    <div className={twMerge(`grid grid-cols-1 ${className}`)} {...rest}>
-      {children}
-    </div>
   );
 }

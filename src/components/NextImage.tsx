@@ -4,7 +4,7 @@ import type { ImageProps } from 'next/image';
 import Image from 'next/image';
 import { useState } from 'react';
 
-import clsxm from '@/lib/clsxm';
+import { clsxm } from '@/lib/clsxm';
 
 interface NextImageProps extends ImageProps {
   imgClassName?: string;

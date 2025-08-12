@@ -1,5 +1,5 @@
+import { clsxm } from '@/lib/clsxm';
 import { PropsWithChildren } from 'react';
-import { twMerge } from 'tailwind-merge';
 
 interface ListItemProps {
   plain?: boolean;
@@ -16,7 +16,7 @@ export function ListItem({
 }: PropsWithChildren<ListItemProps>) {
   return (
     <li
-      className={twMerge(
+      className={clsxm(
         `leading-relaxed ${
           plain ? 'list-none' : 'ml-5 pl-1 marker:text-highlight'
         }`
@@ -34,15 +34,13 @@ export function List({
 }: PropsWithChildren<ListProps>) {
   if (numbered) {
     return (
-      <ol className={twMerge(`list-decimal list-outside ml-5 ${className}`)}>
+      <ol className={clsxm(`list-decimal list-outside ml-5 ${className}`)}>
         {children}
       </ol>
     );
   }
 
   return (
-    <ul className={twMerge(`list-disc list-outside ${className}`)}>
-      {children}
-    </ul>
+    <ul className={clsxm(`list-disc list-outside ${className}`)}>{children}</ul>
   );
 }
