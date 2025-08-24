@@ -6,9 +6,9 @@ import { Headline } from '@/components/Headline';
 import { Sorting } from '@/components/settlements/List';
 import { groupBy } from '@/utils/groupBy';
 import { isSettlementFound } from '@/utils/isSettlementFound';
+import { slugify } from '@/utils/slugify';
 import { sortAlphabetically } from '@/utils/sortAlphabetically';
 import { useMemo } from 'react';
-import slugify from 'slugify';
 
 export interface SearchableItem {
   name: string;
@@ -34,9 +34,11 @@ export function SearchList({
   loading = false,
 }: SearchListProps) {
   const sortedList = useMemo(() => {
+    const searchTermSlug = slugify(searchTerm);
+
     return sortAlphabetically(
       items.filter((item) => {
-        return slugify(item.name).includes(slugify(searchTerm));
+        return slugify(item.name).includes(searchTermSlug);
       })
     );
   }, [items, searchTerm]);
