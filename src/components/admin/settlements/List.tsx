@@ -7,8 +7,8 @@ import type { BaseSettlement } from '@/lib/types';
 
 import { Box } from '@/components/common/Box';
 import { Button } from '@/components/common/form/Button';
+import { SearchInput } from '@/components/common/SearchInput';
 import {
-  SearchInput,
   SettlementsSearchList,
 } from '@/components/common/SearchList';
 import { Headline } from '@/components/Headline';

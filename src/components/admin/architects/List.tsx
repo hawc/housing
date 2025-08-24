@@ -8,7 +8,8 @@ import type { BaseArchitect } from '@/lib/types';
 import { Box } from '@/components/common/Box';
 import { Container } from '@/components/common/Container';
 import { Button } from '@/components/common/form/Button';
-import { SearchInput, SearchList } from '@/components/common/SearchList';
+import { SearchInput } from '@/components/common/SearchInput';
+import { SearchList } from '@/components/common/SearchList';
 import { Headline } from '@/components/Headline';
 import { useRouter } from 'next/navigation';
 

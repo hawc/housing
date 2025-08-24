@@ -1,11 +1,12 @@
 import { clsxm } from '@/lib/clsxm';
+import { ChangeEventHandler, InputHTMLAttributes } from 'react';
 
-interface TextareaProps extends React.InputHTMLAttributes<HTMLTextAreaElement> {
+interface TextareaProps extends InputHTMLAttributes<HTMLTextAreaElement> {
   className?: string;
   value?: string;
   name?: string;
   maxLength?: number;
-  onChange?: React.ChangeEventHandler<HTMLTextAreaElement>;
+  onChange?: ChangeEventHandler<HTMLTextAreaElement>;
 }
 
 export function TextareaGhost({

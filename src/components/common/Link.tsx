@@ -1,9 +1,10 @@
 import { default as NextLink } from 'next/link';
 
 import { clsxm } from '@/lib/clsxm';
+import { HTMLAttributes } from 'react';
 import styles from './Link.module.css';
 
-interface LinkProps extends React.HTMLAttributes<HTMLElement> {
+interface LinkProps extends HTMLAttributes<HTMLElement> {
   href: string;
   arrow?: boolean;
   back?: boolean;

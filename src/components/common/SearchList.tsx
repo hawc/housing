@@ -1,11 +1,9 @@
 import type { Location } from '@/lib/types';
 
-import { InputGhost } from '@/components/common/form/Input';
 import { Link } from '@/components/common/Link';
 import { List, ListItem } from '@/components/common/List';
 import { Headline } from '@/components/Headline';
 import { Sorting } from '@/components/settlements/List';
-import { clsxm } from '@/lib/clsxm';
 import { groupBy } from '@/utils/groupBy';
 import { isSettlementFound } from '@/utils/isSettlementFound';
 import { sortAlphabetically } from '@/utils/sortAlphabetically';
@@ -27,34 +25,6 @@ interface SearchListProps {
   searchTerm?: string;
   loading?: boolean;
 }
-interface SearchInputProps {
-  className?: string;
-  searchTerm?: string;
-  placeholder?: string;
-  loading?: boolean;
-  onChange?: React.ChangeEventHandler<HTMLInputElement>;
-}
-
-export function SearchInput({
-  searchTerm = '',
-  placeholder = 'Suchbegriff eingeben',
-  loading = false,
-  onChange,
-}: SearchInputProps) {
-  return (
-    <InputGhost
-      placeholder={placeholder}
-      value={searchTerm}
-      onChange={onChange}
-      style={{ outlineOffset: '-2px' }}
-      className={clsxm(
-        `w-auto -mx-3 -mt-2 md:-mx-5 md:-mt-4 mb-4 px-5 py-4 font-normal border-0 border-b border-text border-solid ${
-          loading ? 'pointer-events-none' : ''
-        }`
-      )}
-    />
-  );
-}
 
 export function SearchList({
   items,
@@ -65,7 +35,9 @@ export function SearchList({
 }: SearchListProps) {
   const sortedList = useMemo(() => {
     return sortAlphabetically(
-      items.filter((item) => slugify(item.name).includes(slugify(searchTerm)))
+      items.filter((item) => {
+        return slugify(item.name).includes(slugify(searchTerm));
+      })
     );
   }, [items, searchTerm]);
 

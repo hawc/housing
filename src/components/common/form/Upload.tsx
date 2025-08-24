@@ -1,7 +1,7 @@
 'use client';
 
 import { Loader2Icon, PlusIcon } from 'lucide-react';
-import { useCallback, useRef, useState } from 'react';
+import { ChangeEvent, useCallback, useRef, useState } from 'react';
 
 import { fetchData } from '@/lib/fetch';
 
@@ -53,7 +53,7 @@ export function Upload({
   const input = useRef<HTMLInputElement>(null);
 
   async function updateSelectedImages(
-    event: React.ChangeEvent<HTMLInputElement>
+    event: ChangeEvent<HTMLInputElement>
   ) {
     onUpload([]);
     if (event.target.files) {

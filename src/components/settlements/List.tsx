@@ -6,8 +6,8 @@ import type { BaseLocation, BaseSettlement } from '@/lib/types';
 import { useDebounce } from '@/lib/useDebounce';
 
 import { Box } from '@/components/common/Box';
+import { SearchInput } from '@/components/common/SearchInput';
 import {
-  SearchInput,
   SettlementsSearchList,
 } from '@/components/common/SearchList';
 import { Headline } from '@/components/Headline';
