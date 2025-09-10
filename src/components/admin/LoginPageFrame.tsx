@@ -1,20 +1,12 @@
-'use client';
-
-import { useUser } from '@auth0/nextjs-auth0/client';
-import { useRouter } from 'next/navigation';
+import { auth0 } from '@/lib/auth0';
+import { redirect } from 'next/navigation';
 import { PropsWithChildren } from 'react';
 
-export function LoginPageFrame({ children }: PropsWithChildren) {
-  const { user, isLoading } = useUser();
-  const router = useRouter();
+export async function LoginPageFrame({ children }: PropsWithChildren) {
+  const session = await auth0.getSession();
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!user) {
-    router.push('/');
-    return <>Bitte einloggen.</>;
+  if (!session) {
+    return redirect('/');
   }
 
   return <>{children}</>;

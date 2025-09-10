@@ -1,15 +1,12 @@
-'use client';
-
-import { useUser } from '@auth0/nextjs-auth0/client';
-
 import { Box } from '@/components/common/Box';
 import { Link } from '@/components/common/Link';
 import { Headline } from '@/components/Headline';
+import { auth0 } from '@/lib/auth0';
 
-export function AdminLinks() {
-  const { user, isLoading } = useUser();
+export async function AdminLinks() {
+    const session = await auth0.getSession();
 
-  if (isLoading || !user) {
+  if (!session) {
     return null;
   }
 

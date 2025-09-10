@@ -7,6 +7,7 @@ import {
 } from '@/components/common/breadcrumbs/Breadcrumbs';
 import { Headline } from '@/components/Headline';
 import { Layout } from '@/components/layout/Layout';
+import { AtSign } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Datenschutzerklärung',
@@ -188,16 +189,15 @@ export default function Datenschutzerklärung() {
               dieser Website ist:
             </p>
             <p>
-              Piwik PRO GmbH
-              <br />
-              Knesebeckstraße 62/63
-              <br />
-              10719 Berlin
+              Hendrik Wichern
             </p>
             <p>
-              Telefon: +49 (0) 2203 989 62-0
-              <br />
-              E-Mail: contact@piwik.pro
+              E-Mail:&nbsp;
+            <span>
+              web
+              <AtSign className='inline' size={20} />
+              hendrikwichern.de
+            </span>
             </p>
             <p>
               Verantwortliche Stelle ist die nat&uuml;rliche oder juristische
