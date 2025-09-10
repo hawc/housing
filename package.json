@@ -22,21 +22,20 @@
     "prepare": "node scripts/cesium.js"
   },
   "dependencies": {
-    "@auth0/nextjs-auth0": "^3.5.0",
+    "@auth0/nextjs-auth0": "^4.9.0",
     "@formspree/react": "3.0.0",
-    "@piwikpro/next-piwik-pro": "^3.1.0",
     "@prisma/client": "^4.13.0",
     "@react-three/fiber": "9.1.4",
     "@turf/mask": "7.2.0",
     "@vercel/speed-insights": "^1.2.0",
     "cesium": "1.131.0",
     "cloudinary": "^1.41.0",
-    "clsx": "^2.0.0",
-    "fs-extra": "^11.3.0",
+    "clsx": "^2.1.1",
+    "fs-extra": "^11.3.1",
     "geojson": "0.5.0",
     "lucide-react": "0.525.0",
     "mapbox-gl": "3.13.0",
-    "next": "15.3.4",
+    "next": "15.5.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-map-gl": "8.0.4",
@@ -62,7 +61,7 @@
     "prisma": "^4.13.0",
     "tailwindcss": "^3.3.1",
     "ts-node": "^10.9.2",
-    "typescript": "^4.9.5"
+    "typescript": "^5.9.2"
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
