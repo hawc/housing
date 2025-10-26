@@ -54,7 +54,7 @@ export function DetailsList({ details }: DetailsListProps) {
                   : ''}
                 :
               </td>
-              <td>
+              <td className="break-all">
                 {formatDetail(detail.description, detail.detailType?.name)}{' '}
                 {detail.annotation && <>({detail.annotation})</>}{' '}
               </td>
