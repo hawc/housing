@@ -67,20 +67,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: PropsWithChildren) {
   const isProd = process.env.NODE_ENV === 'production';
 
-  const content = (
-    <div className={`${Bricolage.variable} font-primary`}>{children}</div>
-  );
-
   return (
     <html lang='en'>
       <body>
-        {isProd ? (
-          <>
-            {content}
-            <SpeedInsights />
-          </>
-        ) : (
-          content
+        <div className={`${Bricolage.variable} font-primary`}>{children}</div>
+        {isProd && (
+          <SpeedInsights />
         )}
       </body>
     </html>
