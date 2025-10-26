@@ -52,16 +52,8 @@ import type {
   SettlementType,
   Tag,
 } from '@/lib/types';
-import { Prisma } from '@prisma/client';
+import { parsePrismaJson } from '@/utils/parsePrismaJson';
 import { Polygon } from 'geojson';
-
-function parsePrismaJson<T>(json: Prisma.JsonValue) {
-  if (!json) {
-    return undefined;
-  }
-
-  return json as T;
-}
 
 export const baseTransformers = {
   location: (location: LocationsInclude): BaseLocation => {
