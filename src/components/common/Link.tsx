@@ -40,7 +40,7 @@ export function Link({
       className={clsxm(
         `font-bold tracking-wide inline-flex place-content-start ${
           arrow && back ? 'flex-row-reverse' : ''
-        } ${rest.className}`
+        } ${rest.className}`,
       )}
       href={href}
     >
@@ -50,8 +50,8 @@ export function Link({
             back
               ? styles.linkArrowBack
               : isExternal
-              ? `${styles.linkArrow} ${styles.externalLink}`
-              : styles.linkArrow
+                ? `${styles.linkArrow} ${styles.externalLink}`
+                : styles.linkArrow
           }`}
         >
           {content}

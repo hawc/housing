@@ -17,7 +17,7 @@ interface TimelineProps {
 export function Timeline({ eventsInput, settlementId }: TimelineProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [availableEventTypes, setAvailableEventTypes] = useState<EventType[]>(
-    []
+    [],
   );
   const [events, setEvents] = useState<Event[] | undefined>(eventsInput);
 
@@ -25,7 +25,7 @@ export function Timeline({ eventsInput, settlementId }: TimelineProps) {
     setLoading(true);
     const eventTypes = await fetchData<EventType[], EventType[]>(
       '/api/eventTypes/get/all',
-      []
+      [],
     );
     setAvailableEventTypes(eventTypes);
     setLoading(false);
@@ -35,7 +35,7 @@ export function Timeline({ eventsInput, settlementId }: TimelineProps) {
     setLoading(true);
     const events = await fetchData<Event[], Event[]>(
       `/api/events/get/settlement/${settlementId}/all`,
-      []
+      [],
     );
     setEvents(events);
     setLoading(false);
@@ -60,7 +60,7 @@ export function Timeline({ eventsInput, settlementId }: TimelineProps) {
           loading
             ? 'transition-filter pointer-events-none blur-sm'
             : 'transition-filter'
-        }`
+        }`,
       )}
     >
       {sortedEvents.map((event: Event) => (

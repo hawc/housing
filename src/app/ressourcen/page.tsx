@@ -27,11 +27,11 @@ const filteredResouces = ['Wikipedia'];
 async function getPlatforms() {
   const platforms = await fetchData<Platform[], Platform[]>(
     '/api/platforms/get/all',
-    []
+    [],
   );
 
   return sortAlphabetically(
-    platforms.filter((platform) => !filteredResouces.includes(platform.name))
+    platforms.filter((platform) => !filteredResouces.includes(platform.name)),
   );
 }
 

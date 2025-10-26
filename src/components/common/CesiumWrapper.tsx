@@ -17,7 +17,7 @@ const CesiumContainer = dynamic(
   () => import('./CesiumContainer').then((module) => module.CesiumContainer),
   {
     ssr: false,
-  }
+  },
 );
 
 interface CesiumWrapperProps {

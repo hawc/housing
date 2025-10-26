@@ -21,7 +21,7 @@ export function SearchInput({
       onChange={onChange}
       style={{ outlineOffset: '-2px' }}
       className={clsxm(
-        'w-auto -mx-3 -mt-2 md:-mx-5 md:-mt-4 mb-4 px-5 py-4 font-normal border-0 border-b border-text border-solid'
+        'w-auto -mx-3 -mt-2 md:-mx-5 md:-mt-4 mb-4 px-5 py-4 font-normal border-0 border-b border-text border-solid',
       )}
     />
   );

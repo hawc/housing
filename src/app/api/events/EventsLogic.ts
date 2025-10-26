@@ -35,7 +35,7 @@ export class EventsLogic {
 
   static async updateEvent(
     where: Prisma.EventsWhereUniqueInput,
-    data: Prisma.EventsUpdateInput
+    data: Prisma.EventsUpdateInput,
   ) {
     return await prisma.events.update({
       where,

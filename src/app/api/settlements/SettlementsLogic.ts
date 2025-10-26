@@ -3,7 +3,10 @@ import { detailsSelect } from '@/app/api/details/selects';
 import { eventsSelect } from '@/app/api/events/selects';
 import { locationsSelect } from '@/app/api/locations/selects';
 import { resourcesSelect } from '@/app/api/resources/selects';
-import { settlementsSelect, settlementTypesSelect } from '@/app/api/settlements/selects';
+import {
+  settlementsSelect,
+  settlementTypesSelect,
+} from '@/app/api/settlements/selects';
 import { tagsSelect } from '@/app/api/tags/selects';
 import prisma from '@/lib/prisma';
 import { transformers } from '@/lib/transformers';
@@ -80,7 +83,7 @@ export class SettlementsLogic {
 
   static async updateSettlement(
     where: Prisma.SettlementsWhereUniqueInput,
-    data: Prisma.SettlementsUpdateInput
+    data: Prisma.SettlementsUpdateInput,
   ) {
     return await prisma.settlements.update({
       where,
@@ -111,7 +114,7 @@ export class SettlementsLogic {
   }
 
   static async addSettlementsOnArchitect(
-    data: Prisma.SettlementsOnArchitectsUncheckedCreateInput
+    data: Prisma.SettlementsOnArchitectsUncheckedCreateInput,
   ) {
     return await prisma.settlementsOnArchitects.create({
       data: data,
@@ -127,7 +130,7 @@ export class SettlementsLogic {
   }
 
   static async addSettlementsOnTag(
-    data: Prisma.SettlementsOnTagsUncheckedCreateInput
+    data: Prisma.SettlementsOnTagsUncheckedCreateInput,
   ) {
     return await prisma.settlementsOnTags.create({
       data: data,
@@ -150,17 +153,17 @@ export class SettlementsLogic {
       description: settlement.description ?? '',
       details: settlement.details.map(transformers.detail),
       types: settlement.settlementTypes.map((settlementsOnSettlementType) =>
-        transformers.settlementType(settlementsOnSettlementType.settlementType)
+        transformers.settlementType(settlementsOnSettlementType.settlementType),
       ),
       architects: settlement.architects.map((settlementsOnArchitect) =>
         transformers.architect(
           settlementsOnArchitect.architect,
-          settlementsOnArchitect.role
-        )
+          settlementsOnArchitect.role,
+        ),
       ),
       resources: settlement.resources.map(transformers.resource),
       tags: settlement.tags.map((tagRelation) =>
-        transformers.tag(tagRelation.tag)
+        transformers.tag(tagRelation.tag),
       ),
       events: settlement.events.map(transformers.event),
       location: settlement.location

@@ -48,7 +48,7 @@ export class LocationsLogic {
 
   static async updateLocation(
     where: Prisma.LocationsWhereUniqueInput,
-    data: Prisma.LocationsUpdateInput
+    data: Prisma.LocationsUpdateInput,
   ) {
     return await prisma.locations.update({
       where,

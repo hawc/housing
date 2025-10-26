@@ -34,7 +34,7 @@ export class ExternalLinksLogic {
 
   static async updateExternalLink(
     where: Prisma.ExternalLinksWhereUniqueInput,
-    data: Prisma.ExternalLinksUpdateInput
+    data: Prisma.ExternalLinksUpdateInput,
   ) {
     return await prisma.externalLinks.update({
       where,

@@ -26,7 +26,7 @@ export function Button({
       className={clsxm(
         `inline-block border-2 border-text ${
           ghost ? '' : 'py-1 px-3 bg-highlight border-highlight'
-        } transition-opacity ${isDisabled ? 'opacity-50' : ''} ${className}`
+        } transition-opacity ${isDisabled ? 'opacity-50' : ''} ${className}`,
       )}
       type={type}
       onClick={onClick}

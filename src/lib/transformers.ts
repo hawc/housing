@@ -1,4 +1,3 @@
-
 import { ArchitectsSelect } from '@/app/api/architects/selects';
 import { DetailsSelect } from '@/app/api/details/selects';
 import { DetailsTypesSelect } from '@/app/api/detailTypes/selects';
@@ -9,7 +8,10 @@ import { LocationsSelect } from '@/app/api/locations/selects';
 import { PlatformsSelect } from '@/app/api/platforms/selects';
 import { ResourcesSelect } from '@/app/api/resources/selects';
 import { ResourceTypesSelect } from '@/app/api/resourceTypes/selects';
-import { SettlementsSelect, SettlementTypesSelect } from '@/app/api/settlements/selects';
+import {
+  SettlementsSelect,
+  SettlementTypesSelect,
+} from '@/app/api/settlements/selects';
 import { TagsSelect } from '@/app/api/tags/selects';
 import type {
   Architect,
@@ -37,7 +39,7 @@ export const transformers = {
       slug: settlement.slug,
       description: settlement.description ?? '',
       tags: settlement.tags.map((settlementsOnTag) =>
-        transformers.tag(settlementsOnTag.tag)
+        transformers.tag(settlementsOnTag.tag),
       ),
       location:
         'location' in settlement && settlement.location

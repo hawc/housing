@@ -37,7 +37,7 @@ export function InputGhost({
       className={clsxm(
         `appearance-none inline-block bg-transparent w-full border-none p-0 ${
           disabled ? 'opacity-50' : ''
-        } ${className}`
+        } ${className}`,
       )}
       defaultValue={type === 'date' && value ? formatDate(value) : value}
       id={id}

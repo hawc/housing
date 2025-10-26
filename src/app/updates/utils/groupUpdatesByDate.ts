@@ -11,7 +11,7 @@ function getTime(date: Date) {
   return Date.UTC(
     parsedDate.getUTCFullYear(),
     parsedDate.getUTCMonth(),
-    parsedDate.getUTCDate()
+    parsedDate.getUTCDate(),
   );
 }
 
@@ -34,7 +34,7 @@ export type UpdateMap = Record<string, Update[]>;
 
 export function groupUpdatesByDate(
   updates: BaseSettlement[] | BaseArchitect[],
-  type: UpdateType
+  type: UpdateType,
 ) {
   const allUpdates = updates.map(
     (update: BaseSettlement | BaseArchitect) =>
@@ -43,11 +43,11 @@ export function groupUpdatesByDate(
         type,
         latestChange: wasUpdated(update) ? update.updatedAt : update.createdAt,
         changeType: wasUpdated(update) ? 'updated' : 'created',
-      } as Update)
+      }) as Update,
   );
 
   const sortedUpdates = allUpdates.sort(
-    (a, b) => getTime(b.latestChange) - getTime(a.latestChange)
+    (a, b) => getTime(b.latestChange) - getTime(a.latestChange),
   );
 
   const allUpdatesByDate = sortedUpdates.reduce((acc, update) => {

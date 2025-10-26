@@ -27,7 +27,7 @@ export function ListPlatforms({ platformsInput }: ListPlatformsProps) {
     await fetchData('/api/cache/clear');
     const platforms = await fetchData<Platform[], Platform[]>(
       '/api/platforms/get/all',
-      []
+      [],
     );
     setPlatforms(platforms);
     setLoading(false);

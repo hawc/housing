@@ -75,7 +75,7 @@ interface TimelineProps {
 export function Timeline({ events }: TimelineProps) {
   const filteredEvents = useMemo(() => {
     return sortByDate(events, 'eventDate').filter((event) =>
-      isDateValid(event.eventDate)
+      isDateValid(event.eventDate),
     );
   }, [events]);
 

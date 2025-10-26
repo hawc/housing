@@ -36,7 +36,7 @@ export class DetailsLogic {
 
   static async updateDetail(
     where: Prisma.DetailsWhereUniqueInput,
-    data: Prisma.DetailsUpdateInput
+    data: Prisma.DetailsUpdateInput,
   ) {
     return await prisma.details.update({
       where,

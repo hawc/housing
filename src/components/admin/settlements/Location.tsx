@@ -39,7 +39,7 @@ export function Location({
   className = '',
 }: LocationProps) {
   const [location, setLocation] = useState<Partial<Location> | undefined>(
-    locationInput
+    locationInput,
   );
   const [loading, setLoading] = useState<boolean>(false);
   const [uuid] = useState<string>(uuidv4());
@@ -86,7 +86,7 @@ export function Location({
         await onUpdate();
       }
     },
-    [onUpdate, settlementId]
+    [onUpdate, settlementId],
   );
 
   function updateLocationData(input: Partial<Location>) {

@@ -24,7 +24,7 @@ export function Box({
             : `px-3 py-2 md:px-5 md:py-4 border border-text border-solid ${
                 highlighted ? 'bg-highlight' : ''
               }`
-        } ${rest.className}`
+        } ${rest.className}`,
       )}
     >
       {children}

@@ -73,7 +73,7 @@ export function Upload({
     const result = await fetchData<UploadResponse, UploadResponse>(
       '/api/upload',
       { success: false, images: [] },
-      { method: 'POST', body: formData }
+      { method: 'POST', body: formData },
     );
 
     if (result.success) {

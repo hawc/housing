@@ -28,7 +28,7 @@ function getDescriptionInputType(detailType?: DetailType['name']) {
 
 async function updateDetail(
   id: string,
-  data: Prisma.DetailsUncheckedUpdateInput
+  data: Prisma.DetailsUncheckedUpdateInput,
 ) {
   return await fetchData<Detail>(`/api/details/update/${id}`, undefined, {
     method: 'POST',
@@ -60,13 +60,13 @@ export function EditDetail({
 }: EditDetailProps) {
   const [detail, setCurrentDetail] = useState<Detail | undefined>(detailInput);
   const [detailTypeId, setDetailTypeId] = useState<string>(
-    detail?.detailType?.id ?? ''
+    detail?.detailType?.id ?? '',
   );
   const [loading, setLoading] = useState<boolean>(false);
   const [uuid] = useState<string>(uuidv4());
 
   const detailTypeName = availableDetailTypes.find(
-    (type) => type.id === detailTypeId
+    (type) => type.id === detailTypeId,
   )?.name;
 
   function setDetail(input: Partial<Detail>) {
@@ -87,7 +87,7 @@ export function EditDetail({
   async function submitData(
     detail: Detail,
     detailTypeId: string,
-    settlementId: string
+    settlementId: string,
   ) {
     setLoading(true);
     let response;
@@ -179,7 +179,7 @@ export function EditDetail({
               setDetail({
                 detailDate: isDateValid(event.target.value)
                   ? new Date(
-                      new Date(event.target.value).toUTCString()
+                      new Date(event.target.value).toUTCString(),
                     ).toISOString()
                   : undefined,
               })

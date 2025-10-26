@@ -9,7 +9,7 @@ export async function POST(req: NextRequest, props) {
 
   const externalLink = await ExternalLinksLogic.updateExternalLink(
     { id },
-    data
+    data,
   );
 
   if (!externalLink) {

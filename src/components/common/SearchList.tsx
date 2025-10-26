@@ -39,7 +39,7 @@ export function SearchList({
     return sortAlphabetically(
       items.filter((item) => {
         return slugify(item.name).includes(searchTermSlug);
-      })
+      }),
     );
   }, [items, searchTerm]);
 
@@ -63,7 +63,7 @@ export function SearchList({
                 {item.name}
               </Link>
             </ListItem>
-          )
+          ),
         )}
       </List>
     </div>
@@ -86,8 +86,8 @@ function SettlementsList({
   const sortedList = useMemo(() => {
     return sortAlphabetically(
       items.filter((item) =>
-        isSettlementFound(item.name, item.location?.city, searchTerm)
-      )
+        isSettlementFound(item.name, item.location?.city, searchTerm),
+      ),
     );
   }, [items, searchTerm]);
 
@@ -118,7 +118,7 @@ function SettlementsList({
               </>
             )}
           </ListItem>
-        )
+        ),
       )}
     </List>
   );
@@ -141,7 +141,7 @@ function GroupedSettlementsList({
 }: GroupedSettlementsListProps) {
   const searchResults = useMemo(() => {
     return items.filter((item) =>
-      isSettlementFound(item.name, item.location?.city ?? '', searchTerm)
+      isSettlementFound(item.name, item.location?.city ?? '', searchTerm),
     );
   }, [items, searchTerm]);
 
@@ -192,7 +192,7 @@ function GroupedSettlementsList({
                         </>
                       )}
                   </ListItem>
-                )
+                ),
               )}
             </List>
           </div>

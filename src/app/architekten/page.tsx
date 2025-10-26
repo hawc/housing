@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 async function getArchitects() {
   const architects = await fetchData<BaseArchitect[], BaseArchitect[]>(
     '/api/architects/get/all',
-    []
+    [],
   );
 
   return architects;

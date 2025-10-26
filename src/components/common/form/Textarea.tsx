@@ -21,7 +21,7 @@ export function TextareaGhost({
     <textarea
       rows={5}
       className={clsxm(
-        `appearance-none inline-block border-none bg-transparent w-full p-0 text-inherit ${className}`
+        `appearance-none inline-block border-none bg-transparent w-full p-0 text-inherit ${className}`,
       )}
       defaultValue={value}
       name={name}

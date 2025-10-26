@@ -34,11 +34,11 @@ export class UploadLogic {
           const cloudinaryResponse = await saveToCloudinary(
             {
               src: `data:${fileType}/${ext};base64,${Buffer.from(
-                buffer
+                buffer,
               ).toString('base64')}`,
               name: name,
             },
-            formDataCategory
+            formDataCategory,
           );
 
           if (cloudinaryResponse?.secure_url) {

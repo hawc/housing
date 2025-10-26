@@ -33,7 +33,7 @@ export function ListSettlements({
       setDebouncedSearchTerm(searchTerm);
     },
     [searchTerm],
-    SEARCH_TERM_DEBOUNCE_MS
+    SEARCH_TERM_DEBOUNCE_MS,
   );
 
   const Map = useMemo(
@@ -43,7 +43,7 @@ export function ListSettlements({
         searchTerm={debouncedSearchTerm}
       />
     ),
-    [debouncedSearchTerm, locations]
+    [debouncedSearchTerm, locations],
   );
 
   return (

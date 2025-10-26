@@ -97,7 +97,7 @@ export function Map({
         clearTimeout(t);
       };
     },
-    [hasClickedMarker]
+    [hasClickedMarker],
   );
 
   return (
@@ -136,7 +136,7 @@ export function Map({
                   !isSettlementFound(
                     marker.settlement.name,
                     marker.city,
-                    searchTerm
+                    searchTerm,
                   ) && 'marker-disabled'
                 }`}
               >
@@ -158,7 +158,7 @@ export function Map({
                 )}
               </div>
             </Marker>
-          )
+          ),
         )}
       </MapboxMap>
       <button className='mapbox-button' type='button' onClick={handleExpand}>

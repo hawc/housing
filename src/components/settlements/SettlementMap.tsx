@@ -18,7 +18,7 @@ export function SettlementMap({ markers, center, geo }: SettlementMapProps) {
     () => import('@/components/settlements/Map').then((module) => module.Map),
     {
       ssr: false,
-    }
+    },
   );
 
   return <Map markers={markers} center={center} geo={geo} />;

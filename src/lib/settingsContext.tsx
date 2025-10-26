@@ -16,7 +16,7 @@ interface SettingsContextData {
 }
 
 export const SettingsContext = createContext<SettingsContextData>(
-  {} as SettingsContextData
+  {} as SettingsContextData,
 );
 
 export function SettingsProvider({ children }: PropsWithChildren) {

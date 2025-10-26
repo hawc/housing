@@ -23,7 +23,7 @@ export async function generateMetadata(props): Promise<Metadata> {
   }
 
   const images = settlement.resources.filter(
-    (resource) => resource.resourceType.name === 'Foto'
+    (resource) => resource.resourceType.name === 'Foto',
   );
 
   return {
@@ -44,7 +44,7 @@ export async function generateMetadata(props): Promise<Metadata> {
 export async function generateStaticParams() {
   const settlements = await fetchData<BaseSettlement[], BaseSettlement[]>(
     '/api/settlements/get/all',
-    []
+    [],
   );
 
   const slugs = settlements.map((settlement) => ({ slug: settlement.slug }));
@@ -54,7 +54,7 @@ export async function generateStaticParams() {
 
 async function getSettlement(slug: string) {
   const settlement = await fetchData<BaseSettlement>(
-    `/api/settlements/get/${slug}`
+    `/api/settlements/get/${slug}`,
   );
 
   return settlement;

@@ -19,7 +19,7 @@ function initCloudinary() {
 
 export async function saveToCloudinary(
   image: UploadImage,
-  category: string
+  category: string,
 ): Promise<UploadApiResponse> {
   if (!cloudinaryInit) {
     cloudinaryInit = initCloudinary();
@@ -37,7 +37,7 @@ export async function saveToCloudinary(
       if (error) {
         logger(error, 'Error uploading image to cloudinary.');
       }
-    }
+    },
   );
 
   return apiResponse;

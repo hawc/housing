@@ -12,7 +12,7 @@ import { Layout } from '@/components/layout/Layout';
 async function getSettlements() {
   const settlements = await fetchData<BaseSettlement[], BaseSettlement[]>(
     '/api/settlements/get/all',
-    []
+    [],
   );
 
   return settlements;

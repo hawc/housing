@@ -21,7 +21,7 @@ export function NewTagItem({ availableTags, onAdd }: NewTagItemProps) {
     (event: ChangeEvent<HTMLSelectElement>) => {
       const id = event.target.value;
       const selectedTag = availableTags.find(
-        (availableTag) => availableTag.id === id
+        (availableTag) => availableTag.id === id,
       );
 
       if (!id || !selectedTag) {
@@ -30,7 +30,7 @@ export function NewTagItem({ availableTags, onAdd }: NewTagItemProps) {
 
       setCurrentTag(selectedTag);
     },
-    [availableTags]
+    [availableTags],
   );
 
   const handleAddTag = useCallback(async () => {

@@ -24,7 +24,7 @@ export function ExternalLinksList({
     setLoading(true);
     const externalLinks = await fetchData<ExternalLink[], ExternalLink[]>(
       `/api/externalLinks/get/architect/${architectId}/all`,
-      []
+      [],
     );
     setExternalLinks(externalLinks);
     setLoading(false);

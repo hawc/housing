@@ -29,7 +29,7 @@ interface SettlementEditProps {
 export function SettlementEdit({ settlementInput }: SettlementEditProps) {
   const router = useRouter();
   const [settlement, setSettlement] = useState<BaseSettlement | undefined>(
-    settlementInput
+    settlementInput,
   );
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -37,7 +37,7 @@ export function SettlementEdit({ settlementInput }: SettlementEditProps) {
     () => import('@/components/settlements/Map').then((module) => module.Map),
     {
       ssr: false,
-    }
+    },
   );
 
   async function submitData(settlement: Partial<BaseSettlement>) {
@@ -50,14 +50,14 @@ export function SettlementEdit({ settlementInput }: SettlementEditProps) {
       const responseSettlement = await fetchData<BaseSettlement>(
         `/api/settlements/update/${settlement.slug}`,
         undefined,
-        { method: 'POST', body: JSON.stringify(data) }
+        { method: 'POST', body: JSON.stringify(data) },
       );
       setSettlement(responseSettlement);
     } else {
       const responseSettlement = await fetchData<BaseSettlement>(
         '/api/settlements/add',
         undefined,
-        { method: 'POST', body: JSON.stringify(data) }
+        { method: 'POST', body: JSON.stringify(data) },
       );
       if (responseSettlement?.slug) {
         router.push(`/admin/siedlungen/${responseSettlement.slug}`);
@@ -69,7 +69,7 @@ export function SettlementEdit({ settlementInput }: SettlementEditProps) {
   async function getSettlement(slug: string) {
     setLoading(true);
     const settlement = await fetchData<BaseSettlement>(
-      `/api/settlements/get/${slug}`
+      `/api/settlements/get/${slug}`,
     );
     setSettlement(settlement);
     setLoading(false);
@@ -89,7 +89,7 @@ export function SettlementEdit({ settlementInput }: SettlementEditProps) {
         name: event.target.value,
       } as BaseSettlement);
     },
-    [settlement]
+    [settlement],
   );
 
   const handleChangeDescription = useCallback(
@@ -99,7 +99,7 @@ export function SettlementEdit({ settlementInput }: SettlementEditProps) {
         description: event.target.value,
       } as BaseSettlement);
     },
-    [settlement]
+    [settlement],
   );
 
   return (

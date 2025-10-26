@@ -12,7 +12,7 @@ import { Layout } from '@/components/layout/Layout';
 export async function generateStaticParams() {
   const settlements = await fetchData<BaseSettlement[], BaseSettlement[]>(
     '/api/settlements/get/all',
-    []
+    [],
   );
 
   const slugs = settlements.map((settlement) => ({ slug: settlement.slug }));
@@ -23,7 +23,7 @@ export async function generateStaticParams() {
 async function getSettlement(slug: string) {
   const settlement = await fetchData<BaseSettlement>(
     `/api/settlements/get/${slug}`,
-    undefined
+    undefined,
   );
 
   return settlement;

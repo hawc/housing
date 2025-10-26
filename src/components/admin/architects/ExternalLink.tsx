@@ -20,29 +20,29 @@ interface EditExternalLinkProps {
 }
 
 async function getRelatedPlatform(
-  data: Prisma.ExternalLinksUncheckedUpdateInput
+  data: Prisma.ExternalLinksUncheckedUpdateInput,
 ) {
   const platforms = await fetchData<Platform[], Platform[]>(
     '/api/platforms/get/all',
-    []
+    [],
   );
   return platforms.find(
     (platform) =>
       platform.urlIdentifier &&
-      String(data.url).includes(platform.urlIdentifier)
+      String(data.url).includes(platform.urlIdentifier),
   );
 }
 
 async function updateExternalLink(
   id: string,
-  data: Prisma.ExternalLinksUncheckedUpdateInput
+  data: Prisma.ExternalLinksUncheckedUpdateInput,
 ) {
   const relatedPlatform = await getRelatedPlatform(data);
   data.platformId = relatedPlatform ? relatedPlatform.id : null;
   return await fetchData<ExternalLink>(
     `/api/externalLinks/update/${id}`,
     undefined,
-    { method: 'POST', body: JSON.stringify(data) }
+    { method: 'POST', body: JSON.stringify(data) },
   );
 }
 

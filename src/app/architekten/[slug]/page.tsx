@@ -33,7 +33,7 @@ export async function generateMetadata(props): Promise<Metadata> {
 export async function generateStaticParams() {
   const architects = await fetchData<BaseArchitect[], BaseArchitect[]>(
     '/api/architects/get/all',
-    []
+    [],
   );
 
   const slugs = architects.map((architect) => ({ slug: architect.slug }));
@@ -43,7 +43,7 @@ export async function generateStaticParams() {
 
 async function getArchitect(slug: string) {
   const architect = await fetchData<BaseArchitect>(
-    `/api/architects/get/${slug}`
+    `/api/architects/get/${slug}`,
   );
 
   return architect;

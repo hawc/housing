@@ -14,7 +14,7 @@ import { sortAlphabetically } from '@/utils/sortAlphabetically';
 async function getArchitects() {
   const architects = await fetchData<BaseArchitect[]>(
     '/api/architects/get/all',
-    undefined
+    undefined,
   );
 
   return architects;
@@ -33,7 +33,7 @@ export function ArchitectsList({
 }: ArchitectsListProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [availableArchitects, setAvailableArchitects] = useState<Architect[]>(
-    []
+    [],
   );
   const [currentArchitect, setCurrentArchitect] = useState<
     Architect | undefined
@@ -47,7 +47,7 @@ export function ArchitectsList({
         (responseArchitect) =>
           !architects
             ?.map((architect) => architect.id)
-            .includes(responseArchitect.id)
+            .includes(responseArchitect.id),
       );
       setAvailableArchitects(filteredArchitects ?? []);
     }
@@ -57,7 +57,7 @@ export function ArchitectsList({
   async function removeArchitect(architectId: string, settlementId: string) {
     setLoading(true);
     await fetchData(
-      `/api/architects/delete/settlement/${architectId}/${settlementId}`
+      `/api/architects/delete/settlement/${architectId}/${settlementId}`,
     );
     setCurrentArchitect(undefined);
     await getSettlement();
@@ -67,13 +67,13 @@ export function ArchitectsList({
   async function updateArchitectOnSettlement(
     architectId: string,
     settlementId: string,
-    role: string
+    role: string,
   ) {
     setLoading(true);
     await fetchData(
       `/api/architects/update/settlement/${architectId}/${settlementId}`,
       undefined,
-      { method: 'POST', body: JSON.stringify({ role }) }
+      { method: 'POST', body: JSON.stringify({ role }) },
     );
     setCurrentArchitect(undefined);
     await getSettlement();
@@ -84,18 +84,18 @@ export function ArchitectsList({
     async (
       architectId: string,
       settlementId: string,
-      role: string | undefined
+      role: string | undefined,
     ) => {
       setLoading(true);
       await fetchData(
         `/api/settlements/add/architect/${settlementId}/${architectId}`,
         undefined,
-        { method: 'POST', body: JSON.stringify({ role: role }) }
+        { method: 'POST', body: JSON.stringify({ role: role }) },
       );
       await getSettlement();
       setLoading(false);
     },
-    [getSettlement]
+    [getSettlement],
   );
 
   const handleSetArchitectRole = useCallback(
@@ -111,7 +111,7 @@ export function ArchitectsList({
         role: event.target.value,
       });
     },
-    [currentArchitect]
+    [currentArchitect],
   );
 
   const handleAddArchitect = useCallback(() => {
@@ -158,8 +158,8 @@ export function ArchitectsList({
                 onChange={(event) =>
                   setCurrentArchitect(
                     availableArchitects.find(
-                      (architect) => architect.id === event.target.value
-                    )
+                      (architect) => architect.id === event.target.value,
+                    ),
                   )
                 }
                 value={currentArchitect?.id}

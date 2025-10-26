@@ -19,7 +19,7 @@ async function updateArchitect(slug: string, data: Partial<BaseArchitect>) {
   const response = await fetchData<BaseArchitect>(
     `/api/architects/update/${slug}`,
     undefined,
-    { method: 'POST', body: JSON.stringify(data) }
+    { method: 'POST', body: JSON.stringify(data) },
   );
 
   return response;
@@ -29,7 +29,7 @@ async function addArchitect(data: Partial<BaseArchitect>) {
   const response = await fetchData<BaseArchitect>(
     '/api/architects/add',
     undefined,
-    { method: 'POST', body: JSON.stringify(data) }
+    { method: 'POST', body: JSON.stringify(data) },
   );
 
   return response;
@@ -82,7 +82,7 @@ export function ArchitectEdit({ architectInput }: ArchitectEditProps) {
         name: event.target.value,
       } as Architect);
     },
-    [architect]
+    [architect],
   );
 
   const handleChangeDescription = useCallback(
@@ -92,7 +92,7 @@ export function ArchitectEdit({ architectInput }: ArchitectEditProps) {
         description: event.target.value,
       } as Architect);
     },
-    [architect]
+    [architect],
   );
 
   return (

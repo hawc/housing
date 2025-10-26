@@ -30,13 +30,13 @@ export function Event({
 }: EditEventProps) {
   const [event, setCurrentEvent] = useState<Event | undefined>(eventInput);
   const [eventTypeId, setEventTypeId] = useState<string>(
-    event?.eventType?.id ?? ''
+    event?.eventType?.id ?? '',
   );
   const [loading, setLoading] = useState<boolean>(false);
   const [uuid] = useState<string>(uuidv4());
 
   const eventTypeName = availableEventTypes.find(
-    (type) => type.id === eventTypeId
+    (type) => type.id === eventTypeId,
   )?.name;
 
   function setEvent(input: Partial<Event>) {
@@ -56,7 +56,7 @@ export function Event({
 
   async function updateEvent(
     id: string,
-    data: Prisma.EventsUncheckedUpdateInput
+    data: Prisma.EventsUncheckedUpdateInput,
   ) {
     return await fetchData<Event>(`/api/events/update/${id}`, undefined, {
       method: 'POST',
@@ -156,7 +156,7 @@ export function Event({
                   setEvent({
                     eventDate: isDateValid(event.target.value)
                       ? new Date(
-                          new Date(event.target.value).toUTCString()
+                          new Date(event.target.value).toUTCString(),
                         ).toISOString()
                       : undefined,
                   })

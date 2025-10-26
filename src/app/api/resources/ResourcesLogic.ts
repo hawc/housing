@@ -37,7 +37,7 @@ export class ResourcesLogic {
 
   static async updateResource(
     where: Prisma.ResourcesWhereUniqueInput,
-    data: Prisma.ResourcesUpdateInput
+    data: Prisma.ResourcesUpdateInput,
   ) {
     return await prisma.resources.update({
       where,

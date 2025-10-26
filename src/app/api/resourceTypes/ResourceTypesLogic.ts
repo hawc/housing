@@ -21,7 +21,7 @@ export class ResourceTypesLogic {
   }
 
   static toBaseResourceType(
-    resourceType: ResourceTypesInclude
+    resourceType: ResourceTypesInclude,
   ): BaseResourceType {
     return {
       id: resourceType.id,

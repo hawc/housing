@@ -36,7 +36,7 @@ export class PlatformsLogic {
 
   static async updatePlatform(
     where: Prisma.PlatformsWhereUniqueInput,
-    data: Prisma.PlatformsUpdateInput
+    data: Prisma.PlatformsUpdateInput,
   ) {
     return await prisma.platforms.update({
       where,

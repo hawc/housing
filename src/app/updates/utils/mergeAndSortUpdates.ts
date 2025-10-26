@@ -3,7 +3,7 @@ import { mergeArrayObjects } from '@/utils/mergeArrayObjects';
 
 export function mergeAndSortUpdates(
   settlementUpdates: UpdateMap,
-  architectUpdates: UpdateMap
+  architectUpdates: UpdateMap,
 ) {
   const allUpdates = mergeArrayObjects(settlementUpdates, architectUpdates);
 

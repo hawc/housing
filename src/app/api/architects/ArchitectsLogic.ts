@@ -57,7 +57,7 @@ export class ArchitectsLogic {
 
   static async updateArchitect(
     where: Prisma.ArchitectsWhereUniqueInput,
-    data: Prisma.ArchitectsUpdateInput
+    data: Prisma.ArchitectsUpdateInput,
   ) {
     return await prisma.architects.update({
       where,
@@ -78,7 +78,7 @@ export class ArchitectsLogic {
 
   static async updateSettlementsOnArchitect(
     where: Prisma.SettlementsOnArchitectsWhereUniqueInput,
-    data: Prisma.SettlementsOnArchitectsUpdateInput
+    data: Prisma.SettlementsOnArchitectsUpdateInput,
   ) {
     return await prisma.settlementsOnArchitects.update({
       where,
@@ -94,7 +94,7 @@ export class ArchitectsLogic {
       description: architect.description ?? '',
       urls: architect.urls.map(transformers.externalLink),
       settlements: architect.settlements.map((settlementsOnArchitect) =>
-        transformers.settlement(settlementsOnArchitect.settlement)
+        transformers.settlement(settlementsOnArchitect.settlement),
       ),
       createdAt: architect.createdAt,
       updatedAt: architect.updatedAt,

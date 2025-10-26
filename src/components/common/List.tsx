@@ -19,7 +19,7 @@ export function ListItem({
       className={clsxm(
         `leading-relaxed ${
           plain ? 'list-none' : 'ml-5 pl-1 marker:text-highlight'
-        }`
+        }`,
       )}
     >
       {children}

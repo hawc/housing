@@ -41,7 +41,7 @@ export function TagList({
     if (tags.length > 0) {
       const filteredTags = tags.filter(
         (tag: Tag) =>
-          !existingTags.map((existingTag) => existingTag.id).includes(tag.id)
+          !existingTags.map((existingTag) => existingTag.id).includes(tag.id),
       );
       setAvailableTags(filteredTags);
     }

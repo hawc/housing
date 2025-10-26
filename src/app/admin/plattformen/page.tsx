@@ -12,7 +12,7 @@ import { Layout } from '@/components/layout/Layout';
 async function getPlatforms() {
   const platforms = await fetchData<Platform[], Platform[]>(
     '/api/platforms/get/all',
-    []
+    [],
   );
 
   return platforms;

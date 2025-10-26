@@ -29,11 +29,11 @@ function formatDate(date: string) {
 export default async function Updates() {
   const architects = await fetchData<BaseArchitect[], BaseArchitect[]>(
     '/api/architects/get/all',
-    []
+    [],
   );
   const settlements = await fetchData<BaseSettlement[], BaseSettlement[]>(
     '/api/settlements/get/all',
-    []
+    [],
   );
 
   const architectUpdates = groupUpdatesByDate(architects, 'architect');
@@ -41,7 +41,7 @@ export default async function Updates() {
 
   const sortedUpdates = mergeAndSortUpdates(
     settlementUpdates,
-    architectUpdates
+    architectUpdates,
   );
 
   return (

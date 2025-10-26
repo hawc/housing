@@ -118,7 +118,7 @@ export function CesiumContainer({
                 const center = CesiumJs.Cartesian3.fromDegrees(
                   position.lng,
                   position.lat,
-                  0
+                  0,
                 );
                 const clampedHeight =
                   cesiumViewer.current.scene.clampToHeight(center);
@@ -129,8 +129,8 @@ export function CesiumContainer({
                   new CesiumJs.HeadingPitchRange(
                     heading.current,
                     -CesiumJs.Math.PI_OVER_SIX,
-                    1000.0
-                  )
+                    1000.0,
+                  ),
                 );
               }
             });

@@ -47,10 +47,10 @@ export function EditResource({
   onUpdate,
 }: EditResourceProps) {
   const [resource, setCurrentResource] = useState<Resource | undefined>(
-    resourceInput
+    resourceInput,
   );
   const [resourceType, setResourceType] = useState<ResourceType>(
-    resource?.resourceType ?? availableResourceTypes[0]
+    resource?.resourceType ?? availableResourceTypes[0],
   );
   const [loading, setLoading] = useState<boolean>(false);
   const [uuid] = useState<string>(uuidv4());
@@ -73,7 +73,7 @@ export function EditResource({
   async function submitData(
     resource: Resource,
     resourceTypeId: string,
-    settlementId: string
+    settlementId: string,
   ) {
     setLoading(true);
     let response;
@@ -129,8 +129,8 @@ export function EditResource({
             onChange={(event) =>
               setResourceType(
                 availableResourceTypes.find(
-                  (resourceType) => resourceType.id === event.target.value
-                )!
+                  (resourceType) => resourceType.id === event.target.value,
+                )!,
               )
             }
           />

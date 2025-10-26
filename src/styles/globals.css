@@ -24,7 +24,9 @@ select {
 
 @layer base {
   .cursor-newtab {
-    cursor: url('/images/new-tab.png') 10 10, pointer;
+    cursor:
+      url('/images/new-tab.png') 10 10,
+      pointer;
   }
 
   .layout {
@@ -36,28 +38,35 @@ select {
 
 @layer utilities {
   .animated-underline {
-    background-image: linear-gradient(rgba(51, 51, 51, 0), rgba(51, 51, 51, 0)),
+    background-image:
+      linear-gradient(rgba(51, 51, 51, 0), rgba(51, 51, 51, 0)),
       linear-gradient(
         to right,
         var(--color-primary-400),
         var(--color-primary-500)
       );
-    background-size: 100% 2px, 0 2px;
-    background-position: 100% 100%, 0 100%;
+    background-size:
+      100% 2px,
+      0 2px;
+    background-position:
+      100% 100%,
+      0 100%;
     background-repeat: no-repeat;
   }
 
   @media (prefers-reduced-motion: no-preference) {
     .animated-underline {
       transition: 0.3s ease;
-      transition-property: background-size, color, background-color,
-        border-color;
+      transition-property:
+        background-size, color, background-color, border-color;
     }
   }
 
   .animated-underline:hover,
   .animated-underline:focus-visible {
-    background-size: 0 2px, 100% 2px;
+    background-size:
+      0 2px,
+      100% 2px;
   }
 }
 
@@ -125,8 +134,8 @@ body {
   height: min(var(--header-image-height), 500px);
   top: 1px;
   left: 0;
-  background-image: url(/images/header-01.png),
-    linear-gradient(transparent, var(--bg));
+  background-image:
+    url(/images/header-01.png), linear-gradient(transparent, var(--bg));
   background-size: 100vw;
   background-repeat: no-repeat;
   background-blend-mode: color;
@@ -191,12 +200,14 @@ p + p {
 #ppms_cm_paragraph_1,
 #popup-link {
   display: inline !important;
-  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+  font-family:
+    'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
 }
 
 #ppms_cm_agree-to-all,
 #ppms_cm_disagree {
-  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+  font-family:
+    'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
 }
 
 #ppms_cm_paragraph_1::after {

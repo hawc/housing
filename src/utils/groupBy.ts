@@ -9,7 +9,7 @@ interface GroupedItems {
 
 export function groupBy(
   arr: SearchableItemsList,
-  groupKey: 'city' | 'state'
+  groupKey: 'city' | 'state',
 ): GroupedItems {
   return arr.reduce(function (acc, item) {
     if (!acc[item.location?.[groupKey] ?? '(ohne)']) {

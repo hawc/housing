@@ -34,7 +34,7 @@ export function NextImage({
       <Image
         className={clsxm(
           imgClassName,
-          status === 'loading' && clsxm('animate-pulse', blurClassName)
+          status === 'loading' && clsxm('animate-pulse', blurClassName),
         )}
         src={src}
         width={width}

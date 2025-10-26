@@ -13,7 +13,7 @@ export async function POST(req: NextRequest, props) {
         architectId,
       },
     },
-    await req.json()
+    await req.json(),
   );
 
   return NextResponse.json('');

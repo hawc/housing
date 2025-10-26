@@ -44,7 +44,7 @@ export function Select<T>({
       className={clsxm(
         `appearance-none inline-block bg-transparent w-full border-none p-0 pr-6 text-inherit max-w-full ${
           disabled ? 'opacity-50' : ''
-        } ${className}`
+        } ${className}`,
       )}
     >
       <option value=''>Bitte auswählen</option>

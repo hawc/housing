@@ -35,7 +35,7 @@ function sortByRole(array: Architect[]) {
   const architects = sortAlphabetically(array);
 
   return architects.sort((a, b) =>
-    getRole(a).localeCompare(getRole(b), LOCALE)
+    getRole(a).localeCompare(getRole(b), LOCALE),
   );
 }
 
@@ -129,7 +129,7 @@ export function Settlement({ settlement }: SettlementProps) {
                           ''
                         )}
                       </div>
-                    )
+                    ),
                   )}
                 </div>
               </Box>

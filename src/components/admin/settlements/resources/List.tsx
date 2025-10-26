@@ -27,7 +27,7 @@ export function ResourcesList({
     setLoading(true);
     const resourceTypes = await fetchData<ResourceType[], ResourceType[]>(
       '/api/resourceTypes/get/all',
-      []
+      [],
     );
     setAvailableResourceTypes(resourceTypes);
     setLoading(false);
@@ -37,7 +37,7 @@ export function ResourcesList({
     setLoading(true);
     const resources = await fetchData<Resource[], Resource[]>(
       `/api/resources/get/settlement/${settlementId}/all`,
-      []
+      [],
     );
     setResources(resources);
     setLoading(false);
@@ -49,7 +49,7 @@ export function ResourcesList({
 
   const sortedResources = useMemo(() => {
     return resources?.sort((a, b) =>
-      a.resourceType.name.localeCompare(b.resourceType.name)
+      a.resourceType.name.localeCompare(b.resourceType.name),
     );
   }, [resources]);
 

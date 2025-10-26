@@ -30,7 +30,7 @@ export class TagsLogic {
 
   static async updateTag(
     where: Prisma.TagsWhereUniqueInput,
-    data: Prisma.TagsUpdateInput
+    data: Prisma.TagsUpdateInput,
   ) {
     return await prisma.tags.update({
       where,
@@ -55,7 +55,7 @@ export class TagsLogic {
       name: tag.name,
       description: tag.description ?? '',
       settlements: tag.settlements.map((settlementsOnTag) =>
-        transformers.settlement(settlementsOnTag.settlement)
+        transformers.settlement(settlementsOnTag.settlement),
       ),
     };
   }

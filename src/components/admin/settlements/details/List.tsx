@@ -22,7 +22,7 @@ export function DetailsList({ detailsInput, settlementId }: DetailsListProps) {
     setLoading(true);
     const detailTypes = await fetchData<DetailType[], DetailType[]>(
       '/api/detailTypes/get/all',
-      []
+      [],
     );
     setAvailableDetailTypes(detailTypes);
     setLoading(false);
@@ -32,7 +32,7 @@ export function DetailsList({ detailsInput, settlementId }: DetailsListProps) {
     setLoading(true);
     const details = await fetchData<Detail[], Detail[]>(
       `/api/details/get/settlement/${settlementId}/all`,
-      []
+      [],
     );
     setDetails(details);
     setLoading(false);
