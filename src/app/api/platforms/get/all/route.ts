@@ -2,8 +2,6 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { PlatformsLogic } from './../../PlatformsLogic';
 
-import { baseTransformers } from '@/lib/transformers';
-
 export async function GET(_req: NextRequest) {
   const platforms = await PlatformsLogic.findPlatforms();
 
@@ -11,6 +9,6 @@ export async function GET(_req: NextRequest) {
     return NextResponse.json([]);
   }
 
-  const responseData = platforms.map(baseTransformers.platform);
+  const responseData = platforms.map(PlatformsLogic.toPlatform);
   return NextResponse.json(responseData);
 }

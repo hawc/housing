@@ -2,7 +2,6 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 import { EventTypesLogic } from '@/app/api/eventTypes/EventTypesLogic';
-import { baseTransformers } from '@/lib/transformers';
 
 export async function GET(_req: NextRequest) {
   const eventTypes = await EventTypesLogic.findEventTypes();
@@ -11,6 +10,6 @@ export async function GET(_req: NextRequest) {
     return NextResponse.json([]);
   }
 
-  const responseData = eventTypes.map(baseTransformers.eventType);
+  const responseData = eventTypes.map(EventTypesLogic.toBaseEventType);
   return NextResponse.json(responseData);
 }

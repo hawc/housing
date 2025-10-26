@@ -1,6 +1,10 @@
-import { locationsInclude } from '@/lib/db';
+import { LocationsInclude, locationsInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
+import { transformers } from '@/lib/transformers';
+import { BaseLocation } from '@/lib/types';
+import { parsePrismaJson } from '@/utils/parsePrismaJson';
 import { Prisma } from '@prisma/client';
+import { Polygon } from 'geojson';
 
 export class LocationsLogic {
   static async findLocations() {
@@ -51,5 +55,21 @@ export class LocationsLogic {
       },
       include: locationsInclude,
     });
+  }
+
+  static toBaseLocation(location: LocationsInclude): BaseLocation {
+    return {
+      id: location.id,
+      name: location.name ?? '',
+      address: location.address ?? '',
+      district: location.district ?? '',
+      zipCode: location.zipCode ?? '',
+      city: location.city ?? '',
+      state: location.state ?? '',
+      lat: location.lat,
+      lng: location.lng,
+      geo: parsePrismaJson<Polygon | undefined>(location.geo),
+      settlement: transformers.settlement(location.settlement),
+    };
   }
 }

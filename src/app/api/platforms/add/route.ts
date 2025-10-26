@@ -2,8 +2,6 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { PlatformsLogic } from './../PlatformsLogic';
 
-import { baseTransformers } from '@/lib/transformers';
-
 export async function POST(req: NextRequest) {
   const data = await req.json();
 
@@ -12,6 +10,6 @@ export async function POST(req: NextRequest) {
   if (!platform) {
     return NextResponse.json('');
   }
-  const responseData = baseTransformers.platform(platform);
+  const responseData = PlatformsLogic.toPlatform(platform);
   return NextResponse.json(responseData);
 }

@@ -2,7 +2,6 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 import { ExternalLinksLogic } from '@/app/api/externalLinks/ExternalLinksLogic';
-import { baseTransformers } from '@/lib/transformers';
 
 export async function POST(req: NextRequest, props) {
   const { id } = await props.params;
@@ -17,6 +16,6 @@ export async function POST(req: NextRequest, props) {
     return NextResponse.json('');
   }
 
-  const responseData = baseTransformers.externalLink(externalLink);
+  const responseData = ExternalLinksLogic.toExternalLink(externalLink);
   return NextResponse.json(responseData);
 }

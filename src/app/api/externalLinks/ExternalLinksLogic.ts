@@ -1,5 +1,7 @@
-import { externalLinksInclude } from '@/lib/db';
+import { externalLinksInclude, ExternalLinksSelect } from '@/lib/db';
 import prisma from '@/lib/prisma';
+import { transformers } from '@/lib/transformers';
+import { ExternalLink } from '@/lib/types';
 import { Prisma } from '@prisma/client';
 
 export class ExternalLinksLogic {
@@ -42,5 +44,17 @@ export class ExternalLinksLogic {
       },
       include: externalLinksInclude,
     });
+  }
+
+  static toExternalLink(externalLink: ExternalLinksSelect): ExternalLink {
+    return {
+      id: externalLink.id,
+      name: externalLink.name ?? '',
+      description: externalLink.description ?? '',
+      url: externalLink.url ?? '',
+      platform: externalLink.platform
+        ? transformers.platform(externalLink.platform)
+        : undefined,
+    };
   }
 }

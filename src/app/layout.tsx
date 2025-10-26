@@ -71,9 +71,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
     <html lang='en'>
       <body>
         <div className={`${Bricolage.variable} font-primary`}>{children}</div>
-        {isProd && (
-          <SpeedInsights />
-        )}
+        {isProd && <SpeedInsights />}
       </body>
     </html>
   );

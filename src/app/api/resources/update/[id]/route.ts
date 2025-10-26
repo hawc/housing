@@ -2,7 +2,6 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 import { ResourcesLogic } from '@/app/api/resources/ResourcesLogic';
-import { baseTransformers } from '@/lib/transformers';
 
 export async function POST(req: NextRequest, props) {
   const { id } = await props.params;
@@ -14,6 +13,6 @@ export async function POST(req: NextRequest, props) {
     return NextResponse.json('');
   }
 
-  const responseData = baseTransformers.resource(resource);
+  const responseData = ResourcesLogic.toBaseResource(resource);
   return NextResponse.json(responseData);
 }

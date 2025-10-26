@@ -1,5 +1,7 @@
-import { resourcesInclude, tagsInclude } from '@/lib/db';
+import { resourcesInclude, TagsInclude, tagsInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
+import { transformers } from '@/lib/transformers';
+import { BaseTag } from '@/lib/types';
 import { Prisma } from '@prisma/client';
 
 export class TagsLogic {
@@ -47,5 +49,16 @@ export class TagsLogic {
       },
       include: tagsInclude,
     });
+  }
+
+  static toBaseTag(tag: TagsInclude): BaseTag {
+    return {
+      id: tag.id,
+      name: tag.name,
+      description: tag.description ?? '',
+      settlements: tag.settlements.map((settlementsOnTag) =>
+        transformers.settlement(settlementsOnTag.settlement)
+      ),
+    };
   }
 }

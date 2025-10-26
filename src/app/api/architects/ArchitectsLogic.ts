@@ -1,5 +1,7 @@
-import { architectsInclude } from '@/lib/db';
+import { ArchitectsInclude, architectsInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
+import { transformers } from '@/lib/transformers';
+import { BaseArchitect } from '@/lib/types';
 import { slugify } from '@/utils/slugify';
 import type { Prisma } from '@prisma/client';
 
@@ -60,5 +62,20 @@ export class ArchitectsLogic {
       where,
       data,
     });
+  }
+
+  static toBaseArchitect(architect: ArchitectsInclude): BaseArchitect {
+    return {
+      id: architect.id,
+      name: architect.name,
+      slug: architect.slug,
+      description: architect.description ?? '',
+      urls: architect.urls.map(transformers.externalLink),
+      settlements: architect.settlements.map((settlementsOnArchitect) =>
+        transformers.settlement(settlementsOnArchitect.settlement)
+      ),
+      createdAt: architect.createdAt,
+      updatedAt: architect.updatedAt,
+    };
   }
 }

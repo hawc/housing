@@ -1,5 +1,7 @@
-import { eventsInclude } from '@/lib/db';
+import { EventsInclude, eventsInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
+import { transformers } from '@/lib/transformers';
+import { BaseEvent } from '@/lib/types';
 import { Prisma } from '@prisma/client';
 
 export class EventsLogic {
@@ -43,5 +45,16 @@ export class EventsLogic {
       },
       include: eventsInclude,
     });
+  }
+
+  static toBaseEvent(event: EventsInclude): BaseEvent {
+    return {
+      id: event.id,
+      name: event.name,
+      description: event.description ?? '',
+      source: event.source ?? '',
+      eventDate: event.eventDate?.toDateString() ?? '',
+      eventType: transformers.eventType(event.eventType),
+    };
   }
 }

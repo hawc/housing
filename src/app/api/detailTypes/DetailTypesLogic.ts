@@ -1,5 +1,6 @@
-import { detailTypesInclude } from '@/lib/db';
+import { DetailTypesInclude, detailTypesInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
+import { BaseDetailType } from '@/lib/types';
 
 export class DetailTypesLogic {
   static async findDetailTypes() {
@@ -9,5 +10,13 @@ export class DetailTypesLogic {
       },
       include: detailTypesInclude,
     });
+  }
+
+  static toBaseDetailType(detailType: DetailTypesInclude): BaseDetailType {
+    return {
+      id: detailType.id,
+      name: detailType.name,
+      description: detailType.description ?? '',
+    };
   }
 }

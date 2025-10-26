@@ -2,7 +2,6 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 import { SettlementsLogic } from '@/app/api/settlements/SettlementsLogic';
-import { baseTransformers } from '@/lib/transformers';
 
 export async function GET(_req: NextRequest) {
   const settlements = await SettlementsLogic.findSettlements();
@@ -11,6 +10,6 @@ export async function GET(_req: NextRequest) {
     return NextResponse.json([]);
   }
 
-  const responseData = settlements.map(baseTransformers.settlement);
+  const responseData = settlements.map(SettlementsLogic.toBaseSettlement);
   return NextResponse.json(responseData);
 }

@@ -2,7 +2,6 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 import { EventsLogic } from '@/app/api/events/EventsLogic';
-import { baseTransformers } from '@/lib/transformers';
 
 export async function GET(_req: NextRequest, props) {
   const { settlementId } = await props.params;
@@ -13,6 +12,6 @@ export async function GET(_req: NextRequest, props) {
     return NextResponse.json([]);
   }
 
-  const responseData = events.map(baseTransformers.event);
+  const responseData = events.map(EventsLogic.toBaseEvent);
   return NextResponse.json(responseData);
 }

@@ -2,7 +2,6 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 import { LocationsLogic } from '@/app/api/locations/LocationsLogic';
-import { baseTransformers } from '@/lib/transformers';
 
 export async function GET(_req: NextRequest) {
   const locations = await LocationsLogic.findLocations();
@@ -11,6 +10,6 @@ export async function GET(_req: NextRequest) {
     return NextResponse.json([]);
   }
 
-  const responseData = locations.map(baseTransformers.location);
+  const responseData = locations.map(LocationsLogic.toBaseLocation);
   return NextResponse.json(responseData);
 }

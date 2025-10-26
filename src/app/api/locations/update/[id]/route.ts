@@ -2,8 +2,6 @@ import { LocationsLogic } from '@/app/api/locations/LocationsLogic';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-import { baseTransformers } from '@/lib/transformers';
-
 export async function POST(req: NextRequest, props) {
   const { id } = await props.params;
   const data = await req.json();
@@ -14,6 +12,6 @@ export async function POST(req: NextRequest, props) {
     return NextResponse.json('');
   }
 
-  const responseData = baseTransformers.location(location);
+  const responseData = LocationsLogic.toBaseLocation(location);
   return NextResponse.json(responseData);
 }

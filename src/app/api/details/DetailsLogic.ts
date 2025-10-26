@@ -1,5 +1,7 @@
-import { detailsInclude } from '@/lib/db';
+import { DetailsInclude, detailsInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
+import { transformers } from '@/lib/transformers';
+import { BaseDetail } from '@/lib/types';
 import { Prisma } from '@prisma/client';
 
 export class DetailsLogic {
@@ -44,5 +46,17 @@ export class DetailsLogic {
       },
       include: detailsInclude,
     });
+  }
+
+  static toBaseDetail(detail: DetailsInclude): BaseDetail {
+    return {
+      id: detail.id,
+      name: detail.name,
+      description: detail.description ?? '',
+      annotation: detail.annotation ?? '',
+      source: detail.source ?? '',
+      detailDate: detail.detailDate?.toDateString() ?? '',
+      detailType: transformers.detailType(detail.detailType),
+    };
   }
 }

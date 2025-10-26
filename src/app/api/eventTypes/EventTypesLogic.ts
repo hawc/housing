@@ -1,5 +1,6 @@
-import { eventTypesInclude } from '@/lib/db';
+import { EventTypesInclude, eventTypesInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
+import { BaseEventType } from '@/lib/types';
 
 export class EventTypesLogic {
   static async findEventTypes() {
@@ -9,5 +10,13 @@ export class EventTypesLogic {
       },
       include: eventTypesInclude,
     });
+  }
+
+  static toBaseEventType(eventType: EventTypesInclude): BaseEventType {
+    return {
+      id: eventType.id,
+      name: eventType.name,
+      description: eventType.description ?? '',
+    };
   }
 }

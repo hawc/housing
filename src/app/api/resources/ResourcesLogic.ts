@@ -1,5 +1,7 @@
-import { resourcesInclude } from '@/lib/db';
+import { ResourcesInclude, resourcesInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
+import { transformers } from '@/lib/transformers';
+import { BaseResource } from '@/lib/types';
 import { Prisma } from '@prisma/client';
 
 export class ResourcesLogic {
@@ -45,5 +47,18 @@ export class ResourcesLogic {
       },
       include: resourcesInclude,
     });
+  }
+
+  static toBaseResource(resource: ResourcesInclude): BaseResource {
+    return {
+      id: resource.id,
+      name: resource.name,
+      description: resource.description ?? '',
+      source: resource.source ?? '',
+      url: resource.url,
+      license: resource.license ?? '',
+      copyright: resource.copyright ?? '',
+      resourceType: transformers.resourceType(resource.resourceType),
+    };
   }
 }

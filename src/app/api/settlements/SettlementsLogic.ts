@@ -1,9 +1,12 @@
 import {
+  SettlementsInclude,
   settlementsInclude,
   settlementsOnArchitectsInclude,
   settlementsOnTagsInclude,
 } from '@/lib/db';
 import prisma from '@/lib/prisma';
+import { transformers } from '@/lib/transformers';
+import { BaseSettlement } from '@/lib/types';
 import { slugify } from '@/utils/slugify';
 import type { Prisma } from '@prisma/client';
 
@@ -72,5 +75,34 @@ export class SettlementsLogic {
       data: data,
       include: settlementsOnTagsInclude,
     });
+  }
+
+  static toBaseSettlement(settlement: SettlementsInclude): BaseSettlement {
+    return {
+      id: settlement.id,
+      name: settlement.name,
+      slug: settlement.slug,
+      description: settlement.description ?? '',
+      details: settlement.details.map(transformers.detail),
+      types: settlement.settlementTypes.map((settlementsOnSettlementType) =>
+        transformers.settlementType(settlementsOnSettlementType.settlementType)
+      ),
+      architects: settlement.architects.map((settlementsOnArchitect) =>
+        transformers.architect(
+          settlementsOnArchitect.architect,
+          settlementsOnArchitect.role
+        )
+      ),
+      resources: settlement.resources.map(transformers.resource),
+      tags: settlement.tags.map((tagRelation) =>
+        transformers.tag(tagRelation.tag)
+      ),
+      events: settlement.events.map(transformers.event),
+      location: settlement.location
+        ? transformers.location(settlement.location)
+        : null,
+      createdAt: settlement.createdAt,
+      updatedAt: settlement.updatedAt,
+    };
   }
 }

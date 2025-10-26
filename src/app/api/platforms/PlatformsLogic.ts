@@ -1,5 +1,6 @@
-import { platformsInclude } from '@/lib/db';
+import { platformsInclude, PlatformsSelect } from '@/lib/db';
 import prisma from '@/lib/prisma';
+import { Platform } from '@/lib/types';
 import { slugify } from '@/utils/slugify';
 import { Prisma } from '@prisma/client';
 
@@ -45,5 +46,16 @@ export class PlatformsLogic {
       },
       include: platformsInclude,
     });
+  }
+
+  static toPlatform(platform: PlatformsSelect): Platform {
+    return {
+      id: platform.id,
+      name: platform.name,
+      slug: platform.slug,
+      description: platform.description ?? '',
+      url: platform.url ?? '',
+      urlIdentifier: platform.urlIdentifier ?? '',
+    };
   }
 }
