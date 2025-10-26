@@ -1,8 +1,15 @@
-import { externalLinksInclude, ExternalLinksSelect } from '@/lib/db';
 import prisma from '@/lib/prisma';
 import { transformers } from '@/lib/transformers';
 import { ExternalLink } from '@/lib/types';
 import { Prisma } from '@prisma/client';
+
+const externalLinksInclude = {
+  platform: true,
+} satisfies Prisma.ExternalLinksInclude;
+
+type ExternalLinksInclude = Prisma.ExternalLinksGetPayload<{
+  include: typeof externalLinksInclude;
+}>;
 
 export class ExternalLinksLogic {
   static async findExternalLinks(where: Prisma.ExternalLinksWhereInput) {
@@ -46,7 +53,7 @@ export class ExternalLinksLogic {
     });
   }
 
-  static toExternalLink(externalLink: ExternalLinksSelect): ExternalLink {
+  static toExternalLink(externalLink: ExternalLinksInclude): ExternalLink {
     return {
       id: externalLink.id,
       name: externalLink.name ?? '',

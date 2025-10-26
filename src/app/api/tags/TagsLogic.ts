@@ -1,8 +1,22 @@
-import { resourcesInclude, TagsInclude, tagsInclude } from '@/lib/db';
+import { settlementsSelect } from '@/app/api/settlements/selects';
 import prisma from '@/lib/prisma';
 import { transformers } from '@/lib/transformers';
 import { BaseTag } from '@/lib/types';
 import { Prisma } from '@prisma/client';
+
+const tagsInclude = {
+  settlements: {
+    select: {
+      settlement: {
+        select: settlementsSelect,
+      },
+    },
+  },
+} satisfies Prisma.TagsInclude;
+
+type TagsInclude = Prisma.TagsGetPayload<{
+  include: typeof tagsInclude;
+}>;
 
 export class TagsLogic {
   static async findTags() {
@@ -11,22 +25,6 @@ export class TagsLogic {
         published: true,
       },
       include: tagsInclude,
-    });
-  }
-
-  static async addResource(data: Prisma.ResourcesUncheckedCreateInput) {
-    return await prisma.resources.create({
-      data: {
-        name: data.name,
-        description: data.description,
-        url: data.url,
-        source: data.source,
-        license: data.license,
-        copyright: data.copyright,
-        resourceTypeId: data.resourceTypeId,
-        settlementId: data.settlementId,
-      },
-      include: resourcesInclude,
     });
   }
 

@@ -1,8 +1,15 @@
-import { ResourcesInclude, resourcesInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
 import { transformers } from '@/lib/transformers';
 import { BaseResource } from '@/lib/types';
 import { Prisma } from '@prisma/client';
+
+const resourcesInclude = {
+  resourceType: true,
+} satisfies Prisma.ResourcesInclude;
+
+type ResourcesInclude = Prisma.ResourcesGetPayload<{
+  include: typeof resourcesInclude;
+}>;
 
 export class ResourcesLogic {
   static async findResources(where: Prisma.ResourcesWhereInput) {

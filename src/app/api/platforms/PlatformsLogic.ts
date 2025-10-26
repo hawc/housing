@@ -1,8 +1,15 @@
-import { platformsInclude, PlatformsSelect } from '@/lib/db';
 import prisma from '@/lib/prisma';
 import { Platform } from '@/lib/types';
 import { slugify } from '@/utils/slugify';
 import { Prisma } from '@prisma/client';
+
+export const platformsInclude = {
+  externalLinks: true,
+} satisfies Prisma.PlatformsInclude;
+
+export type PlatformsInclude = Prisma.PlatformsGetPayload<{
+  include: typeof platformsInclude;
+}>;
 
 export class PlatformsLogic {
   static async findPlatforms() {
@@ -48,7 +55,7 @@ export class PlatformsLogic {
     });
   }
 
-  static toPlatform(platform: PlatformsSelect): Platform {
+  static toPlatform(platform: PlatformsInclude): Platform {
     return {
       id: platform.id,
       name: platform.name,

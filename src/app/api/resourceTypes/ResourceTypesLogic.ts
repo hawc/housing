@@ -1,6 +1,14 @@
-import { ResourceTypesInclude, resourceTypesInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
 import { BaseResourceType } from '@/lib/types';
+import { Prisma } from '@prisma/client';
+
+const resourceTypesInclude = {
+  resources: true,
+} satisfies Prisma.ResourceTypesInclude;
+
+type ResourceTypesInclude = Prisma.ResourceTypesGetPayload<{
+  include: typeof resourceTypesInclude;
+}>;
 
 export class ResourceTypesLogic {
   static async findResourceTypes() {

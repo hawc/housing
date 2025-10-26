@@ -1,8 +1,15 @@
-import { EventsInclude, eventsInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
 import { transformers } from '@/lib/transformers';
 import { BaseEvent } from '@/lib/types';
 import { Prisma } from '@prisma/client';
+
+const eventsInclude = {
+  eventType: true,
+} satisfies Prisma.EventsInclude;
+
+type EventsInclude = Prisma.EventsGetPayload<{
+  include: typeof eventsInclude;
+}>;
 
 export class EventsLogic {
   static async findEvents(where: Prisma.EventsWhereInput) {

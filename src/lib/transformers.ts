@@ -1,18 +1,16 @@
-import type {
-  ArchitectsSelect,
-  DetailsSelect,
-  DetailsTypesSelect,
-  EventsSelect,
-  EventTypesSelect,
-  ExternalLinksSelect,
-  LocationsSelect,
-  PlatformsSelect,
-  ResourcesSelect,
-  ResourceTypesSelect,
-  SettlementsSelect,
-  SettlementTypesSelect,
-  TagsSelect,
-} from '@/lib/db';
+
+import { ArchitectsSelect } from '@/app/api/architects/selects';
+import { DetailsSelect } from '@/app/api/details/selects';
+import { DetailsTypesSelect } from '@/app/api/detailTypes/selects';
+import { EventsSelect } from '@/app/api/events/selects';
+import { EventTypesSelect } from '@/app/api/eventTypes/selects';
+import { ExternalLinksSelect } from '@/app/api/externalLinks/selects';
+import { LocationsSelect } from '@/app/api/locations/selects';
+import { PlatformsSelect } from '@/app/api/platforms/selects';
+import { ResourcesSelect } from '@/app/api/resources/selects';
+import { ResourceTypesSelect } from '@/app/api/resourceTypes/selects';
+import { SettlementsSelect, SettlementTypesSelect } from '@/app/api/settlements/selects';
+import { TagsSelect } from '@/app/api/tags/selects';
 import type {
   Architect,
   Detail,

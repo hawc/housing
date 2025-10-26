@@ -1,9 +1,31 @@
-import { ArchitectsInclude, architectsInclude } from '@/lib/db';
+import { externalLinksSelect } from '@/app/api/externalLinks/selects';
+import { settlementsSelectWithLocations } from '@/app/api/settlements/selects';
 import prisma from '@/lib/prisma';
 import { transformers } from '@/lib/transformers';
 import { BaseArchitect } from '@/lib/types';
 import { slugify } from '@/utils/slugify';
-import type { Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
+
+const architectsInclude = {
+  urls: {
+    select: externalLinksSelect,
+    where: {
+      published: true,
+    },
+  },
+  settlements: {
+    select: {
+      settlement: {
+        select: settlementsSelectWithLocations,
+      },
+      role: true,
+    },
+  },
+} satisfies Prisma.ArchitectsInclude;
+
+type ArchitectsInclude = Prisma.ArchitectsGetPayload<{
+  include: typeof architectsInclude;
+}>;
 
 export class ArchitectsLogic {
   static async findArchitect(where: Prisma.ArchitectsWhereUniqueInput) {

@@ -1,14 +1,65 @@
-import {
-  SettlementsInclude,
-  settlementsInclude,
-  settlementsOnArchitectsInclude,
-  settlementsOnTagsInclude,
-} from '@/lib/db';
+import { architectsSelect } from '@/app/api/architects/selects';
+import { detailsSelect } from '@/app/api/details/selects';
+import { eventsSelect } from '@/app/api/events/selects';
+import { locationsSelect } from '@/app/api/locations/selects';
+import { resourcesSelect } from '@/app/api/resources/selects';
+import { settlementsSelect, settlementTypesSelect } from '@/app/api/settlements/selects';
+import { tagsSelect } from '@/app/api/tags/selects';
 import prisma from '@/lib/prisma';
 import { transformers } from '@/lib/transformers';
 import { BaseSettlement } from '@/lib/types';
 import { slugify } from '@/utils/slugify';
-import type { Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
+
+const settlementsInclude = {
+  architects: {
+    select: {
+      architect: {
+        select: architectsSelect,
+      },
+      role: true,
+    },
+  },
+  details: {
+    select: detailsSelect,
+    where: {
+      published: true,
+    },
+  },
+  resources: {
+    select: resourcesSelect,
+    where: {
+      published: true,
+    },
+  },
+  tags: {
+    select: {
+      tag: {
+        select: tagsSelect,
+      },
+    },
+  },
+  settlementTypes: {
+    select: {
+      settlementType: {
+        select: settlementTypesSelect,
+      },
+    },
+  },
+  events: {
+    select: eventsSelect,
+    where: {
+      published: true,
+    },
+  },
+  location: {
+    select: locationsSelect,
+  },
+} satisfies Prisma.SettlementsInclude;
+
+type SettlementsInclude = Prisma.SettlementsGetPayload<{
+  include: typeof settlementsInclude;
+}>;
 
 export class SettlementsLogic {
   static async findSettlement(where: Prisma.SettlementsWhereUniqueInput) {
@@ -64,7 +115,14 @@ export class SettlementsLogic {
   ) {
     return await prisma.settlementsOnArchitects.create({
       data: data,
-      include: settlementsOnArchitectsInclude,
+      include: {
+        architect: {
+          select: architectsSelect,
+        },
+        settlement: {
+          select: settlementsSelect,
+        },
+      },
     });
   }
 
@@ -73,7 +131,14 @@ export class SettlementsLogic {
   ) {
     return await prisma.settlementsOnTags.create({
       data: data,
-      include: settlementsOnTagsInclude,
+      include: {
+        tag: {
+          select: tagsSelect,
+        },
+        settlement: {
+          select: settlementsSelect,
+        },
+      },
     });
   }
 

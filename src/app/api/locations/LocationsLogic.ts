@@ -1,10 +1,20 @@
-import { LocationsInclude, locationsInclude } from '@/lib/db';
+import { settlementsSelectWithLocations } from '@/app/api/settlements/selects';
 import prisma from '@/lib/prisma';
 import { transformers } from '@/lib/transformers';
 import { BaseLocation } from '@/lib/types';
 import { parsePrismaJson } from '@/utils/parsePrismaJson';
 import { Prisma } from '@prisma/client';
 import { Polygon } from 'geojson';
+
+const locationsInclude = {
+  settlement: {
+    select: settlementsSelectWithLocations,
+  },
+} satisfies Prisma.LocationsInclude;
+
+type LocationsInclude = Prisma.LocationsGetPayload<{
+  include: typeof locationsInclude;
+}>;
 
 export class LocationsLogic {
   static async findLocations() {

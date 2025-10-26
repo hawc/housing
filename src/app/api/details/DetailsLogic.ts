@@ -1,8 +1,15 @@
-import { DetailsInclude, detailsInclude } from '@/lib/db';
 import prisma from '@/lib/prisma';
 import { transformers } from '@/lib/transformers';
 import { BaseDetail } from '@/lib/types';
 import { Prisma } from '@prisma/client';
+
+const detailsInclude = {
+  detailType: true,
+} satisfies Prisma.DetailsInclude;
+
+type DetailsInclude = Prisma.DetailsGetPayload<{
+  include: typeof detailsInclude;
+}>;
 
 export class DetailsLogic {
   static async findDetails(where: Prisma.DetailsWhereInput) {
