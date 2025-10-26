@@ -5,7 +5,7 @@ import { ArchitectsLogic } from '@/app/api/architects/ArchitectsLogic';
 
 export async function POST(req: NextRequest, props) {
   const { architectId, settlementId } = await props.params;
-  
+
   await ArchitectsLogic.updateSettlementsOnArchitect(
     {
       settlementId_architectId: {

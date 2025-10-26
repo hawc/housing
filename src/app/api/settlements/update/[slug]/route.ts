@@ -7,11 +7,8 @@ import { baseTransformers } from '@/lib/transformers';
 export async function POST(req: NextRequest, props) {
   const { slug } = await props.params;
   const data = await req.json();
-  
-  const settlement = await SettlementsLogic.updateSettlement(
-    { slug },
-    data
-  );
+
+  const settlement = await SettlementsLogic.updateSettlement({ slug }, data);
 
   if (!settlement) {
     return NextResponse.json('');

@@ -51,9 +51,7 @@ export function Upload({
   const [uploading, setUploading] = useState(false);
   const input = useRef<HTMLInputElement>(null);
 
-  async function updateSelectedImages(
-    event: ChangeEvent<HTMLInputElement>
-  ) {
+  async function updateSelectedImages(event: ChangeEvent<HTMLInputElement>) {
     onUpload([]);
     if (event.target.files) {
       const files = Array.from(event.target.files);

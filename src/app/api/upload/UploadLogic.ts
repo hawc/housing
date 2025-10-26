@@ -33,9 +33,9 @@ export class UploadLogic {
           const buffer = Buffer.from(await file.arrayBuffer());
           const cloudinaryResponse = await saveToCloudinary(
             {
-              src: `data:${fileType}/${ext};base64,${Buffer.from(buffer).toString(
-                'base64'
-              )}`,
+              src: `data:${fileType}/${ext};base64,${Buffer.from(
+                buffer
+              ).toString('base64')}`,
               name: name,
             },
             formDataCategory

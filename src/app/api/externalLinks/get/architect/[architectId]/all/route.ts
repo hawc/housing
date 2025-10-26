@@ -6,9 +6,9 @@ import { baseTransformers } from '@/lib/transformers';
 
 export async function GET(_req: NextRequest, props) {
   const { architectId } = await props.params;
-  
+
   const externalLinks = await ExternalLinksLogic.findExternalLinks({
-    architectId
+    architectId,
   });
 
   if (!externalLinks) {

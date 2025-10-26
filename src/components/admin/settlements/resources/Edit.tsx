@@ -1,6 +1,5 @@
 'use client';
 
-import { Loader2Icon } from 'lucide-react';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -78,30 +77,23 @@ export function EditResource({
   ) {
     setLoading(true);
     let response;
+
+    const data = {
+      name: resource.name,
+      description: resource.description,
+      source: resource.source,
+      url: resource.url,
+      license: resource.license,
+      copyright: resource.copyright,
+      resourceTypeId: resourceTypeId,
+    };
+
     if (resource?.id) {
-      const data = {
-        name: resource.name,
-        description: resource.description,
-        source: resource.source,
-        url: resource.url,
-        license: resource.license,
-        copyright: resource.copyright,
-        resourceTypeId: resourceTypeId,
-      };
       response = await updateResource(resource.id, data);
     } else {
-      const data = {
-        name: resource.name,
-        description: resource.description,
-        source: resource.source,
-        url: resource.url,
-        license: resource.license,
-        copyright: resource.copyright,
-        resourceTypeId: resourceTypeId,
-        settlementId: settlementId,
-      };
-      response = await addResource(data);
+      response = await addResource({ ...data, settlementId });
     }
+
     setCurrentResource(response);
     onUpdate(response.id);
     setLoading(false);
@@ -229,34 +221,26 @@ export function EditResource({
       <div className='flex gap-4 flex-col lg:flex-row mt-2 mb-1'>
         <Button
           className='w-full'
-          onClick={
+          onClick={() =>
             resource
-              ? () => submitData(resource, resourceType.id, settlementId)
-              : () => {
-                  return;
-                }
+              ? submitData(resource, resourceType.id, settlementId)
+              : undefined
           }
           disabled={
-            loading ||
-            !resource?.name ||
-            (resourceType?.name === 'Foto' && !resource.url)
+            !resource?.name || (resourceType?.name === 'Foto' && !resource.url)
           }
+          loading={loading}
         >
           {resource?.id ? 'Speichern' : 'Hinzufügen'}
-          {loading && (
-            <Loader2Icon className='inline-block animate-spin align-sub leading-none' />
-          )}
         </Button>
         {resource?.id && (
           <Button
             className='w-full bg-text text-bg border border-text'
             onClick={() => deleteResource(resource.id)}
-            disabled={loading || !resource?.name}
+            disabled={!resource?.name}
+            loading={loading}
           >
             Löschen
-            {loading && (
-              <Loader2Icon className='inline-block animate-spin align-sub leading-none' />
-            )}
           </Button>
         )}
       </div>

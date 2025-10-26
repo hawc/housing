@@ -6,7 +6,7 @@ import { baseTransformers } from '@/lib/transformers';
 
 export async function GET(_req: NextRequest) {
   const eventTypes = await EventTypesLogic.findEventTypes();
-  
+
   if (!eventTypes.length) {
     return NextResponse.json([]);
   }

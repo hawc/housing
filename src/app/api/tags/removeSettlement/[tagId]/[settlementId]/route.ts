@@ -15,7 +15,7 @@ export async function GET(_req: NextRequest, props) {
       },
     },
   };
-  
+
   await TagsLogic.updateTag({ id: tagId }, data);
 
   return NextResponse.json('');

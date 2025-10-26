@@ -1,7 +1,6 @@
 'use client';
 
 import type { Prisma } from '@prisma/client';
-import { Loader2Icon } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -192,34 +191,22 @@ export function Event({
           <div className='flex gap-4 flex-col lg:flex-row mt-2'>
             <Button
               className='w-full'
-              onClick={
-                event
-                  ? () => submitData(event, eventTypeId, settlementId)
-                  : () => {
-                      return;
-                    }
+              onClick={() =>
+                event ? submitData(event, eventTypeId, settlementId) : undefined
               }
-              disabled={loading || (!event?.name && !eventTypeName)}
+              disabled={!event?.name && !eventTypeName}
+              loading={loading}
             >
-              <>
-                {event?.id ? 'Speichern' : 'Hinzufügen'}
-                {loading && (
-                  <Loader2Icon className='inline-block animate-spin align-sub leading-none' />
-                )}
-              </>
+              {event?.id ? 'Speichern' : 'Hinzufügen'}
             </Button>
             {event?.id && (
               <Button
                 className='w-full bg-text text-bg border border-text'
                 onClick={() => deleteEvent(event.id)}
-                disabled={loading || (!event?.name && !eventTypeName)}
+                disabled={!event?.name && !eventTypeName}
+                loading={loading}
               >
-                <>
-                  Löschen
-                  {loading && (
-                    <Loader2Icon className='inline-block animate-spin align-sub leading-none' />
-                  )}
-                </>
+                Löschen
               </Button>
             )}
           </div>

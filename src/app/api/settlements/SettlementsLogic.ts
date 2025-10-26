@@ -1,4 +1,8 @@
-import { settlementsInclude, settlementsOnArchitectsInclude, settlementsOnTagsInclude } from '@/lib/db';
+import {
+  settlementsInclude,
+  settlementsOnArchitectsInclude,
+  settlementsOnTagsInclude,
+} from '@/lib/db';
 import prisma from '@/lib/prisma';
 import { slugify } from '@/utils/slugify';
 import type { Prisma } from '@prisma/client';
@@ -19,7 +23,7 @@ export class SettlementsLogic {
       include: settlementsInclude,
     });
   }
-    
+
   static async updateSettlement(
     where: Prisma.SettlementsWhereUniqueInput,
     data: Prisma.SettlementsUpdateInput

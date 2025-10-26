@@ -6,7 +6,7 @@ import { baseTransformers } from '@/lib/transformers';
 
 export async function GET(_req: NextRequest) {
   const architects = await ArchitectsLogic.findArchitects();
-  
+
   if (!architects.length) {
     return NextResponse.json([]);
   }

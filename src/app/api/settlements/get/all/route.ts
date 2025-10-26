@@ -6,7 +6,7 @@ import { baseTransformers } from '@/lib/transformers';
 
 export async function GET(_req: NextRequest) {
   const settlements = await SettlementsLogic.findSettlements();
-  
+
   if (!settlements.length) {
     return NextResponse.json([]);
   }

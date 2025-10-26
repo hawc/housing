@@ -1,4 +1,3 @@
-import { Loader2Icon } from 'lucide-react';
 import { useState } from 'react';
 
 import { fetchData } from '@/lib/fetch';
@@ -54,13 +53,8 @@ export function AddTag({ getTags }: AddTagProps) {
         value={currentTag.description}
         onChange={(event) => setTag({ description: event.target.value })}
       />
-      <Button disabled={loading} onClick={() => submitTag(currentTag)}>
-        <>
-          Tag hinzufügen{' '}
-          {loading && (
-            <Loader2Icon className='inline-block animate-spin align-sub leading-none' />
-          )}
-        </>
+      <Button loading={loading} onClick={() => submitTag(currentTag)}>
+        Tag hinzufügen
       </Button>
     </>
   );

@@ -4,7 +4,6 @@ import { TextareaGhost } from '@/components/common/form/Textarea';
 import { Headline } from '@/components/Headline';
 import { fetchData } from '@/lib/fetch';
 import { Platform } from '@/lib/types';
-import { Loader2Icon } from 'lucide-react';
 import { useState } from 'react';
 
 interface AddPlatformProps {
@@ -65,16 +64,8 @@ export function AddPlatform({ getPlatforms }: AddPlatformProps) {
         onChange={(event) => setPlatform({ description: event.target.value })}
         className='mb-1'
       />
-      <Button
-        disabled={loading}
-        onClick={() => submitPlatform(currentPlatform)}
-      >
-        <>
-          Plattform hinzufügen{' '}
-          {loading && (
-            <Loader2Icon className='inline-block animate-spin align-sub leading-none' />
-          )}
-        </>
+      <Button onClick={() => submitPlatform(currentPlatform)} loading={loading}>
+        Plattform hinzufügen
       </Button>
     </>
   );

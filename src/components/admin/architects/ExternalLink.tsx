@@ -1,7 +1,6 @@
 'use client';
 
 import type { Prisma } from '@prisma/client';
-import { Loader2Icon } from 'lucide-react';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -159,23 +158,19 @@ export function EditExternalLink({
       <div className='flex gap-4 flex-col lg:flex-row mt-2'>
         <Button
           className='w-full'
+          disabled={!externalLink?.url}
+          loading={loading}
           onClick={() => externalLink && submitData(externalLink, architectId)}
-          disabled={loading || !externalLink?.url}
         >
-          <>
-            {externalLink?.id ? 'Speichern' : 'Hinzufügen'}
-            {loading && (
-              <Loader2Icon className='inline-block animate-spin align-sub leading-none' />
-            )}
-          </>
+          {externalLink?.id ? 'Speichern' : 'Hinzufügen'}
         </Button>
         {externalLink?.id && (
           <Button
             className='w-full bg-text text-bg border border-text'
+            loading={loading}
             onClick={() => deleteExternalLink(externalLink.id)}
-            disabled={loading}
           >
-            <>Löschen</>
+            Löschen
           </Button>
         )}
       </div>

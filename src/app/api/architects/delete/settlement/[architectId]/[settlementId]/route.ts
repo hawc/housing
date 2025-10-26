@@ -16,7 +16,7 @@ export async function GET(_req: NextRequest, props) {
       },
     },
   };
-  
+
   await ArchitectsLogic.updateArchitect({ id: architectId }, data);
 
   return NextResponse.json('');

@@ -223,19 +223,11 @@ export function SettlementEdit({ settlementInput }: SettlementEditProps) {
         <Container className='md:grid-cols-3'>
           <Box>
             <Button
-              onClick={
-                settlement
-                  ? () => submitData(settlement)
-                  : () => {
-                      return;
-                    }
-              }
-              disabled={loading || !settlement?.name}
+              onClick={() => (settlement ? submitData(settlement) : undefined)}
+              disabled={!settlement?.name}
+              loading={loading}
             >
-              Speichern{' '}
-              {loading && (
-                <Loader2Icon className='inline-block animate-spin align-sub leading-none' />
-              )}
+              Speichern
             </Button>
           </Box>
           <Box>
@@ -249,19 +241,13 @@ export function SettlementEdit({ settlementInput }: SettlementEditProps) {
           <Box>
             <Button
               className='bg-text text-bg border border-text'
-              onClick={
-                settlement?.id
-                  ? () => deleteSettlement(settlement.id)
-                  : () => {
-                      return;
-                    }
+              onClick={() =>
+                settlement?.id ? deleteSettlement(settlement.id) : undefined
               }
-              disabled={loading || !settlement?.id}
+              disabled={!settlement?.id}
+              loading={loading}
             >
               Löschen
-              {loading && (
-                <Loader2Icon className='inline-block animate-spin align-sub leading-none' />
-              )}
             </Button>
           </Box>
         </Container>

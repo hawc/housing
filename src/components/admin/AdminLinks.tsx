@@ -4,7 +4,7 @@ import { Headline } from '@/components/Headline';
 import { auth0 } from '@/lib/auth0';
 
 export async function AdminLinks() {
-    const session = await auth0.getSession();
+  const session = await auth0.getSession();
 
   if (!session) {
     return null;

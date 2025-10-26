@@ -13,7 +13,7 @@ export async function POST(req: NextRequest, props) {
   if (!detail) {
     return NextResponse.json('');
   }
-  
+
   const responseData = baseTransformers.detail(detail);
   return NextResponse.json(responseData);
 }

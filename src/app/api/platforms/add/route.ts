@@ -6,7 +6,7 @@ import { baseTransformers } from '@/lib/transformers';
 
 export async function POST(req: NextRequest) {
   const data = await req.json();
-  
+
   const platform = await PlatformsLogic.addPlatform(data);
 
   if (!platform) {

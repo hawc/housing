@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
   if (!detail) {
     return NextResponse.json('');
   }
-  
+
   const responseData = baseTransformers.detail(detail);
   return NextResponse.json(responseData);
 }

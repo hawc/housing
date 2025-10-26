@@ -8,7 +8,7 @@ export async function GET(_req: NextRequest, props) {
   const { settlementId } = await props.params;
 
   const details = await DetailsLogic.findDetails({ settlementId });
-  
+
   if (!details) {
     return NextResponse.json([]);
   }

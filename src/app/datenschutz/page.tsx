@@ -188,16 +188,14 @@ export default function Datenschutzerklärung() {
               Die verantwortliche Stelle f&uuml;r die Datenverarbeitung auf
               dieser Website ist:
             </p>
-            <p>
-              Hendrik Wichern
-            </p>
+            <p>Hendrik Wichern</p>
             <p>
               E-Mail:&nbsp;
-            <span>
-              web
-              <AtSign className='inline' size={20} />
-              hendrikwichern.de
-            </span>
+              <span>
+                web
+                <AtSign className='inline' size={20} />
+                hendrikwichern.de
+              </span>
             </p>
             <p>
               Verantwortliche Stelle ist die nat&uuml;rliche oder juristische

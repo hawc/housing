@@ -1,6 +1,5 @@
 'use client';
 
-import { Loader2Icon } from 'lucide-react';
 import { useCallback, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -224,12 +223,10 @@ export function Location({
         <Button
           onClick={handleSubmitLocation}
           className='w-full'
-          disabled={loading || !location?.lat || !location?.lng}
+          disabled={!location?.lat || !location?.lng}
+          loading={loading}
         >
-          Speichern{' '}
-          {loading && (
-            <Loader2Icon className='inline-block animate-spin align-sub leading-none' />
-          )}
+          Speichern
         </Button>
       </div>
     </div>

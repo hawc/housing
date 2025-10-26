@@ -1,7 +1,6 @@
 'use client';
 
 import type { Prisma } from '@prisma/client';
-import { Loader2Icon } from 'lucide-react';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -203,27 +202,19 @@ export function EditDetail({
           onClick={() =>
             detail && submitData(detail, detailTypeId, settlementId)
           }
-          disabled={loading || (!detail?.name && !detailTypeName)}
+          disabled={!detail?.name && !detailTypeName}
+          loading={loading}
         >
-          <>
-            {detail?.id ? 'Speichern' : 'Hinzufügen'}
-            {loading && (
-              <Loader2Icon className='inline-block animate-spin align-sub leading-none' />
-            )}
-          </>
+          {detail?.id ? 'Speichern' : 'Hinzufügen'}
         </Button>
         {detail?.id && (
           <Button
             className='w-full bg-text text-bg border border-text'
             onClick={() => deleteDetail(detail.id)}
-            disabled={loading || (!detail?.name && !detailTypeName)}
+            disabled={!detail?.name && !detailTypeName}
+            loading={loading}
           >
-            <>
-              Löschen
-              {loading && (
-                <Loader2Icon className='inline-block animate-spin align-sub leading-none' />
-              )}
-            </>
+            Löschen
           </Button>
         )}
       </div>

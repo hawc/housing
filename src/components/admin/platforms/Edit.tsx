@@ -82,16 +82,8 @@ export function EditPlatform({ platform, getPlatforms }: EditPlatformProps) {
         }
         className='mb-1'
       />
-      <Button
-        disabled={loading}
-        onClick={() => submitPlatform(currentPlatform)}
-      >
-        <>
-          Plattform speichern{' '}
-          {loading && (
-            <Loader2Icon className='inline-block animate-spin align-sub leading-none' />
-          )}
-        </>
+      <Button loading={loading} onClick={() => submitPlatform(currentPlatform)}>
+        Plattform speichern
       </Button>
     </>
   );

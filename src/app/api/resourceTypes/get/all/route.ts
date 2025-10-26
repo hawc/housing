@@ -6,7 +6,7 @@ import { baseTransformers } from '@/lib/transformers';
 
 export async function GET(_req: NextRequest) {
   const resourceTypes = await ResourceTypesLogic.findResourceTypes();
-  
+
   if (!resourceTypes.length) {
     return NextResponse.json([]);
   }

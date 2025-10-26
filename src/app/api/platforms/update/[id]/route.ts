@@ -13,7 +13,7 @@ export async function POST(req: NextRequest, props) {
   if (!platform) {
     return NextResponse.json('');
   }
-  
+
   const responseData = baseTransformers.platform(platform);
   return NextResponse.json(responseData);
 }

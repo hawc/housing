@@ -7,7 +7,7 @@ import { baseTransformers } from '@/lib/transformers';
 export async function POST(req: NextRequest, props) {
   const { id } = await props.params;
   const data = await req.json();
-  
+
   const externalLink = await ExternalLinksLogic.updateExternalLink(
     { id },
     data
@@ -16,7 +16,7 @@ export async function POST(req: NextRequest, props) {
   if (!externalLink) {
     return NextResponse.json('');
   }
-  
+
   const responseData = baseTransformers.externalLink(externalLink);
   return NextResponse.json(responseData);
 }

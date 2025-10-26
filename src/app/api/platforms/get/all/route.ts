@@ -6,7 +6,7 @@ import { baseTransformers } from '@/lib/transformers';
 
 export async function GET(_req: NextRequest) {
   const platforms = await PlatformsLogic.findPlatforms();
-  
+
   if (!platforms.length) {
     return NextResponse.json([]);
   }

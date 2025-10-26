@@ -4,11 +4,11 @@ import { Prisma } from '@prisma/client';
 
 export class ResourcesLogic {
   static async findResources(where: Prisma.ResourcesWhereInput) {
-  return await prisma.resources.findMany({
-    where,
-    include: resourcesInclude,
-  });
-}
+    return await prisma.resources.findMany({
+      where,
+      include: resourcesInclude,
+    });
+  }
 
   static async addResource(data: Prisma.ResourcesUncheckedCreateInput) {
     return await prisma.resources.create({

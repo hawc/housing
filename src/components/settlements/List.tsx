@@ -7,9 +7,7 @@ import { useDebounce } from '@/lib/useDebounce';
 
 import { Box } from '@/components/common/Box';
 import { SearchInput } from '@/components/common/SearchInput';
-import {
-  SettlementsSearchList,
-} from '@/components/common/SearchList';
+import { SettlementsSearchList } from '@/components/common/SearchList';
 import { Headline } from '@/components/Headline';
 import { SettlementsMap } from '@/components/settlements/SettlementsMap';
 

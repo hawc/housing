@@ -31,7 +31,10 @@ export class ArchitectsLogic {
     });
   }
 
-  static async updateArchitect(where: Prisma.ArchitectsWhereUniqueInput, data: Prisma.ArchitectsUpdateInput) {
+  static async updateArchitect(
+    where: Prisma.ArchitectsWhereUniqueInput,
+    data: Prisma.ArchitectsUpdateInput
+  ) {
     return await prisma.architects.update({
       where,
       data,

@@ -1,6 +1,5 @@
 'use client';
 
-import { Loader2Icon } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, useCallback, useState } from 'react';
@@ -139,12 +138,10 @@ export function ArchitectEdit({ architectInput }: ArchitectEditProps) {
           <Box>
             <Button
               onClick={() => submitData(architect)}
-              disabled={loading || !architect?.name}
+              disabled={!architect?.name}
+              loading={loading}
             >
-              Speichern{' '}
-              {loading && (
-                <Loader2Icon className='inline-block animate-spin align-sub leading-none' />
-              )}
+              Speichern
             </Button>
           </Box>
           <Box>
@@ -159,12 +156,10 @@ export function ArchitectEdit({ architectInput }: ArchitectEditProps) {
             <Button
               className='bg-text text-bg border border-text'
               onClick={() => architect && deleteArchitect(architect.slug)}
-              disabled={loading || !architect?.id}
+              disabled={!architect?.id}
+              loading={loading}
             >
-              Löschen{' '}
-              {loading && (
-                <Loader2Icon className='inline-block animate-spin align-sub leading-none' />
-              )}
+              Löschen
             </Button>
           </Box>
         </Container>

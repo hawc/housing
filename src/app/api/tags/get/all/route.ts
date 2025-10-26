@@ -6,7 +6,7 @@ import { baseTransformers } from '@/lib/transformers';
 
 export async function GET(_req: NextRequest) {
   const tags = await TagsLogic.findTags();
-  
+
   if (!tags.length) {
     return NextResponse.json([]);
   }

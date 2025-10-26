@@ -6,7 +6,7 @@ import { baseTransformers } from '@/lib/transformers';
 
 export async function POST(req: NextRequest) {
   const data = await req.json();
-  
+
   const resource = await ResourcesLogic.addResource(data);
 
   if (!resource) {
