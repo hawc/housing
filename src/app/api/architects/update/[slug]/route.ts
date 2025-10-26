@@ -1,27 +1,16 @@
-import type { Prisma } from '@prisma/client';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-import { architectsInclude } from '@/lib/db';
-import prisma from '@/lib/prisma';
+import { ArchitectsLogic } from '@/app/api/architects/ArchitectsLogic';
 import { baseTransformers } from '@/lib/transformers';
 
-async function updateArchitect(
-  where: Prisma.ArchitectsWhereUniqueInput,
-  data: Prisma.ArchitectsUpdateInput
-) {
-  return await prisma.architects.update({
-    where,
-    data,
-    include: architectsInclude,
-  });
-}
-
 export async function POST(req: NextRequest, props) {
-  const params = await props.params;
-  const architect = await updateArchitect(
-    { slug: params.slug },
-    await req.json()
+  const { slug } = await props.params;
+  const data = await req.json();
+
+  const architect = await ArchitectsLogic.updateArchitect(
+    { slug },
+    data
   );
 
   if (!architect) {

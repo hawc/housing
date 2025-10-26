@@ -12,7 +12,7 @@ import { InputGhost } from '@/components/common/form/Input';
 import { Select } from '@/components/common/form/Select';
 import { Upload } from '@/components/common/form/Upload';
 
-import type { ImageResponse } from '@/app/api/upload/route';
+import { ImageResponse } from '@/app/api/upload/UploadLogic';
 import { LightBox } from '@/components/common/LightBox';
 import { getUniqueLabel } from '@/utils/getUniqueLabel';
 

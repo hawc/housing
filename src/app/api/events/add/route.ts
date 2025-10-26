@@ -1,31 +1,18 @@
-import type { Prisma } from '@prisma/client';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-import { eventsInclude } from '@/lib/db';
-import prisma from '@/lib/prisma';
+import { EventsLogic } from '@/app/api/events/EventsLogic';
 import { baseTransformers } from '@/lib/transformers';
 
-async function addEvent(data: Prisma.EventsUncheckedCreateInput) {
-  return await prisma.events.create({
-    data: {
-      name: data.name,
-      description: data.description,
-      source: data.source,
-      settlementId: data.settlementId,
-      eventTypeId: data.eventTypeId,
-      eventDate: data.eventDate,
-    },
-    include: eventsInclude,
-  });
-}
-
 export async function POST(req: NextRequest) {
-  const event = await addEvent(await req.json());
+  const data = await req.json();
+  
+  const event = await EventsLogic.addEvent(data);
 
   if (!event) {
     return NextResponse.json('');
   }
+  
   const responseData = baseTransformers.event(event);
   return NextResponse.json(responseData);
 }

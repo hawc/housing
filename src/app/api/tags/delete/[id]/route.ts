@@ -1,23 +1,12 @@
-import type { Prisma } from '@prisma/client';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-import { tagsInclude } from '@/lib/db';
-import prisma from '@/lib/prisma';
-
-async function deleteTag(where: Prisma.TagsWhereUniqueInput) {
-  return await prisma.tags.update({
-    where,
-    data: {
-      published: false,
-    },
-    include: tagsInclude,
-  });
-}
+import { TagsLogic } from '@/app/api/tags/TagsLogic';
 
 export async function GET(_req: NextRequest, props) {
-  const params = await props.params;
-  await deleteTag({ id: params.id });
+  const { id } = await props.params;
+
+  await TagsLogic.deleteTag({ id });
 
   return NextResponse.json('');
 }

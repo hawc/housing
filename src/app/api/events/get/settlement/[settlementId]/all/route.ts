@@ -1,21 +1,14 @@
-import type { Prisma } from '@prisma/client';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-import { eventsInclude } from '@/lib/db';
-import prisma from '@/lib/prisma';
+import { EventsLogic } from '@/app/api/events/EventsLogic';
 import { baseTransformers } from '@/lib/transformers';
 
-async function findEvents(where: Prisma.EventsWhereInput) {
-  return await prisma.events.findMany({
-    where,
-    include: eventsInclude,
-  });
-}
-
 export async function GET(_req: NextRequest, props) {
-  const params = await props.params;
-  const events = await findEvents({ settlementId: params.settlementId });
+  const { settlementId } = await props.params;
+
+  const events = await EventsLogic.findEvents({ settlementId });
+  
   if (!events) {
     return NextResponse.json([]);
   }

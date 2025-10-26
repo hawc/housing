@@ -1,21 +1,14 @@
-import type { Prisma } from '@prisma/client';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-import { settlementsInclude } from '@/lib/db';
-import prisma from '@/lib/prisma';
+import { SettlementsLogic } from '@/app/api/settlements/SettlementsLogic';
 import { baseTransformers } from '@/lib/transformers';
 
-async function findSettlement(where: Prisma.SettlementsWhereUniqueInput) {
-  return await prisma.settlements.findUnique({
-    where,
-    include: settlementsInclude,
-  });
-}
-
 export async function GET(_req: NextRequest, props) {
-  const params = await props.params;
-  const settlement = await findSettlement({ slug: params.slug });
+  const { slug } = await props.params;
+
+  const settlement = await SettlementsLogic.findSettlement({ slug });
+
   if (!settlement) {
     return NextResponse.json('');
   }

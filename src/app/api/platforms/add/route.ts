@@ -1,27 +1,13 @@
-import type { Prisma } from '@prisma/client';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
+import { PlatformsLogic } from './../PlatformsLogic';
 
-import { platformsInclude } from '@/lib/db';
-import prisma from '@/lib/prisma';
 import { baseTransformers } from '@/lib/transformers';
-import { slugify } from '@/utils/slugify';
-
-async function addPlatform(data: Prisma.PlatformsUncheckedCreateInput) {
-  return await prisma.platforms.create({
-    data: {
-      name: data.name,
-      slug: slugify(data.name),
-      description: data.description,
-      url: data.url,
-      urlIdentifier: data.urlIdentifier,
-    },
-    include: platformsInclude,
-  });
-}
 
 export async function POST(req: NextRequest) {
-  const platform = await addPlatform(await req.json());
+  const data = await req.json();
+  
+  const platform = await PlatformsLogic.addPlatform(data);
 
   if (!platform) {
     return NextResponse.json('');

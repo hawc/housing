@@ -1,25 +1,15 @@
-import type { Prisma } from '@prisma/client';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-import { settlementsOnArchitectsInclude } from '@/lib/db';
-import prisma from '@/lib/prisma';
-
-async function addSettlementsOnArchitect(
-  data: Prisma.SettlementsOnArchitectsUncheckedCreateInput
-) {
-  return await prisma.settlementsOnArchitects.create({
-    data: data,
-    include: settlementsOnArchitectsInclude,
-  });
-}
+import { SettlementsLogic } from '@/app/api/settlements/SettlementsLogic';
 
 export async function POST(req: NextRequest, props) {
-  const params = await props.params;
+  const { settlementId, architectId } = await props.params;
   const data = await req.json();
-  await addSettlementsOnArchitect({
-    settlementId: params.settlementId,
-    architectId: params.architectId,
+  
+  await SettlementsLogic.addSettlementsOnArchitect({
+    settlementId,
+    architectId,
     ...data,
   });
 

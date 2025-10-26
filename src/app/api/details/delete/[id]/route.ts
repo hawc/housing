@@ -1,23 +1,11 @@
-import type { Prisma } from '@prisma/client';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-
-import { detailsInclude } from '@/lib/db';
-import prisma from '@/lib/prisma';
-
-async function deleteDetail(where: Prisma.DetailsWhereUniqueInput) {
-  return await prisma.details.update({
-    where,
-    data: {
-      published: false,
-    },
-    include: detailsInclude,
-  });
-}
+import { DetailsLogic } from './../../DetailsLogic';
 
 export async function GET(_req: NextRequest, props) {
-  const params = await props.params;
-  await deleteDetail({ id: params.id });
+  const { id } = await props.params;
+
+  await DetailsLogic.deleteDetail({ id });
 
   return NextResponse.json('');
 }

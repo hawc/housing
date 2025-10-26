@@ -1,21 +1,12 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-import { detailTypesInclude } from '@/lib/db';
-import prisma from '@/lib/prisma';
+import { DetailTypesLogic } from '@/app/api/detailTypes/DetailTypesLogic';
 import { baseTransformers } from '@/lib/transformers';
 
-async function findDetailTypes() {
-  return await prisma.detailTypes.findMany({
-    where: {
-      published: true,
-    },
-    include: detailTypesInclude,
-  });
-}
-
 export async function GET(_req: NextRequest) {
-  const detailTypes = await findDetailTypes();
+  const detailTypes = await DetailTypesLogic.findDetailTypes();
+  
   if (!detailTypes.length) {
     return NextResponse.json([]);
   }

@@ -1,29 +1,19 @@
-import type { Prisma } from '@prisma/client';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-import { resourcesInclude } from '@/lib/db';
-import prisma from '@/lib/prisma';
+import { ResourcesLogic } from '@/app/api/resources/ResourcesLogic';
 import { baseTransformers } from '@/lib/transformers';
 
-async function updateResource(
-  where: Prisma.ResourcesWhereUniqueInput,
-  data: Prisma.ResourcesUpdateInput
-) {
-  return await prisma.resources.update({
-    where,
-    data,
-    include: resourcesInclude,
-  });
-}
-
 export async function POST(req: NextRequest, props) {
-  const params = await props.params;
-  const resource = await updateResource({ id: params.id }, await req.json());
+  const { id } = await props.params;
+  const data = await req.json();
+  
+  const resource = await ResourcesLogic.updateResource({ id }, data);
 
   if (!resource) {
     return NextResponse.json('');
   }
+  
   const responseData = baseTransformers.resource(resource);
   return NextResponse.json(responseData);
 }

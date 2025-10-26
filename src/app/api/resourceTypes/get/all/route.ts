@@ -1,21 +1,12 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-import { resourceTypesInclude } from '@/lib/db';
-import prisma from '@/lib/prisma';
+import { ResourceTypesLogic } from '@/app/api/resourceTypes/ResourceTypesLogic';
 import { baseTransformers } from '@/lib/transformers';
 
-async function findResourceTypes() {
-  return await prisma.resourceTypes.findMany({
-    where: {
-      published: true,
-    },
-    include: resourceTypesInclude,
-  });
-}
-
 export async function GET(_req: NextRequest) {
-  const resourceTypes = await findResourceTypes();
+  const resourceTypes = await ResourceTypesLogic.findResourceTypes();
+  
   if (!resourceTypes.length) {
     return NextResponse.json([]);
   }

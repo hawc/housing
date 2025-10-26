@@ -1,21 +1,14 @@
-import type { Prisma } from '@prisma/client';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-import { resourcesInclude } from '@/lib/db';
-import prisma from '@/lib/prisma';
+import { ResourcesLogic } from '@/app/api/resources/ResourcesLogic';
 import { baseTransformers } from '@/lib/transformers';
 
-async function findResources(where: Prisma.ResourcesWhereInput) {
-  return await prisma.resources.findMany({
-    where,
-    include: resourcesInclude,
-  });
-}
-
 export async function GET(_req: NextRequest, props) {
-  const params = await props.params;
-  const resources = await findResources({ settlementId: params.settlementId });
+  const { settlementId } = await props.params;
+
+  const resources = await ResourcesLogic.findResources({ settlementId });
+  
   if (!resources) {
     return NextResponse.json([]);
   }

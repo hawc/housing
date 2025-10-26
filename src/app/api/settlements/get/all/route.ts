@@ -1,21 +1,12 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-import { settlementsInclude } from '@/lib/db';
-import prisma from '@/lib/prisma';
+import { SettlementsLogic } from '@/app/api/settlements/SettlementsLogic';
 import { baseTransformers } from '@/lib/transformers';
 
-async function findSettlements() {
-  return await prisma.settlements.findMany({
-    where: {
-      published: true,
-    },
-    include: settlementsInclude,
-  });
-}
-
 export async function GET(_req: NextRequest) {
-  const settlements = await findSettlements();
+  const settlements = await SettlementsLogic.findSettlements();
+  
   if (!settlements.length) {
     return NextResponse.json([]);
   }

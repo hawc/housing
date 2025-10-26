@@ -3,9 +3,8 @@
 import { Loader2Icon, PlusIcon } from 'lucide-react';
 import { ChangeEvent, useCallback, useRef, useState } from 'react';
 
+import { ImageResponse } from '@/app/api/upload/UploadLogic';
 import { fetchData } from '@/lib/fetch';
-
-import type { ImageResponse } from '@/app/api/upload/route';
 
 interface UploadResponse {
   success: boolean;

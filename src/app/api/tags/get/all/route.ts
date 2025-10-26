@@ -1,21 +1,12 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-import { tagsInclude } from '@/lib/db';
-import prisma from '@/lib/prisma';
+import { TagsLogic } from '@/app/api/tags/TagsLogic';
 import { baseTransformers } from '@/lib/transformers';
 
-async function findTags() {
-  return await prisma.tags.findMany({
-    where: {
-      published: true,
-    },
-    include: tagsInclude,
-  });
-}
-
 export async function GET(_req: NextRequest) {
-  const tags = await findTags();
+  const tags = await TagsLogic.findTags();
+  
   if (!tags.length) {
     return NextResponse.json([]);
   }

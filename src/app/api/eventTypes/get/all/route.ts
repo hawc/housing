@@ -1,21 +1,12 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-import { eventTypesInclude } from '@/lib/db';
-import prisma from '@/lib/prisma';
+import { EventTypesLogic } from '@/app/api/eventTypes/EventTypesLogic';
 import { baseTransformers } from '@/lib/transformers';
 
-async function findEventTypes() {
-  return await prisma.eventTypes.findMany({
-    where: {
-      published: true,
-    },
-    include: eventTypesInclude,
-  });
-}
-
 export async function GET(_req: NextRequest) {
-  const eventTypes = await findEventTypes();
+  const eventTypes = await EventTypesLogic.findEventTypes();
+  
   if (!eventTypes.length) {
     return NextResponse.json([]);
   }

@@ -1,25 +1,12 @@
-import type { Prisma } from '@prisma/client';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-import { architectsInclude } from '@/lib/db';
-import prisma from '@/lib/prisma';
+import { ArchitectsLogic } from '@/app/api/architects/ArchitectsLogic';
 import { baseTransformers } from '@/lib/transformers';
-import { slugify } from '@/utils/slugify';
-
-async function createArchitect(data: Prisma.ArchitectsCreateInput) {
-  return await prisma.architects.create({
-    data: {
-      name: data.name,
-      slug: slugify(data.name),
-      description: data.description,
-    },
-    include: architectsInclude,
-  });
-}
 
 export async function POST(req: NextRequest) {
-  const architect = await createArchitect(await req.json());
+  const data = await req.json();
+  const architect = await ArchitectsLogic.createArchitect(data);
 
   if (!architect) {
     return NextResponse.json('');

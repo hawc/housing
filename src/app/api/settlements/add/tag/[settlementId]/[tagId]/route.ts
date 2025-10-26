@@ -1,24 +1,14 @@
-import type { Prisma } from '@prisma/client';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-import { settlementsOnTagsInclude } from '@/lib/db';
-import prisma from '@/lib/prisma';
-
-async function addSettlementsOnTag(
-  data: Prisma.SettlementsOnTagsUncheckedCreateInput
-) {
-  return await prisma.settlementsOnTags.create({
-    data: data,
-    include: settlementsOnTagsInclude,
-  });
-}
+import { SettlementsLogic } from '@/app/api/settlements/SettlementsLogic';
 
 export async function GET(_req: NextRequest, props) {
-  const params = await props.params;
-  await addSettlementsOnTag({
-    settlementId: params.settlementId,
-    tagId: params.tagId,
+  const { settlementId, tagId } = await props.params;
+  
+  await SettlementsLogic.addSettlementsOnTag({
+    settlementId,
+    tagId,
   });
 
   return NextResponse.json('');

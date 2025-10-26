@@ -1,26 +1,16 @@
-import type { Prisma } from '@prisma/client';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-import prisma from '@/lib/prisma';
-
-async function updateSettlementsOnArchitect(
-  where: Prisma.SettlementsOnArchitectsWhereUniqueInput,
-  data: Prisma.SettlementsOnArchitectsUpdateInput
-) {
-  return await prisma.settlementsOnArchitects.update({
-    where,
-    data,
-  });
-}
+import { ArchitectsLogic } from '@/app/api/architects/ArchitectsLogic';
 
 export async function POST(req: NextRequest, props) {
-  const params = await props.params;
-  await updateSettlementsOnArchitect(
+  const { architectId, settlementId } = await props.params;
+  
+  await ArchitectsLogic.updateSettlementsOnArchitect(
     {
       settlementId_architectId: {
-        settlementId: params.settlementId,
-        architectId: params.architectId,
+        settlementId,
+        architectId,
       },
     },
     await req.json()

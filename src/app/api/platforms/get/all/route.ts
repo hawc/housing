@@ -1,21 +1,12 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
+import { PlatformsLogic } from './../../PlatformsLogic';
 
-import { platformsInclude } from '@/lib/db';
-import prisma from '@/lib/prisma';
 import { baseTransformers } from '@/lib/transformers';
 
-async function findPlatforms() {
-  return await prisma.platforms.findMany({
-    where: {
-      published: true,
-    },
-    include: platformsInclude,
-  });
-}
-
 export async function GET(_req: NextRequest) {
-  const platforms = await findPlatforms();
+  const platforms = await PlatformsLogic.findPlatforms();
+  
   if (!platforms.length) {
     return NextResponse.json([]);
   }
