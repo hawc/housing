@@ -42,6 +42,7 @@ export function Timeline({ eventsInput, settlementId }: TimelineProps) {
   }
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     getAvailableEventTypes();
   }, []);
 

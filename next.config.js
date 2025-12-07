@@ -1,8 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  eslint: {
-    dirs: ['src'],
-  },
   reactStrictMode: true,
   turbopack: {
     rules: {
@@ -13,8 +10,12 @@ const nextConfig = {
     },
   },
   images: {
-    domains: [
-      'res.cloudinary.com',
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        pathname: "/**",
+      },
     ],
   },
   async redirects() {

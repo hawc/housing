@@ -39,6 +39,7 @@ export function DetailsList({ detailsInput, settlementId }: DetailsListProps) {
   }
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     getAvailableDetailTypes();
   }, []);
 

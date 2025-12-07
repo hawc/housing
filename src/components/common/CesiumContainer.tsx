@@ -74,6 +74,7 @@ export function CesiumContainer({
 
   useEffect(() => {
     if (cesiumViewer.current === null && cesiumContainerRef.current) {
+      // eslint-disable-next-line react-hooks/immutability
       CesiumJs.Ion.defaultAccessToken = `${process.env.NEXT_PUBLIC_CESIUM_TOKEN}`;
 
       //NOTE: Always utilize CesiumJs; do not import them from 'cesium'

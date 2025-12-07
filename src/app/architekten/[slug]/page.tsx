@@ -13,6 +13,8 @@ import {
 import { Layout } from '@/components/layout/Layout';
 import { formatDate } from '@/utils/formatDate';
 
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata(props): Promise<Metadata> {
   const params = await props.params;
   const architect = await getArchitect(params.slug);

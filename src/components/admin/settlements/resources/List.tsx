@@ -44,6 +44,7 @@ export function ResourcesList({
   }
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     getAvailableResourceTypes();
   }, []);
 

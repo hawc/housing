@@ -89,7 +89,7 @@ export function Timeline({ events }: TimelineProps) {
               <IconComponent className='h-4 w-4' type={event.eventType.name} />
             </TimelineIcon>
             <Headline type='h5'>
-              {new Date(event.eventDate ?? 0).getFullYear()}: {event.name}
+              {new Date(event.eventDate).getFullYear()}: {event.name}
             </Headline>
           </TimelineHeader>
           <TimelineBody>

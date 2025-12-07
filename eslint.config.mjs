@@ -1,13 +1,16 @@
-import { FlatCompat } from '@eslint/eslintrc';
+import eslintNextPlugin from '@next/eslint-plugin-next';
+import nextVitals from 'eslint-config-next/core-web-vitals';
+import nextTs from 'eslint-config-next/typescript';
+import { defineConfig } from 'eslint/config';
  
-const compat = new FlatCompat({
-  baseDirectory: import.meta.dirname,
-});
- 
-
-const config = compat.config(
+const eslintConfig = defineConfig([
+  ...nextVitals,
+  ...nextTs,
   {
-    extends: ['next'],
+    files: ['**/*.{js,jsx,ts,tsx}'],
+    plugins: {
+      next: eslintNextPlugin,
+    },
     rules: {
       semi: ['error', 'always'],
       quotes: ['error', 'single'],
@@ -16,9 +19,6 @@ const config = compat.config(
       'no-unused-vars': 'warn',
       'no-console': 'warn',
 
-      // React Hooks
-      'react-hooks/rules-of-hooks': 'error',
-      'react-hooks/exhaustive-deps': 'warn',
       'no-unused-vars': [
       'error',
       {
@@ -30,7 +30,7 @@ const config = compat.config(
     ]
     },
   },
-);
+]);
 
 
-export default config;
+export default eslintConfig;
