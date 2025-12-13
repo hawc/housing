@@ -21,7 +21,7 @@
     "prepare": "node scripts/cesium.js"
   },
   "dependencies": {
-    "@auth0/nextjs-auth0": "^4.13.2",
+    "@auth0/nextjs-auth0": "^4.13.3",
     "@formspree/react": "3.0.0",
     "@prisma/client": "^4.13.0",
     "@react-three/fiber": "9.1.4",
@@ -34,7 +34,7 @@
     "geojson": "0.5.0",
     "lucide-react": "0.525.0",
     "mapbox-gl": "3.13.0",
-    "next": "16.0.7",
+    "next": "16.0.10",
     "react": "19.2.1",
     "react-dom": "19.2.1",
     "react-map-gl": "8.1.0",
@@ -43,7 +43,7 @@
     "uuid": "^10.0.0"
   },
   "devDependencies": {
-    "@next/eslint-plugin-next": "16.0.7",
+    "@next/eslint-plugin-next": "16.0.10",
     "@svgr/webpack": "8.1.0",
     "@tailwindcss/forms": "^0.5.3",
     "@testing-library/jest-dom": "^5.16.5",
@@ -52,7 +52,7 @@
     "@types/react": "19.2.7",
     "autoprefixer": "^10.4.14",
     "eslint": "9.39.1",
-    "eslint-config-next": "16.0.7",
+    "eslint-config-next": "16.0.10",
     "jest": "^27.5.1",
     "lint-staged": "^12.5.0",
     "next-sitemap": "4.2.3",
