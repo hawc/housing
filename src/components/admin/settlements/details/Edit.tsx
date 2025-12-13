@@ -1,8 +1,7 @@
 'use client';
 
 import type { Prisma } from '@prisma/client';
-import { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import { useId, useState } from 'react';
 
 import { fetchData } from '@/lib/fetch';
 import type { Detail, DetailType } from '@/lib/types';
@@ -63,7 +62,7 @@ export function EditDetail({
     detail?.detailType?.id ?? '',
   );
   const [loading, setLoading] = useState<boolean>(false);
-  const [uuid] = useState<string>(uuidv4());
+  const id = useId();
 
   const detailTypeName = availableDetailTypes.find(
     (type) => type.id === detailTypeId,
@@ -122,9 +121,9 @@ export function EditDetail({
     <div className={className}>
       <div className='flex gap-4'>
         <div className='basis-full'>
-          <label htmlFor={getUniqueLabel('detailType', uuid)}>Typ:</label>
+          <label htmlFor={getUniqueLabel('detailType', id)}>Typ:</label>
           <Select<DetailType>
-            id={getUniqueLabel('detailType', uuid)}
+            id={getUniqueLabel('detailType', id)}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={detail?.detailType?.id ?? ''}
             options={availableDetailTypes}
@@ -132,9 +131,9 @@ export function EditDetail({
           />
         </div>
         <div className='basis-full'>
-          <label htmlFor={getUniqueLabel('detailName', uuid)}>Name:</label>
+          <label htmlFor={getUniqueLabel('detailName', id)}>Name:</label>
           <InputGhost
-            id={getUniqueLabel('detailName', uuid)}
+            id={getUniqueLabel('detailName', id)}
             placeholder={detailTypeName}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={detail?.name ?? ''}
@@ -144,11 +143,11 @@ export function EditDetail({
       </div>
       <div className='flex gap-4'>
         <div className='basis-full'>
-          <label htmlFor={getUniqueLabel('detailDescription', uuid)}>
+          <label htmlFor={getUniqueLabel('detailDescription', id)}>
             Wert:
           </label>
           <InputGhost
-            id={getUniqueLabel('detailDescription', uuid)}
+            id={getUniqueLabel('detailDescription', id)}
             type={getDescriptionInputType(detail?.detailType?.name)}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={detail?.description ?? ''}
@@ -156,11 +155,11 @@ export function EditDetail({
           />
         </div>
         <div className='basis-full'>
-          <label htmlFor={getUniqueLabel('detailAnnotation', uuid)}>
+          <label htmlFor={getUniqueLabel('detailAnnotation', id)}>
             Anmerkung:
           </label>
           <InputGhost
-            id={getUniqueLabel('detailAnnotation', uuid)}
+            id={getUniqueLabel('detailAnnotation', id)}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={detail?.annotation ?? ''}
             onChange={(event) => setDetail({ annotation: event.target.value })}
@@ -169,10 +168,10 @@ export function EditDetail({
       </div>
       <div className='flex gap-4'>
         <div className='basis-full'>
-          <label htmlFor={getUniqueLabel('detailDate', uuid)}>Datum:</label>
+          <label htmlFor={getUniqueLabel('detailDate', id)}>Datum:</label>
           <InputGhost
             type='date'
-            id={getUniqueLabel('detailDate', uuid)}
+            id={getUniqueLabel('detailDate', id)}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={detail?.detailDate}
             onChange={(event) =>
@@ -187,9 +186,9 @@ export function EditDetail({
           />
         </div>
         <div className='basis-full'>
-          <label htmlFor={getUniqueLabel('detailSource', uuid)}>Quelle:</label>
+          <label htmlFor={getUniqueLabel('detailSource', id)}>Quelle:</label>
           <InputGhost
-            id={getUniqueLabel('detailSource', uuid)}
+            id={getUniqueLabel('detailSource', id)}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={detail?.source ?? ''}
             onChange={(event) => setDetail({ source: event.target.value })}

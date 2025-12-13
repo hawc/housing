@@ -1,7 +1,6 @@
 'use client';
 
-import { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import { useId, useState } from 'react';
 
 import { fetchData } from '@/lib/fetch';
 import type { Resource, ResourceType } from '@/lib/types';
@@ -53,7 +52,7 @@ export function EditResource({
     resource?.resourceType ?? availableResourceTypes[0],
   );
   const [loading, setLoading] = useState<boolean>(false);
-  const [uuid] = useState<string>(uuidv4());
+  const id = useId();
 
   function setResource(input: Partial<Resource>) {
     setCurrentResource({
@@ -120,9 +119,9 @@ export function EditResource({
       )}
       <div className='flex gap-4'>
         <div className='basis-full'>
-          <label htmlFor={getUniqueLabel('resourceType', uuid)}>Typ:</label>
+          <label htmlFor={getUniqueLabel('resourceType', id)}>Typ:</label>
           <Select<ResourceType>
-            id={getUniqueLabel('resourceType', uuid)}
+            id={getUniqueLabel('resourceType', id)}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={resource?.resourceType?.id ?? ''}
             options={availableResourceTypes}
@@ -136,9 +135,9 @@ export function EditResource({
           />
         </div>
         <div className='basis-full'>
-          <label htmlFor={getUniqueLabel('resourceName', uuid)}>Name:</label>
+          <label htmlFor={getUniqueLabel('resourceName', id)}>Name:</label>
           <InputGhost
-            id={getUniqueLabel('resourceName', uuid)}
+            id={getUniqueLabel('resourceName', id)}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={resource?.name ?? ''}
             onChange={(event) => setResource({ name: event.target.value })}
@@ -147,22 +146,22 @@ export function EditResource({
       </div>
       <div className='flex gap-4'>
         <div className='basis-full'>
-          <label htmlFor={getUniqueLabel('resourceCopyright', uuid)}>
+          <label htmlFor={getUniqueLabel('resourceCopyright', id)}>
             Copyright:
           </label>
           <InputGhost
-            id={getUniqueLabel('resourceCopyright', uuid)}
+            id={getUniqueLabel('resourceCopyright', id)}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={resource?.copyright ?? ''}
             onChange={(event) => setResource({ copyright: event.target.value })}
           />
         </div>
         <div className='basis-full'>
-          <label htmlFor={getUniqueLabel('resourceSource', uuid)}>
+          <label htmlFor={getUniqueLabel('resourceSource', id)}>
             Quelle:
           </label>
           <InputGhost
-            id={getUniqueLabel('resourceSource', uuid)}
+            id={getUniqueLabel('resourceSource', id)}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={resource?.source ?? ''}
             onChange={(event) => setResource({ source: event.target.value })}
@@ -171,11 +170,11 @@ export function EditResource({
       </div>
       <div className='flex gap-4'>
         <div className='basis-full'>
-          <label htmlFor={getUniqueLabel('resourceDescription', uuid)}>
+          <label htmlFor={getUniqueLabel('resourceDescription', id)}>
             Beschreibung:
           </label>
           <InputGhost
-            id={getUniqueLabel('resourceDescription', uuid)}
+            id={getUniqueLabel('resourceDescription', id)}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={resource?.description ?? ''}
             onChange={(event) =>
@@ -184,11 +183,11 @@ export function EditResource({
           />
         </div>
         <div className='basis-full'>
-          <label htmlFor={getUniqueLabel('resourceLicense', uuid)}>
+          <label htmlFor={getUniqueLabel('resourceLicense', id)}>
             Lizenz:
           </label>
           <InputGhost
-            id={getUniqueLabel('resourceLicense', uuid)}
+            id={getUniqueLabel('resourceLicense', id)}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={resource?.license ?? ''}
             onChange={(event) => setResource({ license: event.target.value })}
@@ -198,19 +197,19 @@ export function EditResource({
       <div className='flex gap-4'>
         {resourceType?.name === 'Foto' ? (
           <div className='basis-full overflow-hidden'>
-            <label htmlFor={getUniqueLabel('resourceImage', uuid)}>Foto:</label>
+            <label htmlFor={getUniqueLabel('resourceImage', id)}>Foto:</label>
             <Upload
               className='mt-1 mb-2'
-              id={getUniqueLabel('resourceImage', uuid)}
+              id={getUniqueLabel('resourceImage', id)}
               onUpload={imageUploadCallback}
               category={settlementSlug}
             />
           </div>
         ) : (
           <div className='basis-full'>
-            <label htmlFor={getUniqueLabel('resourceUrl', uuid)}>URL:</label>
+            <label htmlFor={getUniqueLabel('resourceUrl', id)}>URL:</label>
             <InputGhost
-              id={getUniqueLabel('resourceUrl', uuid)}
+              id={getUniqueLabel('resourceUrl', id)}
               className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
               value={resource?.url ?? ''}
               onChange={(event) => setResource({ url: event.target.value })}

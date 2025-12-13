@@ -1,8 +1,7 @@
 'use client';
 
 import type { Prisma } from '@prisma/client';
-import { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import { useId, useState } from 'react';
 
 import { fetchData } from '@/lib/fetch';
 import type { ExternalLink, Platform } from '@/lib/types';
@@ -65,7 +64,7 @@ export function EditExternalLink({
     ExternalLink | undefined
   >(externalLinkInput);
   const [loading, setLoading] = useState<boolean>(false);
-  const [uuid] = useState<string>(uuidv4());
+  const id = useId();
 
   function setExternalLink(input: Partial<ExternalLink>) {
     setCurrentExternalLink({
@@ -111,11 +110,11 @@ export function EditExternalLink({
     <div className={className}>
       <div className='flex gap-4'>
         <div className='basis-full'>
-          <label htmlFor={getUniqueLabel('externalLinkName', uuid)}>
+          <label htmlFor={getUniqueLabel('externalLinkName', id)}>
             Name:
           </label>
           <InputGhost
-            id={getUniqueLabel('externalLinkName', uuid)}
+            id={getUniqueLabel('externalLinkName', id)}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={externalLink?.name ?? ''}
             onChange={(event) => setExternalLink({ name: event.target.value })}
@@ -124,11 +123,11 @@ export function EditExternalLink({
       </div>
       <div className='flex gap-4'>
         <div className='basis-full'>
-          <label htmlFor={getUniqueLabel('externalLinkDescription', uuid)}>
+          <label htmlFor={getUniqueLabel('externalLinkDescription', id)}>
             Beschreibung:
           </label>
           <TextareaGhost
-            id={getUniqueLabel('externalLinkDescription', uuid)}
+            id={getUniqueLabel('externalLinkDescription', id)}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={externalLink?.description ?? ''}
             onChange={(event) =>
@@ -137,18 +136,18 @@ export function EditExternalLink({
           />
         </div>
         <div className='basis-full'>
-          <label htmlFor={getUniqueLabel('externalLinkUrl', uuid)}>URL:</label>
+          <label htmlFor={getUniqueLabel('externalLinkUrl', id)}>URL:</label>
           <InputGhost
-            id={getUniqueLabel('externalLinkUrl', uuid)}
+            id={getUniqueLabel('externalLinkUrl', id)}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={externalLink?.url ?? ''}
             onChange={(event) => setExternalLink({ url: event.target.value })}
           />
-          <label htmlFor={getUniqueLabel('externalLinkUrl', uuid)}>
+          <label htmlFor={getUniqueLabel('externalLinkUrl', id)}>
             Plattform:
           </label>
           <InputGhost
-            id={getUniqueLabel('externalLinkPlatform', uuid)}
+            id={getUniqueLabel('externalLinkPlatform', id)}
             className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
             value={externalLink?.platform?.name ?? ''}
             disabled

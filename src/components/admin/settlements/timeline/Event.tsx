@@ -1,8 +1,7 @@
 'use client';
 
 import type { Prisma } from '@prisma/client';
-import { useMemo, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import { useId, useMemo, useState } from 'react';
 
 import { fetchData } from '@/lib/fetch';
 import type { Event, EventType } from '@/lib/types';
@@ -33,7 +32,7 @@ export function Event({
     event?.eventType?.id ?? '',
   );
   const [loading, setLoading] = useState<boolean>(false);
-  const [uuid] = useState<string>(uuidv4());
+const id = useId();
 
   const eventTypeName = availableEventTypes.find(
     (type) => type.id === eventTypeId,
@@ -117,19 +116,19 @@ export function Event({
         <TimelineIcon type={eventIconType} />
         <div className='flex gap-4'>
           <div className='basis-full'>
-            <label htmlFor={getUniqueLabel('eventType', uuid)}>Typ:</label>
+            <label htmlFor={getUniqueLabel('eventType', id)}>Typ:</label>
             <Select<EventType>
               className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
               value={event?.eventType?.id ?? ''}
               options={availableEventTypes}
-              id={getUniqueLabel('eventType', uuid)}
+              id={getUniqueLabel('eventType', id)}
               onChange={(event) => setEventTypeId(event.target.value)}
             />
           </div>
           <div className='basis-full'>
-            <label htmlFor={getUniqueLabel('eventName', uuid)}>Name:</label>
+            <label htmlFor={getUniqueLabel('eventName', id)}>Name:</label>
             <InputGhost
-              id={getUniqueLabel('eventName', uuid)}
+              id={getUniqueLabel('eventName', id)}
               placeholder={eventTypeName}
               className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
               value={event?.name ?? ''}
@@ -146,12 +145,12 @@ export function Event({
         <div className='grow'>
           <div className='flex gap-4'>
             <div className='basis-full'>
-              <label htmlFor={getUniqueLabel('eventDate', uuid)}>Datum:</label>
+              <label htmlFor={getUniqueLabel('eventDate', id)}>Datum:</label>
               <InputGhost
                 className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
                 type='date'
                 value={event?.eventDate}
-                id={getUniqueLabel('eventDate', uuid)}
+                id={getUniqueLabel('eventDate', id)}
                 onChange={(event) =>
                   setEvent({
                     eventDate: isDateValid(event.target.value)
@@ -164,25 +163,25 @@ export function Event({
               />
             </div>
             <div className='basis-full'>
-              <label htmlFor={getUniqueLabel('eventSource', uuid)}>
+              <label htmlFor={getUniqueLabel('eventSource', id)}>
                 Quelle:
               </label>
               <InputGhost
                 className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
                 value={event?.source ?? ''}
-                id={getUniqueLabel('eventSource', uuid)}
+                id={getUniqueLabel('eventSource', id)}
                 onChange={(event) => setEvent({ source: event.target.value })}
               />
             </div>
           </div>
           <div className='basis-full'>
-            <label htmlFor={getUniqueLabel('eventDescription', uuid)}>
+            <label htmlFor={getUniqueLabel('eventDescription', id)}>
               Beschreibung:
             </label>
             <TextareaGhost
               className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
               value={event?.description ?? ''}
-              id={getUniqueLabel('eventDescription', uuid)}
+              id={getUniqueLabel('eventDescription', id)}
               onChange={(event) =>
                 setEvent({ description: event.target.value })
               }
