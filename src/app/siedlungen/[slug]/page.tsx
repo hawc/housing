@@ -14,8 +14,6 @@ import { Layout } from '@/components/layout/Layout';
 import { Settlement } from '@/components/settlements/View';
 import { formatDate } from '@/utils/formatDate';
 
-export const dynamic = 'force-dynamic';
-
 export async function generateMetadata(props): Promise<Metadata> {
   const params = await props.params;
   const settlement = await getSettlement(params.slug);
