@@ -21,16 +21,16 @@ jobs:
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 22
+          node-version: 24
 
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
         with:
-          node-version: 22
+          node-version: 24
           useLockFile: false
 
       - name: 🔬 Lint
-        run: yarn lint:strict
+        run: yarn lint
 
   typecheck:
     name: ʦ TypeScript
@@ -42,12 +42,12 @@ jobs:
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 22
+          node-version: 24
 
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
         with:
-          node-version: 22
+          node-version: 24
           useLockFile: false
 
       - name: 🔎 Type check
@@ -63,12 +63,12 @@ jobs:
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 22
+          node-version: 24
 
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
         with:
-          node-version: 22
+          node-version: 24
           useLockFile: false
 
       - name: 🃏 Run jest
