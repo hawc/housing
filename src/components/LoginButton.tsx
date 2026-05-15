@@ -1,6 +1,5 @@
 import { auth0 } from '@/lib/auth0';
 import { LogInIcon, LogOutIcon } from 'lucide-react';
-import Link from 'next/link';
 
 interface LoginButtonProps {
   className?: string;
@@ -12,15 +11,15 @@ export async function LoginButton({ className = '' }: LoginButtonProps) {
   return (
     <span className={`p-1 md:p-2 hidden md:block ${className}`}>
       {session ? (
-        <Link href='/auth/logout'>
+        <a href='/auth/logout'>
           <LogOutIcon />
           <span className='sr-only'>Logout</span>
-        </Link>
+        </a>
       ) : (
-        <Link href='/auth/login'>
+        <a href='/auth/login'>
           <LogInIcon />
           <span className='sr-only'>Login</span>
-        </Link>
+        </a>
       )}
     </span>
   );
