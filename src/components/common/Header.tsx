@@ -9,7 +9,7 @@ export function Header() {
         WebkitBackdropFilter: 'invert(1) grayscale(1)',
       }}
     >
-      <div className='container xl:max-w-full mx-auto px-1 md:px-3'>
+      <div className='container xl:max-w-full mx-auto px-1 md:px-3 flex items-center justify-between'>
         <div className='py-4 md:pv-6 text-xl leading-tight md:leading-normal'>
           <Link
             className='inline-block font-semibold bg-text px-2 tracking-normal'
@@ -37,6 +37,13 @@ export function Header() {
             </>
           </Link>
         </div>
+        <nav
+          aria-label='Hauptnavigation'
+          className='flex-wrap gap-x-6 text-base md:justify-end xl:mr-2 mt-1 hidden sm:flex'
+        >
+          <Link href='/siedlungen'>Siedlungen</Link>
+          <Link href='/architekten'>Architekt*innen</Link>
+        </nav>
       </div>
     </header>
   );

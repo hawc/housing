@@ -68,7 +68,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
   const isProd = process.env.NODE_ENV === 'production';
 
   return (
-    <html lang='en'>
+    <html lang='de'>
       <body>
         <div className={`${Bricolage.variable} font-primary`}>{children}</div>
         {isProd && <SpeedInsights />}
