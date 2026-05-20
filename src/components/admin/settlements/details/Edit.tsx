@@ -19,7 +19,7 @@ function getDescriptionInputType(detailType?: DetailType['name']) {
     case 'Fläche (in km²)':
     case 'Wohneinheiten':
       return 'number';
-    case 'Bauträger':
+    case 'Bauherr':
     default:
       return 'text';
   }

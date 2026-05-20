@@ -18,7 +18,7 @@ function formatDetail(detailText: string, type: string): string {
     case 'Wohneinheiten':
     case 'Gebäudezahl':
       return parseInt(detailText).toLocaleString('de-DE');
-    case 'Bauträger':
+    case 'Bauherr':
     default:
       return detailText;
   }
@@ -61,11 +61,11 @@ export function DetailsList({ details }: DetailsListProps) {
               {detail.source && (
                 <td className='pl-4'>
                   {detail.source.includes('http') ? (
-                    <Link href={detail.source} title={detail.source}>
+                    <Link href={detail.source} title={detail.source} className='whitespace-nowrap'>
                       Quelle
                     </Link>
                   ) : (
-                    <Tooltip text={detail.source}>Quelle</Tooltip>
+                    <Tooltip text={detail.source}><span className='whitespace-nowrap'>Quelle</span></Tooltip>
                   )}
                 </td>
               )}
