@@ -7,5 +7,17 @@ export function mergeAndSortUpdates(
 ) {
   const allUpdates = mergeArrayObjects(settlementUpdates, architectUpdates);
 
-  return Object.entries(allUpdates).sort(([d1], [d2]) => d2.localeCompare(d1));
+  return Object.entries(allUpdates)
+    .sort(([d1], [d2]) => d2.localeCompare(d1))
+    .map(
+      ([day, updates]) =>
+        [
+          day,
+          updates.sort(
+            (a, b) =>
+              b.latestChange.getTime() - a.latestChange.getTime() ||
+              a.id.localeCompare(b.id),
+          ),
+        ] as [string, typeof updates],
+    );
 }

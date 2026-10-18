@@ -1,10 +1,6 @@
 import type { Metadata } from 'next';
 
-import { fetchData } from '@/lib/fetch';
-import { BaseArchitect, BaseSettlement } from '@/lib/types';
-
-import { groupUpdatesByDate } from '@/app/updates/utils/groupUpdatesByDate';
-import { mergeAndSortUpdates } from '@/app/updates/utils/mergeAndSortUpdates';
+import { getUpdates } from './utils/getUpdates';
 import { Box } from '@/components/common/Box';
 import {
   Breadcrumb,
@@ -14,12 +10,16 @@ import { Link } from '@/components/common/Link';
 import { Headline } from '@/components/Headline';
 import { Layout } from '@/components/layout/Layout';
 
+// Resolve current publication state for every request.
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Updates',
 };
 
 function formatDate(date: string) {
-  return new Date(date).toLocaleDateString('de-DE', {
+  return new Date(`${date}T12:00:00Z`).toLocaleDateString('de-DE', {
+    timeZone: 'Europe/Berlin',
     month: 'long',
     day: 'numeric',
     year: 'numeric',
@@ -27,22 +27,7 @@ function formatDate(date: string) {
 }
 
 export default async function Updates() {
-  const architects = await fetchData<BaseArchitect[], BaseArchitect[]>(
-    '/api/architects/get/all',
-    [],
-  );
-  const settlements = await fetchData<BaseSettlement[], BaseSettlement[]>(
-    '/api/settlements/get/all',
-    [],
-  );
-
-  const architectUpdates = groupUpdatesByDate(architects, 'architect');
-  const settlementUpdates = groupUpdatesByDate(settlements, 'settlement');
-
-  const sortedUpdates = mergeAndSortUpdates(
-    settlementUpdates,
-    architectUpdates,
-  );
+  const sortedUpdates = await getUpdates();
 
   return (
     <Layout
@@ -70,13 +55,14 @@ export default async function Updates() {
         </Box>
         <Box>
           <div className='flex flex-col gap-6'>
+            {sortedUpdates.length === 0 && <p>Keine Updates vorhanden.</p>}
             {sortedUpdates.map(([date, update]) => (
               <div key={date}>
                 <Headline type='h2'>{formatDate(date)}</Headline>
                 {update.map((update) => (
                   <div
-                    key={update.slug}
-                    className='flex sm:flex-row flex-col sm:gap-2 leading-relaxed mt-4 sm:mt-0'
+                    key={`${update.type}:${update.id}`}
+                    className='flex sm:flex-row sm:flex-wrap flex-col sm:gap-2 leading-relaxed mt-4 sm:mt-0'
                   >
                     <Link
                       href={
@@ -99,8 +85,10 @@ export default async function Updates() {
                     <span className='text-gray-500 font-thin tracking-wide'>
                       (
                       {update.changeType === 'updated'
-                        ? 'zuletzt aktualisiert'
+                        ? 'aktualisiert'
                         : 'neu hinzugefügt'}
+                      {update.sections.length > 0 &&
+                        ` · ${update.sections.join(', ')}`}
                       )
                     </span>
                   </div>
