@@ -56,7 +56,7 @@ it('sorts settlements and architects together by full timestamp, with stable dis
   ).toEqual(['a', 's']);
 });
 
-it('queries bounded public owner metadata, without child content or research records', async () => {
+it('queries all public owner metadata, without child content or research records', async () => {
   const settlements = jest.fn().mockResolvedValue([owner()]);
   const architects = jest
     .fn()
@@ -70,12 +70,30 @@ it('queries bounded public owner metadata, without child content or research rec
     expect(query).toHaveBeenCalledWith(
       expect.objectContaining({
         where: { published: true },
-        take: 100,
         orderBy: { updatedAt: 'desc' },
       }),
     );
+    expect(query.mock.calls[0][0]).not.toHaveProperty('take');
     expect(JSON.stringify(query.mock.calls)).not.toMatch(
       /include|details|resources|changeProposal|reviewedBy|evidence/,
     );
   }
+});
+
+it('retains entries beyond the former 100-per-type cutoff', async () => {
+  const settlements = Array.from({ length: 105 }, (_, i) => owner(`s-${i}`));
+  const architects = Array.from({ length: 104 }, (_, i) => owner(`a-${i}`));
+  const read = (rows: ReturnType<typeof owner>[]) =>
+    jest.fn(async ({ take }: { take?: number }) =>
+      take === undefined ? rows : rows.slice(0, take),
+    );
+  const updates = await getUpdates({
+    settlements: { findMany: read(settlements) },
+    architects: { findMany: read(architects) },
+  } as unknown as PrismaClient);
+  const entries = updates.flatMap(([, rows]) => rows);
+  expect(entries).toHaveLength(209);
+  expect(entries.map((row) => row.id)).toEqual(
+    expect.arrayContaining(['s-104', 'a-103']),
+  );
 });

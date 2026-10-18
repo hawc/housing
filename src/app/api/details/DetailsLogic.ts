@@ -1,4 +1,4 @@
-import { saveRelated } from '@/lib/contentUpdates';
+import { saveSettlementPart, detailContent } from '@/lib/contentUpdates';
 import prisma from '@/lib/prisma';
 import { transformers } from '@/lib/transformers';
 import { BaseDetail } from '@/lib/types';
@@ -45,19 +45,26 @@ export class DetailsLogic {
     const detailDate = normalizeDetailDate(type.name, data.detailDate);
     validateDetailValue(type.name, data.description);
     validateDetailScope(type.name, data.annotation);
-    return await saveRelated('details', undefined, (tx) =>
-      tx.details.create({
-        data: {
-          name: data.name,
-          description: data.description,
-          annotation: annotationForDetailDate(data.annotation, data.detailDate),
-          source: data.source,
-          settlementId: data.settlementId,
-          detailTypeId: data.detailTypeId,
-          detailDate,
-        },
-        include: detailsInclude,
-      }),
+    return await saveSettlementPart(
+      undefined,
+      (tx) =>
+        tx.details.create({
+          data: {
+            name: data.name,
+            description: data.description,
+            annotation: annotationForDetailDate(
+              data.annotation,
+              data.detailDate,
+            ),
+            source: data.source,
+            settlementId: data.settlementId,
+            detailTypeId: data.detailTypeId,
+            detailDate,
+          },
+          include: detailsInclude,
+        }),
+      'details',
+      detailContent,
     );
   }
 
@@ -65,57 +72,66 @@ export class DetailsLogic {
     where: Prisma.DetailsWhereUniqueInput,
     data: EditableDetailInput,
   ) {
-    return await saveRelated('details', where, async (tx) => {
-      const existing = await tx.details.findUnique({ where });
-      if (!existing) throw new DetailDateError('Detaileintrag nicht gefunden.');
-      const detailTypeId = data.detailTypeId ?? existing.detailTypeId;
-      const type = await tx.detailTypes.findUnique({
-        where: { id: detailTypeId },
-      });
-      if (!type) throw new DetailDateError('Detailtyp nicht gefunden.');
-      const inputDate =
-        data.detailDate === undefined ? existing.detailDate : data.detailDate;
-      const detailDate = normalizeDetailDate(type.name, inputDate);
-      validateDetailValue(
-        type.name,
-        data.description === undefined
-          ? existing.description
-          : data.description,
-      );
-      validateDetailScope(
-        type.name,
-        data.annotation === undefined ? existing.annotation : data.annotation,
-      );
-      return tx.details.update({
-        where,
-        data: {
-          name: data.name,
-          description: data.description,
-          annotation: annotationForDetailDate(
-            data.annotation === undefined
-              ? existing.annotation
-              : data.annotation,
-            inputDate,
-            existing.detailDate,
-          ),
-          source: data.source,
-          detailTypeId,
-          detailDate,
-        },
-        include: detailsInclude,
-      });
-    });
+    return await saveSettlementPart(
+      (tx) => tx.details.findUnique({ where }),
+      async (tx, existing) => {
+        if (!existing)
+          throw new DetailDateError('Detaileintrag nicht gefunden.');
+        const detailTypeId = data.detailTypeId ?? existing.detailTypeId;
+        const type = await tx.detailTypes.findUnique({
+          where: { id: detailTypeId },
+        });
+        if (!type) throw new DetailDateError('Detailtyp nicht gefunden.');
+        const inputDate =
+          data.detailDate === undefined ? existing.detailDate : data.detailDate;
+        const detailDate = normalizeDetailDate(type.name, inputDate);
+        validateDetailValue(
+          type.name,
+          data.description === undefined
+            ? existing.description
+            : data.description,
+        );
+        validateDetailScope(
+          type.name,
+          data.annotation === undefined ? existing.annotation : data.annotation,
+        );
+        return tx.details.update({
+          where,
+          data: {
+            name: data.name,
+            description: data.description,
+            annotation: annotationForDetailDate(
+              data.annotation === undefined
+                ? existing.annotation
+                : data.annotation,
+              inputDate,
+              existing.detailDate,
+            ),
+            source: data.source,
+            detailTypeId,
+            detailDate,
+          },
+          include: detailsInclude,
+        });
+      },
+      'details',
+      detailContent,
+    );
   }
 
   static async deleteDetail(where: Prisma.DetailsWhereUniqueInput) {
-    return await saveRelated('details', where, (tx) =>
-      tx.details.update({
-        where,
-        data: {
-          published: false,
-        },
-        include: detailsInclude,
-      }),
+    return await saveSettlementPart(
+      (tx) => tx.details.findUnique({ where }),
+      (tx) =>
+        tx.details.update({
+          where,
+          data: {
+            published: false,
+          },
+          include: detailsInclude,
+        }),
+      'details',
+      detailContent,
     );
   }
 

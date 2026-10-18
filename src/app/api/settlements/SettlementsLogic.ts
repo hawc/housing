@@ -1,4 +1,9 @@
-import { saveOwner, saveArchitectAssignment } from '@/lib/contentUpdates';
+import { transaction } from '@/lib/research/transaction';
+import {
+  prepareOwnerUpdate,
+  touchSettlementArchitects,
+  saveArchitectAssignment,
+} from '@/lib/contentUpdates';
 import { architectsSelect } from '@/app/api/architects/selects';
 import { detailsSelect } from '@/app/api/details/selects';
 import { eventsSelect } from '@/app/api/events/selects';
@@ -86,13 +91,27 @@ export class SettlementsLogic {
     where: Prisma.SettlementsWhereUniqueInput,
     data: Prisma.SettlementsUpdateInput,
   ) {
-    return await saveOwner('settlements', where, (tx) =>
-      tx.settlements.update({
+    return transaction(prisma, async (tx) => {
+      const before = await tx.settlements.findUnique({
         where,
-        data,
         include: settlementsInclude,
-      }),
-    );
+      });
+      if (!before) throw new Error('Settlement not found.');
+      const update = prepareOwnerUpdate(before, data);
+      if (!update) return before;
+      const after = await tx.settlements.update({
+        where: { id: before.id },
+        data: update,
+        include: settlementsInclude,
+      });
+      if (
+        before.name !== after.name ||
+        before.slug !== after.slug ||
+        before.published !== after.published
+      )
+        await touchSettlementArchitects(tx, after.id);
+      return after;
+    });
   }
 
   static async createSettlement(data: Prisma.SettlementsCreateInput) {
@@ -108,15 +127,7 @@ export class SettlementsLogic {
   }
 
   static async deleteSettlement(where: Prisma.SettlementsWhereUniqueInput) {
-    return await saveOwner('settlements', where, (tx) =>
-      tx.settlements.update({
-        where,
-        data: {
-          published: false,
-        },
-        include: settlementsInclude,
-      }),
-    );
+    return this.updateSettlement(where, { published: false });
   }
 
   static async addSettlementsOnArchitect(

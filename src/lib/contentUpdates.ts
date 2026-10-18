@@ -1,4 +1,11 @@
-import { Prisma } from '@prisma/client';
+import type {
+  Details,
+  Events,
+  Locations,
+  Platforms,
+  Prisma,
+  SettlementsOnArchitects,
+} from '@prisma/client';
 import prisma from './prisma';
 import { transaction } from './research/transaction';
 
@@ -14,27 +21,23 @@ export const updateSections = {
 } as const;
 export type UpdateSection = keyof typeof updateSections;
 type Tx = Prisma.TransactionClient;
-type Row = Record<string, unknown>;
-type Owner = 'settlements' | 'architects';
-const value = (v: unknown) =>
-  v == null
-    ? ''
-    : v instanceof Date
-      ? v.toISOString()
-      : typeof v === 'object'
-        ? JSON.stringify(v)
-        : v;
-export const hasContentChanges = (
-  before: Row | null,
-  after: Row | null,
-  fields: string[],
-) =>
-  Boolean(
-    (before?.published || after?.published) &&
-      (!before ||
-        !after ||
-        fields.some((field) => value(before[field]) !== value(after[field]))),
-  );
+type Owner = {
+  name: string;
+  slug: string;
+  description: string | null;
+  published: boolean;
+  updatedAt: Date;
+  updatedSections: string[];
+};
+type OwnerEdit = Pick<
+  Prisma.SettlementsUpdateInput,
+  'name' | 'slug' | 'description' | 'published'
+>;
+type SettlementPart = { settlementId: string | null; published: boolean };
+type Resource = Prisma.ResourcesGetPayload<{ include: { resourceType: true } }>;
+type ArchitectLink = Prisma.ExternalLinksGetPayload<{
+  include: { platform: true };
+}>;
 
 export function updateDay(date: Date): string {
   const parts = new Intl.DateTimeFormat('en-CA', {
@@ -49,50 +52,109 @@ export function updateDay(date: Date): string {
 }
 
 function updateMetadata(
-  owner: { updatedAt: Date; updatedSections: string[] },
+  owner: Pick<Owner, 'updatedAt' | 'updatedSections'>,
   sections: UpdateSection[],
 ) {
   const now = new Date();
-  const updatedSections = [
-    ...new Set([
-      ...(updateDay(owner.updatedAt) === updateDay(now)
-        ? owner.updatedSections
-        : []),
-      ...sections,
-    ]),
-  ];
-  return { updatedAt: now, updatedSections };
+  return {
+    updatedAt: now,
+    updatedSections: [
+      ...new Set([
+        ...(updateDay(owner.updatedAt) === updateDay(now)
+          ? owner.updatedSections
+          : []),
+        ...sections,
+      ]),
+    ],
+  };
 }
 
-async function touchOwner(
+// Prepare public fields and metadata before the single write. Other supported
+// Prisma edits still persist, without advancing the public timestamp.
+export function prepareOwnerUpdate<T extends OwnerEdit>(
+  owner: Owner,
+  input: T,
+) {
+  const name =
+    typeof input.name === 'string'
+      ? input.name
+      : (input.name?.set ?? owner.name);
+  const slug =
+    typeof input.slug === 'string'
+      ? input.slug
+      : (input.slug?.set ?? owner.slug);
+  const description =
+    input.description === null || typeof input.description === 'string'
+      ? input.description
+      : input.description?.set !== undefined
+        ? input.description.set
+        : owner.description;
+  const published =
+    typeof input.published === 'boolean'
+      ? input.published
+      : (input.published?.set ?? owner.published);
+  const publicChange =
+    name !== owner.name ||
+    slug !== owner.slug ||
+    (description ?? '') !== (owner.description ?? '') ||
+    published !== owner.published;
+  const additionalEdits = Object.keys(input).some(
+    (key) =>
+      ![
+        'name',
+        'slug',
+        'description',
+        'published',
+        'updatedAt',
+        'updatedSections',
+      ].includes(key),
+  );
+  if (!publicChange && !additionalEdits) return null;
+  if (!publicChange)
+    return {
+      ...input,
+      updatedAt: owner.updatedAt,
+      updatedSections: owner.updatedSections,
+    };
+
+  return {
+    ...input,
+    name,
+    slug,
+    description,
+    published,
+    ...(published
+      ? updateMetadata(owner, ['general'])
+      : { updatedAt: owner.updatedAt, updatedSections: [] }),
+  };
+}
+
+export async function touchSettlement(
   tx: Tx,
-  model: Owner,
   id: string | null | undefined,
   sections: UpdateSection[],
 ) {
   if (!id) return;
-  // Both delegates share these scalar fields. No history or content snapshots.
-  const owner =
-    model === 'settlements'
-      ? await tx.settlements.findUnique({ where: { id } })
-      : await tx.architects.findUnique({ where: { id } });
-  if (!owner?.published) return;
-  const data = updateMetadata(owner, sections);
-  if (model === 'settlements')
-    await tx.settlements.update({ where: { id }, data });
-  else await tx.architects.update({ where: { id }, data });
+  const owner = await tx.settlements.findUnique({ where: { id } });
+  if (owner?.published)
+    await tx.settlements.update({
+      where: { id },
+      data: updateMetadata(owner, sections),
+    });
 }
-export const touchSettlement = (
+export async function touchArchitect(
   tx: Tx,
   id: string | null | undefined,
   sections: UpdateSection[],
-) => touchOwner(tx, 'settlements', id, sections);
-export const touchArchitect = (
-  tx: Tx,
-  id: string | null | undefined,
-  sections: UpdateSection[],
-) => touchOwner(tx, 'architects', id, sections);
-
+) {
+  if (!id) return;
+  const owner = await tx.architects.findUnique({ where: { id } });
+  if (owner?.published)
+    await tx.architects.update({
+      where: { id },
+      data: updateMetadata(owner, sections),
+    });
+}
 export async function touchSettlementArchitects(tx: Tx, settlementId: string) {
   const links = await tx.settlementsOnArchitects.findMany({
     where: { settlementId },
@@ -110,212 +172,128 @@ export async function touchArchitectSettlements(tx: Tx, architectId: string) {
     await touchSettlement(tx, link.settlementId, ['architects']);
 }
 
-type Related =
-  | 'details'
-  | 'events'
-  | 'resources'
-  | 'locations'
-  | 'externalLinks';
-const fields: Record<Related, string[]> = {
-  details: [
-    'name',
-    'description',
-    'annotation',
-    'source',
-    'detailDate',
-    'detailTypeId',
-    'published',
-    'settlementId',
-  ],
-  events: [
-    'name',
-    'description',
-    'source',
-    'eventDate',
-    'eventTypeId',
-    'published',
-    'settlementId',
-  ],
-  resources: [
-    'name',
-    'description',
-    'url',
-    'source',
-    'license',
-    'copyright',
-    'resourceTypeId',
-    'published',
-    'settlementId',
-  ],
-  locations: [
-    'lat',
-    'lng',
-    'geo',
-    'name',
-    'address',
-    'district',
-    'zipCode',
-    'city',
-    'state',
-    'published',
-    'settlementId',
-  ],
-  externalLinks: [
-    'name',
-    'description',
-    'url',
-    'platformId',
-    'published',
-    'architectId',
-  ],
-};
-const sections: Record<Related, UpdateSection> = {
-  details: 'details',
-  events: 'history',
-  resources: 'links',
-  locations: 'location',
-  externalLinks: 'links',
-};
+// Compare public values, ignoring row IDs and mutation timestamps.
+export const detailContent = (d: Details) => [
+  d.name,
+  d.description ?? '',
+  d.annotation ?? '',
+  d.source ?? '',
+  d.detailDate?.toISOString() ?? '',
+  d.detailTypeId,
+];
+export const eventContent = (e: Events) => [
+  e.name,
+  e.description ?? '',
+  e.source ?? '',
+  e.eventDate?.toISOString() ?? '',
+  e.eventTypeId,
+];
+export const locationContent = (l: Locations) => [
+  l.name ?? '',
+  l.address ?? '',
+  l.district ?? '',
+  l.zipCode ?? '',
+  l.city ?? '',
+  l.state ?? '',
+  l.lat,
+  l.lng,
+  l.geo,
+];
+export const resourceSection = (r: Resource): UpdateSection =>
+  r.resourceType.name === 'Foto' ? 'photos' : 'links';
+export const resourceContent = (r: Resource) => [
+  resourceSection(r),
+  r.name,
+  r.description ?? '',
+  r.url,
+  r.source ?? '',
+  ...(resourceSection(r) === 'photos'
+    ? [r.license ?? '', r.copyright ?? '']
+    : []),
+];
+const linkContent = (l: ArchitectLink) => [
+  l.platform?.name || l.name || '',
+  l.description ?? '',
+  l.url,
+];
 
-// Child write and parent timestamp always commit together. Old/new parents are
-// retained for moves and soft deletion. Compare scalar public fields, not updatedAt.
-export function saveRelated<T extends object>(
-  model: Related,
-  where: unknown,
-  mutate: (tx: Tx) => Promise<T>,
+export function saveSettlementPart<T extends SettlementPart, Result extends T>(
+  read: ((tx: Tx) => Promise<T | null>) | undefined,
+  mutate: (tx: Tx, before: T | null) => Promise<Result>,
+  section: UpdateSection | ((row: T) => UpdateSection),
+  content: (row: T) => unknown,
 ) {
   return transaction(prisma, async (tx) => {
-    const reader = tx[model] as unknown as {
-      findUnique(args: {
-        where: unknown;
-        include?: object;
-      }): Promise<Row | null>;
-    };
-    const before = where
-      ? await reader.findUnique({
-          where,
-          ...(model === 'resources' ? { include: { resourceType: true } } : {}),
-        })
-      : null;
-    const result = await mutate(tx);
-    const after = result as Row;
-    if (!hasContentChanges(before, after, fields[model])) return result;
-    if (model === 'externalLinks') {
-      for (const id of new Set(
-        [before, after]
-          .filter((row) => row?.published)
-          .map((row) => row!.architectId),
-      ))
-        await touchArchitect(tx, id as string | null, ['links']);
-    } else {
-      const changed: UpdateSection[] =
-        model === 'resources'
-          ? [
-              ...new Set(
-                [before, after]
-                  .filter((row) => row?.published)
-                  .map((row) =>
-                    (row!.resourceType as { name: string } | undefined)
-                      ?.name === 'Foto'
-                      ? ('photos' as const)
-                      : ('links' as const),
-                  ),
-              ),
-            ]
-          : [sections[model]];
-      for (const id of new Set(
-        [before, after]
-          .filter((row) => row?.published)
-          .map((row) => row!.settlementId),
-      )) {
-        await touchSettlement(tx, id as string | null, changed);
-        if (model === 'locations' && id)
-          await touchSettlementArchitects(tx, id as string);
-      }
-    }
-    return result;
-  });
-}
-
-export function saveOwner<T extends object>(
-  model: Owner,
-  where: unknown,
-  mutate: (tx: Tx) => Promise<T>,
-) {
-  return transaction(prisma, async (tx) => {
-    const reader = tx[model] as unknown as {
-      findUnique(args: { where: unknown }): Promise<Row | null>;
-      update(args: object): Promise<unknown>;
-    };
-    const before = await reader.findUnique({ where });
-    const result = await mutate(tx);
-    const after = result as Row;
+    const before = read ? await read(tx) : null;
+    const after = await mutate(tx, before);
     if (
-      hasContentChanges(before, after, [
-        'name',
-        'slug',
-        'description',
-        'published',
-      ])
-    ) {
-      const data = after.published
-        ? updateMetadata(
-            before as unknown as { updatedAt: Date; updatedSections: string[] },
-            ['general'],
-          )
-        : { updatedSections: [] };
-      await reader.update({ where: { id: after.id }, data });
-      Object.assign(result, data);
-      if (
-        model === 'architects' &&
-        (before?.name !== after.name ||
-          before?.slug !== after.slug ||
-          before?.published !== after.published)
-      )
-        await touchArchitectSettlements(tx, after.id as string);
-      if (
-        model === 'settlements' &&
-        (before?.name !== after.name ||
-          before?.slug !== after.slug ||
-          before?.published !== after.published)
-      )
-        await touchSettlementArchitects(tx, after.id as string);
-    } else if (before) {
-      // Prisma bumps updatedAt on a no-op save; preserve the last meaningful update.
-      const data = {
-        updatedAt: before.updatedAt,
-        updatedSections: before.updatedSections,
-      };
-      await reader.update({ where: { id: after.id }, data });
-      Object.assign(result, data);
+      before?.published === after.published &&
+      before.settlementId === after.settlementId &&
+      JSON.stringify(content(before)) === JSON.stringify(content(after))
+    )
+      return after;
+    const visible = [before, after].filter((row): row is T =>
+      Boolean(row?.published),
+    );
+    for (const id of new Set(visible.map((row) => row.settlementId))) {
+      const sections = [
+        ...new Set(
+          visible
+            .filter((row) => row.settlementId === id)
+            .map((row) =>
+              typeof section === 'function' ? section(row) : section,
+            ),
+        ),
+      ];
+      await touchSettlement(tx, id, sections);
+      if (section === 'location' && id) await touchSettlementArchitects(tx, id);
     }
-    return result;
+    return after;
   });
 }
 
-export function saveArchitectAssignment<T extends object>(
-  where: unknown,
+export function saveArchitectLink(
+  read: ((tx: Tx) => Promise<ArchitectLink | null>) | undefined,
+  mutate: (tx: Tx) => Promise<ArchitectLink>,
+) {
+  return transaction(prisma, async (tx) => {
+    const before = read ? await read(tx) : null;
+    const after = await mutate(tx);
+    if (
+      before?.published === after.published &&
+      before.architectId === after.architectId &&
+      JSON.stringify(linkContent(before)) === JSON.stringify(linkContent(after))
+    )
+      return after;
+    for (const id of new Set(
+      [before, after]
+        .filter((row) => row?.published)
+        .map((row) => row!.architectId),
+    ))
+      await touchArchitect(tx, id, ['links']);
+    return after;
+  });
+}
+
+export function saveArchitectAssignment<T extends SettlementsOnArchitects>(
+  where: Prisma.SettlementsOnArchitectsWhereUniqueInput | undefined,
   mutate: (tx: Tx) => Promise<T>,
 ) {
   return transaction(prisma, async (tx) => {
     const before = where
-      ? await tx.settlementsOnArchitects.findUnique({
-          where: where as Prisma.SettlementsOnArchitectsWhereUniqueInput,
-        })
+      ? await tx.settlementsOnArchitects.findUnique({ where })
       : null;
-    const after = (await mutate(tx)) as T & {
-      settlementId: string;
-      architectId: string;
-      role?: string | null;
-    };
-    if (
+    const after = await mutate(tx);
+    const membershipChanged =
       !before ||
-      before.role !== after.role ||
       before.settlementId !== after.settlementId ||
-      before.architectId !== after.architectId
-    ) {
+      before.architectId !== after.architectId;
+    if (membershipChanged || (before.role ?? '') !== (after.role ?? '')) {
       for (const id of new Set([before?.settlementId, after.settlementId]))
         await touchSettlement(tx, id, ['architects']);
+    }
+    // Roles are rendered on settlement pages only.
+    if (membershipChanged) {
       for (const id of new Set([before?.architectId, after.architectId]))
         await touchArchitect(tx, id, ['settlements']);
     }
@@ -323,22 +301,21 @@ export function saveArchitectAssignment<T extends object>(
   });
 }
 
-export function savePlatform<T extends object>(
+export function savePlatform<T extends Platforms>(
   where: Prisma.PlatformsWhereUniqueInput,
   mutate: (tx: Tx) => Promise<T>,
 ) {
   return transaction(prisma, async (tx) => {
     const before = await tx.platforms.findUnique({ where });
-    const result = await mutate(tx);
-    const after = result as Row;
+    const after = await mutate(tx);
     if (before?.name !== after.name) {
       const links = await tx.externalLinks.findMany({
-        where: { platformId: after.id as string, published: true },
+        where: { platformId: after.id, published: true },
         select: { architectId: true },
       });
       for (const id of new Set(links.map((link) => link.architectId)))
         await touchArchitect(tx, id, ['links']);
     }
-    return result;
+    return after;
   });
 }
