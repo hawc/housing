@@ -1,6 +1,10 @@
 import { transaction } from '@/lib/research/transaction';
 import { touchSettlement, touchArchitect } from '@/lib/contentUpdates';
-import { saveOwner, saveArchitectAssignment } from '@/lib/contentUpdates';
+import {
+  prepareOwnerUpdate,
+  touchArchitectSettlements,
+  saveArchitectAssignment,
+} from '@/lib/contentUpdates';
 import { externalLinksSelect } from '@/app/api/externalLinks/selects';
 import { settlementsSelectWithLocations } from '@/app/api/settlements/selects';
 import prisma from '@/lib/prisma';
@@ -63,25 +67,31 @@ export class ArchitectsLogic {
     where: Prisma.ArchitectsWhereUniqueInput,
     data: Prisma.ArchitectsUpdateInput,
   ) {
-    return await saveOwner('architects', where, (tx) =>
-      tx.architects.update({
+    return transaction(prisma, async (tx) => {
+      const before = await tx.architects.findUnique({
         where,
-        data,
         include: architectsInclude,
-      }),
-    );
+      });
+      if (!before) throw new Error('Architect not found.');
+      const update = prepareOwnerUpdate(before, data);
+      if (!update) return before;
+      const after = await tx.architects.update({
+        where: { id: before.id },
+        data: update,
+        include: architectsInclude,
+      });
+      if (
+        before.name !== after.name ||
+        before.slug !== after.slug ||
+        before.published !== after.published
+      )
+        await touchArchitectSettlements(tx, after.id);
+      return after;
+    });
   }
 
   static async deleteArchitect(where: Prisma.ArchitectsWhereUniqueInput) {
-    return await saveOwner('architects', where, (tx) =>
-      tx.architects.update({
-        where,
-        data: {
-          published: false,
-        },
-        include: architectsInclude,
-      }),
-    );
+    return this.updateArchitect(where, { published: false });
   }
 
   static async updateSettlementsOnArchitect(

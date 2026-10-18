@@ -1,4 +1,4 @@
-import { saveRelated } from '@/lib/contentUpdates';
+import { saveSettlementPart, locationContent } from '@/lib/contentUpdates';
 import { settlementsSelectWithLocations } from '@/app/api/settlements/selects';
 import prisma from '@/lib/prisma';
 import { transformers } from '@/lib/transformers';
@@ -31,21 +31,25 @@ export class LocationsLogic {
   }
 
   static async createLocation(data: Prisma.LocationsCreateInput) {
-    return await saveRelated('locations', undefined, (tx) =>
-      tx.locations.create({
-        data: {
-          lat: data.lat,
-          lng: data.lng,
-          name: data.name,
-          address: data.address,
-          district: data.district,
-          zipCode: data.zipCode,
-          city: data.city,
-          state: data.state,
-          settlement: data.settlement,
-        },
-        include: locationsInclude,
-      }),
+    return await saveSettlementPart(
+      undefined,
+      (tx) =>
+        tx.locations.create({
+          data: {
+            lat: data.lat,
+            lng: data.lng,
+            name: data.name,
+            address: data.address,
+            district: data.district,
+            zipCode: data.zipCode,
+            city: data.city,
+            state: data.state,
+            settlement: data.settlement,
+          },
+          include: locationsInclude,
+        }),
+      'location',
+      locationContent,
     );
   }
 
@@ -53,24 +57,32 @@ export class LocationsLogic {
     where: Prisma.LocationsWhereUniqueInput,
     data: Prisma.LocationsUpdateInput,
   ) {
-    return await saveRelated('locations', where, (tx) =>
-      tx.locations.update({
-        where,
-        data,
-        include: locationsInclude,
-      }),
+    return await saveSettlementPart(
+      (tx) => tx.locations.findUnique({ where }),
+      (tx) =>
+        tx.locations.update({
+          where,
+          data,
+          include: locationsInclude,
+        }),
+      'location',
+      locationContent,
     );
   }
 
   static async deleteLocation(where: Prisma.LocationsWhereUniqueInput) {
-    return await saveRelated('locations', where, (tx) =>
-      tx.locations.update({
-        where,
-        data: {
-          published: false,
-        },
-        include: locationsInclude,
-      }),
+    return await saveSettlementPart(
+      (tx) => tx.locations.findUnique({ where }),
+      (tx) =>
+        tx.locations.update({
+          where,
+          data: {
+            published: false,
+          },
+          include: locationsInclude,
+        }),
+      'location',
+      locationContent,
     );
   }
 

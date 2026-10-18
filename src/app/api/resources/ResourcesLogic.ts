@@ -1,4 +1,8 @@
-import { saveRelated } from '@/lib/contentUpdates';
+import {
+  saveSettlementPart,
+  resourceContent,
+  resourceSection,
+} from '@/lib/contentUpdates';
 import prisma from '@/lib/prisma';
 import { transformers } from '@/lib/transformers';
 import { BaseResource } from '@/lib/types';
@@ -21,20 +25,24 @@ export class ResourcesLogic {
   }
 
   static async addResource(data: Prisma.ResourcesUncheckedCreateInput) {
-    return await saveRelated('resources', undefined, (tx) =>
-      tx.resources.create({
-        data: {
-          name: data.name,
-          description: data.description,
-          url: data.url,
-          source: data.source,
-          license: data.license,
-          copyright: data.copyright,
-          resourceTypeId: data.resourceTypeId,
-          settlementId: data.settlementId,
-        },
-        include: resourcesInclude,
-      }),
+    return await saveSettlementPart(
+      undefined,
+      (tx) =>
+        tx.resources.create({
+          data: {
+            name: data.name,
+            description: data.description,
+            url: data.url,
+            source: data.source,
+            license: data.license,
+            copyright: data.copyright,
+            resourceTypeId: data.resourceTypeId,
+            settlementId: data.settlementId,
+          },
+          include: resourcesInclude,
+        }),
+      resourceSection,
+      resourceContent,
     );
   }
 
@@ -42,24 +50,32 @@ export class ResourcesLogic {
     where: Prisma.ResourcesWhereUniqueInput,
     data: Prisma.ResourcesUpdateInput,
   ) {
-    return await saveRelated('resources', where, (tx) =>
-      tx.resources.update({
-        where,
-        data,
-        include: resourcesInclude,
-      }),
+    return await saveSettlementPart(
+      (tx) => tx.resources.findUnique({ where, include: resourcesInclude }),
+      (tx) =>
+        tx.resources.update({
+          where,
+          data,
+          include: resourcesInclude,
+        }),
+      resourceSection,
+      resourceContent,
     );
   }
 
   static async deleteResource(where: Prisma.ResourcesWhereUniqueInput) {
-    return await saveRelated('resources', where, (tx) =>
-      tx.resources.update({
-        where,
-        data: {
-          published: false,
-        },
-        include: resourcesInclude,
-      }),
+    return await saveSettlementPart(
+      (tx) => tx.resources.findUnique({ where, include: resourcesInclude }),
+      (tx) =>
+        tx.resources.update({
+          where,
+          data: {
+            published: false,
+          },
+          include: resourcesInclude,
+        }),
+      resourceSection,
+      resourceContent,
     );
   }
 

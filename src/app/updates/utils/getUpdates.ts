@@ -19,13 +19,11 @@ export async function getUpdates(db = prisma) {
       where: { published: true },
       select: { ...ownerSelect, location: { select: { city: true } } },
       orderBy: { updatedAt: 'desc' },
-      take: 100,
     }),
     db.architects.findMany({
       where: { published: true },
       select: ownerSelect,
       orderBy: { updatedAt: 'desc' },
-      take: 100,
     }),
   ]);
   return mergeAndSortUpdates(

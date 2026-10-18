@@ -1,4 +1,4 @@
-import { saveRelated } from '@/lib/contentUpdates';
+import { saveArchitectLink } from '@/lib/contentUpdates';
 import prisma from '@/lib/prisma';
 import { transformers } from '@/lib/transformers';
 import { ExternalLink } from '@/lib/types';
@@ -21,7 +21,7 @@ export class ExternalLinksLogic {
   }
 
   static async addExternalLink(data: Prisma.ExternalLinksUncheckedCreateInput) {
-    return await saveRelated('externalLinks', undefined, (tx) =>
+    return await saveArchitectLink(undefined, (tx) =>
       tx.externalLinks.create({
         data: {
           name: data.name,
@@ -39,24 +39,30 @@ export class ExternalLinksLogic {
     where: Prisma.ExternalLinksWhereUniqueInput,
     data: Prisma.ExternalLinksUpdateInput,
   ) {
-    return await saveRelated('externalLinks', where, (tx) =>
-      tx.externalLinks.update({
-        where,
-        data,
-        include: externalLinksInclude,
-      }),
+    return await saveArchitectLink(
+      (tx) =>
+        tx.externalLinks.findUnique({ where, include: externalLinksInclude }),
+      (tx) =>
+        tx.externalLinks.update({
+          where,
+          data,
+          include: externalLinksInclude,
+        }),
     );
   }
 
   static async deleteExternalLink(where: Prisma.ExternalLinksWhereUniqueInput) {
-    return await saveRelated('externalLinks', where, (tx) =>
-      tx.externalLinks.update({
-        where,
-        data: {
-          published: false,
-        },
-        include: externalLinksInclude,
-      }),
+    return await saveArchitectLink(
+      (tx) =>
+        tx.externalLinks.findUnique({ where, include: externalLinksInclude }),
+      (tx) =>
+        tx.externalLinks.update({
+          where,
+          data: {
+            published: false,
+          },
+          include: externalLinksInclude,
+        }),
     );
   }
 

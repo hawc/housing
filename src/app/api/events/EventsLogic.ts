@@ -1,4 +1,4 @@
-import { saveRelated } from '@/lib/contentUpdates';
+import { saveSettlementPart, eventContent } from '@/lib/contentUpdates';
 import prisma from '@/lib/prisma';
 import { transformers } from '@/lib/transformers';
 import { BaseEvent } from '@/lib/types';
@@ -22,18 +22,22 @@ export class EventsLogic {
   }
 
   static async addEvent(data: Prisma.EventsUncheckedCreateInput) {
-    return await saveRelated('events', undefined, (tx) =>
-      tx.events.create({
-        data: {
-          name: data.name,
-          description: data.description,
-          source: data.source,
-          settlementId: data.settlementId,
-          eventTypeId: data.eventTypeId,
-          eventDate: data.eventDate,
-        },
-        include: eventsInclude,
-      }),
+    return await saveSettlementPart(
+      undefined,
+      (tx) =>
+        tx.events.create({
+          data: {
+            name: data.name,
+            description: data.description,
+            source: data.source,
+            settlementId: data.settlementId,
+            eventTypeId: data.eventTypeId,
+            eventDate: data.eventDate,
+          },
+          include: eventsInclude,
+        }),
+      'history',
+      eventContent,
     );
   }
 
@@ -41,24 +45,32 @@ export class EventsLogic {
     where: Prisma.EventsWhereUniqueInput,
     data: Prisma.EventsUpdateInput,
   ) {
-    return await saveRelated('events', where, (tx) =>
-      tx.events.update({
-        where,
-        data,
-        include: eventsInclude,
-      }),
+    return await saveSettlementPart(
+      (tx) => tx.events.findUnique({ where }),
+      (tx) =>
+        tx.events.update({
+          where,
+          data,
+          include: eventsInclude,
+        }),
+      'history',
+      eventContent,
     );
   }
 
   static async deleteEvent(where: Prisma.EventsWhereUniqueInput) {
-    return await saveRelated('events', where, (tx) =>
-      tx.events.update({
-        where,
-        data: {
-          published: false,
-        },
-        include: eventsInclude,
-      }),
+    return await saveSettlementPart(
+      (tx) => tx.events.findUnique({ where }),
+      (tx) =>
+        tx.events.update({
+          where,
+          data: {
+            published: false,
+          },
+          include: eventsInclude,
+        }),
+      'history',
+      eventContent,
     );
   }
 

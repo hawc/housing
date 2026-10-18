@@ -1,10 +1,12 @@
 /** @jest-environment node */
 jest.mock('@/lib/contentUpdates', () => ({
-  saveRelated: (
-    _model: string,
-    _where: unknown,
-    mutate: (tx: unknown) => unknown,
-  ) => mutate(jest.requireMock('@/lib/prisma').default),
+  saveSettlementPart: async (
+    read: ((tx: unknown) => Promise<unknown>) | undefined,
+    mutate: (tx: unknown, before: unknown) => unknown,
+  ) => {
+    const tx = jest.requireMock('@/lib/prisma').default;
+    return mutate(tx, read ? await read(tx) : null);
+  },
 }));
 jest.mock('@/lib/prisma', () => ({
   __esModule: true,
