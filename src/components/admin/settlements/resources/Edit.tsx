@@ -1,7 +1,7 @@
 'use client';
 
 import { useId, useState } from 'react';
-import { fetchData } from '@/lib/fetch';
+import { fetchMutation } from '@/lib/fetch';
 import type { Resource, ResourceType } from '@/lib/types';
 import { resourceFormValues } from '@/lib/settlementFormFields';
 import { ResourceFields } from '@/components/admin/settlements/forms/RecordFields';
@@ -11,13 +11,13 @@ import type { ImageResponse } from '@/app/api/upload/UploadLogic';
 import { LightBox } from '@/components/common/LightBox';
 
 async function updateResource(id: string, data: unknown) {
-  return fetchData<Resource>(`/api/resources/update/${id}`, undefined, {
+  return fetchMutation<Resource>(`/api/resources/update/${id}`, {
     method: 'POST',
     body: JSON.stringify(data),
   });
 }
 async function addResource(data: unknown) {
-  return fetchData<Resource>('/api/resources/add', undefined, {
+  return fetchMutation<Resource>('/api/resources/add', {
     method: 'POST',
     body: JSON.stringify(data),
   });
@@ -46,33 +46,48 @@ export function EditResource({
       resourceInput?.resourceType.id ?? availableResourceTypes[0]?.id ?? '',
   }));
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const id = useId();
   const isPhoto =
     availableResourceTypes.find((type) => type.id === fields.resourceTypeId)
       ?.name === 'Foto';
 
   async function submitData() {
+    setError('');
     setLoading(true);
     try {
       const response = resource?.id
         ? await updateResource(resource.id, fields)
         : await addResource({ ...fields, settlementId });
-      if (response) {
-        setResource(response);
-        setFields(resourceFormValues(response));
-        onUpdate(response.id);
-      }
+      if (!response)
+        throw new Error('Der Eintrag konnte nicht gespeichert werden.');
+      setResource(response);
+      setFields(resourceFormValues(response));
+      onUpdate(response.id);
+    } catch (error) {
+      setError(
+        error instanceof Error
+          ? error.message
+          : 'Speichern fehlgeschlagen. Bitte erneut versuchen.',
+      );
     } finally {
       setLoading(false);
     }
   }
   async function deleteResource(id: string) {
+    setError('');
     setLoading(true);
     try {
-      await fetchData(`/api/resources/delete/${id}`);
+      await fetchMutation(`/api/resources/delete/${id}`, { method: 'GET' });
       setResource(undefined);
       setFields(resourceFormValues());
       onUpdate(id);
+    } catch (error) {
+      setError(
+        error instanceof Error
+          ? error.message
+          : 'Löschen fehlgeschlagen. Bitte erneut versuchen.',
+      );
     } finally {
       setLoading(false);
     }
@@ -86,6 +101,11 @@ export function EditResource({
 
   return (
     <div className={className}>
+      {error && (
+        <p role='alert' className='border border-text p-2 mb-3'>
+          {error}
+        </p>
+      )}
       {isPhoto && fields.url && <LightBox src={fields.url} className='mb-2' />}
       <ResourceFields
         value={fields}

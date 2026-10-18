@@ -30,6 +30,7 @@ Die Oberfläche zeigt, ob der Worker in den letzten 60 Sekunden einen Heartbeat 
 - Falls sich die betroffenen Details bzw. derselbe Ressourcenlink seit der Recherche verändert haben, wird eine Freigabe als veraltet markiert und nichts veröffentlicht. Änderungen an unabhängigen Feldern blockieren die Übernahme nicht.
 - Bereits veröffentlichte Zahlen unterdrücken einen neuen Vorschlag nur bei gleichem Detailtyp, Wert, Bezugsgebiet/Bauabschnitt und tatsächlichem Bezugsdatum. Gleiche Zahlen in unterschiedlichen Bauabschnitten oder an unterschiedlichen Stichtagen bleiben getrennte Vorschläge. Jahreszahlen in freien Anmerkungen gelten nicht als Datumsnachweis für diese Dublettenprüfung.
 - Bei Datumsänderungen werden automatisch erzeugte Hinweise wie „Stand: 2020 (Jahresangabe)“ mit dem neuen Zeitbezug abgeglichen. Eine neue reine Jahresangabe ersetzt den alten Hinweis; ein neues genaues Datum entfernt ihn. Unveränderte Jahresdaten behalten ihre Präzision. Andere Quellenanmerkungen und historische Jahreszahlen bleiben erhalten. Das Formular zeigt diese Bereinigung bereits vor dem Speichern.
+- Die manuellen Detail- und Ressourcenformulare zeigen fehlgeschlagene Speicher- und Löschanfragen direkt als Fehlermeldung an. Eingaben bleiben erhalten; ein fehlgeschlagener Löschversuch entfernt den Eintrag nicht aus dem Formular. Nach einem erfolgreichen erneuten Versuch verschwindet die Fehlermeldung. Bestehende Leseanfragen behalten ihre bisherigen Fallbacks.
 
 ## Rechercheumfang und Grenzen
 
