@@ -159,6 +159,67 @@ describe('Research review interface', () => {
     expect(container.textContent).toContain('übernommen und protokolliert');
   });
 
+  it('filters settlement selection without resetting an edited proposal', async () => {
+    await render();
+    await fill(field('Wert'), '1250');
+    await fill(field('Siedlungen suchen'), 'Siedlung 4');
+    expect(container.querySelectorAll('input[type="checkbox"]')).toHaveLength(
+      1,
+    );
+    expect(field('Wert').value).toBe('1250');
+    await click(
+      container.querySelector<HTMLInputElement>('input[type="checkbox"]')!,
+    );
+    await click(button('Recherche für Auswahl starten'));
+    const call = fetchMock.mock.calls.find(
+      ([path, options]) =>
+        path === '/api/research' && options.method === 'POST',
+    )!;
+    expect(JSON.parse(call[1].body)).toEqual({
+      settlementIds: ['settlement-4'],
+    });
+  });
+
+  it('shows run history and forwards a cancel action while research is active', async () => {
+    Object.assign(data, {
+      runs: [
+        {
+          id: 'run-1',
+          createdAt: '2026-10-18T10:00:00Z',
+          jobs: [
+            {
+              id: 'job-1',
+              status: 'COMPLETED',
+              settlement: { name: 'Siedlung 0' },
+              _count: { proposals: 2 },
+              error: null,
+              notes: 'Quelle erfolgreich geprüft.',
+            },
+            {
+              id: 'job-2',
+              status: 'RUNNING',
+              settlement: { name: 'Siedlung 1' },
+              _count: { proposals: 0 },
+              error: null,
+              notes: null,
+            },
+          ],
+        },
+      ],
+    });
+    await render();
+    expect(container.textContent).toContain('Letzte Rechercheläufe');
+    expect(container.textContent).toContain('Quelle erfolgreich geprüft.');
+    expect(button('Recherche läuft bereits')).toBeDisabled();
+    await click(button('Lauf abbrechen'));
+    const call = fetchMock.mock.calls.find(
+      ([path]) => path === '/api/research/runs/run-1/cancel',
+    )!;
+    expect(call[1].method).toBe('POST');
+    expect(JSON.parse(call[1].body)).toEqual({});
+    expect(container.textContent).toContain('Lauf abgebrochen.');
+  });
+
   it('requires a rejection note and makes stale approvals visible', async () => {
     await render();
     expect(button('Ablehnen')).toBeDisabled();
