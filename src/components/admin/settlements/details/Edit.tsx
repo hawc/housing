@@ -2,7 +2,7 @@
 
 import type { Prisma } from '@prisma/client';
 import { useState } from 'react';
-import { fetchData } from '@/lib/fetch';
+import { fetchMutation } from '@/lib/fetch';
 import type { Detail, DetailType } from '@/lib/types';
 import {
   detailFormValues,
@@ -17,13 +17,13 @@ async function updateDetail(
   id: string,
   data: Prisma.DetailsUncheckedUpdateInput,
 ) {
-  return fetchData<Detail>(`/api/details/update/${id}`, undefined, {
+  return fetchMutation<Detail>(`/api/details/update/${id}`, {
     method: 'POST',
     body: JSON.stringify(data),
   });
 }
 async function addDetail(data: Prisma.DetailsUncheckedCreateInput) {
-  return fetchData<Detail>('/api/details/add', undefined, {
+  return fetchMutation<Detail>('/api/details/add', {
     method: 'POST',
     body: JSON.stringify(data),
   });
@@ -47,6 +47,7 @@ export function EditDetail({
   const [detail, setDetail] = useState(detailInput);
   const [fields, setFields] = useState(() => detailFormValues(detailInput));
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const typeName =
     availableDetailTypes.find((type) => type.id === fields.detailTypeId)
       ?.name ?? '';
@@ -54,6 +55,7 @@ export function EditDetail({
   async function submitData() {
     if (detailValueError(typeName, fields.description)) return;
     if (detailScopeError(typeName, fields.annotation)) return;
+    setError('');
     setLoading(true);
     try {
       const data = {
@@ -66,23 +68,36 @@ export function EditDetail({
       const response = detail?.id
         ? await updateDetail(detail.id, data)
         : await addDetail({ ...data, settlementId });
-      if (response) {
-        setDetail(response);
-        setFields(detailFormValues(response));
-        onUpdate(response.id);
-      }
+      if (!response)
+        throw new Error('Der Eintrag konnte nicht gespeichert werden.');
+      setDetail(response);
+      setFields(detailFormValues(response));
+      onUpdate(response.id);
+    } catch (error) {
+      setError(
+        error instanceof Error
+          ? error.message
+          : 'Speichern fehlgeschlagen. Bitte erneut versuchen.',
+      );
     } finally {
       setLoading(false);
     }
   }
 
   async function deleteDetail(id: string) {
+    setError('');
     setLoading(true);
     try {
-      await fetchData(`/api/details/delete/${id}`);
+      await fetchMutation(`/api/details/delete/${id}`, { method: 'GET' });
       setDetail(undefined);
       setFields(detailFormValues());
       onUpdate(id);
+    } catch (error) {
+      setError(
+        error instanceof Error
+          ? error.message
+          : 'Löschen fehlgeschlagen. Bitte erneut versuchen.',
+      );
     } finally {
       setLoading(false);
     }
@@ -90,6 +105,11 @@ export function EditDetail({
 
   return (
     <div className={className}>
+      {error && (
+        <p role='alert' className='border border-text p-2 mb-3'>
+          {error}
+        </p>
+      )}
       <DetailFields
         value={fields}
         onChange={setFields}

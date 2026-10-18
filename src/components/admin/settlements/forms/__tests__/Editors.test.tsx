@@ -5,7 +5,10 @@ import { EditResource } from '../../resources/Edit';
 import { fetchData } from '@/lib/fetch';
 import { Event as EditEvent } from '../../timeline/Event';
 
-jest.mock('@/lib/fetch', () => ({ fetchData: jest.fn() }));
+jest.mock('@/lib/fetch', () => {
+  const fetch = jest.fn();
+  return { fetchData: fetch, fetchMutation: fetch };
+});
 jest.mock('@/components/common/form/Upload', () => ({ Upload: () => null }));
 jest.mock('@/components/common/LightBox', () => ({ LightBox: () => null }));
 Object.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true });
@@ -14,6 +17,106 @@ describe('Manual editors with shared fields', () => {
   let container: HTMLDivElement;
   let root: Root;
   const fetchMock = fetchData as jest.Mock;
+  const request = () =>
+    fetchMock.mock.calls[0][2] ?? fetchMock.mock.calls[0][1];
+  const renderSavedEditor = async (
+    kind: 'detail' | 'resource',
+    onUpdate: jest.Mock,
+  ) => {
+    const detailType = { id: 'type', name: 'Bauherr', description: '' };
+    const resourceType = { id: 'website', name: 'Website', description: '' };
+    const detail = {
+      id: 'detail',
+      name: 'Bauherr',
+      description: 'Neue Heimat',
+      annotation: '',
+      detailDate: '',
+      source: '',
+      detailType,
+    };
+    const resource = {
+      id: 'resource',
+      name: 'Wikipedia',
+      description: '',
+      source: '',
+      url: 'https://example.org',
+      copyright: '',
+      license: '',
+      resourceType,
+    };
+    await act(async () => {
+      root.render(
+        kind === 'detail' ? (
+          <EditDetail
+            detailInput={detail}
+            availableDetailTypes={[detailType]}
+            settlementId='settlement'
+            onUpdate={onUpdate}
+          />
+        ) : (
+          <EditResource
+            resourceInput={resource}
+            availableResourceTypes={[resourceType]}
+            settlementId='settlement'
+            settlementSlug='settlement'
+            onUpdate={onUpdate}
+          />
+        ),
+      );
+    });
+    return kind === 'detail' ? detail : resource;
+  };
+
+  it.each(['detail', 'resource'] as const)(
+    'shows %s save errors, preserves edits and supports a successful retry',
+    async (kind) => {
+      const onUpdate = jest.fn();
+      const record = await renderSavedEditor(kind, onUpdate);
+      await fill(field('Name'), 'Geprüfter Name');
+      fetchMock.mockRejectedValueOnce(
+        new Error('Keine Administratorberechtigung.'),
+      );
+      await act(async () => {
+        container.querySelector('button')!.click();
+      });
+      expect(container.querySelector('[role="alert"]')?.textContent).toBe(
+        'Keine Administratorberechtigung.',
+      );
+      expect(field('Name').value).toBe('Geprüfter Name');
+      expect(container.querySelector('button')).not.toBeDisabled();
+      expect(onUpdate).not.toHaveBeenCalled();
+      fetchMock.mockResolvedValueOnce({ ...record, name: 'Geprüfter Name' });
+      await act(async () => {
+        container.querySelector('button')!.click();
+      });
+      expect(container.querySelector('[role="alert"]')).toBeNull();
+      expect(onUpdate).toHaveBeenCalledTimes(1);
+      expect(onUpdate).toHaveBeenCalledWith(record.id);
+    },
+  );
+
+  it.each(['detail', 'resource'] as const)(
+    'retains the %s record and edits after a failed delete',
+    async (kind) => {
+      const onUpdate = jest.fn();
+      await renderSavedEditor(kind, onUpdate);
+      await fill(field('Name'), 'Ungespeicherte Änderung');
+      fetchMock.mockRejectedValueOnce(new Error('Löschen nicht erlaubt.'));
+      const remove = [...container.querySelectorAll('button')].find((button) =>
+        button.textContent?.includes('Löschen'),
+      )!;
+      await act(async () => {
+        remove.click();
+      });
+      expect(container.querySelector('[role="alert"]')?.textContent).toBe(
+        'Löschen nicht erlaubt.',
+      );
+      expect(field('Name').value).toBe('Ungespeicherte Änderung');
+      expect(remove.isConnected).toBe(true);
+      expect(remove).not.toBeDisabled();
+      expect(onUpdate).not.toHaveBeenCalled();
+    },
+  );
   const field = (labelText: string) => {
     const label = [...container.querySelectorAll('label')].find(
       (label) => label.textContent === labelText,
@@ -90,9 +193,7 @@ describe('Manual editors with shared fields', () => {
     await act(async () => {
       container.querySelector('button')!.click();
     });
-    expect(
-      JSON.parse(fetchMock.mock.calls[0][2].body).annotation,
-    ).not.toContain('Stand: 2020');
+    expect(JSON.parse(request().body).annotation).not.toContain('Stand: 2020');
   });
 
   it('saves a corrected event year as the chosen UTC calendar day', async () => {
@@ -121,7 +222,7 @@ describe('Manual editors with shared fields', () => {
     await act(async () => {
       container.querySelector('button')!.click();
     });
-    expect(JSON.parse(fetchMock.mock.calls[0][2].body).eventDate).toBe(
+    expect(JSON.parse(request().body).eventDate).toBe(
       '1978-12-31T00:00:00.000Z',
     );
   });
@@ -164,7 +265,7 @@ describe('Manual editors with shared fields', () => {
     await act(async () => {
       container.querySelector('button')!.click();
     });
-    const data = JSON.parse(fetchMock.mock.calls[0][2].body);
+    const data = JSON.parse(request().body);
     expect(data).toMatchObject({
       detailTypeId: 'type',
       name: 'Geprüfter Name',
@@ -221,7 +322,7 @@ describe('Manual editors with shared fields', () => {
     await act(async () => {
       container.querySelector('button')!.click();
     });
-    expect(JSON.parse(fetchMock.mock.calls[0][2].body)).toEqual({
+    expect(JSON.parse(request().body)).toEqual({
       settlementId: 'settlement',
       resourceTypeId: 'document',
       name: 'Bestandsaufnahme',
@@ -263,7 +364,7 @@ describe('Manual editors with shared fields', () => {
     await act(async () => {
       container.querySelector('button')!.click();
     });
-    expect(JSON.parse(fetchMock.mock.calls[0][2].body).detailDate).toBe(
+    expect(JSON.parse(request().body).detailDate).toBe(
       '2020-12-31T00:00:00.000Z',
     );
   });
