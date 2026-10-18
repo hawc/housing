@@ -1,3 +1,4 @@
+import { touchSettlement } from '../contentUpdates';
 import { Prisma } from '@prisma/client';
 import prisma from '../prisma';
 import { requiresDetailDate } from '../settlementFormFields';
@@ -199,10 +200,9 @@ export async function reviewProposal(
         reviewedBy: reviewer,
       },
     });
-    await tx.settlements.update({
-      where: { id: settlement.id },
-      data: { updatedAt: new Date() },
-    });
+    await touchSettlement(tx, settlement.id, [
+      proposal.kind === 'DETAIL' ? 'details' : 'links',
+    ]);
     return { status, settlementId: settlement.id };
   });
 }

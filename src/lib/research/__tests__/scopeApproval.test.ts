@@ -15,34 +15,32 @@ describe('Inventory scope approval boundary', () => {
   const setup = () => {
     const tx = {
       changeProposal: {
-        findUnique: jest
-          .fn()
-          .mockResolvedValue({
-            id: 'proposal',
-            kind: 'DETAIL',
-            status: 'PENDING',
-            revision: 1,
-            payload: original,
-            source: { url: 'https://example.org/settlement', title: 'Quelle' },
-            baseline: {
-              published: true,
-              identity: { name: 'Testsiedlung', city: null, district: null },
-              records: [],
-            },
-          }),
+        findUnique: jest.fn().mockResolvedValue({
+          id: 'proposal',
+          kind: 'DETAIL',
+          status: 'PENDING',
+          revision: 1,
+          payload: original,
+          source: { url: 'https://example.org/settlement', title: 'Quelle' },
+          baseline: {
+            published: true,
+            identity: { name: 'Testsiedlung', city: null, district: null },
+            records: [],
+          },
+        }),
         updateMany: jest.fn().mockResolvedValue({ count: 1 }),
       },
       settlements: {
-        findUnique: jest
-          .fn()
-          .mockResolvedValue({
-            id: 'settlement',
-            name: 'Testsiedlung',
-            published: true,
-            location: null,
-            details: [],
-            resources: [],
-          }),
+        findUnique: jest.fn().mockResolvedValue({
+          id: 'settlement',
+          name: 'Testsiedlung',
+          updatedAt: new Date('2020-01-01'),
+          updatedSections: [],
+          published: true,
+          location: null,
+          details: [],
+          resources: [],
+        }),
         update: jest.fn(),
       },
       detailTypes: {
@@ -98,6 +96,11 @@ describe('Inventory scope approval boundary', () => {
         db,
       ),
     ).resolves.toMatchObject({ status: 'APPLIED' });
+    expect(tx.settlements.update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({ updatedSections: ['details'] }),
+      }),
+    );
     expect(tx.details.create).toHaveBeenCalledWith(
       expect.objectContaining({
         data: expect.objectContaining({

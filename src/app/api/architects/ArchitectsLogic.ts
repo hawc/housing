@@ -1,3 +1,6 @@
+import { transaction } from '@/lib/research/transaction';
+import { touchSettlement, touchArchitect } from '@/lib/contentUpdates';
+import { saveOwner, saveArchitectAssignment } from '@/lib/contentUpdates';
 import { externalLinksSelect } from '@/app/api/externalLinks/selects';
 import { settlementsSelectWithLocations } from '@/app/api/settlements/selects';
 import prisma from '@/lib/prisma';
@@ -47,6 +50,7 @@ export class ArchitectsLogic {
   static async createArchitect(data: Prisma.ArchitectsCreateInput) {
     return await prisma.architects.create({
       data: {
+        updatedSections: ['general'],
         name: data.name,
         slug: slugify(data.name),
         description: data.description,
@@ -59,30 +63,47 @@ export class ArchitectsLogic {
     where: Prisma.ArchitectsWhereUniqueInput,
     data: Prisma.ArchitectsUpdateInput,
   ) {
-    return await prisma.architects.update({
-      where,
-      data,
-      include: architectsInclude,
-    });
+    return await saveOwner('architects', where, (tx) =>
+      tx.architects.update({
+        where,
+        data,
+        include: architectsInclude,
+      }),
+    );
   }
 
   static async deleteArchitect(where: Prisma.ArchitectsWhereUniqueInput) {
-    return await prisma.architects.update({
-      where,
-      data: {
-        published: false,
-      },
-      include: architectsInclude,
-    });
+    return await saveOwner('architects', where, (tx) =>
+      tx.architects.update({
+        where,
+        data: {
+          published: false,
+        },
+        include: architectsInclude,
+      }),
+    );
   }
 
   static async updateSettlementsOnArchitect(
     where: Prisma.SettlementsOnArchitectsWhereUniqueInput,
     data: Prisma.SettlementsOnArchitectsUpdateInput,
   ) {
-    return await prisma.settlementsOnArchitects.update({
-      where,
-      data,
+    return await saveArchitectAssignment(where, (tx) =>
+      tx.settlementsOnArchitects.update({
+        where,
+        data,
+      }),
+    );
+  }
+
+  static async removeSettlement(architectId: string, settlementId: string) {
+    return transaction(prisma, async (tx) => {
+      const result = await tx.settlementsOnArchitects.delete({
+        where: { settlementId_architectId: { architectId, settlementId } },
+      });
+      await touchSettlement(tx, settlementId, ['architects']);
+      await touchArchitect(tx, architectId, ['settlements']);
+      return result;
     });
   }
 

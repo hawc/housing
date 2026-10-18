@@ -1,4 +1,11 @@
 /** @jest-environment node */
+jest.mock('@/lib/contentUpdates', () => ({
+  saveRelated: (
+    _model: string,
+    _where: unknown,
+    mutate: (tx: unknown) => unknown,
+  ) => mutate(jest.requireMock('@/lib/prisma').default),
+}));
 jest.mock('@/lib/prisma', () => ({
   __esModule: true,
   default: {

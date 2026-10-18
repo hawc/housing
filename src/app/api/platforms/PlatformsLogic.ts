@@ -1,3 +1,4 @@
+import { savePlatform } from '@/lib/contentUpdates';
 import prisma from '@/lib/prisma';
 import { Platform } from '@/lib/types';
 import { slugify } from '@/utils/slugify';
@@ -38,11 +39,13 @@ export class PlatformsLogic {
     where: Prisma.PlatformsWhereUniqueInput,
     data: Prisma.PlatformsUpdateInput,
   ) {
-    return await prisma.platforms.update({
-      where,
-      data,
-      include: platformsInclude,
-    });
+    return await savePlatform(where, (tx) =>
+      tx.platforms.update({
+        where,
+        data,
+        include: platformsInclude,
+      }),
+    );
   }
 
   static async deletePlatform(where: Prisma.PlatformsWhereUniqueInput) {

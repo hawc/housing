@@ -1,3 +1,4 @@
+import { saveRelated } from '@/lib/contentUpdates';
 import prisma from '@/lib/prisma';
 import { transformers } from '@/lib/transformers';
 import { BaseDetail } from '@/lib/types';
@@ -44,25 +45,27 @@ export class DetailsLogic {
     const detailDate = normalizeDetailDate(type.name, data.detailDate);
     validateDetailValue(type.name, data.description);
     validateDetailScope(type.name, data.annotation);
-    return await prisma.details.create({
-      data: {
-        name: data.name,
-        description: data.description,
-        annotation: annotationForDetailDate(data.annotation, data.detailDate),
-        source: data.source,
-        settlementId: data.settlementId,
-        detailTypeId: data.detailTypeId,
-        detailDate,
-      },
-      include: detailsInclude,
-    });
+    return await saveRelated('details', undefined, (tx) =>
+      tx.details.create({
+        data: {
+          name: data.name,
+          description: data.description,
+          annotation: annotationForDetailDate(data.annotation, data.detailDate),
+          source: data.source,
+          settlementId: data.settlementId,
+          detailTypeId: data.detailTypeId,
+          detailDate,
+        },
+        include: detailsInclude,
+      }),
+    );
   }
 
   static async updateDetail(
     where: Prisma.DetailsWhereUniqueInput,
     data: EditableDetailInput,
   ) {
-    return await prisma.$transaction(async (tx) => {
+    return await saveRelated('details', where, async (tx) => {
       const existing = await tx.details.findUnique({ where });
       if (!existing) throw new DetailDateError('Detaileintrag nicht gefunden.');
       const detailTypeId = data.detailTypeId ?? existing.detailTypeId;
@@ -105,13 +108,15 @@ export class DetailsLogic {
   }
 
   static async deleteDetail(where: Prisma.DetailsWhereUniqueInput) {
-    return await prisma.details.update({
-      where,
-      data: {
-        published: false,
-      },
-      include: detailsInclude,
-    });
+    return await saveRelated('details', where, (tx) =>
+      tx.details.update({
+        where,
+        data: {
+          published: false,
+        },
+        include: detailsInclude,
+      }),
+    );
   }
 
   static toBaseDetail(detail: DetailsInclude): BaseDetail {
