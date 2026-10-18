@@ -1,3 +1,4 @@
+import { saveOwner, saveArchitectAssignment } from '@/lib/contentUpdates';
 import { architectsSelect } from '@/app/api/architects/selects';
 import { detailsSelect } from '@/app/api/details/selects';
 import { eventsSelect } from '@/app/api/events/selects';
@@ -85,16 +86,19 @@ export class SettlementsLogic {
     where: Prisma.SettlementsWhereUniqueInput,
     data: Prisma.SettlementsUpdateInput,
   ) {
-    return await prisma.settlements.update({
-      where,
-      data,
-      include: settlementsInclude,
-    });
+    return await saveOwner('settlements', where, (tx) =>
+      tx.settlements.update({
+        where,
+        data,
+        include: settlementsInclude,
+      }),
+    );
   }
 
   static async createSettlement(data: Prisma.SettlementsCreateInput) {
     return await prisma.settlements.create({
       data: {
+        updatedSections: ['general'],
         name: data.name,
         slug: slugify(data.name),
         description: data.description,
@@ -104,29 +108,33 @@ export class SettlementsLogic {
   }
 
   static async deleteSettlement(where: Prisma.SettlementsWhereUniqueInput) {
-    return await prisma.settlements.update({
-      where,
-      data: {
-        published: false,
-      },
-      include: settlementsInclude,
-    });
+    return await saveOwner('settlements', where, (tx) =>
+      tx.settlements.update({
+        where,
+        data: {
+          published: false,
+        },
+        include: settlementsInclude,
+      }),
+    );
   }
 
   static async addSettlementsOnArchitect(
     data: Prisma.SettlementsOnArchitectsUncheckedCreateInput,
   ) {
-    return await prisma.settlementsOnArchitects.create({
-      data: data,
-      include: {
-        architect: {
-          select: architectsSelect,
+    return await saveArchitectAssignment(undefined, (tx) =>
+      tx.settlementsOnArchitects.create({
+        data: data,
+        include: {
+          architect: {
+            select: architectsSelect,
+          },
+          settlement: {
+            select: settlementsSelect,
+          },
         },
-        settlement: {
-          select: settlementsSelect,
-        },
-      },
-    });
+      }),
+    );
   }
 
   static async addSettlementsOnTag(
