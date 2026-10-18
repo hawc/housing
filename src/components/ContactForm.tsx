@@ -32,15 +32,18 @@ export function ContactForm() {
   const [message, setMessage] = useState('');
   const searchParams = useSearchParams();
   const from = searchParams.get('from') ?? '';
-  const [state, handleSubmit] = useForm('mwkgkydb', {
-    data: {
-      subject: 'Neue Kontaktanfrage auf grosswohnsiedlungen.de',
-      pageTitle: function () {
-        return document.title;
+  const [state, handleSubmit] = useForm(
+    process.env.NEXT_PUBLIC_FORMSPREE_FORM_ID || 'mwkgkydb',
+    {
+      data: {
+        subject: 'Neue Kontaktanfrage auf grosswohnsiedlungen.de',
+        pageTitle: function () {
+          return document.title;
+        },
+        from,
       },
-      from,
     },
-  });
+  );
 
   function getFieldErrors(fieldName: string) {
     const fieldErrors = state.errors?.getFieldErrors(fieldName);

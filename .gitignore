@@ -32,9 +32,9 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# local env files
-.env
-.env*.local
+# Environment files can contain production credentials. Only the template is public.
+.env*
+!.env.example
 
 # vercel
 .vercel
