@@ -1,42 +1,29 @@
 'use client';
 
 import type { Prisma } from '@prisma/client';
-import { useId, useState } from 'react';
-
+import { useState } from 'react';
 import { fetchData } from '@/lib/fetch';
 import type { Detail, DetailType } from '@/lib/types';
-
+import {
+  detailFormValues,
+  requiresDetailDate,
+} from '@/lib/settlementFormFields';
+import { DetailFields } from '@/components/admin/settlements/forms/RecordFields';
+import { detailValueError } from '@/lib/detailValue';
+import { detailScopeError } from '@/lib/detailScope';
 import { Button } from '@/components/common/form/Button';
-import { InputGhost } from '@/components/common/form/Input';
-import { Select } from '@/components/common/form/Select';
-import { getUniqueLabel } from '@/utils/getUniqueLabel';
-import { isDateValid } from '@/utils/isDateValid';
-
-function getDescriptionInputType(detailType?: DetailType['name']) {
-  switch (detailType) {
-    case 'Gebäudezahl':
-    case 'Einwohner*innen':
-    case 'Fläche (in km²)':
-    case 'Wohneinheiten':
-      return 'number';
-    case 'Bauherr':
-    default:
-      return 'text';
-  }
-}
 
 async function updateDetail(
   id: string,
   data: Prisma.DetailsUncheckedUpdateInput,
 ) {
-  return await fetchData<Detail>(`/api/details/update/${id}`, undefined, {
+  return fetchData<Detail>(`/api/details/update/${id}`, undefined, {
     method: 'POST',
     body: JSON.stringify(data),
   });
 }
-
 async function addDetail(data: Prisma.DetailsUncheckedCreateInput) {
-  return await fetchData<Detail>('/api/details/add', undefined, {
+  return fetchData<Detail>('/api/details/add', undefined, {
     method: 'POST',
     body: JSON.stringify(data),
   });
@@ -57,151 +44,69 @@ export function EditDetail({
   className,
   onUpdate,
 }: EditDetailProps) {
-  const [detail, setCurrentDetail] = useState<Detail | undefined>(detailInput);
-  const [detailTypeId, setDetailTypeId] = useState<string>(
-    detail?.detailType?.id ?? '',
-  );
-  const [loading, setLoading] = useState<boolean>(false);
-  const id = useId();
+  const [detail, setDetail] = useState(detailInput);
+  const [fields, setFields] = useState(() => detailFormValues(detailInput));
+  const [loading, setLoading] = useState(false);
+  const typeName =
+    availableDetailTypes.find((type) => type.id === fields.detailTypeId)
+      ?.name ?? '';
 
-  const detailTypeName = availableDetailTypes.find(
-    (type) => type.id === detailTypeId,
-  )?.name;
-
-  function setDetail(input: Partial<Detail>) {
-    setCurrentDetail({
-      ...detail,
-      ...input,
-    } as Detail);
+  async function submitData() {
+    if (detailValueError(typeName, fields.description)) return;
+    if (detailScopeError(typeName, fields.annotation)) return;
+    setLoading(true);
+    try {
+      const data = {
+        ...fields,
+        name: fields.name || typeName,
+        detailDate: fields.detailDate
+          ? new Date(`${fields.detailDate}T00:00:00.000Z`)
+          : null,
+      };
+      const response = detail?.id
+        ? await updateDetail(detail.id, data)
+        : await addDetail({ ...data, settlementId });
+      if (response) {
+        setDetail(response);
+        setFields(detailFormValues(response));
+        onUpdate(response.id);
+      }
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function deleteDetail(id: string) {
     setLoading(true);
-    await fetchData(`/api/details/delete/${id}`);
-    setCurrentDetail(undefined); // todo: check if deletion is successful
-    onUpdate(id);
-    setLoading(false);
-  }
-
-  async function submitData(
-    detail: Detail,
-    detailTypeId: string,
-    settlementId: string,
-  ) {
-    setLoading(true);
-    let response;
-    if (detail?.id) {
-      const data: Prisma.DetailsUncheckedUpdateInput = {
-        name: detail.name,
-        description: detail.description,
-        annotation: detail.annotation,
-        source: detail.source,
-        detailDate: detail.detailDate ? new Date(detail.detailDate) : undefined,
-        detailTypeId: detailTypeId,
-      };
-      response = await updateDetail(detail.id, data);
-    } else {
-      const data: Prisma.DetailsUncheckedCreateInput = {
-        name: detail.name || detailTypeName || '',
-        description: detail.description,
-        annotation: detail.annotation,
-        source: detail.source,
-        detailDate: detail.detailDate ? new Date(detail.detailDate) : undefined,
-        detailTypeId: detailTypeId,
-        settlementId: settlementId,
-      };
-      response = await addDetail(data);
+    try {
+      await fetchData(`/api/details/delete/${id}`);
+      setDetail(undefined);
+      setFields(detailFormValues());
+      onUpdate(id);
+    } finally {
+      setLoading(false);
     }
-    setCurrentDetail(response);
-    onUpdate(response.id);
-    setLoading(false);
   }
 
   return (
     <div className={className}>
-      <div className='flex gap-4'>
-        <div className='basis-full'>
-          <label htmlFor={getUniqueLabel('detailType', id)}>Typ:</label>
-          <Select<DetailType>
-            id={getUniqueLabel('detailType', id)}
-            className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
-            value={detail?.detailType?.id ?? ''}
-            options={availableDetailTypes}
-            onChange={(detail) => setDetailTypeId(detail.target.value)}
-          />
-        </div>
-        <div className='basis-full'>
-          <label htmlFor={getUniqueLabel('detailName', id)}>Name:</label>
-          <InputGhost
-            id={getUniqueLabel('detailName', id)}
-            placeholder={detailTypeName}
-            className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
-            value={detail?.name ?? ''}
-            onChange={(event) => setDetail({ name: event.target.value })}
-          />
-        </div>
-      </div>
-      <div className='flex gap-4'>
-        <div className='basis-full'>
-          <label htmlFor={getUniqueLabel('detailDescription', id)}>
-            Wert:
-          </label>
-          <InputGhost
-            id={getUniqueLabel('detailDescription', id)}
-            type={getDescriptionInputType(detail?.detailType?.name)}
-            className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
-            value={detail?.description ?? ''}
-            onChange={(event) => setDetail({ description: event.target.value })}
-          />
-        </div>
-        <div className='basis-full'>
-          <label htmlFor={getUniqueLabel('detailAnnotation', id)}>
-            Anmerkung:
-          </label>
-          <InputGhost
-            id={getUniqueLabel('detailAnnotation', id)}
-            className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
-            value={detail?.annotation ?? ''}
-            onChange={(event) => setDetail({ annotation: event.target.value })}
-          />
-        </div>
-      </div>
-      <div className='flex gap-4'>
-        <div className='basis-full'>
-          <label htmlFor={getUniqueLabel('detailDate', id)}>Datum:</label>
-          <InputGhost
-            type='date'
-            id={getUniqueLabel('detailDate', id)}
-            className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
-            value={detail?.detailDate}
-            onChange={(event) =>
-              setDetail({
-                detailDate: isDateValid(event.target.value)
-                  ? new Date(
-                      new Date(event.target.value).toUTCString(),
-                    ).toISOString()
-                  : undefined,
-              })
-            }
-          />
-        </div>
-        <div className='basis-full'>
-          <label htmlFor={getUniqueLabel('detailSource', id)}>Quelle:</label>
-          <InputGhost
-            id={getUniqueLabel('detailSource', id)}
-            className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
-            value={detail?.source ?? ''}
-            onChange={(event) => setDetail({ source: event.target.value })}
-          />
-        </div>
-      </div>
+      <DetailFields
+        value={fields}
+        onChange={setFields}
+        types={availableDetailTypes}
+        disabled={loading}
+      />
       <div className='flex gap-4 flex-col lg:flex-row mt-2'>
         <Button
           className='w-full'
-          onClick={() =>
-            detail && submitData(detail, detailTypeId, settlementId)
+          onClick={submitData}
+          disabled={
+            !fields.detailTypeId ||
+            Boolean(detailValueError(typeName, fields.description)) ||
+            Boolean(detailScopeError(typeName, fields.annotation)) ||
+            (!fields.name && !typeName) ||
+            (requiresDetailDate(typeName) && !fields.detailDate)
           }
-          disabled={!detail?.name && !detailTypeName}
           loading={loading}
         >
           {detail?.id ? 'Speichern' : 'Hinzufügen'}
@@ -210,7 +115,6 @@ export function EditDetail({
           <Button
             className='w-full bg-text text-bg border border-text'
             onClick={() => deleteDetail(detail.id)}
-            disabled={!detail?.name && !detailTypeName}
             loading={loading}
           >
             Löschen

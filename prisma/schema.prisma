@@ -23,6 +23,8 @@ model Settlements {
   architects      SettlementsOnArchitects[]
   settlementTypes SettlementsOnSettlementTypes[]
   tags            SettlementsOnTags[]
+  researchJobs    ResearchJob[]
+  changeProposals ChangeProposal[]
 }
 
 model SettlementTypes {
@@ -237,4 +239,109 @@ model SettlementsOnTags {
   tag          Tags        @relation(fields: [tagId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@id([settlementId, tagId])
+}
+
+enum ResearchStatus {
+  QUEUED
+  RUNNING
+  COMPLETED
+  FAILED
+}
+
+enum ProposalKind {
+  DETAIL
+  RESOURCE
+}
+
+enum ProposalStatus {
+  PENDING
+  APPLIED
+  REJECTED
+  STALE
+}
+
+model ResearchRun {
+  id        String        @id @default(uuid()) @db.Uuid
+  createdBy String
+  model     String
+  createdAt DateTime      @default(now())
+  jobs      ResearchJob[]
+}
+
+model ResearchJob {
+  id           String           @id @default(uuid()) @db.Uuid
+  runId        String           @db.Uuid
+  settlementId String           @db.Uuid
+  status       ResearchStatus   @default(QUEUED)
+  leaseToken   String?
+  leaseUntil   DateTime?
+  attempts     Int              @default(0)
+  error        String?
+  notes        String?
+  createdAt    DateTime         @default(now())
+  finishedAt   DateTime?
+  run          ResearchRun      @relation(fields: [runId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  settlement   Settlements      @relation(fields: [settlementId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  sources      ResearchSource[]
+  proposals    ChangeProposal[]
+
+  @@unique([runId, settlementId])
+  @@index([status, createdAt])
+}
+
+model ResearchSource {
+  id          String           @id @default(uuid()) @db.Uuid
+  jobId       String           @db.Uuid
+  url         String
+  title       String
+  contentHash String
+  retrievedAt DateTime
+  job         ResearchJob      @relation(fields: [jobId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  proposals   ChangeProposal[]
+
+  @@unique([jobId, url])
+}
+
+model ChangeProposal {
+  id           String         @id @default(uuid()) @db.Uuid
+  jobId        String         @db.Uuid
+  settlementId String         @db.Uuid
+  sourceId     String         @db.Uuid
+  kind         ProposalKind
+  status       ProposalStatus @default(PENDING)
+  revision     Int            @default(1)
+  fingerprint  String         @unique
+  payload      Json
+  baseline     Json
+  evidence     String
+  locator      String
+  warnings     String
+  createdAt    DateTime       @default(now())
+  reviewedAt   DateTime?
+  reviewedBy   String?
+  reviewNote   String?
+  job          ResearchJob    @relation(fields: [jobId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  settlement   Settlements    @relation(fields: [settlementId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  source       ResearchSource @relation(fields: [sourceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  changeLog    ChangeLog?
+
+  @@index([status, createdAt])
+}
+
+model ChangeLog {
+  id         String         @id @default(uuid()) @db.Uuid
+  proposalId String         @unique @db.Uuid
+  kind       ProposalKind
+  resultId   String         @db.Uuid
+  before     Json
+  after      Json
+  reviewedBy String
+  createdAt  DateTime       @default(now())
+  proposal   ChangeProposal @relation(fields: [proposalId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+// A heartbeat distinguishes a waiting queue from an unavailable worker.
+model ResearchWorker {
+  id        String   @id
+  updatedAt DateTime @updatedAt
 }

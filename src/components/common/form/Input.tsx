@@ -1,10 +1,6 @@
 import { clsxm } from '@/lib/clsxm';
-import { removeTimezoneOffset } from '@/utils/removeTimezoneOffset';
+import { dateInputValue } from '@/lib/calendarDate';
 import { ChangeEventHandler, CSSProperties } from 'react';
-
-function formatDate(date: string | number) {
-  return new Date(removeTimezoneOffset(date)).toISOString().split('T')[0];
-}
 
 interface InputProps {
   id?: string;
@@ -39,7 +35,7 @@ export function InputGhost({
           disabled ? 'opacity-50' : ''
         } ${className}`,
       )}
-      defaultValue={type === 'date' && value ? formatDate(value) : value}
+      defaultValue={type === 'date' ? dateInputValue(value) : value}
       id={id}
       placeholder={placeholder}
       type={type}

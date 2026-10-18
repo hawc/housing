@@ -11,6 +11,9 @@ export default function Admin() {
           <h1>Manage Data</h1>
           <List>
             <ListItem>
+              <Link href='/admin/recherche'>Recherche & Review</Link>
+            </ListItem>
+            <ListItem>
               <Link href='/admin/architekten'>Architekt*innen</Link>
             </ListItem>
             <ListItem>
