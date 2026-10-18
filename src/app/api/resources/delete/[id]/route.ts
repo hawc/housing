@@ -1,8 +1,12 @@
+import { guardAdminRequest } from '@/lib/adminAuth';
 import { ResourcesLogic } from '@/app/api/resources/ResourcesLogic';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 export async function GET(_req: NextRequest, props) {
+  const denied = await guardAdminRequest(_req);
+  if (denied) return denied;
+
   const { id } = await props.params;
 
   await ResourcesLogic.deleteResource({ id });

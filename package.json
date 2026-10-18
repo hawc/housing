@@ -16,6 +16,8 @@
     "test": "jest --silent --testPathPattern=src/",
     "postbuild": "next-sitemap --config next-sitemap.config.js",
     "studio": "prisma studio",
+    "research:worker": "node scripts/research-worker.cjs",
+    "test:research:integration": "node scripts/research-integration.cjs",
     "generate": "prisma generate",
     "migrate": "prisma migrate dev",
     "prepare": "node scripts/cesium.js"

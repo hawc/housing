@@ -1,9 +1,13 @@
+import { guardAdminRequest } from '@/lib/adminAuth';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 import { EventsLogic } from '@/app/api/events/EventsLogic';
 
 export async function POST(req: NextRequest) {
+  const denied = await guardAdminRequest(req);
+  if (denied) return denied;
+
   const data = await req.json();
 
   const event = await EventsLogic.addEvent(data);

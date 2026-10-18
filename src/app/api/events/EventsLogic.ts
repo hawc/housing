@@ -2,6 +2,7 @@ import prisma from '@/lib/prisma';
 import { transformers } from '@/lib/transformers';
 import { BaseEvent } from '@/lib/types';
 import { Prisma } from '@prisma/client';
+import { dateInputValue } from '@/lib/calendarDate';
 
 const eventsInclude = {
   eventType: true,
@@ -60,7 +61,7 @@ export class EventsLogic {
       name: event.name,
       description: event.description ?? '',
       source: event.source ?? '',
-      eventDate: event.eventDate?.toDateString() ?? '',
+      eventDate: dateInputValue(event.eventDate),
       eventType: transformers.eventType(event.eventType),
     };
   }

@@ -5,6 +5,7 @@ import type { Detail } from '@/lib/types';
 import { Link } from '@/components/common/Link';
 import { Tooltip } from '@/components/common/Tooltip';
 import { useMemo } from 'react';
+import { calendarYear, dateInputValue } from '@/lib/calendarDate';
 
 interface DetailsListProps {
   details: Detail[];
@@ -27,13 +28,13 @@ function formatDetail(detailText: string, type: string): string {
 function sortByTypeAndDate(a: Detail, b: Detail) {
   return (
     a.detailType.name.localeCompare(b.detailType.name, 'de') ||
-    new Date(a.detailDate).getFullYear() - new Date(b.detailDate).getFullYear()
+    dateInputValue(a.detailDate).localeCompare(dateInputValue(b.detailDate))
   );
 }
 
 export function DetailsList({ details }: DetailsListProps) {
   const sortedDetails = useMemo(() => {
-    return details.sort(sortByTypeAndDate);
+    return [...details].sort(sortByTypeAndDate);
   }, [details]);
 
   return (
@@ -50,7 +51,7 @@ export function DetailsList({ details }: DetailsListProps) {
               <td className='pr-4'>
                 {detail.name}
                 {detail.detailDate
-                  ? ` (${new Date(detail.detailDate).getFullYear()})`
+                  ? ` (${calendarYear(detail.detailDate)})`
                   : ''}
                 :
               </td>
@@ -61,11 +62,17 @@ export function DetailsList({ details }: DetailsListProps) {
               {detail.source && (
                 <td className='pl-4'>
                   {detail.source.includes('http') ? (
-                    <Link href={detail.source} title={detail.source} className='whitespace-nowrap'>
+                    <Link
+                      href={detail.source}
+                      title={detail.source}
+                      className='whitespace-nowrap'
+                    >
                       Quelle
                     </Link>
                   ) : (
-                    <Tooltip text={detail.source}><span className='whitespace-nowrap'>Quelle</span></Tooltip>
+                    <Tooltip text={detail.source}>
+                      <span className='whitespace-nowrap'>Quelle</span>
+                    </Tooltip>
                   )}
                 </td>
               )}

@@ -8,6 +8,7 @@ import { Headline } from '@/components/Headline';
 import { isDateValid } from '@/utils/isDateValid';
 import { sortByDate } from '@/utils/sortByDate';
 import { PropsWithChildren, useMemo } from 'react';
+import { calendarYear } from '@/lib/calendarDate';
 
 interface IconComponentProps {
   type: string;
@@ -89,7 +90,7 @@ export function Timeline({ events }: TimelineProps) {
               <IconComponent className='h-4 w-4' type={event.eventType.name} />
             </TimelineIcon>
             <Headline type='h5'>
-              {new Date(event.eventDate).getFullYear()}: {event.name}
+              {calendarYear(event.eventDate)}: {event.name}
             </Headline>
           </TimelineHeader>
           <TimelineBody>
@@ -109,7 +110,7 @@ export function Timeline({ events }: TimelineProps) {
         </TimelineItem>
       ))}
       {events
-        .filter((event: Event) => event.eventDate === null)
+        .filter((event: Event) => !event.eventDate)
         .map((event: Event, index: number) => (
           <TimelineItem key={index}>
             <TimelineHeader>

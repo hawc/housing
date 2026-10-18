@@ -30,6 +30,7 @@ import type {
 } from '@/lib/types';
 import { parsePrismaJson } from '@/utils/parsePrismaJson';
 import { Polygon } from 'geojson';
+import { dateInputValue } from './calendarDate';
 
 export const transformers = {
   settlement: (settlement: SettlementsSelect): Settlement => {
@@ -135,7 +136,7 @@ export const transformers = {
       description: detail.description ?? '',
       annotation: detail.annotation ?? '',
       source: detail.source ?? '',
-      detailDate: detail.detailDate?.toDateString() ?? '',
+      detailDate: dateInputValue(detail.detailDate),
       detailType: transformers.detailType(detail.detailType),
     };
   },
@@ -152,7 +153,7 @@ export const transformers = {
       name: event.name,
       description: event.description ?? '',
       source: event.source ?? '',
-      eventDate: event.eventDate?.toDateString() ?? '',
+      eventDate: dateInputValue(event.eventDate),
       eventType: transformers.eventType(event.eventType),
     };
   },

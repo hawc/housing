@@ -12,7 +12,7 @@ import { InputGhost } from '@/components/common/form/Input';
 import { Select } from '@/components/common/form/Select';
 import { TextareaGhost } from '@/components/common/form/Textarea';
 import { getUniqueLabel } from '@/utils/getUniqueLabel';
-import { isDateValid } from '@/utils/isDateValid';
+import { dateInputValue } from '@/lib/calendarDate';
 
 interface EditEventProps {
   eventInput: Event | undefined;
@@ -32,7 +32,7 @@ export function Event({
     event?.eventType?.id ?? '',
   );
   const [loading, setLoading] = useState<boolean>(false);
-const id = useId();
+  const id = useId();
 
   const eventTypeName = availableEventTypes.find(
     (type) => type.id === eventTypeId,
@@ -78,7 +78,9 @@ const id = useId();
         name: event.name,
         description: event.description,
         source: event.source,
-        eventDate: event.eventDate ? new Date(event.eventDate) : null,
+        eventDate: event.eventDate
+          ? new Date(`${dateInputValue(event.eventDate)}T00:00:00.000Z`)
+          : null,
         eventTypeId: eventTypeId,
       };
       response = await updateEvent(event.id, data);
@@ -87,7 +89,9 @@ const id = useId();
         name: event.name || eventTypeName,
         description: event.description,
         source: event.source,
-        eventDate: event.eventDate ? new Date(event.eventDate) : null,
+        eventDate: event.eventDate
+          ? new Date(`${dateInputValue(event.eventDate)}T00:00:00.000Z`)
+          : null,
         eventTypeId: eventTypeId,
         settlementId: settlementId,
       };
@@ -146,26 +150,20 @@ const id = useId();
           <div className='flex gap-4'>
             <div className='basis-full'>
               <label htmlFor={getUniqueLabel('eventDate', id)}>Datum:</label>
-              <InputGhost
+              <input
                 className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
                 type='date'
-                value={event?.eventDate}
+                value={dateInputValue(event?.eventDate)}
                 id={getUniqueLabel('eventDate', id)}
                 onChange={(event) =>
                   setEvent({
-                    eventDate: isDateValid(event.target.value)
-                      ? new Date(
-                          new Date(event.target.value).toUTCString(),
-                        ).toISOString()
-                      : undefined,
+                    eventDate: event.target.value,
                   })
                 }
               />
             </div>
             <div className='basis-full'>
-              <label htmlFor={getUniqueLabel('eventSource', id)}>
-                Quelle:
-              </label>
+              <label htmlFor={getUniqueLabel('eventSource', id)}>Quelle:</label>
               <InputGhost
                 className='mt-1 border-highlight border-solid border-2 mb-2 p-1'
                 value={event?.source ?? ''}
