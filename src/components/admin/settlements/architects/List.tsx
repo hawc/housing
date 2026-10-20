@@ -31,7 +31,7 @@ export function ArchitectsList({
   settlementId,
   getSettlement,
 }: ArchitectsListProps) {
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [availableArchitects, setAvailableArchitects] = useState<Architect[]>(
     [],
   );
@@ -39,19 +39,19 @@ export function ArchitectsList({
     Architect | undefined
   >(undefined);
 
-  async function getAvailableArchitects() {
-    setLoading(true);
-    const responseArchitects = await getArchitects();
-    if (responseArchitects) {
-      const filteredArchitects = responseArchitects.filter(
-        (responseArchitect) =>
-          !architects
-            ?.map((architect) => architect.id)
-            .includes(responseArchitect.id),
-      );
-      setAvailableArchitects(filteredArchitects ?? []);
-    }
-    setLoading(false);
+  function getAvailableArchitects() {
+    return getArchitects().then((responseArchitects) => {
+      if (responseArchitects) {
+        const filteredArchitects = responseArchitects.filter(
+          (responseArchitect) =>
+            !architects
+              ?.map((architect) => architect.id)
+              .includes(responseArchitect.id),
+        );
+        setAvailableArchitects(filteredArchitects ?? []);
+      }
+      setLoading(false);
+    });
   }
 
   async function removeArchitect(architectId: string, settlementId: string) {

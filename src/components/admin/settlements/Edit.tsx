@@ -26,19 +26,19 @@ interface SettlementEditProps {
   settlementInput?: BaseSettlement;
 }
 
+const Map = dynamic(
+  () => import('@/components/settlements/Map').then((module) => module.Map),
+  {
+    ssr: false,
+  },
+);
+
 export function SettlementEdit({ settlementInput }: SettlementEditProps) {
   const router = useRouter();
   const [settlement, setSettlement] = useState<BaseSettlement | undefined>(
     settlementInput,
   );
   const [loading, setLoading] = useState<boolean>(false);
-
-  const Map = dynamic(
-    () => import('@/components/settlements/Map').then((module) => module.Map),
-    {
-      ssr: false,
-    },
-  );
 
   async function submitData(settlement: Partial<BaseSettlement>) {
     setLoading(true);

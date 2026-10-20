@@ -13,13 +13,13 @@ interface SettlementMapProps {
   geo?: Polygon;
 }
 
-export function SettlementMap({ markers, center, geo }: SettlementMapProps) {
-  const Map = dynamic(
-    () => import('@/components/settlements/Map').then((module) => module.Map),
-    {
-      ssr: false,
-    },
-  );
+const Map = dynamic(
+  () => import('@/components/settlements/Map').then((module) => module.Map),
+  {
+    ssr: false,
+  },
+);
 
+export function SettlementMap({ markers, center, geo }: SettlementMapProps) {
   return <Map markers={markers} center={center} geo={geo} />;
 }
