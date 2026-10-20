@@ -38,6 +38,7 @@ export function CesiumWrapper({ position }: CesiumWrapperProps) {
     const CesiumImportPromise = import('cesium');
     Promise.all([CesiumImportPromise]).then((promiseResults) => {
       const { ...Cesium } = promiseResults[0];
+      Cesium.Ion.defaultAccessToken = `${process.env.NEXT_PUBLIC_CESIUM_TOKEN}`;
       setCesiumJs(Cesium);
     });
   }, [cesiumJs, setCesiumJs, setIs3DLoading]);
@@ -46,6 +47,8 @@ export function CesiumWrapper({ position }: CesiumWrapperProps) {
     if (enable3D) {
       loadCesium();
     } else {
+      // Unload the external viewer so enabling 3D creates a fresh instance.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setCesiumJs(null);
     }
   }, [enable3D, loadCesium, setCesiumJs]);

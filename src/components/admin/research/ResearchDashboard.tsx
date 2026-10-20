@@ -18,18 +18,21 @@ export function ResearchDashboard() {
   const [starting, setStarting] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const refresh = useCallback(async () => {
-    try {
-      setData(await api<Dashboard>(`/api/research?status=${filter}`));
-      setError('');
-    } catch (error) {
-      setError(
-        error instanceof Error ? error.message : 'Laden fehlgeschlagen.',
-      );
-    } finally {
-      setLoading(false);
-    }
-  }, [filter]);
+  const refresh = useCallback(
+    () =>
+      api<Dashboard>(`/api/research?status=${filter}`)
+        .then((data) => {
+          setData(data);
+          setError('');
+        })
+        .catch((error) => {
+          setError(
+            error instanceof Error ? error.message : 'Laden fehlgeschlagen.',
+          );
+        })
+        .finally(() => setLoading(false)),
+    [filter],
+  );
 
   useEffect(() => {
     void refresh();

@@ -43,27 +43,28 @@ export function CesiumContainer({
     addedScenePrimitives.current = [];
   }, []);
 
-  const initializeCesiumJs = useCallback(async () => {
+  const initializeCesiumJs = useCallback(() => {
     if (cesiumViewer.current !== null) {
       cleanUpPrimitives();
-      let tileset;
-      try {
-        tileset = await CesiumJs.Cesium3DTileset.fromIonAssetId(2275207);
-      } catch (error) {
-        logger(error, 'Could not load tileset.');
-        setEnable3D(false);
-        setIs3DLoading(false);
-        return;
-      }
-      bounding.current = tileset.boundingSphere;
-      const tiles = cesiumViewer.current.scene.primitives.add(tileset);
-      addedScenePrimitives.current.push(tiles);
+      return CesiumJs.Cesium3DTileset.fromIonAssetId(2275207).then(
+        (tileset) => {
+          if (cesiumViewer.current === null) return;
+          bounding.current = tileset.boundingSphere;
+          const tiles = cesiumViewer.current.scene.primitives.add(tileset);
+          addedScenePrimitives.current.push(tiles);
 
-      setIsLoaded(true);
-      setTimeout(() => {
-        setIs3DLoading(false);
-        setIsInitialized(true);
-      }, 1000);
+          setIsLoaded(true);
+          setTimeout(() => {
+            setIs3DLoading(false);
+            setIsInitialized(true);
+          }, 1000);
+        },
+        (error) => {
+          logger(error, 'Could not load tileset.');
+          setEnable3D(false);
+          setIs3DLoading(false);
+        },
+      );
     }
   }, [
     CesiumJs.Cesium3DTileset,
@@ -74,9 +75,6 @@ export function CesiumContainer({
 
   useEffect(() => {
     if (cesiumViewer.current === null && cesiumContainerRef.current) {
-      // eslint-disable-next-line react-hooks/immutability
-      CesiumJs.Ion.defaultAccessToken = `${process.env.NEXT_PUBLIC_CESIUM_TOKEN}`;
-
       //NOTE: Always utilize CesiumJs; do not import them from 'cesium'
       cesiumViewer.current = new CesiumJs.Viewer(cesiumContainerRef.current, {
         animation: false,

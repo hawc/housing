@@ -18,7 +18,7 @@ export function TagList({
   className = '',
   getSettlement,
 }: TagListProps) {
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [availableTags, setAvailableTags] = useState<Tag[]>([]);
 
   async function removeTag(tagId: string) {
@@ -35,17 +35,21 @@ export function TagList({
     setLoading(false);
   }
 
-  async function getAvailableTags() {
-    setLoading(true);
-    const tags = await fetchData<BaseTag[], BaseTag[]>('/api/tags/get/all', []);
-    if (tags.length > 0) {
-      const filteredTags = tags.filter(
-        (tag: Tag) =>
-          !existingTags.map((existingTag) => existingTag.id).includes(tag.id),
-      );
-      setAvailableTags(filteredTags);
-    }
-    setLoading(false);
+  function getAvailableTags() {
+    return fetchData<BaseTag[], BaseTag[]>('/api/tags/get/all', []).then(
+      (tags) => {
+        if (tags.length > 0) {
+          const filteredTags = tags.filter(
+            (tag: Tag) =>
+              !existingTags
+                .map((existingTag) => existingTag.id)
+                .includes(tag.id),
+          );
+          setAvailableTags(filteredTags);
+        }
+        setLoading(false);
+      },
+    );
   }
 
   useEffect(() => {
