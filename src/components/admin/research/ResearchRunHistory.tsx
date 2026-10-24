@@ -51,7 +51,7 @@ export function ResearchRunHistory({
                     <summary className='cursor-pointer'>
                       Recherchehinweise
                     </summary>
-                    <p className='whitespace-pre-wrap break-words text-sm'>
+                    <p className='whitespace-pre-wrap wrap-break-word text-sm'>
                       {job.notes}
                     </p>
                   </details>

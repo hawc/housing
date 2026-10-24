@@ -37,7 +37,7 @@ export function Tooltip({
       {children}
       <span className='md:hidden'>: {text}</span>
       <span aria-hidden className='hidden md:inline-block'>
-        <span className='absolute break-words left-1/2 transform -translate-x-1/2 bottom-full mb-2 hidden group-hover:block bg-bg py-1 px-2 z-10 border border-text w-40 text-sm'>
+        <span className='absolute wrap-break-word left-1/2 transform -translate-x-1/2 bottom-full mb-2 hidden group-hover:block bg-bg py-1 px-2 z-10 border border-text w-40 text-sm'>
           {hasClickedMarker ? 'In Zwischenablage kopiert' : text}
         </span>
       </span>

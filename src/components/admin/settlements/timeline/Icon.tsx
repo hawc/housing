@@ -21,7 +21,7 @@ interface TimelineIconProps {
 
 export function TimelineIcon({ type }: TimelineIconProps) {
   return (
-    <span className='w-max relative z-[2] flex-shrink-0 rounded-full overflow-hidden bg-bg text-grey-light p-2 self-start'>
+    <span className='w-max relative z-2 shrink-0 rounded-full overflow-hidden bg-bg text-grey-light p-2 self-start'>
       <EventIcon type={type} />
     </span>
   );

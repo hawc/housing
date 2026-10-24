@@ -46,7 +46,7 @@ export function DetailsList({ detailsInput, settlementId }: DetailsListProps) {
   return (
     <div
       className={`transition-filter ${
-        loading ? 'blur-sm pointer-events-none' : ''
+        loading ? 'blur-xs pointer-events-none' : ''
       }`}
     >
       {details?.map((detail: Detail) => (

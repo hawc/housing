@@ -5,7 +5,7 @@
 
 .link::before,
 .link::after {
-  @apply bg-text;
+  background-color: var(--text);
   content: '';
   position: absolute;
   width: 100%;
@@ -18,7 +18,7 @@
 }
 
 .link::before {
-  @apply bg-highlight;
+  background-color: var(--highlight);
   transition: 0.25s transform 0.25s ease-out;
 }
 

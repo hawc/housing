@@ -130,7 +130,7 @@ export function ArchitectsList({
   return (
     <div
       className={`grid transition-filter ${
-        loading ? 'blur-sm pointer-events-none' : ''
+        loading ? 'blur-xs pointer-events-none' : ''
       }`}
     >
       <div className='flex flex-col'>

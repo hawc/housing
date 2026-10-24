@@ -91,7 +91,7 @@ export function Upload({
       onClick={handleUploadClick}
       className={`flex flex-row cursor-default ${className}`}
     >
-      <div className='flex-grow border-2 py-1 px-3 border-highlight max-w-full'>
+      <div className='grow border-2 py-1 px-3 border-highlight max-w-full'>
         {uploading ? (
           <div className='flex justify-between'>
             <span>Lädt...</span>

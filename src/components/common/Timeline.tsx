@@ -32,7 +32,7 @@ function TimelineItem({ children }: PropsWithChildren) {
 
 function TimelineIcon({ children }: PropsWithChildren) {
   return (
-    <span className='w-max relative z-[2] flex-shrink-0 rounded-full overflow-hidden bg-bg text-grey-light p-2 self-start'>
+    <span className='w-max relative z-2 shrink-0 rounded-full overflow-hidden bg-bg text-grey-light p-2 self-start'>
       {children}
     </span>
   );
@@ -46,7 +46,7 @@ function TimelineBody({ children }: PropsWithChildren) {
   return (
     <div className='flex gap-4'>
       <span
-        className='pointer-events-none invisible h-full flex-shrink-0'
+        className='pointer-events-none invisible h-full shrink-0'
         style={{ width: '40px' }}
       ></span>
       <div className='flex flex-col gap-2'>{children}</div>
@@ -64,7 +64,7 @@ function TimelineConnector() {
       className='absolute left-0 grid justify-center bg-transparent'
       style={{ top: '45px', width: '40px', height: 'calc(100% - 50px)' }}
     >
-      <span className='w-0.5 h-full bg-highlight rounded-sm'></span>
+      <span className='w-0.5 h-full bg-highlight rounded-xs'></span>
     </span>
   );
 }

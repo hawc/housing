@@ -57,7 +57,7 @@ export function ResourcesList({
   return (
     <div
       className={`transition-filter ${
-        loading ? 'blur-sm pointer-events-none' : ''
+        loading ? 'blur-xs pointer-events-none' : ''
       }`}
     >
       {sortedResources?.map((resource: Resource) => (
