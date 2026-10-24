@@ -59,7 +59,7 @@ export function Timeline({ eventsInput, settlementId }: TimelineProps) {
       className={clsxm(
         `w-full flex flex-col ${
           loading
-            ? 'transition-filter pointer-events-none blur-sm'
+            ? 'transition-filter pointer-events-none blur-xs'
             : 'transition-filter'
         }`,
       )}

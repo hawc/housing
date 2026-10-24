@@ -108,7 +108,7 @@ export function ProposalComparison({
                   previous.map((record, index) => (
                     <td
                       key={index}
-                      className='border border-text p-2 align-top whitespace-pre-wrap break-words min-w-40'
+                      className='border border-text p-2 align-top whitespace-pre-wrap wrap-break-word min-w-40'
                     >
                       {display(
                         field.key,
@@ -121,7 +121,7 @@ export function ProposalComparison({
                 ) : (
                   <td className='border border-text p-2'>—</td>
                 )}
-                <td className='border border-text p-2 align-top whitespace-pre-wrap break-words min-w-40'>
+                <td className='border border-text p-2 align-top whitespace-pre-wrap wrap-break-word min-w-40'>
                   {display(
                     field.key,
                     (next as unknown as Record<string, string>)[field.key],

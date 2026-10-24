@@ -7,7 +7,7 @@ It is based on the following technologies:
 - Next.js
 - React
 - TypeScript
-- Tailwind
+- Tailwind CSS 4 (theme and plugins configured in `src/styles/globals.css`)
 - Prisma & PostgreSQL
 
 ## Configuration

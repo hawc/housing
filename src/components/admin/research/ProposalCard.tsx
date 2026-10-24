@@ -242,7 +242,7 @@ export function ProposalCard({
         <blockquote>„{proposal.evidence}“</blockquote>
         <p className='text-sm'>{proposal.locator}</p>
         <a
-          className='underline break-words'
+          className='underline wrap-break-word'
           href={proposal.source.url}
           target='_blank'
           rel='noopener noreferrer'

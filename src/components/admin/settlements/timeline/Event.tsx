@@ -143,7 +143,7 @@ export function Event({
       </div>
       <div className='flex gap-4'>
         <span
-          className='pointer-events-none invisible h-full flex-shrink-0'
+          className='pointer-events-none invisible h-full shrink-0'
           style={{ width: '40px' }}
         ></span>
         <div className='grow'>

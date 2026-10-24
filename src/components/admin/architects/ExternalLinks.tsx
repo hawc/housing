@@ -37,7 +37,7 @@ export function ExternalLinksList({
   return (
     <div
       className={`transition-filter ${
-        loading ? 'blur-sm pointer-events-none' : ''
+        loading ? 'blur-xs pointer-events-none' : ''
       }`}
     >
       {externalLinks?.map((externalLink: ExternalLink) => (
