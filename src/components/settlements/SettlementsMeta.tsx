@@ -16,14 +16,6 @@ export function SettlementMeta({ location }: SettlementsMetaProps) {
   const { enable3D, setEnable3D, is3DLoading } = useContext(SettingsContext);
 
   const setTopView = useCallback(() => {
-    if (!enable3D) {
-      const credits = document.querySelector('#credits');
-
-      if (credits) {
-        credits.innerHTML = '';
-      }
-    }
-
     setEnable3D(!enable3D);
   }, [setEnable3D, enable3D]);
 
@@ -32,21 +24,13 @@ export function SettlementMeta({ location }: SettlementsMetaProps) {
       <div className='flex flex-row gap-1 items-center italic'>
         <MapPinIcon /> {location?.city}
       </div>
-      <Button
-        ghost
-        className='rounded-full px-2 hidden md:block'
-        onClick={setTopView}
-        disabled={is3DLoading}
-      >
-        {is3DLoading ? (
-          <div className='flex gap-1'>
-            3D-Ansicht lädt{' '}
-            <Loader2Icon className='h-6 self-center animate-spin' />
-          </div>
-        ) : enable3D ? (
-          '3D-Ansicht schließen'
-        ) : (
-          '3D-Ansicht öffnen'
+      <Button ghost className='rounded-full px-2' onClick={setTopView}>
+        {enable3D ? '3D-Ansicht schließen' : '3D-Ansicht öffnen'}
+        {is3DLoading && (
+          <Loader2Icon
+            aria-label='3D-Ansicht lädt'
+            className='inline-block ml-2 h-5 animate-spin'
+          />
         )}
       </Button>
     </>

@@ -216,6 +216,7 @@ p + p {
 
 .cesium-viewer-cesiumWidgetContainer {
   border-top: 1px solid var(--text);
+  margin-bottom: -180px;
 }
 
 .cesium-viewer-fullscreenContainer {
@@ -226,15 +227,9 @@ p + p {
 .cesium-viewer-cesiumWidgetContainer::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  box-shadow: inset 0px -180px 80px -70px var(--bg);
-}
-
-.cesium-viewer-cesiumWidgetContainer canvas {
+  inset: 0;
   pointer-events: none;
+  box-shadow: inset 0px -180px 80px -70px var(--bg);
 }
 
 .cesium-widget-credits {

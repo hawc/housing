@@ -1,154 +1,130 @@
 'use client';
 
-import type { BoundingSphere, Cesium3DTileset, Viewer } from 'cesium';
-import { useCallback, useContext, useEffect, useRef, useState } from 'react';
-
 import 'cesium/Build/Cesium/Widgets/widgets.css';
+import { useContext, useEffect, useRef, useState } from 'react';
 
+import type { Coordinates } from '@/components/settlements/Map';
 import { SettingsContext } from '@/lib/settingsContext';
-
-import { Coordinates } from '@/components/settlements/Map';
-
-import { logger } from '@/lib/logger';
 import type { CesiumType } from '@/types/cesium';
+import { CesiumMapController } from './CesiumMapController';
+
+const prefersReducedMotion = () =>
+  Boolean(window.matchMedia?.('(prefers-reduced-motion: reduce)').matches);
 
 interface CesiumContainerProps {
   CesiumJs: CesiumType;
   position: Coordinates;
-  isRotating: boolean;
 }
 
-export function CesiumContainer({
-  CesiumJs,
-  position,
-  isRotating,
-}: CesiumContainerProps) {
-  const { setIs3DLoading, setEnable3D } = useContext(SettingsContext);
-  const cesiumViewer = useRef<Viewer | null>(null);
-  const cesiumContainerRef = useRef<HTMLDivElement>(null);
-  const addedScenePrimitives = useRef<Cesium3DTileset[]>([]);
-  const bounding = useRef<BoundingSphere | null>(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [isInitialized, setIsInitialized] = useState(false);
-  const heading = useRef(-CesiumJs.Math.PI_OVER_TWO);
-  const removeListener = useRef<undefined | (() => void)>(undefined);
+export function CesiumContainer({ CesiumJs, position }: CesiumContainerProps) {
+  const { setIs3DLoading } = useContext(SettingsContext);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const controls = useRef<CesiumMapController | null>(null);
+  const [ready, setReady] = useState(false);
+  const [error, setError] = useState('');
+  const [rotating, setRotating] = useState(() => !prefersReducedMotion());
+  const rotation = useRef(rotating);
 
-  const cleanUpPrimitives = useCallback(() => {
-    // Cleans up potentially already-existing primitives.
-    addedScenePrimitives.current.forEach((scenePrimitive) => {
-      if (cesiumViewer.current !== null) {
-        cesiumViewer.current.scene.primitives.remove(scenePrimitive);
-      }
-    });
-    addedScenePrimitives.current = [];
-  }, []);
-
-  const initializeCesiumJs = useCallback(() => {
-    if (cesiumViewer.current !== null) {
-      cleanUpPrimitives();
-      return CesiumJs.Cesium3DTileset.fromIonAssetId(2275207).then(
-        (tileset) => {
-          if (cesiumViewer.current === null) return;
-          bounding.current = tileset.boundingSphere;
-          const tiles = cesiumViewer.current.scene.primitives.add(tileset);
-          addedScenePrimitives.current.push(tiles);
-
-          setIsLoaded(true);
-          setTimeout(() => {
-            setIs3DLoading(false);
-            setIsInitialized(true);
-          }, 1000);
-        },
-        (error) => {
-          logger(error, 'Could not load tileset.');
-          setEnable3D(false);
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const controller = new CesiumMapController(
+      CesiumJs,
+      containerRef.current,
+      { lat: position.lat, lng: position.lng },
+      rotation.current,
+      {
+        onReady: () => {
+          setReady(true);
           setIs3DLoading(false);
         },
-      );
-    }
-  }, [
-    CesiumJs.Cesium3DTileset,
-    cleanUpPrimitives,
-    setEnable3D,
-    setIs3DLoading,
-  ]);
+        onError: () => {
+          setError(
+            'Die 3D-Ansicht konnte nicht geladen werden. Bitte schließe sie und öffne sie erneut.',
+          );
+          setIs3DLoading(false);
+        },
+      },
+    );
+    controls.current = controller;
+    return () => {
+      controller.destroy();
+      controls.current = null;
+    };
+  }, [CesiumJs, position.lat, position.lng, setIs3DLoading]);
 
   useEffect(() => {
-    if (cesiumViewer.current === null && cesiumContainerRef.current) {
-      //NOTE: Always utilize CesiumJs; do not import them from 'cesium'
-      cesiumViewer.current = new CesiumJs.Viewer(cesiumContainerRef.current, {
-        animation: false,
-        baseLayerPicker: false,
-        fullscreenElement: cesiumContainerRef.current,
-        geocoder: false,
-        globe: false,
-        homeButton: false,
-        navigationHelpButton: false,
-        sceneModePicker: false,
-        timeline: false,
-        creditContainer: 'credits',
-        skyBox: false,
-        infoBox: false,
-      });
-
-      cesiumViewer.current.clock.clockStep =
-        CesiumJs.ClockStep.SYSTEM_CLOCK_MULTIPLIER;
-    }
-  }, [CesiumJs]);
-
-  useEffect(() => {
-    if (isLoaded) {
-      return;
-    }
-
-    initializeCesiumJs();
-  }, [position, isLoaded, initializeCesiumJs]);
-
-  useEffect(() => {
-    if (isLoaded) {
-      if (removeListener.current) {
-        removeListener.current();
-      }
-      if (cesiumViewer.current !== null) {
-        if (isRotating) {
-          removeListener.current =
-            cesiumViewer.current.clock.onTick.addEventListener(() => {
-              if (cesiumViewer.current?.scene) {
-                const center = CesiumJs.Cartesian3.fromDegrees(
-                  position.lng,
-                  position.lat,
-                  0,
-                );
-                const clampedHeight =
-                  cesiumViewer.current.scene.clampToHeight(center);
-                const rotation = -1; //counter-clockwise, +1 would be clockwise
-                heading.current = heading.current + rotation * (Math.PI / 2400);
-                cesiumViewer.current.camera.lookAt(
-                  clampedHeight ?? center,
-                  new CesiumJs.HeadingPitchRange(
-                    heading.current,
-                    -CesiumJs.Math.PI_OVER_SIX,
-                    1000.0,
-                  ),
-                );
-              }
-            });
-        }
-      }
-    }
-  }, [isRotating, isLoaded, CesiumJs, position]);
+    rotation.current = rotating;
+    controls.current?.setRotating(rotating);
+  }, [rotating]);
 
   return (
-    <div
-      ref={cesiumContainerRef}
-      id='cesium-container'
-      style={{
-        minHeight: isInitialized ? 'calc(100px + 1.5rem)' : 0,
-        transition: 'opacity 1s, height 1s',
-        height: isInitialized ? 'calc(100px + 40vw)' : '100px',
-        marginBottom: '-100px',
-      }}
-      className={isInitialized ? 'opacity-100' : 'opacity-0'}
-    />
+    <section
+      className='relative'
+      aria-label='3D-Karte der Siedlung'
+      aria-busy={!ready && !error}
+    >
+      <div
+        ref={containerRef}
+        className={`transition-opacity duration-500 -mb-16 ${ready ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        style={{ height: 'clamp(420px, 50vw, 720px)' }}
+      />
+      {!ready && !error && (
+        <p
+          role='status'
+          className='absolute inset-0 flex items-center justify-center'
+        >
+          3D-Ansicht lädt…
+        </p>
+      )}
+      {error && (
+        <p
+          role='alert'
+          className='absolute inset-0 flex items-center justify-center p-4'
+        >
+          {error}
+        </p>
+      )}
+      {ready && (
+        <div className='absolute top-3 left-3 right-3 flex flex-wrap items-start justify-between gap-2'>
+          <div
+            className='flex flex-wrap gap-2'
+            role='group'
+            aria-label='3D-Kartensteuerung'
+          >
+            <button
+              type='button'
+              className='border border-text px-3 py-1 bg-bg'
+              onClick={() => setRotating(!rotating)}
+              aria-pressed={rotating}
+            >
+              {rotating ? 'Rundflug pausieren' : 'Rundflug fortsetzen'}
+            </button>
+            <button
+              type='button'
+              className='border border-text px-3 py-1 bg-bg'
+              aria-label='Vergrößern'
+              onClick={() => controls.current?.zoom(0.8)}
+            >
+              +
+            </button>
+            <button
+              type='button'
+              className='border border-text px-3 py-1 bg-bg'
+              aria-label='Verkleinern'
+              onClick={() => controls.current?.zoom(1.25)}
+            >
+              −
+            </button>
+            <button
+              type='button'
+              className='border border-text px-3 py-1 bg-bg'
+              onClick={() => controls.current?.reset()}
+            >
+              Siedlung zentrieren
+            </button>
+          </div>
+        </div>
+      )}
+    </section>
   );
 }
